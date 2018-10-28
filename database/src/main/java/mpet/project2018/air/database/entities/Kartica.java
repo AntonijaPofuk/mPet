@@ -4,11 +4,12 @@ import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ForeignKey;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
+import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import mpet.project2018.air.database.MainDatabase;
 
 @Table(database = MainDatabase.class)
-public class Kartica {
+public class Kartica extends BaseModel {
 
     @PrimaryKey
     @Column String id_kartice;
