@@ -1,4 +1,4 @@
-package com.mpet.hr.foi.mpet;
+package mpet.project2018.air.mpet;
 
 import org.junit.Test;
 
