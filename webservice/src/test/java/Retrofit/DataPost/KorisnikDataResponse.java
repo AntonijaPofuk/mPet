@@ -1,6 +1,13 @@
 package Retrofit.DataPost;
 
-import hr.com.webservice.Retrofit.Model.Korisnik;
 
-public class KorisnikDataResponse extends Korisnik {
+import com.google.gson.annotations.SerializedName;
+
+public class KorisnikDataResponse {
+    @SerializedName("id")
+    String KorisnikID="";
+
+    public String getKorisnikID() {
+        return KorisnikID;
+    }
 }

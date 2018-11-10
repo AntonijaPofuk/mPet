@@ -1,9 +1,9 @@
 package Retrofit.DataPost;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
-import hr.com.webservice.Retrofit.RemotePost.KorisnikService;
+import Retrofit.RemotePost.KorisnikService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -11,14 +11,19 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class KorisnikDataPostMethod {
-    final static List<KorisnikDataResponse> ResponseList=new ArrayList<KorisnikDataResponse>();
-    public List<KorisnikDataResponse> Download(String korisnikId) {
+    public String Upload() {
+
+        final String[] Body = new String[1];
+
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
 
         Retrofit retrofit;
         retrofit = new Retrofit
                 .Builder()
                 .baseUrl("https://airprojekt.000webhostapp.com/")
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
 
@@ -46,18 +51,17 @@ public class KorisnikDataPostMethod {
 
         request.setUrl_profilna("UrlProfilna");
 
-        Call<KorisnikDataResponse> KorisnikResponseCall = api.createKorisnik(request,"https://airprojekt.000webhostapp.com/services.php?korisnici_korID="+korisnikId);
+        request.setLozinka("1234");
+
+        Call<KorisnikDataResponse> KorisnikResponseCall = api.createKorisnik(request,"https://airprojekt.000webhostapp.com/registracija.php");
 
         KorisnikResponseCall.enqueue(new Callback<KorisnikDataResponse>() {
             @Override
             public void onResponse(Call<KorisnikDataResponse> call, Response<KorisnikDataResponse> response) {
-                ResponseList.clear();
 
-                int statusCode = response.code();
+                KorisnikDataResponse body = response.body();
+                Body[0]=body.KorisnikID;
 
-                KorisnikDataResponse KorisnikResponse = response.body();
-
-                ResponseList.add(KorisnikResponse);
             }
 
             @Override
@@ -66,7 +70,8 @@ public class KorisnikDataPostMethod {
             }
         });
 
-        return ResponseList;
+
+        return Body[0];
 
     }
 

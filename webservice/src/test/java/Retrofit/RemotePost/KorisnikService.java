@@ -1,7 +1,7 @@
 package Retrofit.RemotePost;
 
-import hr.com.webservice.Retrofit.DataPost.KorisnikDataRequest;
-import hr.com.webservice.Retrofit.DataPost.KorisnikDataResponse;
+import Retrofit.DataPost.KorisnikDataRequest;
+import Retrofit.DataPost.KorisnikDataResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;

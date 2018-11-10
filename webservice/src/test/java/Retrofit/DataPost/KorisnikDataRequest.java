@@ -20,6 +20,12 @@ public class KorisnikDataRequest {
 
     public String url_profilna;
 
+    public String lozinka;
+
+    public void setLozinka(String lozinka) {
+        this.lozinka = lozinka;
+    }
+
     public void setId(String id) {
         this.id = id;
     }
