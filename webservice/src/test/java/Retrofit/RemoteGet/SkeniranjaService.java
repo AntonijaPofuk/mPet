@@ -2,7 +2,7 @@ package Retrofit.RemoteGet;
 
 import java.util.List;
 
-import hr.com.webservice.Retrofit.Model.Skeniranje;
+import Retrofit.Model.Skeniranje;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Url;

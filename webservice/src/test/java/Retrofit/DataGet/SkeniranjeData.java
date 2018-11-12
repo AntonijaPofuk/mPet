@@ -3,8 +3,8 @@ package Retrofit.DataGet;
 import java.util.ArrayList;
 import java.util.List;
 
-import hr.com.webservice.Retrofit.Model.Skeniranje;
-import hr.com.webservice.Retrofit.RemoteGet.SkeniranjaService;
+import Retrofit.Model.Skeniranje;
+import Retrofit.RemoteGet.SkeniranjaService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

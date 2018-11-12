@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".MainActivityIzbornik"
-    >
+    tools:context=".MainActivity"
+    tools:ignore="MissingDefaultResource">
 
 
     <ImageView
@@ -18,7 +18,8 @@
         android:layout_marginTop="76dp"
         app:srcCompat="@drawable/robot"
         tools:layout_editor_absoluteX="156dp"
-        tools:layout_editor_absoluteY="111dp" />
+        tools:layout_editor_absoluteY="111dp"
+        android:contentDescription="@string/logo_mpet" />
 
     <Button
         android:id="@+id/button4"
@@ -29,9 +30,9 @@
         android:layout_marginBottom="230dp"
         android:background="#8492A6"
         android:fontFamily="@font/chewyregular"
-        android:text="Skeniraj"
+        android:text="@string/skeniraj"
         android:textColor="#FFCB57"
-        android:textSize="24dp"
+        android:textSize="24sp"
         tools:layout_editor_absoluteX="84dp"
         tools:layout_editor_absoluteY="274dp" />
 
@@ -46,9 +47,9 @@
         android:background="#8492A6"
         android:fontFamily="@font/chewyregular"
 
-        android:text="Odjava"
+        android:text="@string/odjava"
         android:textColor="#FFCB57"
-        android:textSize="24dp" />
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/textView"
@@ -58,7 +59,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="16dp"
         android:fontFamily="@font/chewyregular"
-        android:text="@mPet"
+        android:text="@string/app_name"
         android:textSize="20sp" />
 
 </RelativeLayout>

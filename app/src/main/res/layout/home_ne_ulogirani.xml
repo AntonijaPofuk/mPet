@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".MainActivityIzbornik">
+    tools:context=".MainActivity">
 
 
     <ImageView
@@ -18,7 +18,8 @@
         android:layout_marginTop="63dp"
         app:srcCompat="@drawable/robot"
         tools:layout_editor_absoluteX="156dp"
-        tools:layout_editor_absoluteY="111dp" />
+        tools:layout_editor_absoluteY="111dp"
+        android:contentDescription="@string/logo_mpet" />
 
     <Button
         android:id="@+id/button4"
@@ -29,8 +30,8 @@
         android:background="#8492A6"
         android:textColor="#FFCB57"
         android:fontFamily="@font/chewyregular"
-        android:text="Skeniraj"
-        android:textSize="24dp"
+        android:text="@string/skeniraj"
+        android:textSize="24sp"
         tools:layout_editor_absoluteX="84dp"
         tools:layout_editor_absoluteY="274dp" />
 
@@ -44,9 +45,9 @@
         android:layout_marginBottom="183dp"
         android:background="#8492A6"
         android:fontFamily="@font/chewyregular"
-        android:text="Prijava"
+        android:text="@string/prijava"
         android:textColor="#FFCB57"
-        android:textSize="24dp" />
+        android:textSize="24sp" />
 
 
     <Button
@@ -59,8 +60,8 @@
         android:layout_marginBottom="69dp"
         android:background="#0000"
         android:fontFamily="@font/robotoblack"
-        android:text="registrirajte se."
-        android:textSize="12dp" />
+        android:text="@string/registrirajte_se"
+        android:textSize="12sp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -69,8 +70,9 @@
         android:layout_alignParentStart="true"
         android:layout_marginStart="20dp"
         android:fontFamily="@font/robotolight"
-        android:text="Ukoliko nemate aktiviran profil"
-        android:textColor="#000" />
+        android:text="@string/ukoliko_nemate_aktiviran_profil"
+        android:textColor="#000"
+        tools:ignore="RelativeOverlap" />
 
     <TextView
         android:id="@+id/textView"
@@ -80,7 +82,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="16dp"
         android:fontFamily="@font/chewyregular"
-        android:text="@mPet"
-        android:textSize="20sp" />
+        android:text="@string/app_name"
+        android:textSize="20sp"
+        tools:ignore="RelativeOverlap" />
 
 </RelativeLayout>
