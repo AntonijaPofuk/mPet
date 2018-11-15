@@ -3,6 +3,7 @@ package mpet.project2018.air.mpet;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import mpet.project2018.air.database.MainDatabase;
 import mpet.project2018.air.mpet.fragments.Pocetna;
 import mpet.project2018.air.mpet.fragments.Pocetna_neulogirani;
+import mpet.project2018.air.mpet.fragments.SkeniranjeNFCKartice;
 import mpet.project2018.air.mpet.prijava.LoginActivity;
 
 
@@ -44,6 +46,8 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();             //otvaranje fragmenta
         ft.replace(R.id.mainFrame, new Pocetna());
         ft.commit();
+
+
 
         //---------------------------------------------------------------
         MainDatabase.initializeDatabase(this);
@@ -113,6 +117,15 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onFragmentInteraction(String title) {  // Preimenovanje stranice
         getSupportActionBar().setTitle(title);
+    }
+
+
+    // Dohvaćanje pristiglih Intenta
+    @Override
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
+        super.onNewIntent(intent);
+
     }
 
 

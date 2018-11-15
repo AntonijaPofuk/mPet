@@ -30,5 +30,11 @@
     <string name="korisnicko_ime">Korisničko ime</string>
     <string name="Opis_prijave">Prijavite se u nastavku s postojećim korisničkim imenom i lozinkom.</string>
     <string name="lozinka">lozinka</string>
+
+    <string name="skeniranje_tekst">Molimo vas da približite uređaj NFC kartici</string>
+    <string name="deskriptor_nfc_ikone">Ikona NFC uređaja</string>
+    <string name="poruka_upis_koda">Upišite kod ukoliko ne želite skenirati ogrlicu</string>
+    <string name="hint_upis_koda">Kod ogrlice</string>
+    <string name="gumb_unos_koda">Potvrdi</string>
 </resources>
 
