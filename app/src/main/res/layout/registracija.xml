@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="121dp"
+        android:text="Korisničko ime" />
+
+    <EditText
+        android:id="@+id/unosKorIme"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="29dp"
+        android:layout_marginEnd="12dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="69dp"
+        android:layout_marginEnd="163dp"
+        android:text="Lozinka" />
+
+    <EditText
+        android:id="@+id/unosLozinka"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_alignEnd="@+id/unosKorIme"
+        android:layout_alignBottom="@+id/textView2"
+        android:layout_marginTop="200dp"
+        android:layout_marginEnd="-1dp"
+        android:layout_marginBottom="-40dp"
+        android:ems="10"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/unosIme"
+        android:layout_width="220dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="-71dp"
+        android:layout_marginBottom="336dp"
+        android:layout_toStartOf="@+id/textView2"
+        android:ems="10"
+        android:hint="Ime"
+        android:inputType="textPersonName"
+        android:text=""/>
+
+    <EditText
+        android:id="@+id/unosPrezime"
+        android:layout_width="220dp"
+        android:layout_height="40dp"
+        android:layout_alignStart="@+id/unosIme"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="175dp"
+        android:ems="10"
+        android:hint="Prezime"
+        android:inputType="textPersonName"
+        android:text="" />
+
+    <EditText
+        android:id="@+id/unosAdresa"
+        android:layout_width="220dp"
+        android:layout_height="40dp"
+        android:layout_alignStart="@+id/unosPrezime"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="256dp"
+        android:ems="10"
+        android:hint="Adresa"
+        android:inputType="textPersonName"
+        android:text="" />
+
+    <EditText
+        android:id="@+id/unosMail"
+        android:layout_width="220dp"
+        android:layout_height="40dp"
+        android:layout_alignStart="@+id/unosIme"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="1dp"
+        android:layout_marginBottom="217dp"
+        android:ems="10"
+        android:hint="e-mail"
+        android:inputType="textPersonName"
+        android:text="" />
+
+    <EditText
+        android:id="@+id/unosTelefon"
+        android:layout_width="220dp"
+        android:layout_height="40dp"
+        android:layout_alignStart="@+id/unosMail"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="28dp"
+        android:layout_marginBottom="177dp"
+        android:ems="10"
+        android:hint="Broj telefona"
+        android:inputType="phone" />
+
+    <EditText
+        android:id="@+id/unosMobitel"
+        android:layout_width="220dp"
+        android:layout_height="40dp"
+        android:layout_alignEnd="@+id/unosIme"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="-2dp"
+        android:layout_marginBottom="138dp"
+        android:ems="10"
+        android:hint="Broj mobitela"
+        android:inputType="phone" />
+
+    <Button
+        android:id="@+id/btnRegistracijaSpremi"
+        android:layout_width="109dp"
+        android:layout_height="65dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="51dp"
+        android:layout_marginBottom="24dp"
+        android:text="Spremi" />
+
+    <Button
+        android:id="@+id/btnRegistracijaOdustani"
+        android:layout_width="109dp"
+        android:layout_height="65dp"
+        android:layout_alignTop="@+id/btnRegistracijaSpremi"
+        android:layout_marginStart="-161dp"
+        android:layout_toEndOf="@+id/textView2"
+        android:text="Odustani" />
+
+
+</RelativeLayout>
