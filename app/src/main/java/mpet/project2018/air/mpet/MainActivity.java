@@ -54,15 +54,14 @@ public class MainActivity extends AppCompatActivity
         //--------------------------------------------------------------
 
     }
-        /*
-        private void reg(){
-            DiscountListFragment mDiscountListFragment = new DiscountListFragment();
-            FragmentManager mFragmentManager = getSupportFragmentManager();
-            FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
-            mFragmentTransaction.replace(R.id.fragment_container, mDiscountListFragment);
-            mFragmentTransaction.commit();
-        }
-        */
+    /*private void reg(){
+        SkeniranjeNFCKartice mDiscountListFragment = new SkeniranjeNFCKartice();
+        FragmentManager mFragmentManager = getSupportFragmentManager();
+        FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+        mFragmentTransaction.replace(R.id.mainFrame, mDiscountListFragment);
+        mFragmentTransaction.commit();
+    }*/
+
         @Override
         public void onBackPressed() {
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

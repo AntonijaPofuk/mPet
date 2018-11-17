@@ -52,11 +52,14 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="50dp"
+        android:layout_marginBottom="8dp"
         android:ems="10"
         android:hint="@string/hint_upis_koda"
         android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/upisKodaPoruka" />
+        app:layout_constraintTop_toBottomOf="@+id/upisKodaPoruka"
+        app:layout_constraintVertical_bias="0.159" />
 
     <Button
         android:id="@+id/unosKodaGumb"
@@ -65,12 +68,16 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="50dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:background="@android:color/holo_orange_light"
         android:text="@string/gumb_unos_koda"
         android:textColor="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.558"
         app:layout_constraintStart_toEndOf="@+id/unosKodaField"
-        app:layout_constraintTop_toBottomOf="@+id/upisKodaPoruka" />
+        app:layout_constraintTop_toBottomOf="@+id/upisKodaPoruka"
+        app:layout_constraintVertical_bias="0.149" />
 
     <ProgressBar
         android:id="@+id/skeniranjeProgres"
