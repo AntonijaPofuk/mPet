@@ -18,7 +18,9 @@ import android.widget.Toast;
 import mpet.project2018.air.database.MainDatabase;
 import mpet.project2018.air.mpet.fragments.Pocetna;
 import mpet.project2018.air.mpet.fragments.Pocetna_neulogirani;
+import mpet.project2018.air.mpet.fragments.Registracija;
 import mpet.project2018.air.mpet.fragments.SkeniranjeNFCKartice;
+import mpet.project2018.air.mpet.prijava.Login;
 import mpet.project2018.air.mpet.prijava.LoginActivity;
 
 
@@ -27,7 +29,12 @@ public class MainActivity extends AppCompatActivity
         implements
         Pocetna.OnFragmentInteractionListener,
         Pocetna_neulogirani.OnFragmentInteractionListener,
+        Registracija.OnFragmentInteractionListener,
+        Login.OnFragmentInteractionListener,
+        SkeniranjeNFCKartice.OnFragmentInteractionListener,
         NavigationView.OnNavigationItemSelectedListener
+        //TODO: dodaj novi fragment ovdje uvijek a na početku fragmenta implementiraj mlistenere
+
 {
 
     @Override
@@ -44,7 +51,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_frag1);         //Provjera prvog elementa u draweru
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();             //otvaranje fragmenta
-        ft.replace(R.id.mainFrame, new Pocetna());
+        ft.replace(R.id.mainFrame, new Pocetna_neulogirani());
         ft.commit();
 
 
@@ -126,7 +133,15 @@ public class MainActivity extends AppCompatActivity
         super.onNewIntent(intent);
 
     }
-
-
+//za login
+    private String getLoginEmailAddress(){
+        String storedEmail = "";
+        Intent mIntent = getIntent();
+        Bundle mBundle = mIntent.getExtras();
+        if(mBundle != null){
+            storedEmail = mBundle.getString("EMAIL");
+        }
+        return storedEmail;
+    }
 
 }

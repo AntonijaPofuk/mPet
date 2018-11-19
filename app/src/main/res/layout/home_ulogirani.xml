@@ -22,7 +22,7 @@
         android:contentDescription="@string/logo_mpet" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/btnScanUlogirani"
         android:layout_width="216dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -40,13 +40,12 @@
         android:id="@+id/btnOdjava"
         android:layout_width="216dp"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/button4"
+        android:layout_alignStart="@+id/btnScanUlogirani"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="0dp"
         android:layout_marginBottom="163dp"
         android:background="#8492A6"
         android:fontFamily="@font/chewyregular"
-
         android:text="@string/odjava"
         android:textColor="#FFCB57"
         android:textSize="24sp" />

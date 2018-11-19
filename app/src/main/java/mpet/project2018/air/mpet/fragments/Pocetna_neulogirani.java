@@ -1,20 +1,17 @@
 package mpet.project2018.air.mpet.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import mpet.project2018.air.mpet.R;
-import mpet.project2018.air.mpet.prijava.LoginActivity;
+import mpet.project2018.air.mpet.prijava.Login;
 
 
 public class Pocetna_neulogirani extends Fragment {
@@ -34,31 +31,57 @@ public class Pocetna_neulogirani extends Fragment {
 
         View view = inflater.inflate(R.layout.home_ne_ulogirani, container, false);
 
-
-
-
         if (mListener != null) {
-            mListener.onFragmentInteraction("Registracija");
+            mListener.onFragmentInteraction("Početna");
         }
 
-        Button btn1=(Button) view.findViewById(R.id.btnRegistracijaOdustani);
+
+
+        Button btn1=(Button) view.findViewById(R.id.btnPrijava);
         btn1.setOnClickListener(new View.OnClickListener() {
                                     @Override
-                                    public void onClick(View v) {  //od tud je nova aktivnost
+                                    public void onClick(View v) {
+                                        Toast.makeText(getActivity(), "Prijavljuete se",
+                                                Toast.LENGTH_LONG).show();
+                                        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                                        ft.replace(R.id.mainFrame, new Login());
+                                        ft.commit();
+                                    }
+                                }
+        );
 
+
+        Button btn2=(Button) view.findViewById(R.id.btnReg);
+        btn2.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
 
                                         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                                         ft.replace(R.id.mainFrame, new Registracija());
                                         ft.commit();
-
-                                        }
-
+                                    }
                                 }
         );
 
+        Button btn3=(Button) view.findViewById(R.id.btnScanNeUlogirani);
+        btn3.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Toast.makeText(getActivity(), "Skeniranje....",
+                                                Toast.LENGTH_LONG).show();
+                                        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                                        ft.replace(R.id.mainFrame, new SkeniranjeNFCKartice());
+                                        ft.commit();
+                                    }
+                                }
+        );
         return view;
-
     }
+
+
+
+
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -80,10 +103,5 @@ public class Pocetna_neulogirani extends Fragment {
         void onFragmentInteraction(String title);
     }
     private class ArticleFragment {
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
     }
 }

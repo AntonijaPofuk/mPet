@@ -2,7 +2,6 @@ package mpet.project2018.air.mpet.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,10 +22,10 @@ public class Pocetna extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_ulogirani, container, false);
-        // NOTE : We are calling the onFragmentInteraction() declared in the MainActivityIzbornik
-        // ie we are sending "Fragment 1" as title parameter when fragment1 is activated
+        // NOTE : We are calling the onFragmentInteraction() declared in the MainActivity
+        // we are sending "Fragment 1" as title parameter when fragment1 is activated
         if (mListener != null) {
-            mListener.onFragmentInteraction("Pocetna");
+            mListener.onFragmentInteraction("Početna");
         }
         // Listeneri za btn
         // Button btn1= (Button) view.findViewById(R.id.frag1_btn1); btn1.setOnclickListener(...
@@ -40,14 +39,30 @@ public class Pocetna extends Fragment {
                                     }
                                 }
         );
+
+        Button btn2=(Button) view.findViewById(R.id.btnScanUlogirani);
+        btn2.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Toast.makeText(getActivity(), "Skeniranje....",
+                                                Toast.LENGTH_LONG).show();
+                                        swapFragment2();
+                                    }
+                                }
+        );
+
         return view;
     }
     private void swapFragment(){
-        Registracija mDiscountListFragment = new Registracija();
-        FragmentManager mFragmentManager = getFragmentManager();
-        FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
-        mFragmentTransaction.replace(R.id.mainFrame, mDiscountListFragment);
-        mFragmentTransaction.commit();
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.mainFrame, new Pocetna_neulogirani());
+        ft.commit();
+    }
+
+    private void swapFragment2(){
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.mainFrame, new SkeniranjeNFCKartice());
+        ft.commit();
     }
     @Override
     public void onAttach(Context context) {

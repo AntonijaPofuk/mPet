@@ -2,6 +2,7 @@ package mpet.project2018.air.mpet.fragments;
 
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -21,6 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import mpet.project2018.air.database.entities.Skeniranje;
 import mpet.project2018.air.mpet.MainActivity;
 import mpet.project2018.air.mpet.R;
 import mpet.project2018.air.mpet.nfcHelper.NFCHelper;
@@ -29,6 +31,10 @@ import mpet.project2018.air.nfc.NFCManager;
 
 public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListener
 {
+
+    private SkeniranjeNFCKartice.OnFragmentInteractionListener mListener;
+
+    public SkeniranjeNFCKartice() {}
 
     private NFCManager nfcInstance;
 
@@ -44,6 +50,9 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
         View view=inflater.inflate(R.layout.skeniranje_kartice,container,false);
         nfcInstance= new NFCManager(getActivity());
 
+        if (mListener != null) {
+            mListener.onFragmentInteraction("Skeniranje");
+        }
         ispisPoruka= view.findViewById(R.id.uputaSkeniranje);
         loadBar= view.findViewById(R.id.skeniranjeProgres);
         potvrdiUnosKoda=view.findViewById(R.id.unosKodaGumb);
@@ -144,5 +153,28 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
                 .setIcon(imageIcon)
                 .show();
 
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof Pocetna_neulogirani.OnFragmentInteractionListener) {
+            mListener = (SkeniranjeNFCKartice.OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    public interface OnFragmentInteractionListener {
+
+        void onFragmentInteraction(String title);
+    }
+    private class ArticleFragment {
     }
 }

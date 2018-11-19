@@ -8,8 +8,7 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <!-- Login  -->
-
+    <!-- Login progress -->
     <ProgressBar
         android:id="@+id/login_progress"
         style="?android:attr/progressBarStyleLarge"
@@ -21,7 +20,8 @@
     <ScrollView
         android:id="@+id/login_form"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
         <LinearLayout
             android:id="@+id/email_login_form"
@@ -52,23 +52,38 @@
                     android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/lozinka"
-                    android:imeActionId="6"
+                    android:hint="@string/prompt_password"
+                    android:imeActionId="@+id/login"
                     android:imeActionLabel="@string/action_sign_in_short"
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:singleLine="true"
-                    tools:ignore="UnusedAttribute" />
+                    tools:ignore="InvalidImeActionId" />
 
             </android.support.design.widget.TextInputLayout>
 
             <Button
                 android:id="@+id/email_sign_in_button"
+                style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/prijava"
+                android:layout_marginTop="16dp"
+                android:text="Prijava"
                 android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/failed_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_margin="24dp"
+                android:textSize="16sp"
+                android:text=""/>
+
+
+
+
 
         </LinearLayout>
     </ScrollView>
