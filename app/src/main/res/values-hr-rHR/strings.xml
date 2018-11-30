@@ -42,5 +42,10 @@
     <string name="pet_age_label">Godine</string>
     <string name="pet_gender_label">Spol</string>
     <string name="kontakt_label">Kontakt podaci</string>
+    <string name="kontakt_vlasnik">Vlasnik</string>
+    <string name="kontakt_adresa">Adresa</string>
+    <string name="kontakt_email">Email</string>
+    <string name="kontakt_telefon">Broj telefona</string>
+    <string name="kontakt_mobitel">Broj mobitela</string>
 </resources>
 
