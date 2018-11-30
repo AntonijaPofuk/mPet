@@ -41,5 +41,6 @@
 <string name="nfc_read_ok">Kod je u redu</string>
     <string name="pet_age_label">Godine</string>
     <string name="pet_gender_label">Spol</string>
+    <string name="kontakt_label">Kontakt podaci</string>
 </resources>
 
