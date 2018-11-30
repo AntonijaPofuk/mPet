@@ -39,5 +39,7 @@
     <string name="gumb_unos_koda">Potvrdi</string>
     <string name="nfc_read_failed">Code reading error</string>
     <string name="nfc_read_ok">Code OK</string>
+    <string name="pet_age_label">Godine</string>
+    <string name="pet_gender_label">Spol</string>
 </resources>
 
