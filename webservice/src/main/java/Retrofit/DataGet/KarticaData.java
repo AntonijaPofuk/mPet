@@ -3,8 +3,9 @@ package Retrofit.DataGet;
 import java.util.ArrayList;
 import java.util.List;
 
-import hr.com.webservice.Retrofit.Model.Kartica;
-import hr.com.webservice.Retrofit.RemoteGet.KarticaService;
+import Retrofit.Model.Kartica;
+import Retrofit.RemoteGet.KarticaService;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
