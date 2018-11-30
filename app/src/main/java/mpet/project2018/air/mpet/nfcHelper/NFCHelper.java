@@ -2,6 +2,9 @@ package mpet.project2018.air.mpet.nfcHelper;
 
 import java.util.List;
 
+import Retrofit.DataGet.LjubimacData;
+import Retrofit.Model.Ljubimac;
+
 public class NFCHelper
 {
     // Metoda koja provjerava da li je uneseni ili skenirani kod u odgovvarajućem formatu
@@ -20,7 +23,8 @@ public class NFCHelper
 
     /*public static boolean checkForCodeInDatabase(String code)
     {
-
+        LjubimacData instancaMetodeZaDohvatPodataka=new LjubimacData();
+        List<Ljubimac> skeniraniLjubimac=instancaMetodeZaDohvatPodataka.Download(code);
 
     }*/
 
