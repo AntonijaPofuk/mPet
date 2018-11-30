@@ -1,5 +1,7 @@
 package mpet.project2018.air.mpet.nfcHelper;
 
+import java.util.List;
+
 public class NFCHelper
 {
     // Metoda koja provjerava da li je uneseni ili skenirani kod u odgovvarajućem formatu
@@ -15,6 +17,12 @@ public class NFCHelper
             return false;
         }
     }
+
+    /*public static boolean checkForCodeInDatabase(String code)
+    {
+
+
+    }*/
 
 
 

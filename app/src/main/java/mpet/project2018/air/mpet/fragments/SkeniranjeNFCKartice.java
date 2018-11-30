@@ -117,8 +117,6 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
         if(!status) alertingMessage(getResources().getString(R.string.nfc_read_failed),R.drawable.fail_message,status);
         else alertingMessage( getResources().getString(R.string.nfc_read_ok),R.drawable.success_message,status);
 
-
-
     }
 
     private void performActionsAfterTagReading(Intent intent) {

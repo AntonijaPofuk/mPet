@@ -2,6 +2,7 @@ package Retrofit.RemoteGet;
 
 import java.util.List;
 
+import Retrofit.Model.Ljubimac;
 import hr.com.webservice.Retrofit.Model.Ljubimac;
 import retrofit2.Call;
 import retrofit2.http.GET;

@@ -33,6 +33,7 @@ dependencies {
     //module dependencies
     implementation project (':database')
     implementation project (':nfc')
+    implementation project (':webservice')
 
     //Retrofit
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
