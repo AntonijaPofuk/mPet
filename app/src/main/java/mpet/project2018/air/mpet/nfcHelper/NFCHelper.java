@@ -25,6 +25,8 @@ public class NFCHelper
         }
     }
 
+    // najbolje da vrati Ljubimca pa pomoću njega sve ostalo dohvatimo
+
     public static void checkForCodeInDatabase(String code, Context c)
     {
         LjubimacData instancaMetodeZaDohvatPodataka=new LjubimacData();
@@ -38,10 +40,10 @@ public class NFCHelper
             String ime=skeniraniLjubimac.get(0).ime;
             Toast.makeText(c,ime, Toast.LENGTH_SHORT).show();
         }
-
-
-
     }
+
+
+
 
 
 

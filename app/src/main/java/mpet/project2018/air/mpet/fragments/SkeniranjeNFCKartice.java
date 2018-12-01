@@ -152,17 +152,22 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
                          if(!status) loadBar.setVisibility(View.VISIBLE);
                         else
                          {
-                             PrikazPodatakaOSkeniranomeLjubimcu mDiscountListFragment = new PrikazPodatakaOSkeniranomeLjubimcu();
-                             FragmentManager mFragmentManager = getFragmentManager();
-                             FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
-                             mFragmentTransaction.replace(R.id.mainFrame, mDiscountListFragment);
-                             mFragmentTransaction.commit();
+                            prikazPodatakaFragment();
                          }
                     }
                 })
                 .setIcon(imageIcon)
                 .show();
 
+    }
+
+    private void prikazPodatakaFragment()
+    {
+        PrikazPodatakaOSkeniranomeLjubimcu mDiscountListFragment = new PrikazPodatakaOSkeniranomeLjubimcu();
+        FragmentManager mFragmentManager = getFragmentManager();
+        FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+        mFragmentTransaction.replace(R.id.mainFrame, mDiscountListFragment);
+        mFragmentTransaction.commit();
     }
 
     @Override

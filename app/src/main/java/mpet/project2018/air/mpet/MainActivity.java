@@ -66,13 +66,13 @@ public class MainActivity extends AppCompatActivity
         //--------------------------------------------------------------
 
     }
-    private void reg(){
+    /*private void reg(){
         SkeniranjeNFCKartice mDiscountListFragment = new SkeniranjeNFCKartice();
         FragmentManager mFragmentManager = getSupportFragmentManager();
         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.mainFrame, mDiscountListFragment);
         mFragmentTransaction.commit();
-    }
+    }*/
 
         @Override
         public void onBackPressed() {
