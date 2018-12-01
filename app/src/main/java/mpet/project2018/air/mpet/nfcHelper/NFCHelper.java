@@ -6,7 +6,11 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import Retrofit.DataGet.KarticaData;
+import Retrofit.DataGet.KorisnikData;
 import Retrofit.DataGet.LjubimacData;
+import Retrofit.Model.Kartica;
+import Retrofit.Model.Korisnik;
 import Retrofit.Model.Ljubimac;
 
 public class NFCHelper
@@ -32,8 +36,6 @@ public class NFCHelper
         LjubimacData instancaMetodeZaDohvatPodataka=new LjubimacData();
         List<Ljubimac> skeniraniLjubimac;
         skeniraniLjubimac=instancaMetodeZaDohvatPodataka.DownloadByTag(code);
-        skeniraniLjubimac=instancaMetodeZaDohvatPodataka.DownloadByTag(code);
-        skeniraniLjubimac=instancaMetodeZaDohvatPodataka.DownloadByTag(code);
         if(skeniraniLjubimac.isEmpty()) Toast.makeText(c, "no", Toast.LENGTH_SHORT).show();
         else
         {
@@ -43,6 +45,21 @@ public class NFCHelper
     }
 
 
+    public Kartica getKartica(String idKartice)
+    {
+        KarticaData instancaMetodeZaDohvatPodataka=new KarticaData();
+        List<Kartica> dohvacenaKartica;
+        dohvacenaKartica=instancaMetodeZaDohvatPodataka.Download(idKartice);
+        return dohvacenaKartica.get(0);
+    }
+
+    public Korisnik getKorisnik(String idKorisnika)
+    {
+        KorisnikData instancaMetodeZaDohvatPodataka=new KorisnikData();
+        List<Korisnik> dohvaceniKorisnik;
+        dohvaceniKorisnik=instancaMetodeZaDohvatPodataka.Download(idKorisnika);
+        return dohvaceniKorisnik.get(0);
+    }
 
 
 
