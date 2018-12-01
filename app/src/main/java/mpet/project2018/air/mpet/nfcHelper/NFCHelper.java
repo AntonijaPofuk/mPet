@@ -1,5 +1,9 @@
 package mpet.project2018.air.mpet.nfcHelper;
 
+import android.content.Context;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import Retrofit.DataGet.LjubimacData;
@@ -21,12 +25,23 @@ public class NFCHelper
         }
     }
 
-    /*public static boolean checkForCodeInDatabase(String code)
+    public static void checkForCodeInDatabase(String code, Context c)
     {
         LjubimacData instancaMetodeZaDohvatPodataka=new LjubimacData();
-        List<Ljubimac> skeniraniLjubimac=instancaMetodeZaDohvatPodataka.Download(code);
+        List<Ljubimac> skeniraniLjubimac;
+        skeniraniLjubimac=instancaMetodeZaDohvatPodataka.DownloadByTag(code);
+        skeniraniLjubimac=instancaMetodeZaDohvatPodataka.DownloadByTag(code);
+        skeniraniLjubimac=instancaMetodeZaDohvatPodataka.DownloadByTag(code);
+        if(skeniraniLjubimac.isEmpty()) Toast.makeText(c, "no", Toast.LENGTH_SHORT).show();
+        else
+        {
+            String ime=skeniraniLjubimac.get(0).ime;
+            Toast.makeText(c,ime, Toast.LENGTH_SHORT).show();
+        }
 
-    }*/
+
+
+    }
 
 
 

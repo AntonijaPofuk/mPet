@@ -15,11 +15,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.util.List;
+
+import Retrofit.DataGet.LjubimacData;
+import Retrofit.Model.Ljubimac;
 import mpet.project2018.air.database.MainDatabase;
 import mpet.project2018.air.mpet.fragments.Pocetna;
 import mpet.project2018.air.mpet.fragments.Pocetna_neulogirani;
 import mpet.project2018.air.mpet.fragments.Registracija;
 import mpet.project2018.air.mpet.fragments.SkeniranjeNFCKartice;
+import mpet.project2018.air.mpet.nfcHelper.NFCHelper;
 import mpet.project2018.air.mpet.prijava.Login;
 import mpet.project2018.air.mpet.prijava.LoginActivity;
 
@@ -144,4 +149,13 @@ public class MainActivity extends AppCompatActivity
         return storedEmail;
     }
 
+    @Override
+    protected void onResume() {
+        NFCHelper.checkForCodeInDatabase("6542fer74f",this);
+
+        super.onResume();
+
+
+
+    }
 }
