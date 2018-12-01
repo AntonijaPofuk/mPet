@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -124,6 +126,9 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
             if (nfcInstance.validateTag(intent)) {
                 String tagCode = nfcInstance.getCodeFromNdefRecord(nfcInstance.getFirstNdefRecord(nfcInstance.getNdefMessageFromIntent(intent)));
                 nfcReadingStatusOutput(NFCHelper.checkFormat(tagCode));
+
+                    // provjeri da lije tag u bazi i pozovi alert dialog ovisno o tome da li postoji ili ne
+
             }
             else nfcReadingStatusOutput(false);
         }
@@ -145,7 +150,14 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
                         dialog.dismiss();
 
                          if(!status) loadBar.setVisibility(View.VISIBLE);
-                        // else
+                        else
+                         {
+                             PrikazPodatakaOSkeniranomeLjubimcu mDiscountListFragment = new PrikazPodatakaOSkeniranomeLjubimcu();
+                             FragmentManager mFragmentManager = getFragmentManager();
+                             FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+                             mFragmentTransaction.replace(R.id.mainFrame, mDiscountListFragment);
+                             mFragmentTransaction.commit();
+                         }
                     }
                 })
                 .setIcon(imageIcon)
