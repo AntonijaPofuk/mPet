@@ -1,6 +1,6 @@
 package Retrofit.DataGet;
 
-public interface Callback<T> {
+public interface MyCallback<T> {
 
     void next(T result);
 }

@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import Retrofit.DataGet.Callback;
+import Retrofit.DataGet.MyCallback;
 
 import Retrofit.DataGet.LjubimacData;
 import Retrofit.Model.Ljubimac;
@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
             LjubimacData instancaMetodeZaDohvatPodataka=new LjubimacData();
-            instancaMetodeZaDohvatPodataka.DownloadByTag("6542fer47f", new Callback<List<Ljubimac>>() {
+            instancaMetodeZaDohvatPodataka.DownloadByTag("6542fer74f", new MyCallback<List<Ljubimac>>() {
                 @Override
                 public void next(List<Ljubimac> result) {
                     if(result.isEmpty()) Toast.makeText(getApplicationContext(), "no", Toast.LENGTH_SHORT).show();

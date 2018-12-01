@@ -18,7 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class LjubimacData extends AppCompatActivity  {
     final static List<Ljubimac> LjubimacList=new ArrayList<Ljubimac>();
 
-    public void DownloadByTag(String tagId, final Retrofit.DataGet.Callback<List<Ljubimac>> callback){
+    public void DownloadByTag(String tagId, final MyCallback<List<Ljubimac>> callback){
 
         Retrofit retrofit;
         retrofit = new Retrofit
