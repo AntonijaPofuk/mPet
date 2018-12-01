@@ -35,11 +35,11 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
 {
 
     private SkeniranjeNFCKartice.OnFragmentInteractionListener mListener;
+    private String Kod;
 
     public SkeniranjeNFCKartice() {}
 
     private NFCManager nfcInstance;
-
     private TextView ispisPoruka;
     private ProgressBar loadBar;
     private Button potvrdiUnosKoda;
@@ -67,6 +67,7 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
     @Override
     public void onClick(View v) {
         String uneseniKod= unosKodaField.getText().toString();
+        Kod=uneseniKod;
         nfcReadingStatusOutput(NFCHelper.checkFormat(uneseniKod));
     }
 
@@ -125,6 +126,7 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
         if (nfcInstance.isNFCIntent(intent)) {
             if (nfcInstance.validateTag(intent)) {
                 String tagCode = nfcInstance.getCodeFromNdefRecord(nfcInstance.getFirstNdefRecord(nfcInstance.getNdefMessageFromIntent(intent)));
+                Kod=tagCode;
                 nfcReadingStatusOutput(NFCHelper.checkFormat(tagCode));
 
                     // provjeri da lije tag u bazi i pozovi alert dialog ovisno o tome da li postoji ili ne
@@ -152,7 +154,7 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
                          if(!status) loadBar.setVisibility(View.VISIBLE);
                         else
                          {
-                            prikazPodatakaFragment();
+                            prikazPodatakaFragment(Kod);
                          }
                     }
                 })
@@ -161,9 +163,12 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
 
     }
 
-    private void prikazPodatakaFragment()
+    private void prikazPodatakaFragment(String code)
     {
+        Bundle bundle=new Bundle();
+        bundle.putString("code",code);
         PrikazPodatakaOSkeniranomeLjubimcu mDiscountListFragment = new PrikazPodatakaOSkeniranomeLjubimcu();
+        mDiscountListFragment.setArguments(bundle);
         FragmentManager mFragmentManager = getFragmentManager();
         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.mainFrame, mDiscountListFragment);

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import mpet.project2018.air.mpet.R;
 import mpet.project2018.air.nfc.NFCManager;
@@ -38,6 +39,15 @@ public class PrikazPodatakaOSkeniranomeLjubimcu extends Fragment implements View
         ownerPhone=view.findViewById(R.id.KontaktTelefonValue);
         ownerCell=view.findViewById(R.id.KontaktMobitelValue);
 
+        String kod="";
+        Bundle bundle=this.getArguments();
+        if(bundle!=null)
+        {
+            kod=bundle.getString("code");
+        }
+
+        Toast.makeText(getContext(), kod, Toast.LENGTH_SHORT).show();
+
         return  view;
     }
 
@@ -48,5 +58,10 @@ public class PrikazPodatakaOSkeniranomeLjubimcu extends Fragment implements View
 
     @Override
     public void onClick(View v) {
+    }
+
+    private void popuniPoljaSaPodacima()
+    {
+
     }
 }

@@ -45,6 +45,14 @@ public class NFCHelper
     }
 
 
+    public static Ljubimac getLjubimac(String code)
+    {
+        LjubimacData instancaMetodeZaDohvatPodataka=new LjubimacData();
+        List<Ljubimac> dohvaceniLjubimac;
+        dohvaceniLjubimac=instancaMetodeZaDohvatPodataka.DownloadByTag(code);
+        return dohvaceniLjubimac.get(0);
+    }
+
     public Kartica getKartica(String idKartice)
     {
         KarticaData instancaMetodeZaDohvatPodataka=new KarticaData();
