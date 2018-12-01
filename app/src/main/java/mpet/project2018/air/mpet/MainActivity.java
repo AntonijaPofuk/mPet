@@ -3,7 +3,6 @@ package mpet.project2018.air.mpet;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,6 +16,8 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import Retrofit.DataGet.Callback;
+
 import Retrofit.DataGet.LjubimacData;
 import Retrofit.Model.Ljubimac;
 import mpet.project2018.air.database.MainDatabase;
@@ -24,7 +25,6 @@ import mpet.project2018.air.mpet.fragments.Pocetna;
 import mpet.project2018.air.mpet.fragments.Pocetna_neulogirani;
 import mpet.project2018.air.mpet.fragments.Registracija;
 import mpet.project2018.air.mpet.fragments.SkeniranjeNFCKartice;
-import mpet.project2018.air.mpet.nfcHelper.NFCHelper;
 import mpet.project2018.air.mpet.prijava.Login;
 import mpet.project2018.air.mpet.prijava.LoginActivity;
 
@@ -151,7 +151,18 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onResume() {
-        NFCHelper.checkForCodeInDatabase("6542fer74f",this);
+            LjubimacData instancaMetodeZaDohvatPodataka=new LjubimacData();
+            instancaMetodeZaDohvatPodataka.DownloadByTag("6542fer47f", new Callback<List<Ljubimac>>() {
+                @Override
+                public void next(List<Ljubimac> result) {
+                    if(result.isEmpty()) Toast.makeText(getApplicationContext(), "no", Toast.LENGTH_SHORT).show();
+                    else
+                    {
+                        String ime=result.get(0).ime;
+                        Toast.makeText(getApplicationContext(),ime, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
 
         super.onResume();
 
