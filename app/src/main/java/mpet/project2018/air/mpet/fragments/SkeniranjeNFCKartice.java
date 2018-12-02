@@ -70,7 +70,12 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         String uneseniKod= unosKodaField.getText().toString();
         Kod=uneseniKod;
-        nfcReadingStatusOutput(nfcHelperInstance.checkFormat(uneseniKod));
+        if(nfcHelperInstance.checkFormat(uneseniKod))
+        {
+            nfcReadingStatusOutput(nfcHelperInstance.checkForCode(uneseniKod));
+        }
+        else nfcReadingStatusOutput(false);
+
     }
 
     @Override
@@ -129,9 +134,10 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
             if (nfcInstance.validateTag(intent)) {
                 String tagCode = nfcInstance.getCodeFromNdefRecord(nfcInstance.getFirstNdefRecord(nfcInstance.getNdefMessageFromIntent(intent)));
                 Kod=tagCode;
-                nfcReadingStatusOutput(nfcHelperInstance.checkFormat(tagCode));
-
-                    // provjeri da lije tag u bazi i pozovi alert dialog ovisno o tome da li postoji ili ne
+                if(nfcHelperInstance.checkFormat(tagCode))
+                {
+                    nfcReadingStatusOutput(nfcHelperInstance.checkForCode(tagCode));
+                }
 
             }
             else nfcReadingStatusOutput(false);

@@ -38,7 +38,7 @@ public class NFCHelper
         listaLjubimaca=result;
     }
     });
-        if(listaLjubimaca.isEmpty()) return false;
+    if(listaLjubimaca.isEmpty()) return false;
         else return true;
 
     }
