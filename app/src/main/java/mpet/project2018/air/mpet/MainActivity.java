@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity
                     if(result.isEmpty()) Toast.makeText(getApplicationContext(), "no", Toast.LENGTH_SHORT).show();
                     else
                     {
-                        String ime=result.get(0).ime;
+                        String ime=result.get(0).getUrl_slike();
                         Toast.makeText(getApplicationContext(),ime, Toast.LENGTH_SHORT).show();
                     }
                 }

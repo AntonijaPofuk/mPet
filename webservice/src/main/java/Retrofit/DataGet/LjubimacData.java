@@ -36,20 +36,27 @@ public class LjubimacData extends AppCompatActivity  {
             public void onResponse(Call<List<Ljubimac>> call, Response<List<Ljubimac>> response) {
                 List<Ljubimac> ljubimac = response.body();
                 LjubimacList.clear();
-                for (Ljubimac l:ljubimac) {
-                    Ljubimac ljubimacNew=new Ljubimac();
-                    ljubimacNew.godina=l.godina;
-                    ljubimacNew.id_ljubimca=l.id_ljubimca;
-                    ljubimacNew.ime=l.ime;
-                    ljubimacNew.kartica=l.kartica;
-                    ljubimacNew.masa=l.masa;
-                    ljubimacNew.opis=l.opis;
-                    ljubimacNew.url_slike=l.url_slike;
-                    ljubimacNew.spol=l.spol;
-                    ljubimacNew.vrsta=l.vrsta;
-                    LjubimacList.add(ljubimacNew);
-                }
+
+                if(ljubimac.get(0) == null)
+                {
                     callback.next(LjubimacList);
+                }
+                else {
+                    for (Ljubimac l : ljubimac) {
+                        Ljubimac ljubimacNew = new Ljubimac();
+                        ljubimacNew.godina = l.godina;
+                        ljubimacNew.id_ljubimca = l.id_ljubimca;
+                        ljubimacNew.ime = l.ime;
+                        ljubimacNew.kartica = l.kartica;
+                        ljubimacNew.masa = l.masa;
+                        ljubimacNew.opis = l.opis;
+                        ljubimacNew.url_slike = l.url_slike;
+                        ljubimacNew.spol = l.spol;
+                        ljubimacNew.vrsta = l.vrsta;
+                        LjubimacList.add(ljubimacNew);
+                    }
+                    callback.next(LjubimacList);
+                }
 
             }
 
