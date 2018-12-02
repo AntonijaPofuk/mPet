@@ -1,9 +1,21 @@
 package mpet.project2018.air.mpet.nfcHelper;
 
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import Retrofit.DataGet.LjubimacData;
+import Retrofit.DataGet.MyCallback;
+import Retrofit.Model.Ljubimac;
+
 public class NFCHelper
 {
+
+    private List<Ljubimac> listaLjubimaca;
+
     // Metoda koja provjerava da li je uneseni ili skenirani kod u odgovvarajućem formatu
-    public static boolean checkFormat(String code )
+    public boolean checkFormat(String code )
     {
         String tagContent = code;
         if(tagContent.length()==10 && tagContent.matches(("[A-Za-z0-9]+")))
@@ -16,7 +28,21 @@ public class NFCHelper
         }
     }
 
-    // najbolje da vrati Ljubimca pa pomoću njega sve ostalo dohvatimo
+    public boolean checkForCode(String code)
+    {
+    LjubimacData instancaMetodeZaDohvatPodataka=new LjubimacData();
+
+    instancaMetodeZaDohvatPodataka.DownloadByTag(code, new MyCallback<List<Ljubimac>>() {
+        @Override
+    public void next(List<Ljubimac> result) {
+        listaLjubimaca=result;
+    }
+    });
+        if(listaLjubimaca.isEmpty()) return false;
+        else return true;
+
+    }
+
 
 
 

@@ -151,19 +151,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onResume() {
-            LjubimacData instancaMetodeZaDohvatPodataka=new LjubimacData();
-            instancaMetodeZaDohvatPodataka.DownloadByTag("6542fer74f", new MyCallback<List<Ljubimac>>() {
-                @Override
-                public void next(List<Ljubimac> result) {
-                    if(result.isEmpty()) Toast.makeText(getApplicationContext(), "no", Toast.LENGTH_SHORT).show();
-                    else
-                    {
-                        String ime=result.get(0).getUrl_slike();
-                        Toast.makeText(getApplicationContext(),ime, Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-
         super.onResume();
 
 
