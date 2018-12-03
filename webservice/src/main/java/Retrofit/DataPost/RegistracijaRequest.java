@@ -1,5 +1,7 @@
 package Retrofit.DataPost;
 
+import android.graphics.Bitmap;
+
 public class RegistracijaRequest {
 
     public String id;
@@ -21,6 +23,8 @@ public class RegistracijaRequest {
     public String url_profilna;
 
     public String lozinka;
+
+    public String slika;
 
     public void setLozinka(String lozinka) {
         this.lozinka = lozinka;
@@ -61,4 +65,6 @@ public class RegistracijaRequest {
     public void setUrl_profilna(String url_profilna) {
         this.url_profilna = url_profilna;
     }
+
+    public void setSlika(String slika) {this.slika=slika;}
 }

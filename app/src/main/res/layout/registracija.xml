@@ -141,7 +141,7 @@
         android:text="Odustani" />
 
     <ImageButton
-        android:id="@+id/button_choose_image"
+        android:id="@+id/btnChooseImage"
         android:layout_width="122dp"
         android:layout_height="104dp"
         android:layout_alignParentStart="true"
