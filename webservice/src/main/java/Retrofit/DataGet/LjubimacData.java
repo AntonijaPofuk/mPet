@@ -2,11 +2,16 @@ package Retrofit.DataGet;
 
 import android.support.v7.app.AppCompatActivity;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import Retrofit.DataGetListenersAndLoaders.WebServiceHandler;
 import Retrofit.Model.Ljubimac;
 import Retrofit.RemoteGet.LjubimciService;
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -16,16 +21,27 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class LjubimacData extends AppCompatActivity  {
-    final static List<Ljubimac> LjubimacList=new ArrayList<Ljubimac>();
 
-    public void DownloadByTag(String tagId, final MyCallback<List<Ljubimac>> callback){
+    WebServiceHandler petServiceHandler;
 
-        Retrofit retrofit;
-        retrofit = new Retrofit
-                .Builder()
+    Retrofit retrofit;
+
+    public LjubimacData(WebServiceHandler airWebServiceHandler){
+        this.petServiceHandler = airWebServiceHandler;
+
+        OkHttpClient client = new OkHttpClient();
+
+        this.retrofit = new Retrofit.Builder()
                 .baseUrl("https://airprojekt.000webhostapp.com/")
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
                 .build();
+
+    }
+
+    final static List<Ljubimac> LjubimacList=new ArrayList<Ljubimac>();
+
+    public void DownloadByTag(String tagId){
 
         LjubimciService api = retrofit.create(LjubimciService.class);
 
@@ -34,7 +50,8 @@ public class LjubimacData extends AppCompatActivity  {
         call.enqueue(new Callback<List<Ljubimac>>() {
             @Override
             public void onResponse(Call<List<Ljubimac>> call, Response<List<Ljubimac>> response) {
-                List<Ljubimac> ljubimac = response.body();
+                petServiceHandler.onDataArrived(response, true);
+                /*List<Ljubimac> ljubimac = response.body();
                 LjubimacList.clear();
 
                 if(ljubimac.get(0) == null)
@@ -56,7 +73,7 @@ public class LjubimacData extends AppCompatActivity  {
                         LjubimacList.add(ljubimacNew);
                     }
                     callback.next(LjubimacList);
-                }
+                }*/
 
             }
 
@@ -65,6 +82,8 @@ public class LjubimacData extends AppCompatActivity  {
 
             }
         });
+
+
 
     }
 
