@@ -24,6 +24,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import Retrofit.DataGetListenersAndLoaders.DataLoadedListener;
+import Retrofit.DataGetListenersAndLoaders.DataLoader;
+import Retrofit.DataGetListenersAndLoaders.LjubimacDataLoader;
+import Retrofit.Model.Ljubimac;
 import mpet.project2018.air.database.entities.Skeniranje;
 import mpet.project2018.air.mpet.MainActivity;
 import mpet.project2018.air.mpet.R;
@@ -31,7 +38,7 @@ import mpet.project2018.air.mpet.nfcHelper.NFCHelper;
 import mpet.project2018.air.nfc.NFCManager;
 
 
-public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListener
+public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListener, DataLoadedListener
 {
 
     private SkeniranjeNFCKartice.OnFragmentInteractionListener mListener;
@@ -72,7 +79,8 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
         Kod=uneseniKod;
         if(nfcHelperInstance.checkFormat(uneseniKod))
         {
-            nfcReadingStatusOutput(nfcHelperInstance.checkForCode(uneseniKod));
+            loadData();
+            //nfcReadingStatusOutput(nfcHelperInstance.checkForCode(uneseniKod));
         }
         else nfcReadingStatusOutput(false);
 
@@ -136,7 +144,8 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
                 Kod=tagCode;
                 if(nfcHelperInstance.checkFormat(tagCode))
                 {
-                    nfcReadingStatusOutput(nfcHelperInstance.checkForCode(tagCode));
+                    loadData();
+                    //nfcReadingStatusOutput(nfcHelperInstance.checkForCode(tagCode));
                 }
 
             }
@@ -199,10 +208,29 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
         mListener = null;
     }
 
+    public void loadData()
+    {
+        DataLoader dataLoader;
+
+            dataLoader = new LjubimacDataLoader(Kod);
+
+
+        dataLoader.loadData(this);
+    }
+
+    @Override
+    public void onDataLoaded(List<Ljubimac> listaLjubimaca) {
+        if(listaLjubimaca.isEmpty()) Toast.makeText(getActivity(), "Empty", Toast.LENGTH_SHORT).show();
+        else Toast.makeText(getActivity(), listaLjubimaca.get(0).ime, Toast.LENGTH_SHORT).show();
+    }
+
     public interface OnFragmentInteractionListener {
 
         void onFragmentInteraction(String title);
     }
     private class ArticleFragment {
     }
+
+
+
 }

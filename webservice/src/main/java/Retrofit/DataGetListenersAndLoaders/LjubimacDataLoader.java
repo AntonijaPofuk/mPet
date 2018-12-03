@@ -32,7 +32,7 @@ public class LjubimacDataLoader extends  DataLoader {
         @Override
         public void onDataArrived(Object result, boolean ok) {
             if(ok){
-                ArrayList<Ljubimac> listaLjubimaca = (ArrayList<Ljubimac>) result;
+                List<Ljubimac> listaLjubimaca = (List<Ljubimac>) result;
                 /*for(Store store : stores){
                     store.save();
                 }*/
@@ -43,7 +43,7 @@ public class LjubimacDataLoader extends  DataLoader {
     };
 
 
-    private void checkDataArrival(ArrayList<Ljubimac> ljubimciList){
+    private void checkDataArrival(List<Ljubimac> ljubimciList){
         if(petsArrived){
             mDataLoadedListener.onDataLoaded(ljubimciList);
         }

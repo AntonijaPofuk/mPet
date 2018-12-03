@@ -28,7 +28,7 @@ public class NFCHelper
         }
     }
 
-    public boolean checkForCode(String code)
+    /*public boolean checkForCode(String code)
     {
     LjubimacData instancaMetodeZaDohvatPodataka=new LjubimacData();
 
@@ -41,7 +41,7 @@ public class NFCHelper
     if(listaLjubimaca.isEmpty()) return false;
         else return true;
 
-    }
+    }*/
 
 
 

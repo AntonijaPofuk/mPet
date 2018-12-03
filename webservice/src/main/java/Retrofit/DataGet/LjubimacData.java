@@ -50,13 +50,16 @@ public class LjubimacData extends AppCompatActivity  {
         call.enqueue(new Callback<List<Ljubimac>>() {
             @Override
             public void onResponse(Call<List<Ljubimac>> call, Response<List<Ljubimac>> response) {
-                petServiceHandler.onDataArrived(response, true);
-                /*List<Ljubimac> ljubimac = response.body();
+
+                List<Ljubimac> ljubimac = response.body();
+
+
+
                 LjubimacList.clear();
 
                 if(ljubimac.get(0) == null)
                 {
-                    callback.next(LjubimacList);
+                    petServiceHandler.onDataArrived(LjubimacList, true);
                 }
                 else {
                     for (Ljubimac l : ljubimac) {
@@ -72,8 +75,8 @@ public class LjubimacData extends AppCompatActivity  {
                         ljubimacNew.vrsta = l.vrsta;
                         LjubimacList.add(ljubimacNew);
                     }
-                    callback.next(LjubimacList);
-                }*/
+                    petServiceHandler.onDataArrived(LjubimacList,true);
+                }
 
             }
 
