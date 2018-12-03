@@ -220,8 +220,7 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
 
     @Override
     public void onDataLoaded(List<Ljubimac> listaLjubimaca) {
-        if(listaLjubimaca.isEmpty()) Toast.makeText(getActivity(), "Empty", Toast.LENGTH_SHORT).show();
-        else Toast.makeText(getActivity(), listaLjubimaca.get(0).ime, Toast.LENGTH_SHORT).show();
+        nfcReadingStatusOutput(nfcHelperInstance.checkForCode(listaLjubimaca));
     }
 
     public interface OnFragmentInteractionListener {

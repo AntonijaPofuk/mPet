@@ -28,20 +28,11 @@ public class NFCHelper
         }
     }
 
-    /*public boolean checkForCode(String code)
+    public boolean checkForCode(List<Ljubimac> listaLjubimaca)
     {
-    LjubimacData instancaMetodeZaDohvatPodataka=new LjubimacData();
-
-    instancaMetodeZaDohvatPodataka.DownloadByTag(code, new MyCallback<List<Ljubimac>>() {
-        @Override
-    public void next(List<Ljubimac> result) {
-        listaLjubimaca=result;
-    }
-    });
     if(listaLjubimaca.isEmpty()) return false;
         else return true;
-
-    }*/
+    }
 
 
 
