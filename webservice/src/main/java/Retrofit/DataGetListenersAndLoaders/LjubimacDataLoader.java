@@ -6,19 +6,19 @@ import java.util.List;
 import Retrofit.DataGet.LjubimacData;
 import Retrofit.Model.Ljubimac;
 
-public class LjubimacDataLoader extends  DataLoader {
+public class LjubimacDataLoader  {
+
+
+    protected DataLoadedListener mDataLoadedListener;
 
     private boolean petsArrived= false;
-    private String code;
 
-    public LjubimacDataLoader(String code)
+    public LjubimacDataLoader(DataLoadedListener dataLoadedListener)
     {
-        this.code=code;
+        this.mDataLoadedListener=dataLoadedListener;
     }
 
-    @Override
-    public void loadData(DataLoadedListener dataLoadedListener) {
-        super.loadData(dataLoadedListener);
+    public void loadDataByTag(String code) {
 
         LjubimacData petsWS = new LjubimacData(petHandler);
 

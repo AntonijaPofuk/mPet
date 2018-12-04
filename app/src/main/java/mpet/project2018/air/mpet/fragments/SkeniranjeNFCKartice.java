@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.nfc.NfcAdapter;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,19 +18,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import Retrofit.DataGetListenersAndLoaders.DataLoadedListener;
-import Retrofit.DataGetListenersAndLoaders.DataLoader;
 import Retrofit.DataGetListenersAndLoaders.LjubimacDataLoader;
 import Retrofit.Model.Ljubimac;
-import mpet.project2018.air.database.entities.Skeniranje;
 import mpet.project2018.air.mpet.MainActivity;
 import mpet.project2018.air.mpet.R;
 import mpet.project2018.air.mpet.nfcHelper.NFCHelper;
@@ -210,12 +204,9 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
 
     public void loadData()
     {
-        DataLoader dataLoader;
+        LjubimacDataLoader dataLoader=new LjubimacDataLoader(this);
 
-            dataLoader = new LjubimacDataLoader(Kod);
-
-
-        dataLoader.loadData(this);
+        dataLoader.loadDataByTag(Kod);
     }
 
     @Override
