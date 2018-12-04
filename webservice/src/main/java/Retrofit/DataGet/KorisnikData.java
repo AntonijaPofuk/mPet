@@ -39,7 +39,7 @@ public class KorisnikData {
 
         KorisniciService api = retrofit.create(KorisniciService.class);
 
-        Call<List<Korisnik>> call = api.GetKorisnik("https://airprojekt.000webhostapp.com/services.php?korisnici_korID="+korisnikId);
+        Call<List<Korisnik>> call = api.GetKorisnik("https://airprojekt.000webhostapp.com/services.php?korisnikID="+korisnikId);
 
         call.enqueue(new Callback<List<Korisnik>>() {
 

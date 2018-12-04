@@ -3,8 +3,10 @@ package Retrofit.DataGet;
 import java.util.ArrayList;
 import java.util.List;
 
+import Retrofit.DataGetListenersAndLoaders.WebServiceHandler;
 import Retrofit.Model.Skeniranje;
 import Retrofit.RemoteGet.SkeniranjaService;
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -12,15 +14,27 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SkeniranjeData {
-    final static List<Skeniranje> SkeniranjeList=new ArrayList<Skeniranje>();
-    public List<Skeniranje> Download(String korisnikId){
 
-        Retrofit retrofit;
-        retrofit = new Retrofit
-                .Builder()
+    WebServiceHandler scanServiceHandler;
+
+    Retrofit retrofit;
+
+    final static List<Skeniranje> SkeniranjeList=new ArrayList<Skeniranje>();
+
+    public SkeniranjeData(WebServiceHandler scanServiceHandler) {
+
+        this.scanServiceHandler=scanServiceHandler;
+
+        OkHttpClient client = new OkHttpClient();
+
+        this.retrofit = new Retrofit.Builder()
                 .baseUrl("https://airprojekt.000webhostapp.com/")
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
                 .build();
+    }
+
+    public void Download(String korisnikId){
 
         SkeniranjaService api = retrofit.create(SkeniranjaService.class);
 
@@ -31,18 +45,26 @@ public class SkeniranjeData {
             public void onResponse(Call<List<Skeniranje>> call, Response<List<Skeniranje>> response) {
                 List<Skeniranje> skeniranje = response.body();
                 SkeniranjeList.clear();
-                for (Skeniranje s:skeniranje) {
-                   Skeniranje skeniranjeNew=new Skeniranje();
-                   skeniranjeNew.datum=s.datum;
-                   skeniranjeNew.id_skeniranja=s.id_skeniranja;
-                   skeniranjeNew.kartica=s.kartica;
-                   skeniranjeNew.kontakt=s.kontakt;
-                   skeniranjeNew.koordinata_x=s.koordinata_x;
-                   skeniranjeNew.koordinata_y=s.koordinata_y;
-                   skeniranjeNew.korisnik=s.korisnik;
-                   skeniranjeNew.procitano=s.procitano;
-                   skeniranjeNew.vrijeme=s.vrijeme;
-                   SkeniranjeList.add(skeniranjeNew);
+                if(skeniranje.get(0)==null)
+                {
+                    scanServiceHandler.onDataArrived(SkeniranjeList,true);
+                }
+                else {
+                    for (Skeniranje s : skeniranje) {
+                        Skeniranje skeniranjeNew = new Skeniranje();
+                        skeniranjeNew.datum = s.datum;
+                        skeniranjeNew.id_skeniranja = s.id_skeniranja;
+                        skeniranjeNew.kartica = s.kartica;
+                        skeniranjeNew.kontakt = s.kontakt;
+                        skeniranjeNew.koordinata_x = s.koordinata_x;
+                        skeniranjeNew.koordinata_y = s.koordinata_y;
+                        skeniranjeNew.korisnik = s.korisnik;
+                        skeniranjeNew.procitano = s.procitano;
+                        skeniranjeNew.vrijeme = s.vrijeme;
+                        SkeniranjeList.add(skeniranjeNew);
+                    }
+
+                    scanServiceHandler.onDataArrived(SkeniranjeList,true);
                 }
 
             }
@@ -53,7 +75,6 @@ public class SkeniranjeData {
             }
         });
 
-        return SkeniranjeList;
 
     }
 }
