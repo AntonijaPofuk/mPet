@@ -1,21 +1,22 @@
-package Retrofit.DataGetListenersAndLoaders;
+package Retrofit.DataGetListenersAndLoaders.DataLoaders;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import Retrofit.DataGet.LjubimacData;
+import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.LjubimacDataLoadedListener;
+import Retrofit.DataGetListenersAndLoaders.WebServiceHandler;
 import Retrofit.Model.Ljubimac;
 
 public class LjubimacDataLoader  {
 
 
-    protected DataLoadedListener mDataLoadedListener;
+    protected LjubimacDataLoadedListener mLjubimacDataLoadedListener;
 
     private boolean petsArrived= false;
 
-    public LjubimacDataLoader(DataLoadedListener dataLoadedListener)
+    public LjubimacDataLoader(LjubimacDataLoadedListener ljubimacDataLoadedListener)
     {
-        this.mDataLoadedListener=dataLoadedListener;
+        this.mLjubimacDataLoadedListener = ljubimacDataLoadedListener;
     }
 
     public void loadDataByTag(String code) {
@@ -45,7 +46,7 @@ public class LjubimacDataLoader  {
 
     private void checkDataArrival(List<Ljubimac> ljubimciList){
         if(petsArrived){
-            mDataLoadedListener.onDataLoaded(ljubimciList);
+            mLjubimacDataLoadedListener.onDataLoaded(ljubimciList);
         }
     }
 }

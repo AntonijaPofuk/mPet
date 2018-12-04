@@ -23,8 +23,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import Retrofit.DataGetListenersAndLoaders.DataLoadedListener;
-import Retrofit.DataGetListenersAndLoaders.LjubimacDataLoader;
+import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.LjubimacDataLoadedListener;
+import Retrofit.DataGetListenersAndLoaders.DataLoaders.LjubimacDataLoader;
 import Retrofit.Model.Ljubimac;
 import mpet.project2018.air.mpet.MainActivity;
 import mpet.project2018.air.mpet.R;
@@ -32,7 +32,7 @@ import mpet.project2018.air.mpet.nfcHelper.NFCHelper;
 import mpet.project2018.air.nfc.NFCManager;
 
 
-public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListener, DataLoadedListener
+public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListener, LjubimacDataLoadedListener
 {
 
     private SkeniranjeNFCKartice.OnFragmentInteractionListener mListener;

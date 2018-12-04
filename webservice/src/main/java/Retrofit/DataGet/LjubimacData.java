@@ -53,8 +53,6 @@ public class LjubimacData extends AppCompatActivity  {
 
                 List<Ljubimac> ljubimac = response.body();
 
-
-
                 LjubimacList.clear();
 
                 if(ljubimac.get(0) == null)
