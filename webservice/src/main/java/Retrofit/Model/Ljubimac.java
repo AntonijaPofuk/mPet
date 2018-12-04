@@ -21,6 +21,16 @@ public class Ljubimac {
     public String url_slike;
     @SerializedName("kartica")
     public String kartica;
+    @SerializedName("korisnik")
+    public String korisnik ;
+
+    public String getKorisnik() {
+        return korisnik;
+    }
+
+    public void setKorisnik(String korisnik) {
+        this.korisnik = korisnik;
+    }
 
     public String getId_ljubimca() {
         return id_ljubimca;

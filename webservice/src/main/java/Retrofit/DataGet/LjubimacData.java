@@ -71,6 +71,7 @@ public class LjubimacData extends AppCompatActivity  {
                         ljubimacNew.url_slike = l.url_slike;
                         ljubimacNew.spol = l.spol;
                         ljubimacNew.vrsta = l.vrsta;
+                        ljubimacNew.korisnik=l.korisnik;
                         LjubimacList.add(ljubimacNew);
                     }
                     petServiceHandler.onDataArrived(LjubimacList,true);
