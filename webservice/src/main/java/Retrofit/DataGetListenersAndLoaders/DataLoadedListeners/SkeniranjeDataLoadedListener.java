@@ -7,6 +7,6 @@ import Retrofit.Model.Skeniranje;
 
 public interface SkeniranjeDataLoadedListener {
 
-    void onDataLoaded(List<Skeniranje> listaSkeniranja);
+    void SkeniranjeOnDataLoaded(List<Skeniranje> listaSkeniranja);
 
 }

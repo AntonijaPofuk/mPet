@@ -7,5 +7,5 @@ import Retrofit.Model.Ljubimac;
 
 public interface KarticaDataLoadedListener {
 
-    void onDataLoaded(List<Kartica> listaKartica);
+    void KarticaOnDataLoaded(List<Kartica> listaKartica);
 }
