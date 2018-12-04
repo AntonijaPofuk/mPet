@@ -7,5 +7,5 @@ import Retrofit.Model.Ljubimac;
 
 public interface KorisnikDataLoadedListener {
 
-    void onDataLoaded(List<Korisnik> listaKorisnika);
+    void KorisnikOnDataLoaded(List<Korisnik> listaKorisnika);
 }

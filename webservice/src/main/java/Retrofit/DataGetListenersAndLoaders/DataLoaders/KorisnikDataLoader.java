@@ -48,7 +48,7 @@ public class KorisnikDataLoader {
 
     private void checkDataArrival(List<Korisnik> korisnikList){
         if(usersArrived){
-            mKorisnikDataLoadedListener.onDataLoaded(korisnikList);
+            mKorisnikDataLoadedListener.KorisnikOnDataLoaded(korisnikList);
         }
     }
 

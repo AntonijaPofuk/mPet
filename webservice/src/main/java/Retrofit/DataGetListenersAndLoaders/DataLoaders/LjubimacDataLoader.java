@@ -46,7 +46,7 @@ public class LjubimacDataLoader  {
 
     private void checkDataArrival(List<Ljubimac> ljubimciList){
         if(petsArrived){
-            mLjubimacDataLoadedListener.onDataLoaded(ljubimciList);
+            mLjubimacDataLoadedListener.LjubimacOnDataLoaded(ljubimciList);
         }
     }
 }

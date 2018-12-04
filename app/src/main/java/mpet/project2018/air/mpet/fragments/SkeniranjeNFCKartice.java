@@ -210,7 +210,7 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
     }
 
     @Override
-    public void onDataLoaded(List<Ljubimac> listaLjubimaca) {
+    public void LjubimacOnDataLoaded(List<Ljubimac> listaLjubimaca) {
         nfcReadingStatusOutput(nfcHelperInstance.checkForCode(listaLjubimaca));
     }
 

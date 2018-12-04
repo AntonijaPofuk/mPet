@@ -7,6 +7,6 @@ import Retrofit.Model.Ljubimac;
 
 public interface LjubimacDataLoadedListener {
 
-    void onDataLoaded(List<Ljubimac> listaLjubimaca);
+    void LjubimacOnDataLoaded(List<Ljubimac> listaLjubimaca);
 
 }
