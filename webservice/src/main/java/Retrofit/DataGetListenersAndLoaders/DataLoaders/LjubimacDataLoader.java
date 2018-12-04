@@ -7,6 +7,7 @@ import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.LjubimacDataLoade
 import Retrofit.DataGetListenersAndLoaders.WebServiceHandler;
 import Retrofit.Model.Ljubimac;
 
+
 public class LjubimacDataLoader  {
 
 
@@ -48,5 +49,10 @@ public class LjubimacDataLoader  {
         if(petsArrived){
             mLjubimacDataLoadedListener.LjubimacOnDataLoaded(ljubimciList);
         }
+    }
+
+    private void saveInLocalDatabase(List<Ljubimac> listaDohvacenihLjubimaca)
+    {
+
     }
 }

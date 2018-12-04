@@ -1,12 +1,7 @@
 package mpet.project2018.air.mpet.nfcHelper;
 
-import android.widget.Toast;
-
-import java.util.ArrayList;
 import java.util.List;
 
-import Retrofit.DataGet.LjubimacData;
-import Retrofit.DataGet.MyCallback;
 import Retrofit.Model.Ljubimac;
 
 public class NFCHelper

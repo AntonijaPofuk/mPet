@@ -12,14 +12,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import java.util.List;
-
-import Retrofit.DataGet.MyCallback;
-
-import Retrofit.DataGet.LjubimacData;
-import Retrofit.Model.Ljubimac;
 import mpet.project2018.air.database.MainDatabase;
 import mpet.project2018.air.mpet.fragments.Pocetna;
 import mpet.project2018.air.mpet.fragments.Pocetna_neulogirani;

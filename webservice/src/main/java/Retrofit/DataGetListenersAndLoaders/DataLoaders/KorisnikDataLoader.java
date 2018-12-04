@@ -3,12 +3,9 @@ package Retrofit.DataGetListenersAndLoaders.DataLoaders;
 import java.util.List;
 
 import Retrofit.DataGet.KorisnikData;
-import Retrofit.DataGet.LjubimacData;
 import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.KorisnikDataLoadedListener;
-import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.LjubimacDataLoadedListener;
 import Retrofit.DataGetListenersAndLoaders.WebServiceHandler;
 import Retrofit.Model.Korisnik;
-import Retrofit.Model.Ljubimac;
 
 public class KorisnikDataLoader {
 
@@ -36,9 +33,7 @@ public class KorisnikDataLoader {
         public void onDataArrived(Object result, boolean ok) {
             if(ok){
                 List<Korisnik> listaKorisnika = (List<Korisnik>) result;
-                /*for(Store store : stores){
-                    store.save();
-                }*/
+                saveUserInLocalDatabase(listaKorisnika);
                 usersArrived = true;
                 checkDataArrival(listaKorisnika);
             }
@@ -49,6 +44,17 @@ public class KorisnikDataLoader {
     private void checkDataArrival(List<Korisnik> korisnikList){
         if(usersArrived){
             mKorisnikDataLoadedListener.KorisnikOnDataLoaded(korisnikList);
+        }
+    }
+
+    private void saveUserInLocalDatabase(List<Korisnik> listaKorisnika)
+    {
+        for (Korisnik korisnik : listaKorisnika)
+        {
+            mpet.project2018.air.database.entities.Korisnik newKorisnik=new mpet.project2018.air.database.entities.Korisnik(Integer.parseInt(korisnik.id),
+                    korisnik.ime,korisnik.prezime,korisnik.korisnicko_ime,null,korisnik.email,korisnik.adresa,korisnik.broj_mobitela,
+                    korisnik.broj_telefona,korisnik.url_profilna);
+            newKorisnik.save();
         }
     }
 

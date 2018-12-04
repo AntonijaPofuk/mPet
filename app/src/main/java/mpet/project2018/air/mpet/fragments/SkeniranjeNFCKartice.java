@@ -20,12 +20,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.util.List;
 
+import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.KorisnikDataLoadedListener;
 import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.LjubimacDataLoadedListener;
+import Retrofit.DataGetListenersAndLoaders.DataLoaders.KorisnikDataLoader;
 import Retrofit.DataGetListenersAndLoaders.DataLoaders.LjubimacDataLoader;
+import Retrofit.Model.Korisnik;
 import Retrofit.Model.Ljubimac;
+import mpet.project2018.air.database.entities.Korisnik_Table;
+import mpet.project2018.air.database.entities.Ljubimac_Table;
 import mpet.project2018.air.mpet.MainActivity;
 import mpet.project2018.air.mpet.R;
 import mpet.project2018.air.mpet.nfcHelper.NFCHelper;
@@ -85,6 +93,8 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
         super.onViewCreated(view, savedInstanceState);
 
         nfcStatusOutput(nfcInstance.checkNFCAvailability());
+
+        //loadDataS();
 
     }
 
@@ -209,10 +219,23 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
         dataLoader.loadDataByTag(Kod);
     }
 
+    /*public void loadDataS()
+    {
+       KorisnikDataLoader dataLoader=new KorisnikDataLoader(this);
+
+        dataLoader.loadDataById("3");
+    }*/
+
     @Override
     public void LjubimacOnDataLoaded(List<Ljubimac> listaLjubimaca) {
         nfcReadingStatusOutput(nfcHelperInstance.checkForCode(listaLjubimaca));
     }
+
+    /*@Override
+    public void KorisnikOnDataLoaded(List<Korisnik> listaKorisnika) {
+       List< mpet.project2018.air.database.entities.Korisnik> korisnik = SQLite.select().from(mpet.project2018.air.database.entities.Korisnik.class).where(Korisnik_Table.id_korisnika.is(3)).queryList();
+        Toast.makeText(getActivity(), String.valueOf( korisnik.size()), Toast.LENGTH_SHORT).show();
+    }*/
 
     public interface OnFragmentInteractionListener {
 
