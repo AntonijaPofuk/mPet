@@ -84,7 +84,7 @@ public class CodeHandlerHelper extends Fragment implements LjubimacDataLoadedLis
     }
 
     // Metoda za pokretanje zajedničkog fragmenta za prikaz podataka
-    public void showwPetDataFragment(String code)
+    public void showPetDataFragment()
     {
         Bundle bundle=new Bundle();
         bundle.putSerializable("downloadPet",dohvaceniLjubimac);

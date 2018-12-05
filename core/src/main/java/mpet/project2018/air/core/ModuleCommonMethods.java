@@ -4,6 +4,6 @@ public interface ModuleCommonMethods {
 
    void validateCode(String codeToValidate);
    Class getContainerActivity();
-   void showwPetDataFragment(String code);
+   void showPetDataFragment();
 
 }
