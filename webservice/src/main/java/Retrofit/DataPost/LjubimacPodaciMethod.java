@@ -50,7 +50,7 @@ public class LjubimacPodaciMethod {
 
         request.setUrl_slike("/");
 
-        request.setVrsta(vlasnik);
+        request.setVlasnik(vlasnik);
 
         request.setKartica(kartica);
 
