@@ -55,7 +55,17 @@
     <string name="mob">Broj mobitela</string>
 
     <!--stringovi za novog ljubimca-->
-
+    <string name="odabir_spol">Spol</string>
+    <string-array name="spolovi">
+        <item>mužjak</item>
+        <item>ženka</item>
+    </string-array>
+    <string name="imeLjub">Ime</string>
+    <string name="vrsta">Vrsta</string>
+    <string name="vrsta_opis">pas, mačka, ...</string>
+    <string name="masa">Masa</string>
+    <string name="godRodjenja">Godina rođenja</string>
+    <string name="opis">Opis</string>
 
 </resources>
 
