@@ -29,6 +29,10 @@
         <activity android:name=".prijava.LoginActivity"
             android:label="@string/title_activity_login"/>
 
+        <service
+            android:name=".obavijesti.NotificationService"
+            android:enabled="true"
+            android:exported="true"></service>
 
     </application>
 

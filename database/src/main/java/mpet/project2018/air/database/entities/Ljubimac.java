@@ -27,7 +27,7 @@ public class Ljubimac extends BaseModel {
     @ForeignKey(tableClass = Kartica.class)
     @Column Kartica kartica;
 
-    public Ljubimac(int id_ljubimca, String ime, int godine, long masa, String vrsta_zivotinje, String spol, String opis, String url_slike) {
+    public Ljubimac(int id_ljubimca, String ime, int godine, long masa, String vrsta_zivotinje, String spol, String opis, String url_slike, Korisnik korisnik) {
         this.id_ljubimca = id_ljubimca;
         this.ime = ime;
         this.godine = godine;
@@ -36,6 +36,7 @@ public class Ljubimac extends BaseModel {
         this.spol = spol;
         this.opis = opis;
         this.url_slike = url_slike;
+        this.korisnik=korisnik;
     }
 
     public Ljubimac() {
