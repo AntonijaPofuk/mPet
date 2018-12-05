@@ -20,23 +20,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.util.List;
 
-import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.KorisnikDataLoadedListener;
 import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.LjubimacDataLoadedListener;
-import Retrofit.DataGetListenersAndLoaders.DataLoaders.KorisnikDataLoader;
 import Retrofit.DataGetListenersAndLoaders.DataLoaders.LjubimacDataLoader;
-import Retrofit.Model.Korisnik;
 import Retrofit.Model.Ljubimac;
-import mpet.project2018.air.database.entities.Korisnik_Table;
-import mpet.project2018.air.database.entities.Ljubimac_Table;
 import mpet.project2018.air.mpet.MainActivity;
 import mpet.project2018.air.mpet.R;
-import mpet.project2018.air.mpet.nfcHelper.NFCHelper;
+import mpet.project2018.air.mpet.nfcHelper.CodeHandlerHelper;
 import mpet.project2018.air.nfc.NFCManager;
 
 
@@ -45,7 +37,7 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
 
     private SkeniranjeNFCKartice.OnFragmentInteractionListener mListener;
     private String Kod;
-    private NFCHelper nfcHelperInstance;
+    private CodeHandlerHelper codeHandlerHelperInstance;
 
     public SkeniranjeNFCKartice() {}
 
@@ -61,7 +53,7 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
 
         View view=inflater.inflate(R.layout.skeniranje_kartice,container,false);
         nfcInstance= new NFCManager(getActivity());
-        nfcHelperInstance=new NFCHelper();
+        codeHandlerHelperInstance =new CodeHandlerHelper();
 
         if (mListener != null) {
             mListener.onFragmentInteraction("Skeniranje");
@@ -79,10 +71,10 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         String uneseniKod= unosKodaField.getText().toString();
         Kod=uneseniKod;
-        if(nfcHelperInstance.checkFormat(uneseniKod))
+        if(codeHandlerHelperInstance.checkFormat(uneseniKod))
         {
             loadData();
-            //nfcReadingStatusOutput(nfcHelperInstance.checkForCode(uneseniKod));
+            //nfcReadingStatusOutput(codeHandlerHelperInstance.checkForCode(uneseniKod));
         }
         else nfcReadingStatusOutput(false);
 
@@ -146,10 +138,10 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
             if (nfcInstance.validateTag(intent)) {
                 String tagCode = nfcInstance.getCodeFromNdefRecord(nfcInstance.getFirstNdefRecord(nfcInstance.getNdefMessageFromIntent(intent)));
                 Kod=tagCode;
-                if(nfcHelperInstance.checkFormat(tagCode))
+                if(codeHandlerHelperInstance.checkFormat(tagCode))
                 {
                     loadData();
-                    //nfcReadingStatusOutput(nfcHelperInstance.checkForCode(tagCode));
+                    //nfcReadingStatusOutput(codeHandlerHelperInstance.checkForCode(tagCode));
                 }
 
             }
@@ -228,7 +220,7 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
 
     @Override
     public void LjubimacOnDataLoaded(List<Ljubimac> listaLjubimaca) {
-        nfcReadingStatusOutput(nfcHelperInstance.checkForCode(listaLjubimaca));
+        nfcReadingStatusOutput(codeHandlerHelperInstance.checkForCode(listaLjubimaca));
     }
 
     /*@Override
