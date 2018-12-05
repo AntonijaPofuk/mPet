@@ -39,5 +39,23 @@
     <string name="gumb_unos_koda">Potvrdi</string>
     <string name="nfc_read_failed">Code reading error</string>
     <string name="nfc_read_ok">Code OK</string>
+
+    <!--gumbi-->
+    <string name="gumbSpremi">Spremi</string>
+    <string name="gumbOdustani">Odustani</string>
+
+    <!--stringovi za registraciju-->
+    <string name="korIme">Korisničko ime</string>
+    <string name="lozinkaReg">Lozinka</string>
+    <string name="ime">Ime</string>
+    <string name="prezime">Prezime</string>
+    <string name="mail">e-mail</string>
+    <string name="adresa">Adresa</string>
+    <string name="tel">Broj telefona</string>
+    <string name="mob">Broj mobitela</string>
+
+    <!--stringovi za novog ljubimca-->
+
+
 </resources>
 
