@@ -81,7 +81,6 @@ public class CodeHandlerHelper extends Fragment implements LjubimacDataLoadedLis
     public Class<MainActivity> getMainActivity()
     {
         return MainActivity.class;
-        
     }
 
     // Metoda za pokretanje zajedničkog fragmenta za prikaz podataka
