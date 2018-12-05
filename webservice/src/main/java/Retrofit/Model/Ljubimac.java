@@ -2,7 +2,9 @@ package Retrofit.Model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Ljubimac {
+import java.io.Serializable;
+
+public class Ljubimac implements Serializable {
     @SerializedName("id_ljubimca")
     public String id_ljubimca;
     @SerializedName("ime")

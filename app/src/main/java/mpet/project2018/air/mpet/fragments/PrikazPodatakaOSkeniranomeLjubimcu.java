@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import Retrofit.Model.Ljubimac;
 import mpet.project2018.air.mpet.R;
 import mpet.project2018.air.nfc.NFCManager;
 
@@ -24,6 +25,8 @@ public class PrikazPodatakaOSkeniranomeLjubimcu extends Fragment implements View
     private TextView ownerEmail;
     private TextView ownerPhone;
     private TextView ownerCell;
+
+    private Ljubimac downloadedPet=null;
 
 
     @Nullable
@@ -39,14 +42,13 @@ public class PrikazPodatakaOSkeniranomeLjubimcu extends Fragment implements View
         ownerPhone=view.findViewById(R.id.KontaktTelefonValue);
         ownerCell=view.findViewById(R.id.KontaktMobitelValue);
 
-        String kod="";
         Bundle bundle=this.getArguments();
         if(bundle!=null)
         {
-            kod=bundle.getString("code");
+            downloadedPet=(Ljubimac) bundle.getSerializable("downloadPet");
         }
 
-        Toast.makeText(getContext(), kod, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), kod, Toast.LENGTH_SHORT).show();
 
         return  view;
     }
