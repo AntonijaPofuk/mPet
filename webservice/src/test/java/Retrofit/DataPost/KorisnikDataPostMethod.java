@@ -53,7 +53,7 @@ public class KorisnikDataPostMethod {
 
         request.setLozinka("1234");
 
-        Call<KorisnikDataResponse> KorisnikResponseCall = api.createKorisnik(request,"https://airprojekt.000webhostapp.com/registracija.php");
+     /*   Call<KorisnikDataResponse> KorisnikResponseCall = api.createKorisnik(request,"https://airprojekt.000webhostapp.com/registracija.php");
 
         KorisnikResponseCall.enqueue(new Callback<KorisnikDataResponse>() {
             @Override
@@ -70,7 +70,7 @@ public class KorisnikDataPostMethod {
             }
         });
 
-
+*/
         return Body[0];
 
     }

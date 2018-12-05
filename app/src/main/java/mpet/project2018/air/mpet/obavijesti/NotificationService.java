@@ -22,6 +22,7 @@ import java.util.List;
 
 import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.SkeniranjeDataLoadedListener;
 import Retrofit.DataGetListenersAndLoaders.DataLoaders.SkeniranjeDataLoader;
+import Retrofit.DataPost.ObavijestiMethod;
 import Retrofit.Model.Skeniranje;
 import mpet.project2018.air.mpet.MainActivity;
 import mpet.project2018.air.mpet.R;
@@ -30,8 +31,8 @@ import static mpet.project2018.air.mpet.obavijesti.CreateNotificationChannel.CHA
 
 public class NotificationService extends Service implements SkeniranjeDataLoadedListener {
 
-    private static boolean firstLoad=false;
     private static List<Skeniranje> listaSkeniranja =new ArrayList<>();
+    private static int delay=60000*15;//svakih tolko milisekundi provjerava ako postoji nova obavijesti
 
     @Override
     public void onCreate() {
@@ -55,26 +56,32 @@ public class NotificationService extends Service implements SkeniranjeDataLoaded
 
         startForeground(1, notification);
 
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //Posao koji se radi svakih 15 minuta
-                //Provjera ako postoji novo skeniranje
-                loadData();
-
-                if(listaSkeniranja.size()!=0){
-                    for (Skeniranje skeniranje: listaSkeniranja) {
-                        if(skeniranje.procitano.contains("0")){
-                            sendNotification("Vaš ljubimac je skeniran! Pritisnite za detalje ...","Datum i vrijeme skeniranja : "+skeniranje.datum+" | "+skeniranje.vrijeme);
+        loadData();//pozivam da se ucita prije handlera
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //Posao koji se radi svakih 15 minuta
+                    //Provjera ako postoji novo skeniranje
+                    loadData();
+                    if (listaSkeniranja.size() != 0) {
+                        for (Skeniranje skeniranje : listaSkeniranja) {
+                            if (skeniranje.procitano.contains("0")) {
+                                sendNotification("Vaš ljubimac je skeniran! Pritisnite za detalje ...", "Datum i vrijeme skeniranja : " + skeniranje.datum + " | " + skeniranje.vrijeme);
+                                try {
+                                    Thread.sleep(1500);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
                         }
-                    }
-                    listaSkeniranja.clear();
-                }
 
-                handler.postDelayed(this, 60000*15);
-            }
-        }, 60000*15);  //delay za obavijesti u milisekundama, promijeniti oboje, oboje moraju biti isti
+                        listaSkeniranja.clear();
+                    }
+
+                    handler.postDelayed(this, delay);
+                }
+            }, delay);  //delay za obavijesti u milisekundama, promijeniti oboje, oboje moraju biti isti
 
         return START_STICKY;
     }
@@ -135,12 +142,13 @@ public class NotificationService extends Service implements SkeniranjeDataLoaded
     public void loadData(){
         SkeniranjeDataLoader skeniranjeDataLoader=new SkeniranjeDataLoader(this);
         skeniranjeDataLoader.loadDataByUserId("198");//Testni ID
-
     }
 
 
     @Override
     public void SkeniranjeOnDataLoaded(List<Skeniranje> listaSkeniranjaPreuzeta) {
+        ObavijestiMethod postNaObavijesti=new ObavijestiMethod();
+        postNaObavijesti.Upload("198"); //id prijavljenog korisnika ide tu
         listaSkeniranja.addAll(listaSkeniranjaPreuzeta);
     }
 }
