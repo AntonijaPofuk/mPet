@@ -1,6 +1,5 @@
-package mpet.project2018.air.mpet.nfcHelper;
+package mpet.project2018.air.mpet.CodeHelper;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,11 +11,12 @@ import java.util.List;
 import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.LjubimacDataLoadedListener;
 import Retrofit.DataGetListenersAndLoaders.DataLoaders.LjubimacDataLoader;
 import Retrofit.Model.Ljubimac;
+import mpet.project2018.air.core.ModuleCommonMethods;
 import mpet.project2018.air.mpet.MainActivity;
 import mpet.project2018.air.mpet.R;
 import mpet.project2018.air.mpet.fragments.PrikazPodatakaOSkeniranomeLjubimcu;
 
-public class CodeHandlerHelper extends Fragment implements LjubimacDataLoadedListener, Serializable
+public class CodeHandlerHelper extends Fragment implements LjubimacDataLoadedListener, Serializable, ModuleCommonMethods
 {
 
     private Ljubimac dohvaceniLjubimac;
@@ -78,7 +78,7 @@ public class CodeHandlerHelper extends Fragment implements LjubimacDataLoadedLis
     }
 
     // Metoda koja vraća instancu Main aktivnosti
-    public Class<MainActivity> getMainActivity()
+    public Class getContainerActivity()
     {
         return MainActivity.class;
     }

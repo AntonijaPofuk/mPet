@@ -26,9 +26,8 @@ import java.util.List;
 import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.LjubimacDataLoadedListener;
 import Retrofit.DataGetListenersAndLoaders.DataLoaders.LjubimacDataLoader;
 import Retrofit.Model.Ljubimac;
-import mpet.project2018.air.mpet.MainActivity;
 import mpet.project2018.air.mpet.R;
-import mpet.project2018.air.mpet.nfcHelper.CodeHandlerHelper;
+import mpet.project2018.air.mpet.CodeHelper.CodeHandlerHelper;
 import mpet.project2018.air.nfc.NFCManager;
 
 
@@ -93,7 +92,7 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
     @Override
     public void onResume() {
         super.onResume();
-        Intent intent1 = new Intent(getActivity(), MainActivity.class).addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
+        Intent intent1 = new Intent(getActivity(), codeHandlerHelperInstance.getContainerActivity()).addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
         PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), 0, intent1, 0);
         IntentFilter[] intentFilter = new IntentFilter[] { };
 
