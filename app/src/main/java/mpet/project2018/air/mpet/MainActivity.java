@@ -3,6 +3,7 @@ package mpet.project2018.air.mpet;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -14,12 +15,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import mpet.project2018.air.database.MainDatabase;
+import mpet.project2018.air.mpet.CodeHelper.CodeHandlerHelper;
 import mpet.project2018.air.mpet.fragments.Pocetna;
 import mpet.project2018.air.mpet.fragments.Pocetna_neulogirani;
 import mpet.project2018.air.mpet.fragments.Registracija;
 import mpet.project2018.air.mpet.fragments.SkeniranjeNFCKartice;
 import mpet.project2018.air.mpet.prijava.Login;
 import mpet.project2018.air.mpet.prijava.LoginActivity;
+import mpet.project2018.air.nfc.SkeniranjeNFCFragment;
 
 
 public class MainActivity extends AppCompatActivity
@@ -48,10 +51,11 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_frag1);         //Provjera prvog elementa u draweru
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();             //otvaranje fragmenta
-        ft.replace(R.id.mainFrame, new Pocetna_neulogirani());
-        ft.commit();
+        //FragmentTransaction ft = getSupportFragmentManager().beginTransaction();             //otvaranje fragmenta
+        //ft.replace(R.id.mainFrame, new Pocetna_neulogirani());
+        //ft.commit();
 
+        reg();
 
 
         //---------------------------------------------------------------
@@ -59,13 +63,15 @@ public class MainActivity extends AppCompatActivity
         //--------------------------------------------------------------
 
     }
-    /*private void reg(){
-        SkeniranjeNFCKartice mDiscountListFragment = new SkeniranjeNFCKartice();
+    private void reg(){
+        CodeHandlerHelper novaInstancaProba=new CodeHandlerHelper();
+        SkeniranjeNFCFragment mDiscountListFragment = new SkeniranjeNFCFragment(novaInstancaProba);
+        novaInstancaProba.setFragment(mDiscountListFragment);
         FragmentManager mFragmentManager = getSupportFragmentManager();
         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.mainFrame, mDiscountListFragment);
         mFragmentTransaction.commit();
-    }*/
+    }
 
         @Override
         public void onBackPressed() {

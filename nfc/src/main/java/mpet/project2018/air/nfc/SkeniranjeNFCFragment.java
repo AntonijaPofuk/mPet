@@ -91,6 +91,7 @@ public class SkeniranjeNFCFragment extends Fragment implements ModuleImplementat
                 Kod=tagCode;
                 //if(codeHandlerHelperInstance.checkFormat(tagCode))
                 Toast.makeText(getContext(), tagCode, Toast.LENGTH_SHORT).show();
+                validateCode();
                 //{
 
                     //nfcReadingStatusOutput(codeHandlerHelperInstance.checkForCode(tagCode));
@@ -110,12 +111,14 @@ public class SkeniranjeNFCFragment extends Fragment implements ModuleImplementat
 
     @Override
     public void validateCode() {
-
+        commonMethodsInstance.validateCode(Kod);
     }
 
     @Override
     public void outputValidationStatus(boolean validationStatus) {
 
+        if(!validationStatus) Toast.makeText(getContext(), "Krivi format", Toast.LENGTH_SHORT).show();
+        else Toast.makeText(getContext(), "Dobar format", Toast.LENGTH_SHORT).show();
     }
 
     @Override

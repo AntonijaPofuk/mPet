@@ -12,16 +12,24 @@ import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.LjubimacDataLoade
 import Retrofit.DataGetListenersAndLoaders.DataLoaders.LjubimacDataLoader;
 import Retrofit.Model.Ljubimac;
 import mpet.project2018.air.core.ModuleCommonMethods;
+import mpet.project2018.air.core.ModuleImplementationMethods;
 import mpet.project2018.air.mpet.MainActivity;
 import mpet.project2018.air.mpet.R;
 import mpet.project2018.air.mpet.fragments.PrikazPodatakaOSkeniranomeLjubimcu;
+import mpet.project2018.air.nfc.SkeniranjeNFCFragment;
 
 public class CodeHandlerHelper extends Fragment implements LjubimacDataLoadedListener, Serializable, ModuleCommonMethods
 {
 
     private Ljubimac dohvaceniLjubimac;
+    private ModuleImplementationMethods modul;
 
-    // Metoda koja provjerava da li je uneseni ili skenirani kod u odgovvarajućem formatu
+    public void setFragment(ModuleImplementationMethods modul)
+    {
+        this.modul=modul;
+    }
+
+    // Metoda koja provjerava da li je uneseni ili skenirani kod u odgovarajućem formatu
     public boolean checkFormat(String code )
     {
         String tagContent = code;
@@ -51,12 +59,15 @@ public class CodeHandlerHelper extends Fragment implements LjubimacDataLoadedLis
     {
         if(checkFormat(codeToValidate))
         {
-            LjubimacDataLoader dataLoader=new LjubimacDataLoader(this);
-            dataLoader.loadDataByTag(codeToValidate);
+            //LjubimacDataLoader dataLoader=new LjubimacDataLoader(this);
+            //dataLoader.loadDataByTag(codeToValidate);
+
+            modul.outputValidationStatus(true);
         }
 
         else
         {
+            modul.outputValidationStatus(false);
             // pozovi metodu za ispis poruke statusa s false
         }
     }
