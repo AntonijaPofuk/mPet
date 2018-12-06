@@ -16,6 +16,10 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 
+import com.raizlabs.android.dbflow.config.FlowManager;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,7 +36,8 @@ import static mpet.project2018.air.mpet.obavijesti.CreateNotificationChannel.CHA
 public class NotificationService extends Service implements SkeniranjeDataLoadedListener {
 
     private static List<Skeniranje> listaSkeniranja =new ArrayList<>();
-    private static int delay=60000*15;//svakih tolko milisekundi provjerava ako postoji nova obavijesti
+    private static int delay=5000;//svakih tolko milisekundi provjerava ako postoji nova obavijesti
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
     @Override
     public void onCreate() {
@@ -67,7 +72,18 @@ public class NotificationService extends Service implements SkeniranjeDataLoaded
                     if (listaSkeniranja.size() != 0) {
                         for (Skeniranje skeniranje : listaSkeniranja) {
                             if (skeniranje.procitano.contains("0")) {
-                                sendNotification("Vaš ljubimac je skeniran! Pritisnite za detalje ...", "Datum i vrijeme skeniranja : " + skeniranje.datum + " | " + skeniranje.vrijeme);
+                                sendNotification("Vaš ljubimac je skeniran! Pritisnite za detalje ...", "Datum i vrijeme skeniranja : " + skeniranje.datum + " | " + skeniranje.vrijeme,skeniranje.id_skeniranja);
+                             /*   mpet.project2018.air.database.entities.Skeniranje lokalnaBazaSkeniranje=new mpet.project2018.air.database.entities.Skeniranje();
+                                Date datum=null;
+                                try {
+                                    datum=format.parse(skeniranje.datum);
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                lokalnaBazaSkeniranje.setDatum(datum);
+                                lokalnaBazaSkeniranje.setId_skeniranja(Integer.parseInt(skeniranje.id_skeniranja));
+                                lokalnaBazaSkeniranje.setKartica(skeniranje.kartica);*/
+
                                 try {
                                     Thread.sleep(1500);
                                 } catch (InterruptedException e) {
@@ -98,11 +114,12 @@ public class NotificationService extends Service implements SkeniranjeDataLoaded
     }
 
     //funkcija za slanje obavijesti na desktop
-    private void sendNotification(String title, String message) {
+    private void sendNotification(String title, String message,String idSkeniranja) {
         Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("idSkeniranja",idSkeniranja);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,Integer.parseInt(idSkeniranja), intent,
                 PendingIntent.FLAG_ONE_SHOT);
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         int icon = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? R.drawable.ic_launcher_background : R.mipmap.ic_launcher;

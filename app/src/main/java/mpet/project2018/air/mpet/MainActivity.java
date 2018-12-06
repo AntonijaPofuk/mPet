@@ -3,6 +3,7 @@ package mpet.project2018.air.mpet;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -18,6 +19,7 @@ import android.view.View;
 import mpet.project2018.air.database.MainDatabase;
 import mpet.project2018.air.mpet.fragments.Pocetna;
 import mpet.project2018.air.mpet.fragments.Pocetna_neulogirani;
+import mpet.project2018.air.mpet.fragments.PrikazObavijestiDetaljno;
 import mpet.project2018.air.mpet.fragments.Registracija;
 import mpet.project2018.air.mpet.fragments.SkeniranjeNFCKartice;
 import mpet.project2018.air.mpet.obavijesti.NotificationService;
@@ -33,7 +35,8 @@ public class MainActivity extends AppCompatActivity
         Registracija.OnFragmentInteractionListener,
         Login.OnFragmentInteractionListener,
         SkeniranjeNFCKartice.OnFragmentInteractionListener,
-        NavigationView.OnNavigationItemSelectedListener
+        NavigationView.OnNavigationItemSelectedListener,
+        PrikazObavijestiDetaljno.OnFragmentInteractionListener
         //TODO: dodaj novi fragment ovdje uvijek a na početku fragmenta implementiraj mlistenere
 
 {
@@ -43,6 +46,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         startService();//Pokretanje servisa za obavijesti
+        getObavijestiIntent();//dohvaćanje intenta za detaljne obavijesti
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -133,7 +137,6 @@ public class MainActivity extends AppCompatActivity
     protected void onNewIntent(Intent intent) {
         setIntent(intent);
         super.onNewIntent(intent);
-
     }
 //za login
     private String getLoginEmailAddress(){
@@ -149,8 +152,26 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+        getObavijestiIntent();//dohvaćanje intenta za detaljne obavijesti
+    }
 
+    //dohvaćanje intenta od obavijesti
+    private void getObavijestiIntent(){
+            String idSken="";
+            Intent mIntent=getIntent();
+            if(mIntent.hasExtra("idSkeniranja")) {
+                idSken = mIntent.getStringExtra("idSkeniranja");
+                //otvoriti fragment za detalje skeniranja s narednim id-em
+                if (idSken != "") {
+                    //otvaranje fragmenta
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    PrikazObavijestiDetaljno fragmentObavijestiDetaljno = new PrikazObavijestiDetaljno();
+                    fragmentTransaction.replace(R.id.mainFrame, fragmentObavijestiDetaljno);
+                    fragmentTransaction.commit();
+                }
 
+            }
 
     }
 
