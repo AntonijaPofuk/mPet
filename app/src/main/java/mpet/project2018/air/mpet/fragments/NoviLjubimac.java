@@ -30,6 +30,7 @@ import mpet.project2018.air.mpet.R;
 import static android.app.Activity.RESULT_OK;
 
 public class NoviLjubimac extends Fragment {
+    private String ID_KORISNIKA;
     private OnFragmentInteractionListener mListener;
     /*upload slike*/
     private static int RESULT_LOAD_IMAGE = 1;
@@ -38,7 +39,23 @@ public class NoviLjubimac extends Fragment {
     private Bitmap bit=null;
     private String slika=null;
 
-    public NoviLjubimac(){};
+    //public NoviLjubimac(){};
+
+    public static NoviLjubimac newInstance(String id) {
+        Bundle bundle = new Bundle();
+        bundle.putString("ID_KORISNIKA", id);
+
+        NoviLjubimac fragment = new NoviLjubimac();
+        fragment.setArguments(bundle);
+
+        return fragment;
+    }
+
+    private void readBundle(Bundle bundle) {
+        if (bundle != null) {
+            ID_KORISNIKA = bundle.getString("ID_KORISNIKA");
+        }
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -95,7 +112,7 @@ public class NoviLjubimac extends Fragment {
                 String opis= opisEdit.getText().toString();
                 String kartica="DEFAULT";
                 String vlasnik="DEFAULT";
-                //String vlasnik=dohvatiVlasnika();
+                //String vlasnik=ID_KORISNIKA;
 
                 /**/
                 if(bit!=null){
@@ -107,11 +124,15 @@ public class NoviLjubimac extends Fragment {
                             Toast.LENGTH_LONG).show();
                 }
                 else{
+                    if(TextUtils.isEmpty(opis)){
+                        opis="DEFAULT";
+                    }
+                    if(LjubimacPodaciMethod.Upload(ime, godina, masa, vrsta, spol, opis, "/", vlasnik, kartica, slika)!="greska"){
+                        swapFragment();
+                        Toast.makeText(getActivity(), "Upisali ste ljubimca :)",
+                                Toast.LENGTH_LONG).show();
+                    }
 
-                    LjubimacPodaciMethod.Upload(ime, godina, masa, vrsta, spol, opis, "/", vlasnik, kartica, slika);
-                    swapFragment();
-                    Toast.makeText(getActivity(), "Upisali ste ljubimca :)",
-                            Toast.LENGTH_LONG).show();
                 }
 
             }
