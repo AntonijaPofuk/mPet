@@ -25,11 +25,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import Retrofit.DataPost.LjubimacPodaciMethod;
+import Retrofit.RemotePost.StatusListener;
 import mpet.project2018.air.mpet.R;
 
 import static android.app.Activity.RESULT_OK;
 
-public class NoviLjubimac extends Fragment {
+public class NoviLjubimac extends Fragment implements StatusListener {
+
     private String ID_KORISNIKA;
     private OnFragmentInteractionListener mListener;
     /*upload slike*/
@@ -38,6 +40,9 @@ public class NoviLjubimac extends Fragment {
     private ImageButton imageButton;
     private Bitmap bit=null;
     private String slika=null;
+
+    private String status;
+    private LjubimacPodaciMethod method=new LjubimacPodaciMethod(this);
 
     //public NoviLjubimac(){};
 
@@ -93,10 +98,19 @@ public class NoviLjubimac extends Fragment {
                 String ime= imeEdit.getText().toString();
                 EditText godinaEdit = (EditText)view.findViewById(R.id.txtGodina);
                 String godina= godinaEdit.getText().toString();
+                if(TextUtils.isEmpty(godina)){
+                    godina="DEFAULT";
+                }
                 EditText masaEdit = (EditText)view.findViewById(R.id.txtMasa);
                 String masa= masaEdit.getText().toString();
+                if(TextUtils.isEmpty(masa)){
+                    masa="DEFAULT";
+                }
                 EditText vrstaEdit = (EditText)view.findViewById(R.id.txtVrsta);
                 String vrsta= vrstaEdit.getText().toString();
+                if(TextUtils.isEmpty(vrsta)){
+                    vrsta="DEFAULT";
+                }
 
                 Spinner spolSpin = (Spinner) view.findViewById(R.id.spinnerSpol);
                 String spin=(String) spolSpin.getSelectedItem();
@@ -110,10 +124,14 @@ public class NoviLjubimac extends Fragment {
 
                 EditText opisEdit = (EditText)view.findViewById(R.id.txtOpis);
                 String opis= opisEdit.getText().toString();
+                if(TextUtils.isEmpty(opis)){
+                    opis="DEFAULT";
+                }
                 String kartica="DEFAULT";
                 String vlasnik="DEFAULT";
                 //String vlasnik=ID_KORISNIKA;
 
+                String provjera=null;
                 /**/
                 if(bit!=null){
                     slika = BitmapTOString(bit);
@@ -124,14 +142,8 @@ public class NoviLjubimac extends Fragment {
                             Toast.LENGTH_LONG).show();
                 }
                 else{
-                    if(TextUtils.isEmpty(opis)){
-                        opis="DEFAULT";
-                    }
-                    if(LjubimacPodaciMethod.Upload(ime, godina, masa, vrsta, spol, opis, "/", vlasnik, kartica, slika)!="greska"){
-                        swapFragment();
-                        Toast.makeText(getActivity(), "Upisali ste ljubimca :)",
-                                Toast.LENGTH_LONG).show();
-                    }
+
+                    method.Upload(ime, godina, masa, vrsta, spol, opis, "/", vlasnik, kartica, slika);
 
                 }
 
@@ -197,6 +209,23 @@ public class NoviLjubimac extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onStatusChanged(String s) {
+        status=s;
+
+        if(s.equals("greska")){
+            swapFragment();
+            Toast.makeText(getActivity(), "Ups, greška :(",
+                    Toast.LENGTH_LONG).show();
+        }
+        else{
+            swapFragment();
+            Toast.makeText(getActivity(), "Upisali ste ljubimca :)",
+                    Toast.LENGTH_LONG).show();
+        }
+
     }
 
     public interface OnFragmentInteractionListener {

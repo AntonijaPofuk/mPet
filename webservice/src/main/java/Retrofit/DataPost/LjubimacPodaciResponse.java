@@ -4,9 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class LjubimacPodaciResponse {
     @SerializedName("id")
-    String LjubimacID="";
+    String id;
 
     public String getLjubimacID() {
-        return LjubimacID;
+        return id;
     }
 }

@@ -7,6 +7,7 @@ import android.widget.EditText;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import Retrofit.RemotePost.StatusListener;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -14,9 +15,16 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import Retrofit.RemotePost.LjubimacPodaciService;
 public class LjubimacPodaciMethod {
-    public static String Upload(String ime, String godina, String masa, String vrsta, String spol, String opis, String url_slike, String vlasnik, String kartica, String slika) {
 
-        final String[] Body = new String[1];
+    public static StatusListener listener;
+
+    public LjubimacPodaciMethod(StatusListener statusListener){
+        this.listener=statusListener;
+    }
+
+    public static void Upload(String ime, String godina, String masa, String vrsta, String spol, String opis, String url_slike, String vlasnik, String kartica, String slika) {
+
+        final LjubimacPodaciResponse body = new LjubimacPodaciResponse();
 
         Gson gson = new GsonBuilder()
                 .setLenient()
@@ -62,8 +70,9 @@ public class LjubimacPodaciMethod {
             @Override
             public void onResponse(Call<LjubimacPodaciResponse> call, Response<LjubimacPodaciResponse> response) {
 
-                LjubimacPodaciResponse body = response.body();
-                Body[0]=body.LjubimacID;
+                LjubimacPodaciResponse resp=response.body();
+                body.id= resp.id;
+                listener.onStatusChanged(body.id);
 
             }
 
@@ -72,9 +81,6 @@ public class LjubimacPodaciMethod {
                 t.printStackTrace();
             }
         });
-
-
-        return Body[0];
 
     }
 
