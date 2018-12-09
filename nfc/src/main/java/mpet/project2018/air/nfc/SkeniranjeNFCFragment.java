@@ -127,8 +127,8 @@ public class SkeniranjeNFCFragment extends Fragment implements ModuleImplementat
     @Override
     public void outputValidationStatus(boolean validationStatus) {
 
-        if(validationStatus)alertingMessage( getResources().getString(R.string.codeStatusOK),R.drawable.success_message,validationStatus);
-        else alertingMessage(getResources().getString(R.string.codeStatusNotOK),R.drawable.fail_message,validationStatus);
+        if(validationStatus)alertingMessage( getResources().getString(mpet.project2018.air.core.R.string.codeStatusOK), mpet.project2018.air.core.R.drawable.success_message,validationStatus);
+        else alertingMessage(getResources().getString(mpet.project2018.air.core.R.string.codeStatusNotOK), mpet.project2018.air.core.R.drawable.fail_message,validationStatus);
     }
 
     @Override
