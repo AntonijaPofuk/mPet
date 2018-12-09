@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="162dp"
-        android:layout_height="127dp"
+        android:layout_height="136dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="12dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,7 +24,10 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="232dp"
         android:text="Ime ljubimca"
+        android:textAlignment="viewStart"
+        android:textColor="@color/colorAccent"
         android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,11 +36,13 @@
     <TextView
         android:id="@+id/PetOpisValue"
         android:layout_width="168dp"
-        android:layout_height="126dp"
+        android:layout_height="70dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="8dp"
+        android:inputType="textMultiLine"
         android:text="opis opis opis opisss"
+        android:textAlignment="viewStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.428"
         app:layout_constraintStart_toEndOf="@+id/imageView2"
@@ -171,5 +176,51 @@
         app:layout_constraintHorizontal_bias="0.408"
         app:layout_constraintStart_toEndOf="@+id/textView8"
         app:layout_constraintTop_toBottomOf="@+id/KontaktTelefonValue" />
+
+    <TextView
+        android:id="@+id/PetVrstaLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:text="Vrsta"
+        app:layout_constraintStart_toEndOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/PetOpisValue" />
+
+    <TextView
+        android:id="@+id/PetYearsLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:text="Godine"
+        app:layout_constraintStart_toEndOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/PetVrstaLabel" />
+
+    <TextView
+        android:id="@+id/PetSpInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:text="TextView"
+        android:textAlignment="viewStart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.279"
+        app:layout_constraintStart_toEndOf="@+id/PetVrstaLabel"
+        app:layout_constraintTop_toBottomOf="@+id/PetOpisValue" />
+
+    <TextView
+        android:id="@+id/PetYInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
+        android:text="TextView"
+        android:textAlignment="viewStart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.184"
+        app:layout_constraintStart_toEndOf="@+id/PetYearsLabel"
+        app:layout_constraintTop_toBottomOf="@+id/PetSpInput" />
 
 </android.support.constraint.ConstraintLayout>

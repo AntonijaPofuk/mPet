@@ -23,15 +23,15 @@ public class Ljubimac implements Serializable {
     public String url_slike;
     @SerializedName("kartica")
     public String kartica;
-    @SerializedName("korisnik")
-    public String korisnik ;
+    @SerializedName("vlasnik")
+    public String vlasnik ;
 
-    public String getKorisnik() {
-        return korisnik;
+    public String getVlasnik() {
+        return vlasnik;
     }
 
-    public void setKorisnik(String korisnik) {
-        this.korisnik = korisnik;
+    public void setVlasnik(String vlasnik) {
+        this.vlasnik = vlasnik;
     }
 
     public String getId_ljubimca() {
