@@ -47,6 +47,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import Retrofit.DataPost.RegistracijaMethod;
+import Retrofit.RemotePost.StatusListener;
 import mpet.project2018.air.mpet.R;
 
 import Retrofit.DataPost.RegistracijaMethod;
@@ -54,13 +55,16 @@ import mpet.project2018.air.mpet.R;
 
 import static android.app.Activity.RESULT_OK;
 
-public class Registracija extends Fragment {
+public class Registracija extends Fragment implements StatusListener {
     private OnFragmentInteractionListener mListener;
     private static int RESULT_LOAD_IMAGE = 1;
     private final int PICK_IMAGE_REQUEST = 71;
     private ImageButton imageButton;
     private Bitmap bit=null;
     private String slika=null;
+
+    private String status;
+    private RegistracijaMethod method=new RegistracijaMethod(this);
 
     public Registracija() {}
     @Override
@@ -108,14 +112,26 @@ public class Registracija extends Fragment {
                                                 String korIme=korisnickoEdit.getText().toString();
                                                 EditText adresaEdit = (EditText)view.findViewById(R.id.unosAdresa);
                                                 String adresa=adresaEdit.getText().toString();
+                                                if(TextUtils.isEmpty(adresa)){
+                                                    adresa="DEFAULT";
+                                                }
                                                 EditText mailEdit = (EditText)view.findViewById(R.id.unosMail);
                                                 String mail=mailEdit.getText().toString();
                                                 EditText telefonEdit = (EditText)view.findViewById(R.id.unosTelefon);
                                                 String telefon=telefonEdit.getText().toString();
+                                                if(TextUtils.isEmpty(telefon)){
+                                                    telefon="DEFAULT";
+                                                }
                                                 EditText mobitelEdit = (EditText)view.findViewById(R.id.unosMobitel);
                                                 String mobitel=mobitelEdit.getText().toString();
+                                                if(TextUtils.isEmpty(mobitel)){
+                                                    mobitel="DEFAULT";
+                                                }
                                                 EditText lozinkaEdit = (EditText)view.findViewById(R.id.unosLozinka);
                                                 String lozinka=lozinkaEdit.getText().toString();
+
+                                                String provjera=null;
+
                                                 /**/
                                                 if(bit!=null){
                                                     slika = BitmapTOString(bit);
@@ -128,10 +144,9 @@ public class Registracija extends Fragment {
                                                             Toast.LENGTH_LONG).show();
                                                 }
                                                 else{
-                                                    RegistracijaMethod.Upload(ime, prezime, korIme, adresa, mail, mobitel, telefon, lozinka, slika);
-                                                    swapFragment();
-                                                    Toast.makeText(getActivity(), "Registrirali ste se",
-                                                            Toast.LENGTH_LONG).show();
+
+                                                    method.Upload(ime, prezime, korIme, adresa, mail, mobitel, telefon, lozinka, slika);
+
                                                 }
                                             }
                                         }
@@ -208,6 +223,31 @@ public class Registracija extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+
+    @Override
+    public void onStatusChanged(String s) {
+        status=s;
+
+        if(s.equals("duplikat")) {
+            Toast.makeText(getActivity(), "Korisničko ime postoji",
+                    Toast.LENGTH_LONG).show();
+        }
+        else {
+            if (s.equals("greska")) {
+                swapFragment();
+                Toast.makeText(getActivity(), "Ups, greška :(",
+                        Toast.LENGTH_LONG).show();
+            }
+            else{
+                swapFragment();
+                Toast.makeText(getActivity(), "Registrirali ste se :)",
+                        Toast.LENGTH_LONG).show();
+            }
+        }
+
+
     }
 
     public interface OnFragmentInteractionListener {

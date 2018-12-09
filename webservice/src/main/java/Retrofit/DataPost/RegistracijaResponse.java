@@ -5,9 +5,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class RegistracijaResponse {
     @SerializedName("id")
-    String KorisnikID="";
+    String id;
 
     public String getKorisnikID() {
-        return KorisnikID;
+        return id;
     }
 }

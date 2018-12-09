@@ -7,6 +7,7 @@ import android.widget.EditText;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import Retrofit.RemotePost.StatusListener;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -14,9 +15,16 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import Retrofit.RemotePost.KorisnikService;
 public class RegistracijaMethod {
-    public static String Upload(String ime, String prezime, String korIme, String adresa, String email, String mobitel, String telefon, String lozinka, String slika) {
 
-        final String[] Body = new String[1];
+    public static StatusListener listener;
+
+    public RegistracijaMethod(StatusListener statusListener){
+        this.listener=statusListener;
+    }
+
+    public static void Upload(String ime, String prezime, String korIme, String adresa, String email, String mobitel, String telefon, String lozinka, String slika) {
+
+        final RegistracijaResponse body = new RegistracijaResponse();
 
         Gson gson = new GsonBuilder()
                 .setLenient()
@@ -62,8 +70,9 @@ public class RegistracijaMethod {
             @Override
             public void onResponse(Call<RegistracijaResponse> call, Response<RegistracijaResponse> response) {
 
-                RegistracijaResponse body = response.body();
-                Body[0]=body.KorisnikID;
+                RegistracijaResponse resp=response.body();
+                body.id= resp.id;
+                listener.onStatusChanged(body.id);
 
             }
 
@@ -72,9 +81,6 @@ public class RegistracijaMethod {
                 t.printStackTrace();
             }
         });
-
-
-        return Body[0];
 
     }
 
