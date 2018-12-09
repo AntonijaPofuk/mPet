@@ -2,6 +2,7 @@ package mpet.project2018.air.mpet.CodeHelper;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
@@ -18,21 +19,15 @@ import mpet.project2018.air.mpet.R;
 import mpet.project2018.air.mpet.fragments.PrikazPodatakaOSkeniranomeLjubimcu;
 import mpet.project2018.air.nfc.SkeniranjeNFCFragment;
 
-public class CodeHandlerHelper extends Fragment implements LjubimacDataLoadedListener, Serializable, ModuleCommonMethods
+public class CodeHandlerHelper extends Fragment implements Serializable, ModuleCommonMethods
 {
 
-    private Ljubimac dohvaceniLjubimac;
-    private ModuleImplementationMethods modul;
-
-    public void setFragment(ModuleImplementationMethods modul)
-    {
-        this.modul=modul;
-    }
 
     // Metoda koja provjerava da li je uneseni ili skenirani kod u odgovarajućem formatu
-    public boolean checkFormat(String code )
+    public boolean validateCodeFormat(String code )
     {
         String tagContent = code;
+
         if(tagContent.length()==10 && tagContent.matches(("[A-Za-z0-9]+")))
         {
             return true;
@@ -43,51 +38,6 @@ public class CodeHandlerHelper extends Fragment implements LjubimacDataLoadedLis
         }
     }
 
-    // Metoda koja provjerava postoji li u bazi podataka ljubimac s danim kodom
-    public boolean checkForCode(List<Ljubimac> listaLjubimaca)
-    {
-    if(listaLjubimaca.isEmpty()) return false;
-        else
-    {
-        dohvaceniLjubimac=listaLjubimaca.get(0);
-        return true;
-    }
-    }
-
-    // Metoda koja provjerava ispravnost koda
-    public void validateCode(String codeToValidate)
-    {
-        if(checkFormat(codeToValidate))
-        {
-            //LjubimacDataLoader dataLoader=new LjubimacDataLoader(this);
-            //dataLoader.loadDataByTag(codeToValidate);
-
-            modul.outputValidationStatus(true);
-        }
-
-        else
-        {
-            modul.outputValidationStatus(false);
-            // pozovi metodu za ispis poruke statusa s false
-        }
-    }
-
-    // Metoda koja se izvodi kod dohvata podataka pomoću web servisa
-    @Override
-    public void LjubimacOnDataLoaded(List<Ljubimac> listaLjubimaca) {
-
-        if(checkForCode(listaLjubimaca))
-        {
-            // pozovi metodu za ispis poruke statusa s true
-        }
-
-        else
-        {
-            // pozovi metodu za ispis poruke statusa s false
-        }
-
-    }
-
     // Metoda koja vraća instancu Main aktivnosti
     public Class getContainerActivity()
     {
@@ -95,10 +45,10 @@ public class CodeHandlerHelper extends Fragment implements LjubimacDataLoadedLis
     }
 
     // Metoda za pokretanje zajedničkog fragmenta za prikaz podataka
-    public void showPetDataFragment()
+    public void showPetDataFragment(FragmentActivity nowActivity, Ljubimac gotLjubimac)
     {
         Bundle bundle=new Bundle();
-        bundle.putSerializable("downloadPet",dohvaceniLjubimac);
+        bundle.putSerializable("downloadPet",gotLjubimac);
         PrikazPodatakaOSkeniranomeLjubimcu mDiscountListFragment = new PrikazPodatakaOSkeniranomeLjubimcu();
         mDiscountListFragment.setArguments(bundle);
         FragmentManager mFragmentManager = getFragmentManager();

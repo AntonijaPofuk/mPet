@@ -1,4 +1,4 @@
-package mpet.project2018.air.nfc;
+package mpet.project2018.air.manualinput.;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -26,19 +26,17 @@ import Retrofit.Model.Ljubimac;
 import mpet.project2018.air.core.ModuleCommonMethods;
 import mpet.project2018.air.core.ModuleImplementationMethods;
 
-public class SkeniranjeNFCFragment extends Fragment implements ModuleImplementationMethods, LjubimacDataLoadedListener {
+@SuppressLint("ValidFragment")
+public class ManualInputFragment extends Fragment implements ModuleImplementationMethods, LjubimacDataLoadedListener {
 
-    public SkeniranjeNFCFragment() {
-    }
 
     @SuppressLint("ValidFragment")
-    public SkeniranjeNFCFragment(ModuleCommonMethods supportClass)
+    public ManualInputFragment(ModuleCommonMethods supportClass)
     {
         commonMethodsInstance=supportClass;
     }
 
     private ModuleCommonMethods commonMethodsInstance;
-    private NFCManager nfcInstance;
     private Ljubimac loadedPet;
 
     @Nullable

@@ -70,12 +70,12 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         String uneseniKod= unosKodaField.getText().toString();
         Kod=uneseniKod;
-        if(codeHandlerHelperInstance.checkFormat(uneseniKod))
+       // if(codeHandlerHelperInstance.checkFormat(uneseniKod))
         {
             loadData();
             //nfcReadingStatusOutput(codeHandlerHelperInstance.checkForCode(uneseniKod));
         }
-        else nfcReadingStatusOutput(false);
+        //else nfcReadingStatusOutput(false);
 
     }
 
@@ -137,7 +137,7 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
             if (nfcInstance.validateTag(intent)) {
                 String tagCode = nfcInstance.getCodeFromNdefRecord(nfcInstance.getFirstNdefRecord(nfcInstance.getNdefMessageFromIntent(intent)));
                 Kod=tagCode;
-                if(codeHandlerHelperInstance.checkFormat(tagCode))
+               // if(codeHandlerHelperInstance.checkFormat(tagCode))
                 {
                     loadData();
                     //nfcReadingStatusOutput(codeHandlerHelperInstance.checkForCode(tagCode));
@@ -219,7 +219,7 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
 
     @Override
     public void LjubimacOnDataLoaded(List<Ljubimac> listaLjubimaca) {
-        nfcReadingStatusOutput(codeHandlerHelperInstance.checkForCode(listaLjubimaca));
+       // nfcReadingStatusOutput(codeHandlerHelperInstance.checkForCode(listaLjubimaca));
     }
 
     /*@Override
