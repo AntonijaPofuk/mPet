@@ -20,7 +20,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Korisničko ime"
-        android:layout_alignRight="@+id/editText"
+        android:layout_alignRight="@+id/unesiKodEditText"
         android:layout_marginRight="0dp" />
 
     <EditText
@@ -42,7 +42,7 @@
         android:id="@+id/editText4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editText"
+        android:layout_alignLeft="@+id/unesiKodEditText"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="-1dp"
         android:layout_marginTop="174dp"
@@ -57,7 +57,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="96dp"
         android:text="PRIHVATI"
-        android:layout_alignLeft="@+id/editText"
+        android:layout_alignLeft="@+id/unesiKodEditText"
         android:layout_marginLeft="-1dp" />
 
     <Button
@@ -67,7 +67,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="95dp"
         android:text="ODBIJ"
-        android:layout_alignLeft="@+id/editText"
+        android:layout_alignLeft="@+id/unesiKodEditText"
         android:layout_marginLeft="113dp" />
 
 
