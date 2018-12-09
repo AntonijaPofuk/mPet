@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity
     }
     private void reg(){
         CodeHandlerHelper novaInstancaProba=new CodeHandlerHelper();
-        ManualInputFragment mDiscountListFragment = new ManualInputFragment(novaInstancaProba);
+        SkeniranjeNFCFragment mDiscountListFragment = new SkeniranjeNFCFragment(novaInstancaProba);
         FragmentManager mFragmentManager = getSupportFragmentManager();
         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.mainFrame, mDiscountListFragment);

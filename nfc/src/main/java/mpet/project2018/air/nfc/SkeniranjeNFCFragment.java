@@ -3,9 +3,12 @@ package mpet.project2018.air.nfc;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.nfc.NfcAdapter;
 import android.nfc.NfcManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,6 +19,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -40,6 +44,7 @@ public class SkeniranjeNFCFragment extends Fragment implements ModuleImplementat
     private ModuleCommonMethods commonMethodsInstance;
     private NFCManager nfcInstance;
     private Ljubimac loadedPet;
+    private TextView nfcOutput;
 
     @Nullable
     @Override
@@ -48,7 +53,18 @@ public class SkeniranjeNFCFragment extends Fragment implements ModuleImplementat
         View view=inflater.inflate(R.layout.skeniranje_nfc_screen,container,false);
         nfcInstance=new NFCManager(getContext());
 
+        nfcOutput=view.findViewById(R.id.NFCStatusOutput);
+
+        IntentFilter filter = new IntentFilter(NfcAdapter.ACTION_ADAPTER_STATE_CHANGED);
+        getActivity().registerReceiver(mReceiver, filter);
+
         return  view;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(mReceiver);
     }
 
     @Override
@@ -88,8 +104,8 @@ public class SkeniranjeNFCFragment extends Fragment implements ModuleImplementat
 
     private void nfcStatusOutput(Boolean status)
     {
-        if(!status) Toast.makeText(getContext(), "Turn on NFC", Toast.LENGTH_SHORT).show();
-        else Toast.makeText(getContext(), "NFC turned on", Toast.LENGTH_SHORT).show();
+        if(!status) nfcOutput.setText("Uključite NFC");
+        else nfcOutput.setText("Približite uređaj NFC tagu");
 
     }
 
@@ -169,4 +185,33 @@ public class SkeniranjeNFCFragment extends Fragment implements ModuleImplementat
                 .setIcon(imageIcon)
                 .show();
     }
+
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+
+            if (action.equals(NfcAdapter.ACTION_ADAPTER_STATE_CHANGED)) {
+                final int state = intent.getIntExtra(NfcAdapter.EXTRA_ADAPTER_STATE,
+                        NfcAdapter.STATE_OFF);
+                switch (state) {
+                    case NfcAdapter.STATE_OFF:
+                        if(nfcInstance.checkNFCAvailability()) nfcInstance.getNfcAdapterInstance().disableForegroundDispatch(getActivity());
+                        nfcStatusOutput(nfcInstance.checkNFCAvailability());
+                        break;
+                    case NfcAdapter.STATE_TURNING_OFF:
+                        break;
+                    case NfcAdapter.STATE_ON:
+                        Intent intent1 = new Intent(getActivity(), commonMethodsInstance.getContainerActivity()).addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
+                        PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), 0, intent1, 0);
+                        IntentFilter[] intentFilter = new IntentFilter[] { };
+                        if(nfcInstance.checkNFCAvailability()) nfcInstance.getNfcAdapterInstance().enableForegroundDispatch(getActivity(), pendingIntent, intentFilter, null);
+                        nfcStatusOutput(nfcInstance.checkNFCAvailability());
+                        break;
+                    case NfcAdapter.STATE_TURNING_ON:
+                        break;
+                }
+            }
+        }
+    };
 }
