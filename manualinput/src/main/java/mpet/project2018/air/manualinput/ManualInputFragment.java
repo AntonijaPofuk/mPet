@@ -1,4 +1,4 @@
-package mpet.project2018.air.manualinput.;
+package mpet.project2018.air.manualinput;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -16,6 +16,8 @@ import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.List;
@@ -27,7 +29,7 @@ import mpet.project2018.air.core.ModuleCommonMethods;
 import mpet.project2018.air.core.ModuleImplementationMethods;
 
 @SuppressLint("ValidFragment")
-public class ManualInputFragment extends Fragment implements ModuleImplementationMethods, LjubimacDataLoadedListener {
+public class ManualInputFragment extends Fragment implements ModuleImplementationMethods, LjubimacDataLoadedListener, View.OnClickListener {
 
 
     @SuppressLint("ValidFragment")
@@ -38,13 +40,19 @@ public class ManualInputFragment extends Fragment implements ModuleImplementatio
 
     private ModuleCommonMethods commonMethodsInstance;
     private Ljubimac loadedPet;
+    private Button potvrdiUnos;
+    private EditText unosKoda;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view=inflater.inflate(R.layout.skeniranje_nfc_screen,container,false);
-        nfcInstance=new NFCManager(getContext());
+        View view=inflater.inflate(R.layout.manual_input,container,false);
+
+        potvrdiUnos=view.findViewById(R.id.potvrdiKodButton);
+        potvrdiUnos.setOnClickListener(this);
+
+        unosKoda=view.findViewById(R.id.unesiKodEditText);
 
         return  view;
     }
@@ -53,54 +61,18 @@ public class ManualInputFragment extends Fragment implements ModuleImplementatio
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        nfcStatusOutput(nfcInstance.checkNFCAvailability());
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Intent intent1 = new Intent(getActivity(), commonMethodsInstance.getContainerActivity()).addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
-        PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), 0, intent1, 0);
-        IntentFilter[] intentFilter = new IntentFilter[] { };
-
-        if(nfcInstance.checkNFCAvailability()) nfcInstance.getNfcAdapterInstance().enableForegroundDispatch(getActivity(), pendingIntent, intentFilter, null);
-
-        nfcStatusOutput(nfcInstance.checkNFCAvailability());
-
-        Intent receivedIntent=getActivity().getIntent();
-
-        if(!(receivedIntent.hasExtra("old"))) {
-            if (nfcInstance.isNFCIntent(receivedIntent)) {
-                receivedIntent.putExtra("old",1);
-                performActionsAfterTagReading(receivedIntent);
-            }
-        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if(nfcInstance.checkNFCAvailability())
-            nfcInstance.getNfcAdapterInstance().disableForegroundDispatch(getActivity());
     }
 
-    private void nfcStatusOutput(Boolean status)
-    {
-        if(!status) Toast.makeText(getContext(), "Turn on NFC", Toast.LENGTH_SHORT).show();
-        else Toast.makeText(getContext(), "NFC turned on", Toast.LENGTH_SHORT).show();
-
-    }
-
-    private void performActionsAfterTagReading(Intent intent) {
-        if (nfcInstance.isNFCIntent(intent)) {
-            if (nfcInstance.validateTag(intent)) {
-                String tagCode = nfcInstance.getCodeFromNdefRecord(nfcInstance.getFirstNdefRecord(nfcInstance.getNdefMessageFromIntent(intent)));
-                //Toast.makeText(getContext(), tagCode, Toast.LENGTH_SHORT).show();
-                validateCode(tagCode);
-            }
-            else outputValidationStatus(false);
-        }
-    }
 
     @Override
     public Fragment getModuleFragment() {
@@ -166,5 +138,10 @@ public class ManualInputFragment extends Fragment implements ModuleImplementatio
                 })
                 .setIcon(imageIcon)
                 .show();
+    }
+
+    @Override
+    public void onClick(View v) {
+        validateCode(unosKoda.getText().toString());
     }
 }
