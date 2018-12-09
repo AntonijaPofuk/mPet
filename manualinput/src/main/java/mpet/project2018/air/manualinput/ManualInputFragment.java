@@ -142,6 +142,7 @@ public class ManualInputFragment extends Fragment implements ModuleImplementatio
 
     @Override
     public void onClick(View v) {
-        validateCode(unosKoda.getText().toString());
+        String uneseniKod=unosKoda.getText().toString();
+        validateCode(uneseniKod);
     }
 }

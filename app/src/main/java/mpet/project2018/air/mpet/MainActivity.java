@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import mpet.project2018.air.database.MainDatabase;
+import mpet.project2018.air.manualinput.ManualInputFragment;
 import mpet.project2018.air.mpet.CodeHelper.CodeHandlerHelper;
 import mpet.project2018.air.mpet.fragments.Pocetna;
 import mpet.project2018.air.mpet.fragments.Pocetna_neulogirani;
@@ -65,8 +66,7 @@ public class MainActivity extends AppCompatActivity
     }
     private void reg(){
         CodeHandlerHelper novaInstancaProba=new CodeHandlerHelper();
-        SkeniranjeNFCFragment mDiscountListFragment = new SkeniranjeNFCFragment(novaInstancaProba);
-        novaInstancaProba.setFragment(mDiscountListFragment);
+        ManualInputFragment mDiscountListFragment = new ManualInputFragment(novaInstancaProba);
         FragmentManager mFragmentManager = getSupportFragmentManager();
         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.mainFrame, mDiscountListFragment);

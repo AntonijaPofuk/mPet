@@ -51,7 +51,7 @@ public class CodeHandlerHelper extends Fragment implements Serializable, ModuleC
         bundle.putSerializable("downloadPet",gotLjubimac);
         PrikazPodatakaOSkeniranomeLjubimcu mDiscountListFragment = new PrikazPodatakaOSkeniranomeLjubimcu();
         mDiscountListFragment.setArguments(bundle);
-        FragmentManager mFragmentManager = getFragmentManager();
+        FragmentManager mFragmentManager = nowActivity.getSupportFragmentManager();
         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.mainFrame, mDiscountListFragment);
         mFragmentTransaction.commit();

@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -70,12 +71,12 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         String uneseniKod= unosKodaField.getText().toString();
         Kod=uneseniKod;
-       // if(codeHandlerHelperInstance.checkFormat(uneseniKod))
+       if(codeHandlerHelperInstance.validateCodeFormat(uneseniKod))
         {
             loadData();
             //nfcReadingStatusOutput(codeHandlerHelperInstance.checkForCode(uneseniKod));
         }
-        //else nfcReadingStatusOutput(false);
+        else nfcReadingStatusOutput(false);
 
     }
 
@@ -219,7 +220,9 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
 
     @Override
     public void LjubimacOnDataLoaded(List<Ljubimac> listaLjubimaca) {
-       // nfcReadingStatusOutput(codeHandlerHelperInstance.checkForCode(listaLjubimaca));
+        if(listaLjubimaca.isEmpty()) nfcReadingStatusOutput(false);
+        else Toast.makeText(getActivity(), listaLjubimaca.get(0).ime, Toast.LENGTH_SHORT).show();
+
     }
 
     /*@Override
