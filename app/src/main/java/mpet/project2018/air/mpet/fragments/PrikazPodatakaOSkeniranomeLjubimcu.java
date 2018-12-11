@@ -1,8 +1,14 @@
 package mpet.project2018.air.mpet.fragments;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +31,9 @@ import Retrofit.RemotePost.SkeniranjeOnDataPostedListener;
 import mpet.project2018.air.mpet.R;
 import mpet.project2018.air.nfc.NFCManager;
 
+import static android.content.Context.LOCATION_SERVICE;
+import static android.support.v4.content.PermissionChecker.checkSelfPermission;
+
 public class PrikazPodatakaOSkeniranomeLjubimcu extends Fragment implements View.OnClickListener, KorisnikDataLoadedListener, SkeniranjeOnDataPostedListener {
 
     private ImageView petPic;
@@ -39,6 +48,9 @@ public class PrikazPodatakaOSkeniranomeLjubimcu extends Fragment implements View
     private TextView petSpec;
 
     private Ljubimac downloadedPet = null;
+
+    private String longitude;
+    private String latitude;
 
 
     @Nullable
@@ -62,6 +74,19 @@ public class PrikazPodatakaOSkeniranomeLjubimcu extends Fragment implements View
             popuniPetPoljaSaPodacima(downloadedPet);
             loadKorisnikData(downloadedPet.vlasnik);
         }
+
+
+
+        LocationManager mLocationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
+            Toast.makeText(getActivity(), "Informacija o lokaciji nepoznata", Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mLocationListener);
+        }
+
 
         //Toast.makeText(getContext(), downloadedPet.ime, Toast.LENGTH_SHORT).show();
         return view;
@@ -157,5 +182,32 @@ public class PrikazPodatakaOSkeniranomeLjubimcu extends Fragment implements View
         return dateFormat.format(date);
 
     }
+
+    private final LocationListener mLocationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(final Location location) {
+            longitude= String.valueOf(location.getLongitude());
+            latitude= String.valueOf(location.getLatitude());
+            Toast.makeText(getActivity(), longitude +" "+latitude, Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+
+        }
+    };
+
+
+
 
 }
