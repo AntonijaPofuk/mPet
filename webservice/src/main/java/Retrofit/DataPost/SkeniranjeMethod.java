@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import Retrofit.RemotePost.KorisnikService;
+import Retrofit.RemotePost.SkeniranjeOnDataPostedListener;
 import Retrofit.RemotePost.SkeniranjeService;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -13,7 +14,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SkeniranjeMethod {
 
-    public static String Upload(String datum, String vrijeme, String kontakt, String procitano, String koordinata_x, String koordinata_y, String korisnik, String kartica) {
+    SkeniranjeOnDataPostedListener skeniranjeListener;
+
+    public SkeniranjeMethod(SkeniranjeOnDataPostedListener skeniranjeListener) {
+        this.skeniranjeListener = skeniranjeListener;
+    }
+
+    public void Upload(String datum, String vrijeme, String kontakt, String procitano, String koordinata_x, String koordinata_y, String korisnik, String kartica) {
 
         final String[] Body = new String[1];
 
@@ -53,6 +60,7 @@ public class SkeniranjeMethod {
                 SkeniranjeResponse body = response.body();
                 Body[0]=body.SkeniranjeID;
 
+                skeniranjeListener.onDataPosted(Body[0]);
             }
 
             @Override
@@ -61,8 +69,6 @@ public class SkeniranjeMethod {
             }
         });
 
-
-        return Body[0];
 
     }
 
