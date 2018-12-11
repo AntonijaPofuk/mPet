@@ -13,6 +13,11 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import mpet.project2018.air.database.MainDatabase;
 import mpet.project2018.air.manualinput.ManualInputFragment;
@@ -64,6 +69,9 @@ public class MainActivity extends AppCompatActivity
         //--------------------------------------------------------------
 
     }
+
+
+
     private void reg(){
         CodeHandlerHelper novaInstancaProba=new CodeHandlerHelper();
         ManualInputFragment mDiscountListFragment = new ManualInputFragment(novaInstancaProba);

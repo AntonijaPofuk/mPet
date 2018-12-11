@@ -11,6 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.KorisnikDataLoadedListener;
@@ -68,7 +71,9 @@ public class PrikazPodatakaOSkeniranomeLjubimcu extends Fragment implements View
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        POSTdata();
+        //POSTdata();
+
+
     }
 
     @Override
@@ -126,11 +131,31 @@ public class PrikazPodatakaOSkeniranomeLjubimcu extends Fragment implements View
     private void POSTdata()
     {
         SkeniranjeMethod instancaSkeniranjaPOST=new SkeniranjeMethod(this);
-        instancaSkeniranjaPOST.Upload("DEFAULT","DEFAULT","DEFAULT","DEFAULT","DEFAULT","DEFAULT","DEFAULT","DEFAULT");
+        //instancaSkeniranjaPOST.Upload("1","1","1","0","5.5","4.5","177","DEFAULT");
+
+        instancaSkeniranjaPOST.Upload(getDate(),getTime(),"make","0","make","make","prefs","pet");
+
     }
 
     @Override
     public void onDataPosted(String idSkeniranja) {
         Toast.makeText(getActivity(), idSkeniranja, Toast.LENGTH_SHORT).show();
     }
+
+    private String getDate()
+    {
+        DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy.");
+        Date date = new Date();
+        return dateFormat.format(date);
+
+    }
+
+    private String getTime()
+    {
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+        Date date = new Date();
+        return dateFormat.format(date);
+
+    }
+
 }
