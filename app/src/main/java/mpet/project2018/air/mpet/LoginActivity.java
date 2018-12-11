@@ -1,40 +1,28 @@
-package mpet.project2018.air.mpet.prijava;
+package mpet.project2018.air.mpet;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import Retrofit.DataPost.PrijavaMethod;
 import Retrofit.RemotePost.onLoginValidation;
-import mpet.project2018.air.mpet.MainActivity;
-import mpet.project2018.air.mpet.R;
 import mpet.project2018.air.mpet.fragments.Login;
-import mpet.project2018.air.mpet.fragments.Pocetna;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import mpet.project2018.air.mpet.fragments.Pocetna_neulogirani;
+import mpet.project2018.air.mpet.fragments.Pocetna_ulogirani;
+import mpet.project2018.air.mpet.fragments.Registracija;
 
 public class LoginActivity extends AppCompatActivity implements onLoginValidation {
 
     EditText edtUsername;
     EditText edtPassword;
     Button btnLogin;
+    Button btnPrijavaOdustani;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +32,27 @@ public class LoginActivity extends AppCompatActivity implements onLoginValidatio
         edtUsername = (EditText) findViewById(R.id.edtUsername);
         edtPassword = (EditText) findViewById(R.id.edtPassword);
         btnLogin = (Button) findViewById(R.id.btnLogin);
+        btnPrijavaOdustani = (Button) findViewById(R.id.btnPrijavaOdustani);
 
+
+        SharedPreferences sharedPreferences=getSharedPreferences("MyPreferences",0);
+        if (sharedPreferences.getString("ulogiraniKorisnikId","").toString().equals("ulogiraniKorisnikId")){
+            Intent intent=new Intent(LoginActivity.this,Pocetna_ulogirani.class);
+            startActivity(intent);
+        }
+
+      /*  btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                swapFragment();
+            }
+        });
+
+        private void swapFragment(){
+            FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.mainFrame, new Pocetna_neulogirani());
+            ft.commit();
+        }*/
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,6 +65,18 @@ public class LoginActivity extends AppCompatActivity implements onLoginValidatio
                 }
             }
         });
+
+
+        btnPrijavaOdustani.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.mainFrame, new Pocetna_ulogirani());
+                ft.commit();
+
+            }
+        });
+
     }
 
     private boolean validateLogin(String username, String password){
@@ -82,27 +102,35 @@ public class LoginActivity extends AppCompatActivity implements onLoginValidatio
         String response = "";
 
         postMetodaZaPrijavu.Upload(username1,password1);
-
-
     }
 
     @Override
     public void onDataLoaded(String id) {
 
-        // Toast.makeText(this, id, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, id, Toast.LENGTH_SHORT).show();
 
         //validate form
         if (Integer.parseInt(id) != 0) {
-            startActivity(new Intent(LoginActivity.this, Pocetna.class));
+
+           // startActivity(new Intent(LoginActivity.this, Pocetna_ulogirani.class));
+            //startActivity(new Intent(LoginActivity.this,Pocetna_ulogirani.class));
+
+
             SharedPreferences sharedPreferences = getSharedPreferences("MyPreferences",MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("ulogiraniKorisnikId",id); //provjerava ako je ulogirani
+            editor.putString("ulogiraniKorisnikId",id); //provjerava od tud vrijednosti gore ako je ulogirani
+            //------------------------
+            editor.commit();
 
+
+            Intent intent = new Intent(LoginActivity.this, Pocetna_ulogirani.class);
+            startActivity(intent);
         }
         else {
             Toast.makeText(LoginActivity.this, "Korisnicko ime ili lozinka su netocni", Toast.LENGTH_SHORT).show();
         }
 
     }
+
 
 }

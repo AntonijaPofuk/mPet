@@ -1,7 +1,9 @@
 package mpet.project2018.air.mpet.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -10,8 +12,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import mpet.project2018.air.mpet.LoginActivity;
 import mpet.project2018.air.mpet.R;
-import mpet.project2018.air.mpet.prijava.Login;
 
 
 public class Pocetna_neulogirani extends Fragment {
@@ -35,14 +37,11 @@ public class Pocetna_neulogirani extends Fragment {
             mListener.onFragmentInteraction("Početna");
         }
 
-
-
         Button btn1=(Button) view.findViewById(R.id.btnPrijava);
         btn1.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        Toast.makeText(getActivity(), "Prijavljuete se",
-                                                Toast.LENGTH_LONG).show();
+                                        //startActivity(new Intent(getContext(), LoginActivity.class));
                                         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                                         ft.replace(R.id.mainFrame, new Login());
                                         ft.commit();
@@ -78,10 +77,6 @@ public class Pocetna_neulogirani extends Fragment {
         return view;
     }
 
-
-
-
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -104,4 +99,7 @@ public class Pocetna_neulogirani extends Fragment {
     }
     private class ArticleFragment {
     }
+
+
+
 }

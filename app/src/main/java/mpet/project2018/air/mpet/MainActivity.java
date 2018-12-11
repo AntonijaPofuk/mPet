@@ -3,7 +3,6 @@ package mpet.project2018.air.mpet;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -13,29 +12,38 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import mpet.project2018.air.database.MainDatabase;
-import mpet.project2018.air.mpet.fragments.Pocetna;
+import mpet.project2018.air.mpet.fragments.Logout;
+import mpet.project2018.air.mpet.fragments.Pocetna_ulogirani;
 import mpet.project2018.air.mpet.fragments.Pocetna_neulogirani;
 import mpet.project2018.air.mpet.fragments.Registracija;
 import mpet.project2018.air.mpet.fragments.SkeniranjeNFCKartice;
-import mpet.project2018.air.mpet.prijava.Login;
-import mpet.project2018.air.mpet.prijava.LoginActivity;
+import mpet.project2018.air.mpet.fragments.Login;
 
 
 public class MainActivity extends AppCompatActivity
         //Listeneri za klikove, OnFragmentInteractionListener je za sve fragmente
         implements
-        Pocetna.OnFragmentInteractionListener,
+        Pocetna_ulogirani.OnFragmentInteractionListener,
         Pocetna_neulogirani.OnFragmentInteractionListener,
         Registracija.OnFragmentInteractionListener,
         Login.OnFragmentInteractionListener,
+        Logout.OnFragmentInteractionListener,
+
         SkeniranjeNFCKartice.OnFragmentInteractionListener,
+
+
         NavigationView.OnNavigationItemSelectedListener
         //TODO: dodaj novi fragment ovdje uvijek a na početku fragmenta implementiraj mlistenere
 
 {
+    String dohvaceniId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,19 +55,23 @@ public class MainActivity extends AppCompatActivity
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_frag1);         //Provjera prvog elementa u draweru
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();             //otvaranje fragmenta
+
+
+        //--------------------------------------------------------
+        View nav = navigationView.getHeaderView(0);
+        TextView KorIme = (TextView) nav.findViewById(R.id.korImeIzbornik);
+        KorIme.setText(dohvaceniId);
+        //--------------------------------------------------------
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();    //otvaranje prvog fragmenta kod pokretanja app
         ft.replace(R.id.mainFrame, new Pocetna_neulogirani());
         ft.commit();
 
-
-
-        //---------------------------------------------------------------
         MainDatabase.initializeDatabase(this);
-        //--------------------------------------------------------------
-
     }
     /*private void reg(){
         SkeniranjeNFCKartice mDiscountListFragment = new SkeniranjeNFCKartice();
@@ -99,23 +111,24 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment = null;
         if (id == R.id.nav_frag1) {
 
-            fragment = new Pocetna();
+            //fragment = new Pocetna_ulogirani();
         } else if (id == R.id.nav_frag2) {
 
         }else if (id == R.id.nav_frag3) {
 
         }
         else if (id == R.id.nav_frag4) {
-            startActivity(new Intent(mpet.project2018.air.mpet.MainActivity.this, LoginActivity.class));
+
         }
         else if (id == R.id.nav_frag5) {
-            fragment = new Pocetna_neulogirani();
-        }       //Promjena fragmenta
+            //fragment = new Pocetna_neulogirani();   //Promjena fragmenta iz aktivnosit
+        }
         if (fragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.mainFrame, fragment);
             ft.commit();
-        }        //zatvaranje izbornika
+        }
+        //zatvaranje izbornika
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout); //globaliziraj ju ili ovak
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -133,15 +146,6 @@ public class MainActivity extends AppCompatActivity
         super.onNewIntent(intent);
 
     }
-//za login
-    private String getLoginEmailAddress(){
-        String storedEmail = "";
-        Intent mIntent = getIntent();
-        Bundle mBundle = mIntent.getExtras();
-        if(mBundle != null){
-            storedEmail = mBundle.getString("EMAIL");
-        }
-        return storedEmail;
-    }
+
 
 }

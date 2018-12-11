@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/grupa1"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_frag1"
+
+            android:title="Početna" />
+
+
+    </group>
+
+    <group
+        android:id="@+id/grupa2"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_frag4"
+
+            android:title="O nama" />
+        <item
+            android:id="@+id/nav_frag6"
+
+            android:title="Prijava" />
+
+    </group>
+</menu>

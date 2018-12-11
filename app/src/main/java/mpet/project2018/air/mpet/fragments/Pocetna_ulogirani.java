@@ -1,5 +1,6 @@
 package mpet.project2018.air.mpet.fragments;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -11,10 +12,12 @@ import android.widget.Toast;
 
 import mpet.project2018.air.mpet.R;
 
-public class Pocetna extends Fragment {
+import static android.content.Context.MODE_PRIVATE;
+
+public class Pocetna_ulogirani extends Fragment {
 
     private OnFragmentInteractionListener mListener;
-    public Pocetna() {}
+    public Pocetna_ulogirani() {}
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,8 +36,7 @@ public class Pocetna extends Fragment {
         btn1.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        Toast.makeText(getActivity(), "Odjavljujete se....",
-                                                Toast.LENGTH_LONG).show();
+
                                         swapFragment();
                                     }
                                 }
@@ -53,9 +55,10 @@ public class Pocetna extends Fragment {
 
         return view;
     }
+
     private void swapFragment(){
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.mainFrame, new Pocetna_neulogirani());
+        ft.replace(R.id.mainFrame, new Logout());
         ft.commit();
     }
 
@@ -64,7 +67,9 @@ public class Pocetna extends Fragment {
         ft.replace(R.id.mainFrame, new SkeniranjeNFCKartice());
         ft.commit();
     }
-    @Override
+
+
+   @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
