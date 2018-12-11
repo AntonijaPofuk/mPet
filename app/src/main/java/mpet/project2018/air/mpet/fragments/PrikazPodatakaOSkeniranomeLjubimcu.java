@@ -15,12 +15,14 @@ import java.util.List;
 
 import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.KorisnikDataLoadedListener;
 import Retrofit.DataGetListenersAndLoaders.DataLoaders.KorisnikDataLoader;
+import Retrofit.DataPost.SkeniranjeMethod;
 import Retrofit.Model.Korisnik;
 import Retrofit.Model.Ljubimac;
+import Retrofit.RemotePost.SkeniranjeOnDataPostedListener;
 import mpet.project2018.air.mpet.R;
 import mpet.project2018.air.nfc.NFCManager;
 
-public class PrikazPodatakaOSkeniranomeLjubimcu extends Fragment implements View.OnClickListener, KorisnikDataLoadedListener {
+public class PrikazPodatakaOSkeniranomeLjubimcu extends Fragment implements View.OnClickListener, KorisnikDataLoadedListener, SkeniranjeOnDataPostedListener {
 
     private ImageView petPic;
     private TextView petDescp;
@@ -65,6 +67,8 @@ public class PrikazPodatakaOSkeniranomeLjubimcu extends Fragment implements View
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        POSTdata();
     }
 
     @Override
@@ -117,5 +121,16 @@ public class PrikazPodatakaOSkeniranomeLjubimcu extends Fragment implements View
     {
         if(field==null || field=="") return  false;
         else return  true;
+    }
+
+    private void POSTdata()
+    {
+        SkeniranjeMethod instancaSkeniranjaPOST=new SkeniranjeMethod(this);
+        instancaSkeniranjaPOST.Upload("DEFAULT","DEFAULT","DEFAULT","DEFAULT","DEFAULT","DEFAULT","DEFAULT","DEFAULT");
+    }
+
+    @Override
+    public void onDataPosted(String idSkeniranja) {
+        Toast.makeText(getActivity(), idSkeniranja, Toast.LENGTH_SHORT).show();
     }
 }

@@ -2,7 +2,6 @@ package Retrofit.DataPost;
 
 public class SkeniranjeRequest {
 
-    public String id_skeniranja;
 
     public String datum;
 
@@ -20,13 +19,7 @@ public class SkeniranjeRequest {
 
     public String kartica;
 
-    public String getId_skeniranja() {
-        return id_skeniranja;
-    }
 
-    public void setId_skeniranja(String id_skeniranja) {
-        this.id_skeniranja = id_skeniranja;
-    }
 
     public String getDatum() {
         return datum;
