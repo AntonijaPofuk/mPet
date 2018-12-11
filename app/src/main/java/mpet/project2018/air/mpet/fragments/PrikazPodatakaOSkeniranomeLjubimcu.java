@@ -75,17 +75,16 @@ public class PrikazPodatakaOSkeniranomeLjubimcu extends Fragment implements View
             loadKorisnikData(downloadedPet.vlasnik);
         }
 
-
-
-        LocationManager mLocationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
         {
             Toast.makeText(getActivity(), "Informacija o lokaciji nepoznata", Toast.LENGTH_SHORT).show();
         }
         else
         {
-            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mLocationListener);
+            LocationManager mLocationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
+            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, mLocationListener);
         }
+
 
 
         //Toast.makeText(getContext(), downloadedPet.ime, Toast.LENGTH_SHORT).show();
@@ -98,6 +97,12 @@ public class PrikazPodatakaOSkeniranomeLjubimcu extends Fragment implements View
 
         //POSTdata();
 
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
 
     }
 
