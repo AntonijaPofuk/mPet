@@ -28,6 +28,8 @@ import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.SkeniranjeDataLoa
 import Retrofit.DataGetListenersAndLoaders.DataLoaders.SkeniranjeDataLoader;
 import Retrofit.DataPost.ObavijestiMethod;
 import Retrofit.Model.Skeniranje;
+import mpet.project2018.air.database.entities.Kartica;
+import mpet.project2018.air.database.entities.Korisnik;
 import mpet.project2018.air.mpet.MainActivity;
 import mpet.project2018.air.mpet.R;
 
@@ -36,8 +38,9 @@ import static mpet.project2018.air.mpet.obavijesti.CreateNotificationChannel.CHA
 public class NotificationService extends Service implements SkeniranjeDataLoadedListener {
 
     private static List<Skeniranje> listaSkeniranja =new ArrayList<>();
-    private static int delay=5000;//svakih tolko milisekundi provjerava ako postoji nova obavijesti
-    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+    private static int delay=60000*15;//svakih tolko milisekundi provjerava ako postoji nova obavijesti
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    private Korisnik korisnik=new Korisnik();
 
     @Override
     public void onCreate() {
@@ -73,7 +76,7 @@ public class NotificationService extends Service implements SkeniranjeDataLoaded
                         for (Skeniranje skeniranje : listaSkeniranja) {
                             if (skeniranje.procitano.contains("0")) {
                                 sendNotification("Vaš ljubimac je skeniran! Pritisnite za detalje ...", "Datum i vrijeme skeniranja : " + skeniranje.datum + " | " + skeniranje.vrijeme,skeniranje.id_skeniranja);
-                             /*   mpet.project2018.air.database.entities.Skeniranje lokalnaBazaSkeniranje=new mpet.project2018.air.database.entities.Skeniranje();
+                               mpet.project2018.air.database.entities.Skeniranje lokalnaBazaSkeniranje=new mpet.project2018.air.database.entities.Skeniranje();
                                 Date datum=null;
                                 try {
                                     datum=format.parse(skeniranje.datum);
@@ -82,7 +85,16 @@ public class NotificationService extends Service implements SkeniranjeDataLoaded
                                 }
                                 lokalnaBazaSkeniranje.setDatum(datum);
                                 lokalnaBazaSkeniranje.setId_skeniranja(Integer.parseInt(skeniranje.id_skeniranja));
-                                lokalnaBazaSkeniranje.setKartica(skeniranje.kartica);*/
+                                lokalnaBazaSkeniranje.setKartica(new Kartica("1"));//staviti realan id
+                                lokalnaBazaSkeniranje.setKontakt(skeniranje.kontakt);
+                                lokalnaBazaSkeniranje.setKoordinata_x(skeniranje.koordinata_x);
+                                lokalnaBazaSkeniranje.setKoordinata_y(skeniranje.koordinata_y);
+                                korisnik.setId_korisnika(Integer.parseInt("1"));//staviti realan id
+                                lokalnaBazaSkeniranje.setKorisnik(korisnik);
+                                lokalnaBazaSkeniranje.setProcitano(skeniranje.procitano);
+                                lokalnaBazaSkeniranje.setVrijeme(skeniranje.vrijeme);
+
+                                lokalnaBazaSkeniranje.save();
 
                                 try {
                                     Thread.sleep(1500);
