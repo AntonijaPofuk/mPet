@@ -2,4 +2,5 @@
     <string name="app_name">manualinput</string>
     <string name="button_desc">Potvrdi</string>
     <string name="unosHelp">Unesite kod</string>
+    <string name="unesite_text_note">Unesite Kod koji se nalazi na ogrlici</string>
 </resources>
