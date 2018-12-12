@@ -146,9 +146,10 @@ public class ManualInputFragment extends Fragment implements ModuleImplementatio
     public void onClick(View v) {
         String uneseniKod=unosKoda.getText().toString();
         validateCode(uneseniKod);
-       /* SharedPreferences mSettings = getActivity().getSharedPreferences("Settings", Context.MODE_PRIVATE);
+        SharedPreferences mSettings = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = mSettings.edit();
-        editor.putString("prik","213");
-        editor.apply();*/
+        editor.remove("ulogiraniKorisnikId");
+        //editor.putString("ulogiraniKorisnikId","177");
+        editor.apply();
     }
 }

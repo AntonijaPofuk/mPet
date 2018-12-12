@@ -83,10 +83,14 @@ public class PrikazPodatakaOSkeniranomeLjubimcu extends Fragment implements View
             loadKorisnikData(downloadedPet.vlasnik);
         }
 
+        SharedPreferences mSettings = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        prijavljeniKorisnik=mSettings.getString("ulogiraniKorisnikId","DEFAULT");
+
         String[] LOCATION_PERMS={Manifest.permission.ACCESS_FINE_LOCATION};
 
         if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
         {
+            if(prijavljeniKorisnik!="DEFAULT") POSTdata();
             requestPermissions(LOCATION_PERMS, 1340);
 
         }
@@ -97,31 +101,25 @@ public class PrikazPodatakaOSkeniranomeLjubimcu extends Fragment implements View
             {
                 mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, mLocationListener);
             }
+            else
+            {
+                if(prijavljeniKorisnik!="DEFAULT") POSTdata();
+            }
 
         }
 
+        if(prijavljeniKorisnik=="DEFAULT")
+        {
+            getUserContacts();
+        }
 
-        getUserContacts();
 
-        //Toast.makeText(getContext(), downloadedPet.ime, Toast.LENGTH_SHORT).show();
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        SharedPreferences mSettings = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        prijavljeniKorisnik=mSettings.getString("ulogiraniKorisnikId","");
-
-        if(prijavljeniKorisnik=="")
-        {
-            getUserContacts();
-        }
-        else
-        {
-            POSTdata();
-        }
 
     }
 
@@ -188,6 +186,7 @@ public class PrikazPodatakaOSkeniranomeLjubimcu extends Fragment implements View
 
         SkeniranjeMethod instancaSkeniranjaPOST=new SkeniranjeMethod(this);
         instancaSkeniranjaPOST.Upload(getDate(),getTime(),kontakt,"0",longitude,latitude,prijavljeniKorisnik,downloadedPet.kartica);
+
     }
 
     @Override
@@ -216,8 +215,11 @@ public class PrikazPodatakaOSkeniranomeLjubimcu extends Fragment implements View
         public void onLocationChanged(final Location location) {
             longitude= String.valueOf(location.getLongitude());
             latitude= String.valueOf(location.getLatitude());
-            POSTdata();
-            //Toast.makeText(getActivity(), longitude +" "+latitude, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Stiglo", Toast.LENGTH_SHORT).show();
+            if(prijavljeniKorisnik!="DEFAULT")
+            {
+                POSTdata();
+            }
         }
 
         @Override
