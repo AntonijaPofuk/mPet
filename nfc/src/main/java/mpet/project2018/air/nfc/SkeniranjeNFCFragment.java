@@ -19,6 +19,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +46,7 @@ public class SkeniranjeNFCFragment extends Fragment implements ModuleImplementat
     private NFCManager nfcInstance;
     private Ljubimac loadedPet;
     private TextView nfcOutput;
+    private ProgressBar nfcProgress;
 
     @Nullable
     @Override
@@ -104,8 +106,8 @@ public class SkeniranjeNFCFragment extends Fragment implements ModuleImplementat
 
     private void nfcStatusOutput(Boolean status)
     {
-        if(!status) nfcOutput.setText("Uključite NFC");
-        else nfcOutput.setText("Približite uređaj NFC tagu");
+        if(!status) nfcOutput.setText(getString(R.string.no_nfc));
+        else nfcOutput.setText(getString(R.string.yes_nfc));
 
     }
 
@@ -143,6 +145,7 @@ public class SkeniranjeNFCFragment extends Fragment implements ModuleImplementat
     @Override
     public void outputValidationStatus(boolean validationStatus) {
 
+        nfcProgress.setVisibility(View.INVISIBLE);
         if(validationStatus)alertingMessage( getResources().getString(mpet.project2018.air.core.R.string.codeStatusOK), mpet.project2018.air.core.R.drawable.success_message,validationStatus);
         else alertingMessage(getResources().getString(mpet.project2018.air.core.R.string.codeStatusNotOK), mpet.project2018.air.core.R.drawable.fail_message,validationStatus);
     }
@@ -178,7 +181,7 @@ public class SkeniranjeNFCFragment extends Fragment implements ModuleImplementat
                 .setPositiveButton("U redu", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        //if(!status) loadBar.setVisibility(View.VISIBLE);
+                        if(!status) nfcProgress.setVisibility(View.VISIBLE);
                         if(status) showDataInFragment(getActivity(),loadedPet);
                     }
                 })

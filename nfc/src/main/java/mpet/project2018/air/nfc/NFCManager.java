@@ -30,20 +30,20 @@ public class NFCManager
         return nfcAdapterInstance;
     }
 
-    // Metoda za provjeru dostupnosti NFC značajke smartphone uređaja
+    // Metoda za provjeru dostupnosti nfcc značajke smartphone uređaja
     public boolean checkNFCAvailability()
     {
         if (nfcAdapterInstance != null && nfcAdapterInstance.isEnabled()) return true;
         else  return false;
     }
 
-    // Metoda za validaciju NFC intenta
+    // Metoda za validaciju nfcc intenta
     public boolean isNFCIntent(Intent intent)
     {
         return intent.hasExtra(NfcAdapter.EXTRA_TAG);
     }
 
-    // Metoda za dohvaćanje Ndef poruke iz pristiglog NFC intenta
+    // Metoda za dohvaćanje Ndef poruke iz pristiglog nfcc intenta
     public NdefMessage getNdefMessageFromIntent(Intent intent)
     {
         NdefMessage ndefMessage = null;
