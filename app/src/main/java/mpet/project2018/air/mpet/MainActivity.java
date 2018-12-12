@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity
         //ft.replace(R.id.mainFrame, new Pocetna_neulogirani());
         //ft.commit();
 
-        reg2();
+        reg();
 
 
         //---------------------------------------------------------------

@@ -48,6 +48,8 @@ public class SkeniranjeNFCFragment extends Fragment implements ModuleImplementat
     private TextView nfcOutput;
     private ProgressBar nfcProgress;
 
+    private boolean scannedFlag=false;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -130,8 +132,9 @@ public class SkeniranjeNFCFragment extends Fragment implements ModuleImplementat
     @Override
     public void validateCode(String code) {
 
-        if(commonMethodsInstance.validateCodeFormat(code))
+        if(commonMethodsInstance.validateCodeFormat(code) && !scannedFlag)
         {
+            scannedFlag=true;
             LjubimacDataLoader petLoader=new LjubimacDataLoader(this);
             petLoader.loadDataByTag(code);
         }
@@ -169,7 +172,6 @@ public class SkeniranjeNFCFragment extends Fragment implements ModuleImplementat
 
     private void alertingMessage(String message, int imageIcon, final boolean status)
     {
-
         AlertDialog.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             builder = new AlertDialog.Builder(getActivity(), android.R.style.Theme_Material_Dialog_Alert);
@@ -180,6 +182,7 @@ public class SkeniranjeNFCFragment extends Fragment implements ModuleImplementat
                 .setMessage(message)
                 .setPositiveButton("U redu", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
+                        scannedFlag=false;
                         dialog.dismiss();
                         if(!status) nfcProgress.setVisibility(View.VISIBLE);
                         if(status) showDataInFragment(getActivity(),loadedPet);
