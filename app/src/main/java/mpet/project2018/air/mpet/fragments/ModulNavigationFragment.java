@@ -51,7 +51,7 @@ public class ModulNavigationFragment extends Fragment implements View.OnClickLis
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view=inflater.inflate(R.layout.skeniranje_kartice,container,false);
+        View view=inflater.inflate(R.layout.navigation_modul,container,false);
         nfcInstance= new NFCManager(getActivity());
         codeHandlerHelperInstance =new CodeHandlerHelper();
 
