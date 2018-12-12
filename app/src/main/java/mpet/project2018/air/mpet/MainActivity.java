@@ -13,11 +13,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import mpet.project2018.air.database.MainDatabase;
 import mpet.project2018.air.manualinput.ManualInputFragment;
@@ -25,7 +20,7 @@ import mpet.project2018.air.mpet.CodeHelper.CodeHandlerHelper;
 import mpet.project2018.air.mpet.fragments.Pocetna;
 import mpet.project2018.air.mpet.fragments.Pocetna_neulogirani;
 import mpet.project2018.air.mpet.fragments.Registracija;
-import mpet.project2018.air.mpet.fragments.SkeniranjeNFCKartice;
+import mpet.project2018.air.mpet.fragments.ModulNavigationFragment;
 import mpet.project2018.air.mpet.prijava.Login;
 import mpet.project2018.air.mpet.prijava.LoginActivity;
 import mpet.project2018.air.nfc.SkeniranjeNFCFragment;
@@ -38,7 +33,7 @@ public class MainActivity extends AppCompatActivity
         Pocetna_neulogirani.OnFragmentInteractionListener,
         Registracija.OnFragmentInteractionListener,
         Login.OnFragmentInteractionListener,
-        SkeniranjeNFCKartice.OnFragmentInteractionListener,
+        ModulNavigationFragment.OnFragmentInteractionListener,
         NavigationView.OnNavigationItemSelectedListener
         //TODO: dodaj novi fragment ovdje uvijek a na početku fragmenta implementiraj mlistenere
 
@@ -57,11 +52,11 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_frag1);         //Provjera prvog elementa u draweru
-        //FragmentTransaction ft = getSupportFragmentManager().beginTransaction();             //otvaranje fragmenta
-        //ft.replace(R.id.mainFrame, new Pocetna_neulogirani());
-        //ft.commit();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();             //otvaranje fragmenta
+        ft.replace(R.id.mainFrame, new Pocetna_neulogirani());
+        ft.commit();
 
-        reg();
+        //reg();
 
 
         //---------------------------------------------------------------

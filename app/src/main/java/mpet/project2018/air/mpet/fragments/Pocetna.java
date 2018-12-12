@@ -61,7 +61,7 @@ public class Pocetna extends Fragment {
 
     private void swapFragment2(){
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.mainFrame, new SkeniranjeNFCKartice());
+        ft.replace(R.id.mainFrame, new ModulNavigationFragment());
         ft.commit();
     }
     @Override

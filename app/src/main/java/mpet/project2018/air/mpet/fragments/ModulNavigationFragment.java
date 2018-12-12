@@ -32,14 +32,14 @@ import mpet.project2018.air.mpet.CodeHelper.CodeHandlerHelper;
 import mpet.project2018.air.nfc.NFCManager;
 
 
-public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListener, LjubimacDataLoadedListener
+public class ModulNavigationFragment extends Fragment implements View.OnClickListener, LjubimacDataLoadedListener
 {
 
-    private SkeniranjeNFCKartice.OnFragmentInteractionListener mListener;
+    private ModulNavigationFragment.OnFragmentInteractionListener mListener;
     private String Kod;
     private CodeHandlerHelper codeHandlerHelperInstance;
 
-    public SkeniranjeNFCKartice() {}
+    public ModulNavigationFragment() {}
 
     private NFCManager nfcInstance;
     private TextView ispisPoruka;
@@ -192,7 +192,7 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof Pocetna_neulogirani.OnFragmentInteractionListener) {
-            mListener = (SkeniranjeNFCKartice.OnFragmentInteractionListener) context;
+            mListener = (ModulNavigationFragment.OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
         }

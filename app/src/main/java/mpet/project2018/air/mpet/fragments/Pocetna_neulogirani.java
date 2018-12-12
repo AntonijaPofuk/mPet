@@ -70,7 +70,7 @@ public class Pocetna_neulogirani extends Fragment {
                                         Toast.makeText(getActivity(), "Skeniranje....",
                                                 Toast.LENGTH_LONG).show();
                                         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                                        ft.replace(R.id.mainFrame, new SkeniranjeNFCKartice());
+                                        ft.replace(R.id.mainFrame, new ModulNavigationFragment());
                                         ft.commit();
                                     }
                                 }
