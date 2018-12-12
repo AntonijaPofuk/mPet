@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.List;
@@ -44,6 +45,7 @@ public class ManualInputFragment extends Fragment implements ModuleImplementatio
     private Ljubimac loadedPet;
     private Button potvrdiUnos;
     private EditText unosKoda;
+    private ProgressBar manualProgress;
 
     @Nullable
     @Override
@@ -55,6 +57,7 @@ public class ManualInputFragment extends Fragment implements ModuleImplementatio
         potvrdiUnos.setOnClickListener(this);
 
         unosKoda=view.findViewById(R.id.unesiKodEditText);
+        manualProgress=view.findViewById(R.id.progressBarManual);
 
         return  view;
     }
@@ -134,7 +137,11 @@ public class ManualInputFragment extends Fragment implements ModuleImplementatio
                 .setPositiveButton("U redu", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        //if(!status) loadBar.setVisibility(View.VISIBLE);
+                        if(!status)
+                        {
+                            potvrdiUnos.setVisibility(View.VISIBLE);
+                            manualProgress.setVisibility(View.INVISIBLE);
+                        }
                         if(status) showDataInFragment(getActivity(),loadedPet);
                     }
                 })
@@ -146,10 +153,12 @@ public class ManualInputFragment extends Fragment implements ModuleImplementatio
     public void onClick(View v) {
         String uneseniKod=unosKoda.getText().toString();
         validateCode(uneseniKod);
-        SharedPreferences mSettings = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        potvrdiUnos.setVisibility(View.INVISIBLE);
+        manualProgress.setVisibility(View.VISIBLE);
+       /* SharedPreferences mSettings = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = mSettings.edit();
         editor.remove("ulogiraniKorisnikId");
         //editor.putString("ulogiraniKorisnikId","177");
-        editor.apply();
+        editor.apply();*/
     }
 }
