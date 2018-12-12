@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity
         Pocetna_neulogirani.OnFragmentInteractionListener,
         Registracija.OnFragmentInteractionListener,
         Login.OnFragmentInteractionListener,
-        ModulNavigationFragment.OnFragmentInteractionListener,
+        //ModulNavigationFragment.OnFragmentInteractionListener,
         NavigationView.OnNavigationItemSelectedListener
         //TODO: dodaj novi fragment ovdje uvijek a na početku fragmenta implementiraj mlistenere
 
@@ -52,11 +52,11 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_frag1);         //Provjera prvog elementa u draweru
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();             //otvaranje fragmenta
-        ft.replace(R.id.mainFrame, new Pocetna_neulogirani());
-        ft.commit();
+        //FragmentTransaction ft = getSupportFragmentManager().beginTransaction();             //otvaranje fragmenta
+        //ft.replace(R.id.mainFrame, new Pocetna_neulogirani());
+        //ft.commit();
 
-        //reg();
+        reg2();
 
 
         //---------------------------------------------------------------

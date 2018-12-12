@@ -215,7 +215,7 @@ public class PrikazPodatakaOSkeniranomeLjubimcu extends Fragment implements View
         public void onLocationChanged(final Location location) {
             longitude= String.valueOf(location.getLongitude());
             latitude= String.valueOf(location.getLatitude());
-            Toast.makeText(getActivity(), "Stiglo", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(getActivity(), "Stiglo", Toast.LENGTH_SHORT).show();
             if(prijavljeniKorisnik!="DEFAULT")
             {
                 POSTdata();

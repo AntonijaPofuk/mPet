@@ -58,6 +58,7 @@ public class SkeniranjeNFCFragment extends Fragment implements ModuleImplementat
         nfcInstance=new NFCManager(getContext());
 
         nfcOutput=view.findViewById(R.id.NFCStatusOutput);
+        nfcProgress=view.findViewById(R.id.progressBarNFC);
 
         IntentFilter filter = new IntentFilter(NfcAdapter.ACTION_ADAPTER_STATE_CHANGED);
         getActivity().registerReceiver(mReceiver, filter);
@@ -132,9 +133,8 @@ public class SkeniranjeNFCFragment extends Fragment implements ModuleImplementat
     @Override
     public void validateCode(String code) {
 
-        if(commonMethodsInstance.validateCodeFormat(code) && !scannedFlag)
+        if(commonMethodsInstance.validateCodeFormat(code))
         {
-            scannedFlag=true;
             LjubimacDataLoader petLoader=new LjubimacDataLoader(this);
             petLoader.loadDataByTag(code);
         }
@@ -149,8 +149,13 @@ public class SkeniranjeNFCFragment extends Fragment implements ModuleImplementat
     public void outputValidationStatus(boolean validationStatus) {
 
         nfcProgress.setVisibility(View.INVISIBLE);
-        if(validationStatus)alertingMessage( getResources().getString(mpet.project2018.air.core.R.string.codeStatusOK), mpet.project2018.air.core.R.drawable.success_message,validationStatus);
-        else alertingMessage(getResources().getString(mpet.project2018.air.core.R.string.codeStatusNotOK), mpet.project2018.air.core.R.drawable.fail_message,validationStatus);
+        if(!scannedFlag) {
+            scannedFlag=true;
+            if (validationStatus)
+                alertingMessage(getResources().getString(mpet.project2018.air.core.R.string.codeStatusOK), mpet.project2018.air.core.R.drawable.success_message, validationStatus);
+            else
+                alertingMessage(getResources().getString(mpet.project2018.air.core.R.string.codeStatusNotOK), mpet.project2018.air.core.R.drawable.fail_message, validationStatus);
+        }
     }
 
     @Override
