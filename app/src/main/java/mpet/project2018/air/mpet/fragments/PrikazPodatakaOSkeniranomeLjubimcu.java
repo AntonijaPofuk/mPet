@@ -1,6 +1,10 @@
 package mpet.project2018.air.mpet.fragments;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -13,6 +17,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,8 +54,11 @@ public class PrikazPodatakaOSkeniranomeLjubimcu extends Fragment implements View
 
     private Ljubimac downloadedPet = null;
 
-    private String longitude;
-    private String latitude;
+    private String longitude="";
+    private String latitude="";
+
+    private String kontakt="";
+    private String prijavljeniKorisnik;
 
 
     @Nullable
@@ -75,17 +83,25 @@ public class PrikazPodatakaOSkeniranomeLjubimcu extends Fragment implements View
             loadKorisnikData(downloadedPet.vlasnik);
         }
 
+        String[] LOCATION_PERMS={Manifest.permission.ACCESS_FINE_LOCATION};
+
         if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
         {
-            Toast.makeText(getActivity(), "Informacija o lokaciji nepoznata", Toast.LENGTH_SHORT).show();
+            requestPermissions(LOCATION_PERMS, 1340);
+
         }
         else
         {
             LocationManager mLocationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
-            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, mLocationListener);
+            if(mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
+            {
+                mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, mLocationListener);
+            }
+
         }
 
 
+        getUserContacts();
 
         //Toast.makeText(getContext(), downloadedPet.ime, Toast.LENGTH_SHORT).show();
         return view;
@@ -95,8 +111,17 @@ public class PrikazPodatakaOSkeniranomeLjubimcu extends Fragment implements View
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //POSTdata();
+        SharedPreferences mSettings = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        prijavljeniKorisnik=mSettings.getString("ulogiraniKorisnikId","");
 
+        if(prijavljeniKorisnik=="")
+        {
+            getUserContacts();
+        }
+        else
+        {
+            POSTdata();
+        }
 
     }
 
@@ -160,11 +185,9 @@ public class PrikazPodatakaOSkeniranomeLjubimcu extends Fragment implements View
 
     private void POSTdata()
     {
+
         SkeniranjeMethod instancaSkeniranjaPOST=new SkeniranjeMethod(this);
-        //instancaSkeniranjaPOST.Upload("1","1","1","0","5.5","4.5","177","DEFAULT");
-
-        instancaSkeniranjaPOST.Upload(getDate(),getTime(),"make","0","make","make","prefs","pet");
-
+        instancaSkeniranjaPOST.Upload(getDate(),getTime(),kontakt,"0",longitude,latitude,prijavljeniKorisnik,downloadedPet.kartica);
     }
 
     @Override
@@ -193,7 +216,8 @@ public class PrikazPodatakaOSkeniranomeLjubimcu extends Fragment implements View
         public void onLocationChanged(final Location location) {
             longitude= String.valueOf(location.getLongitude());
             latitude= String.valueOf(location.getLatitude());
-            Toast.makeText(getActivity(), longitude +" "+latitude, Toast.LENGTH_SHORT).show();
+            POSTdata();
+            //Toast.makeText(getActivity(), longitude +" "+latitude, Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -212,7 +236,34 @@ public class PrikazPodatakaOSkeniranomeLjubimcu extends Fragment implements View
         }
     };
 
+        private void getUserContacts()
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle("Poruka vlasniku");
 
+            View viewInflated = LayoutInflater.from(getContext()).inflate(R.layout.neulogirani_unos_kontakta, (ViewGroup) getView(), false);
 
+            final EditText input = (EditText) viewInflated.findViewById(R.id.input);
+
+            builder.setView(viewInflated);
+
+            builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    kontakt = input.getText().toString();
+                    POSTdata();
+                }
+            });
+            builder.setNegativeButton(R.string.odustani, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                    POSTdata();
+                }
+            });
+
+            builder.show();
+        }
 
 }

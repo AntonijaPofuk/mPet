@@ -3,9 +3,11 @@ package mpet.project2018.air.manualinput;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.nfc.NfcManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -144,5 +146,9 @@ public class ManualInputFragment extends Fragment implements ModuleImplementatio
     public void onClick(View v) {
         String uneseniKod=unosKoda.getText().toString();
         validateCode(uneseniKod);
+       /* SharedPreferences mSettings = getActivity().getSharedPreferences("Settings", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = mSettings.edit();
+        editor.putString("prik","213");
+        editor.apply();*/
     }
 }
