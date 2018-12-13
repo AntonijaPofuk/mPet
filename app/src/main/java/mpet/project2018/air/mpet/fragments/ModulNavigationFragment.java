@@ -31,10 +31,71 @@ import mpet.project2018.air.mpet.R;
 import mpet.project2018.air.mpet.CodeHelper.CodeHandlerHelper;
 import mpet.project2018.air.nfc.NFCManager;
 
-
-public class ModulNavigationFragment extends Fragment
+public class ModulNavigationFragment extends Fragment implements View.OnClickListener
 {
+    private ModulNavigationFragment.OnFragmentInteractionListener mListener;
+
+
+    public ModulNavigationFragment() {
+    }
 
 
 
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.navigation_modul, container, false);
+
+        if (mListener != null) {
+            mListener.onFragmentInteraction("Skeniranje");
+        }
+
+        return view;
+    }
+
+    @Override
+    public void onClick(View v) {
+
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof Pocetna_neulogirani.OnFragmentInteractionListener) {
+            mListener = (ModulNavigationFragment.OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    public interface OnFragmentInteractionListener {
+        void onFragmentInteraction(String title);
+    }
+
+    private class ArticleFragment {
+    }
 }
