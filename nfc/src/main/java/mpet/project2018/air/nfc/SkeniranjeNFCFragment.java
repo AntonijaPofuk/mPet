@@ -1,6 +1,7 @@
 package mpet.project2018.air.nfc;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -37,9 +38,10 @@ public class SkeniranjeNFCFragment extends Fragment implements ModuleImplementat
     }
 
     @SuppressLint("ValidFragment")
-    public SkeniranjeNFCFragment(ModuleCommonMethods supportClass)
+    public SkeniranjeNFCFragment(ModuleCommonMethods supportClass, Activity rA)
     {
         commonMethodsInstance=supportClass;
+        runningActivity=rA;
     }
 
     private ModuleCommonMethods commonMethodsInstance;
@@ -47,6 +49,7 @@ public class SkeniranjeNFCFragment extends Fragment implements ModuleImplementat
     private Ljubimac loadedPet;
     private TextView nfcOutput;
     private ProgressBar nfcProgress;
+    private Activity runningActivity;
 
     private boolean scannedFlag=false;
 
@@ -161,6 +164,11 @@ public class SkeniranjeNFCFragment extends Fragment implements ModuleImplementat
     @Override
     public void showDataInFragment(FragmentActivity nowActivity, Ljubimac nowPet) {
         commonMethodsInstance.showPetDataFragment(nowActivity,nowPet);
+    }
+
+    @Override
+    public String getModuleName() {
+        return runningActivity.getResources().getString(R.string.module_name);
     }
 
     @Override

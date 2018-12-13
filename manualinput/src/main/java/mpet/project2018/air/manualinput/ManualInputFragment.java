@@ -1,6 +1,7 @@
 package mpet.project2018.air.manualinput;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -36,9 +37,11 @@ public class ManualInputFragment extends Fragment implements ModuleImplementatio
 
 
     @SuppressLint("ValidFragment")
-    public ManualInputFragment(ModuleCommonMethods supportClass)
+    public ManualInputFragment(ModuleCommonMethods supportClass, Activity rA)
     {
         commonMethodsInstance=supportClass;
+        runningActivity=rA;
+
     }
 
     private ModuleCommonMethods commonMethodsInstance;
@@ -46,6 +49,7 @@ public class ManualInputFragment extends Fragment implements ModuleImplementatio
     private Button potvrdiUnos;
     private EditText unosKoda;
     private ProgressBar manualProgress;
+    private Activity runningActivity;
 
     @Nullable
     @Override
@@ -109,6 +113,11 @@ public class ManualInputFragment extends Fragment implements ModuleImplementatio
     @Override
     public void showDataInFragment(FragmentActivity nowActivity, Ljubimac nowPet) {
         commonMethodsInstance.showPetDataFragment(nowActivity,nowPet);
+    }
+
+    @Override
+    public String getModuleName() {
+        return runningActivity.getResources().getString(R.string.module_namex);
     }
 
     @Override

@@ -11,5 +11,5 @@ public interface ModuleImplementationMethods {
     void validateCode(String code);
     void outputValidationStatus(boolean validationStatus);
     void showDataInFragment(FragmentActivity nowActivity, Ljubimac gotPet);
-
+    String getModuleName();
 }

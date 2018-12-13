@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity
 
     private void reg(){
         CodeHandlerHelper novaInstancaProba=new CodeHandlerHelper();
-        ManualInputFragment mDiscountListFragment = new ManualInputFragment(novaInstancaProba);
+        ManualInputFragment mDiscountListFragment = new ManualInputFragment(novaInstancaProba, this);
         FragmentManager mFragmentManager = getSupportFragmentManager();
         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.mainFrame, mDiscountListFragment);
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity
 
     private void reg2(){
         CodeHandlerHelper novaInstancaProba=new CodeHandlerHelper();
-        SkeniranjeNFCFragment mDiscountListFragment = new SkeniranjeNFCFragment(novaInstancaProba);
+        SkeniranjeNFCFragment mDiscountListFragment = new SkeniranjeNFCFragment(novaInstancaProba, this);
         FragmentManager mFragmentManager = getSupportFragmentManager();
         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.mainFrame, mDiscountListFragment);

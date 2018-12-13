@@ -78,10 +78,11 @@ public class ModulNavigationFragment extends Fragment implements View.OnClickLis
     {
         codeHandlerInstance=new CodeHandlerHelper();
         listaModula=new ArrayList<ModuleImplementationMethods>();
-        ModuleImplementationMethods manualModule=new ManualInputFragment(codeHandlerInstance);
-        listaModula.add(manualModule);
-        ModuleImplementationMethods nfcModule=new SkeniranjeNFCFragment(codeHandlerInstance);
+        ModuleImplementationMethods nfcModule=new SkeniranjeNFCFragment(codeHandlerInstance, getActivity());
         listaModula.add(nfcModule);
+        ModuleImplementationMethods manualModule=new ManualInputFragment(codeHandlerInstance, getActivity());
+        listaModula.add(manualModule);
+
     }
 
     private void moduleNavigationSetup(View view)
@@ -95,8 +96,7 @@ public class ModulNavigationFragment extends Fragment implements View.OnClickLis
             View v = vi.inflate(R.layout.navigation_modul_item, null);
 
             TextView textView = (TextView) v.findViewById(R.id.nazivModula);
-            textView.setText("Modul "+i);
-
+            textView.setText(listaModula.get(i).getModuleName());
 
             insertPoint.addView(v);
         }

@@ -2,4 +2,6 @@
     <string name="app_name">nfc</string>
     <string name="no_nfc">Uključite NFC na uređaju.</string>
     <string name="yes_nfc">Približite uređaj NFC tagu</string>
+    <string name="module_name">NFC skeniranje koda</string>
+
 </resources>
