@@ -22,19 +22,25 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.LjubimacDataLoadedListener;
 import Retrofit.DataGetListenersAndLoaders.DataLoaders.LjubimacDataLoader;
 import Retrofit.Model.Ljubimac;
+import mpet.project2018.air.core.ModuleImplementationMethods;
+import mpet.project2018.air.manualinput.ManualInputFragment;
 import mpet.project2018.air.mpet.R;
 import mpet.project2018.air.mpet.CodeHelper.CodeHandlerHelper;
 import mpet.project2018.air.nfc.NFCManager;
+import mpet.project2018.air.nfc.SkeniranjeNFCFragment;
 
 public class ModulNavigationFragment extends Fragment implements View.OnClickListener
 {
     private ModulNavigationFragment.OnFragmentInteractionListener mListener;
 
+    private List<ModuleImplementationMethods> listaModula;
+    private CodeHandlerHelper codeHandlerInstance;
 
     public ModulNavigationFragment() {
     }
@@ -50,6 +56,10 @@ public class ModulNavigationFragment extends Fragment implements View.OnClickLis
             mListener.onFragmentInteraction("Skeniranje");
         }
 
+        moduleSetup();
+
+        moduleNavigationSetup(view);
+
         return view;
     }
 
@@ -62,6 +72,34 @@ public class ModulNavigationFragment extends Fragment implements View.OnClickLis
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+    }
+
+    private void moduleSetup()
+    {
+        codeHandlerInstance=new CodeHandlerHelper();
+        listaModula=new ArrayList<ModuleImplementationMethods>();
+        ModuleImplementationMethods manualModule=new ManualInputFragment(codeHandlerInstance);
+        listaModula.add(manualModule);
+        ModuleImplementationMethods nfcModule=new SkeniranjeNFCFragment(codeHandlerInstance);
+        listaModula.add(nfcModule);
+    }
+
+    private void moduleNavigationSetup(View view)
+    {
+        ViewGroup insertPoint = (ViewGroup) view.findViewById(R.id.modulViewGroup);
+
+        for(int i=0;i<listaModula.size();i++)
+        {
+
+            LayoutInflater vi = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View v = vi.inflate(R.layout.navigation_modul_item, null);
+
+            TextView textView = (TextView) v.findViewById(R.id.nazivModula);
+            textView.setText("Modul "+i);
+
+
+            insertPoint.addView(v);
+        }
     }
 
     @Override
