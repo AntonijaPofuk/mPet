@@ -65,7 +65,6 @@ public class ModulNavigationFragment extends Fragment implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        Toast.makeText(getActivity(), String.valueOf(v.getId()), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -103,12 +102,20 @@ public class ModulNavigationFragment extends Fragment implements View.OnClickLis
             openFragment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(getActivity(), "nekaj", Toast.LENGTH_SHORT).show();
+                    showModuleFragmnet(listaModula.get(v.getId()));
                 }
             });
 
             insertPoint.addView(v);
         }
+    }
+
+    private void showModuleFragmnet(ModuleImplementationMethods module)
+    {
+        FragmentManager mFragmentManager = getFragmentManager();
+        FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+        mFragmentTransaction.replace(R.id.mainFrame, module.getModuleFragment());
+        mFragmentTransaction.commit();
     }
 
     @Override
