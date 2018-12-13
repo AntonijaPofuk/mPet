@@ -99,6 +99,7 @@ public class ModulNavigationFragment extends Fragment implements View.OnClickLis
 
             Button openFragment=(Button) v.findViewById(R.id.otvoriModul) ;
             openFragment.setId(i);
+            openFragment.setText("Pokreni");
             openFragment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

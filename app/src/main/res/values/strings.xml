@@ -47,7 +47,7 @@
     <string name="kontakt_email">Email</string>
     <string name="kontakt_telefon">Broj telefona</string>
     <string name="kontakt_mobitel">Broj mobitela</string>
-    <string name="hint_kontakt">Unesite kontak podataka</string>
+    <string name="hint_kontakt">Unesite kontakt podatak</string>
     <string name="odustani">Odustani</string>
 
 </resources>
