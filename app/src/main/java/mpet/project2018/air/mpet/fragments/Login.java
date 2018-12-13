@@ -1,11 +1,8 @@
 package mpet.project2018.air.mpet.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -18,7 +15,6 @@ import android.widget.Toast;
 import Retrofit.DataPost.PrijavaMethod;
 import Retrofit.RemotePost.onLoginValidation;
 import mpet.project2018.air.mpet.Config;
-import mpet.project2018.air.mpet.LoginActivity;
 import mpet.project2018.air.mpet.R;
 
 import static android.content.Context.MODE_PRIVATE;

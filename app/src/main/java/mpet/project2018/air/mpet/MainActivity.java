@@ -1,6 +1,5 @@
 package mpet.project2018.air.mpet;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.design.widget.NavigationView;
@@ -14,21 +13,16 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import mpet.project2018.air.database.MainDatabase;
-import mpet.project2018.air.mpet.fragments.Logout;
 import mpet.project2018.air.mpet.fragments.Pocetna_ulogirani;
 import mpet.project2018.air.mpet.fragments.Pocetna_neulogirani;
 import mpet.project2018.air.mpet.fragments.Registracija;
 import mpet.project2018.air.mpet.fragments.SkeniranjeNFCKartice;
 import mpet.project2018.air.mpet.fragments.Login;
 
+import static mpet.project2018.air.mpet.Config.EMAIL_SHARED_PREF;
 import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 
 
@@ -39,7 +33,6 @@ public class MainActivity extends AppCompatActivity
         Pocetna_neulogirani.OnFragmentInteractionListener,
         Registracija.OnFragmentInteractionListener,
         Login.OnFragmentInteractionListener,
-        Logout.OnFragmentInteractionListener,
         SkeniranjeNFCKartice.OnFragmentInteractionListener,
         NavigationView.OnNavigationItemSelectedListener
         //TODO: dodaj novi fragment ovdje uvijek a na početku fragmenta implementiraj mlistenere
@@ -79,7 +72,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.setCheckedItem(R.id.nav_frag1);         //Provjera prvog elementa u draweru
+        navigationView.setCheckedItem(R.id.nav_frag1); //Provjera i odabir prvog elementa u draweru
 
 
        /*FragmentTransaction ft = getSupportFragmentManager().beginTransaction();    //otvaranje prvog fragmenta kod pokretanja app
@@ -88,26 +81,27 @@ public class MainActivity extends AppCompatActivity
 
         MainDatabase.initializeDatabase(this);
 
-
-
-
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, 0);
-        String id1 = sharedPreferences.getString(Config.EMAIL_SHARED_PREF, "").toString(); //getString
+        String id1 = sharedPreferences.getString(EMAIL_SHARED_PREF, "").toString();
         Toast.makeText(this,"Vas id je"+id1, Toast.LENGTH_SHORT).show();
 
-        if (sharedPreferences.getString(Config.EMAIL_SHARED_PREF, "").toString().equals("")) { //getString
-            FragmentTransaction ft2 = getSupportFragmentManager().beginTransaction();
-            ft2.replace(R.id.mainFrame, new Pocetna_neulogirani());
-            ft2.commit();
-        }
-        else{
+        sharedPreferences = this.getSharedPreferences(SHARED_PREF_NAME, 0); //u fragmentu dodaj this.getActivity..... jer nema CONTEXA
+        if (sharedPreferences.getString(EMAIL_SHARED_PREF, "ulogiraniKorisnikId").toString().equals("ulogiraniKorisnikId")) { //getString
             FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
             ft1.replace(R.id.mainFrame, new Pocetna_neulogirani());
             ft1.commit();
+        }
+
+        else {
+            FragmentTransaction ft2 = getSupportFragmentManager().beginTransaction();
+            ft2.replace(R.id.mainFrame, new Pocetna_ulogirani());
+            ft2.commit();
+        }
+
 
         }
 
-    }
+
     /*private void reg(){
         SkeniranjeNFCKartice mDiscountListFragment = new SkeniranjeNFCKartice();
         FragmentManager mFragmentManager = getSupportFragmentManager();

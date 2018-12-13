@@ -1,11 +1,8 @@
 package mpet.project2018.air.mpet.fragments;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.Preference;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
@@ -13,17 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import mpet.project2018.air.mpet.Config;
-import mpet.project2018.air.mpet.LoginActivity;
 import mpet.project2018.air.mpet.R;
 
-import static android.content.Context.MODE_PRIVATE;
 import static mpet.project2018.air.mpet.Config.EMAIL_SHARED_PREF;
 import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 
@@ -49,6 +40,11 @@ public class Pocetna_ulogirani extends Fragment {
         }
         // Listeneri za btn
         // Button btn1= (Button) view.findViewById(R.id.frag1_btn1); btn1.setOnclickListener(...
+
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREF_NAME, 0);
+        String idPrijavljeni = sharedPreferences.getString(Config.EMAIL_SHARED_PREF, "").toString();
+        Toast.makeText(getActivity(),"Vas id je"+idPrijavljeni, Toast.LENGTH_SHORT).show();
 
 
         Button btn1=(Button) view.findViewById(R.id.btnOdjava);
@@ -81,9 +77,7 @@ public class Pocetna_ulogirani extends Fragment {
         */
                //-------------------------------------------
 
-        SharedPreferences sp = this.getActivity().getSharedPreferences(Config.SHARED_PREF_NAME, 0); //u fragmentu dodaj this.getActivity..... jer nema CONTEXA
-        String id1 = sp.getString(Config.EMAIL_SHARED_PREF, "").toString(); //getString
-        Toast.makeText(getActivity(), "Vas id je"+id1, Toast.LENGTH_SHORT).show();
+
         //TextView textView = (TextView)view.findViewById(R.id.textView1);
         //textView.setText("Prijavljeni korisnik: " + id);
 

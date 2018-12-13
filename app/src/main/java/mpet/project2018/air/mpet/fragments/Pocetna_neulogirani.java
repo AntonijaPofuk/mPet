@@ -1,22 +1,20 @@
 package mpet.project2018.air.mpet.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import mpet.project2018.air.mpet.Config;
-import mpet.project2018.air.mpet.LoginActivity;
 import mpet.project2018.air.mpet.R;
+
+import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 
 
 public class Pocetna_neulogirani extends Fragment {
@@ -39,6 +37,11 @@ public class Pocetna_neulogirani extends Fragment {
         if (mListener != null) {
             mListener.onFragmentInteraction("Početna");
         }
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREF_NAME, 0);
+        String idNeprijavljeni = sharedPreferences.getString(Config.EMAIL_SHARED_PREF, "").toString();
+        Toast.makeText(getActivity(),"Vas id je"+idNeprijavljeni, Toast.LENGTH_SHORT).show();
+
 
         Button btn1=(Button) view.findViewById(R.id.btnPrijava);
         btn1.setOnClickListener(new View.OnClickListener() {
@@ -77,9 +80,7 @@ public class Pocetna_neulogirani extends Fragment {
         );
 
 
-        SharedPreferences sp = this.getActivity().getSharedPreferences(Config.SHARED_PREF_NAME, 0); //u fragmentu dodaj this.getActivity..... jer nema CONTEXA
-        String id1 = sp.getString(Config.EMAIL_SHARED_PREF, "").toString(); //getString
-        Toast.makeText(getActivity(), "Vas id je"+id1, Toast.LENGTH_SHORT).show();
+
         return view;
     }
 
