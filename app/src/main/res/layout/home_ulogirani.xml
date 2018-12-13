@@ -8,6 +8,7 @@
     tools:ignore="MissingDefaultResource">
 
 
+
     <ImageView
         android:id="@+id/logo"
         android:layout_width="165dp"

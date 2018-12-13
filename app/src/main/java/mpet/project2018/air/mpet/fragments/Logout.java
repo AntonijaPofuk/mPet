@@ -41,14 +41,16 @@ public class Logout extends Fragment{
             return view;
         }
 
-    public void logOut(View view){
-        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(Login.MyPREFERENCES, MODE_PRIVATE);
+   /* public void logOut(View view){
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(MyPref, Contex.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
+        editor.remove("ulogiraniKorisnikId");
+        editor.apply;
         //------------------------
-        editor.commit();
+        //editor.commit();
 
-    }
+    } */
+
 
     private void swapFragment(){
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();

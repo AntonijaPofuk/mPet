@@ -2,6 +2,7 @@ package mpet.project2018.air.mpet.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -10,8 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import mpet.project2018.air.mpet.Config;
 import mpet.project2018.air.mpet.LoginActivity;
 import mpet.project2018.air.mpet.R;
 
@@ -66,14 +69,17 @@ public class Pocetna_neulogirani extends Fragment {
         btn3.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        Toast.makeText(getActivity(), "Skeniranje....",
-                                                Toast.LENGTH_LONG).show();
                                         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                                         ft.replace(R.id.mainFrame, new SkeniranjeNFCKartice());
                                         ft.commit();
                                     }
                                 }
         );
+
+
+        SharedPreferences sp = this.getActivity().getSharedPreferences(Config.SHARED_PREF_NAME, 0); //u fragmentu dodaj this.getActivity..... jer nema CONTEXA
+        String id1 = sp.getString(Config.EMAIL_SHARED_PREF, "").toString(); //getString
+        Toast.makeText(getActivity(), "Vas id je"+id1, Toast.LENGTH_SHORT).show();
         return view;
     }
 

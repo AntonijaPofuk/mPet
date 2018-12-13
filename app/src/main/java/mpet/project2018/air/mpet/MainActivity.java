@@ -1,6 +1,8 @@
 package mpet.project2018.air.mpet;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -15,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -26,6 +29,8 @@ import mpet.project2018.air.mpet.fragments.Registracija;
 import mpet.project2018.air.mpet.fragments.SkeniranjeNFCKartice;
 import mpet.project2018.air.mpet.fragments.Login;
 
+import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
+
 
 public class MainActivity extends AppCompatActivity
         //Listeneri za klikove, OnFragmentInteractionListener je za sve fragmente
@@ -35,15 +40,31 @@ public class MainActivity extends AppCompatActivity
         Registracija.OnFragmentInteractionListener,
         Login.OnFragmentInteractionListener,
         Logout.OnFragmentInteractionListener,
-
         SkeniranjeNFCKartice.OnFragmentInteractionListener,
-
-
         NavigationView.OnNavigationItemSelectedListener
         //TODO: dodaj novi fragment ovdje uvijek a na početku fragmenta implementiraj mlistenere
-
 {
-    String dohvaceniId;
+    //------------------------------------------------------------------------
+    /*private boolean loggedIn = false;
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //In onresume fetching value from sharedpreference
+        SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME,Context.MODE_PRIVATE);
+
+        //Fetching the boolean value form sharedpreferences
+        loggedIn = sharedPreferences.getBoolean(Config.LOGGEDIN_SHARED_PREF, false);
+
+        //If we will get true
+        if(loggedIn){
+            //We will start the Profile Activity
+            Intent intent = new Intent(MainActivity.this, Pocetna_ulogirani.class);
+            startActivity(intent);
+        }
+    } */
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,17 +82,31 @@ public class MainActivity extends AppCompatActivity
         navigationView.setCheckedItem(R.id.nav_frag1);         //Provjera prvog elementa u draweru
 
 
-        //--------------------------------------------------------
-        View nav = navigationView.getHeaderView(0);
-        TextView KorIme = (TextView) nav.findViewById(R.id.korImeIzbornik);
-        KorIme.setText(dohvaceniId);
-        //--------------------------------------------------------
-
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();    //otvaranje prvog fragmenta kod pokretanja app
+       /*FragmentTransaction ft = getSupportFragmentManager().beginTransaction();    //otvaranje prvog fragmenta kod pokretanja app
         ft.replace(R.id.mainFrame, new Pocetna_neulogirani());
-        ft.commit();
+        ft.commit();*/
 
         MainDatabase.initializeDatabase(this);
+
+
+
+
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, 0);
+        String id1 = sharedPreferences.getString(Config.EMAIL_SHARED_PREF, "").toString(); //getString
+        Toast.makeText(this,"Vas id je"+id1, Toast.LENGTH_SHORT).show();
+
+        if (sharedPreferences.getString(Config.EMAIL_SHARED_PREF, "").toString().equals("")) { //getString
+            FragmentTransaction ft2 = getSupportFragmentManager().beginTransaction();
+            ft2.replace(R.id.mainFrame, new Pocetna_neulogirani());
+            ft2.commit();
+        }
+        else{
+            FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
+            ft1.replace(R.id.mainFrame, new Pocetna_neulogirani());
+            ft1.commit();
+
+        }
+
     }
     /*private void reg(){
         SkeniranjeNFCKartice mDiscountListFragment = new SkeniranjeNFCKartice();
@@ -111,7 +146,7 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment = null;
         if (id == R.id.nav_frag1) {
 
-            //fragment = new Pocetna_ulogirani();
+            //fragment = new Pocetna_ulogirani();  //Promjena fragmenta iz aktivnosit
         } else if (id == R.id.nav_frag2) {
 
         }else if (id == R.id.nav_frag3) {
@@ -121,7 +156,7 @@ public class MainActivity extends AppCompatActivity
 
         }
         else if (id == R.id.nav_frag5) {
-            //fragment = new Pocetna_neulogirani();   //Promjena fragmenta iz aktivnosit
+
         }
         if (fragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

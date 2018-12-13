@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -16,10 +17,12 @@ import android.widget.Toast;
 
 import Retrofit.DataPost.PrijavaMethod;
 import Retrofit.RemotePost.onLoginValidation;
+import mpet.project2018.air.mpet.Config;
 import mpet.project2018.air.mpet.LoginActivity;
 import mpet.project2018.air.mpet.R;
 
 import static android.content.Context.MODE_PRIVATE;
+import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 
 
 public class Login extends Fragment implements onLoginValidation {
@@ -32,8 +35,7 @@ public class Login extends Fragment implements onLoginValidation {
     Button btnLogin;
     Button btnPrijavaOdustani;
 
-    public static final String MyPREFERENCES="MyPrefs";
-    SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,14 +50,13 @@ public class Login extends Fragment implements onLoginValidation {
             mListener.onFragmentInteraction("Prijava");
         }
 
-
         edtUsername = (EditText) view.findViewById(R.id.edtUsername);
         edtPassword = (EditText) view.findViewById(R.id.edtPassword);
         btnLogin = (Button) view.findViewById(R.id.btnLogin);
         btnPrijavaOdustani = (Button) view.findViewById(R.id.btnPrijavaOdustani);
 
-        sharedPreferences = this.getActivity().getSharedPreferences("MyPREFERENCES", 0); //u fragmentu dodaj this.getActivity..... jer nema CONTEXA
-        if (sharedPreferences.getString("ulogiraniKorisnikId", "").toString().equals("ulogiraniKorisnikId")) {
+        sharedPreferences = this.getActivity().getSharedPreferences("MyPref", 0); //u fragmentu dodaj this.getActivity..... jer nema CONTEXA
+        if (sharedPreferences.getString("ulogiraniKorisnikId", "").toString().equals("ulogiraniKorisnikId")) { //getString
             FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.mainFrame, new Pocetna_ulogirani());
             ft.commit();
@@ -115,25 +116,19 @@ public class Login extends Fragment implements onLoginValidation {
 
     @Override
     public void onDataLoaded (String id){
-        if(id.isEmpty()){
-            Toast.makeText(getActivity(), "Niste se  prijavili", Toast.LENGTH_SHORT).show();
-
-        }
-        else {
-            Toast.makeText(getActivity(), "Uspješno ste se prijavili pod id-om" + id, Toast.LENGTH_SHORT).show();
-        }
 
         //validate form
         if (Integer.parseInt(id) != 0) {
 
             // startActivity(new Intent(LoginActivity.this, Pocetna_ulogirani.class));
-            //startActivity(new Intent(LoginActivity.this,Pocetna_ulogirani.class));
 
 
-            sharedPreferences = this.getActivity().getSharedPreferences("MyPREFERENCES", MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("ulogiraniKorisnikId", id); //provjerava od tud vrijednosti gore ako je ulogirani
-            editor.commit();
+            getActivity().getSharedPreferences(SHARED_PREF_NAME,MODE_PRIVATE)
+                    .edit()
+                    .putString(Config.EMAIL_SHARED_PREF,id)
+                    .apply();
+            //-------------------------------------------
+            Toast.makeText(getActivity(), "Vas id je"+id, Toast.LENGTH_SHORT).show();
 
 
 
@@ -149,14 +144,7 @@ public class Login extends Fragment implements onLoginValidation {
 
     }
 
-    public void getDataFromPref(){
-        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences(MyPREFERENCES,0);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        String dohvaceniId = sharedPreferences.getString("ulogiraniKorisnikId","");
 
-        editor.commit();
-
-    }
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -179,6 +167,20 @@ public class Login extends Fragment implements onLoginValidation {
     }
     private class ArticleFragment {
     }
+
+/*  PUT: getActivity().getSharedPreferences(SHARED_PREF_NAME,MODE_PRIVATE)
+                    .edit()
+                    .putString(Config.EMAIL_SHARED_PREF,id)
+                    .apply();
+            //-------------------------------------------
+            Toast.makeText(getActivity(), "Vas id je"+id, Toast.LENGTH_SHORT).show();
+
+
+         GET:SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("MyPref", 0); //u fragmentu dodaj this.getActivity..... jer nema CONTEXA
+            String id1 = sharedPreferences.getString(Config.EMAIL_SHARED_PREF, "").toString(); //getString
+            Toast.makeText(getActivity(), "Vas id je"+id1, Toast.LENGTH_SHORT).show();
+
+   */
 
 
 }
