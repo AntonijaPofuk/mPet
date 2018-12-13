@@ -67,24 +67,6 @@ public class MainActivity extends AppCompatActivity
 
 
 
-    private void reg(){
-        CodeHandlerHelper novaInstancaProba=new CodeHandlerHelper();
-        ManualInputFragment mDiscountListFragment = new ManualInputFragment(novaInstancaProba, this);
-        FragmentManager mFragmentManager = getSupportFragmentManager();
-        FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
-        mFragmentTransaction.replace(R.id.mainFrame, mDiscountListFragment);
-        mFragmentTransaction.commit();
-    }
-
-    private void reg2(){
-        CodeHandlerHelper novaInstancaProba=new CodeHandlerHelper();
-        SkeniranjeNFCFragment mDiscountListFragment = new SkeniranjeNFCFragment(novaInstancaProba, this);
-        FragmentManager mFragmentManager = getSupportFragmentManager();
-        FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
-        mFragmentTransaction.replace(R.id.mainFrame, mDiscountListFragment);
-        mFragmentTransaction.commit();
-    }
-
         @Override
         public void onBackPressed() {
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
