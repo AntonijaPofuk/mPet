@@ -116,6 +116,7 @@ public class ModulNavigationFragment extends Fragment implements View.OnClickLis
         FragmentManager mFragmentManager = getFragmentManager();
         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.mainFrame, module.getModuleFragment());
+        mFragmentTransaction.addToBackStack(null);
         mFragmentTransaction.commit();
     }
 

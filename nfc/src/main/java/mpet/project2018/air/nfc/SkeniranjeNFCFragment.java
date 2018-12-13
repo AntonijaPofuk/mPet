@@ -138,8 +138,10 @@ public class SkeniranjeNFCFragment extends Fragment implements ModuleImplementat
 
         if(commonMethodsInstance.validateCodeFormat(code))
         {
-            LjubimacDataLoader petLoader=new LjubimacDataLoader(this);
-            petLoader.loadDataByTag(code);
+            if(!scannedFlag) {
+                LjubimacDataLoader petLoader = new LjubimacDataLoader(this);
+                petLoader.loadDataByTag(code);
+            }
         }
         else
         {
@@ -233,4 +235,6 @@ public class SkeniranjeNFCFragment extends Fragment implements ModuleImplementat
             }
         }
     };
+
+
 }

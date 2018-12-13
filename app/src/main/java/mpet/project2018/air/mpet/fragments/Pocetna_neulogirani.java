@@ -71,6 +71,7 @@ public class Pocetna_neulogirani extends Fragment {
                                                 Toast.LENGTH_LONG).show();
                                         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                                         ft.replace(R.id.mainFrame, new ModulNavigationFragment());
+                                        ft.addToBackStack(null);
                                         ft.commit();
                                     }
                                 }
