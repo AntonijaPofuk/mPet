@@ -63,7 +63,7 @@ public class Registracija extends Fragment implements StatusListener {
     private Bitmap bit=null;
     private String slika=null;
 
-    private String status;
+    public String status=null;
     private RegistracijaMethod method=new RegistracijaMethod(this);
 
     public Registracija() {}
@@ -112,9 +112,7 @@ public class Registracija extends Fragment implements StatusListener {
                                                 String korIme=korisnickoEdit.getText().toString();
                                                 EditText adresaEdit = (EditText)view.findViewById(R.id.unosAdresa);
                                                 String adresa=adresaEdit.getText().toString();
-                                                if(TextUtils.isEmpty(adresa)){
-                                                    adresa="DEFAULT";
-                                                }
+
                                                 EditText mailEdit = (EditText)view.findViewById(R.id.unosMail);
                                                 String mail=mailEdit.getText().toString();
                                                 EditText telefonEdit = (EditText)view.findViewById(R.id.unosTelefon);
@@ -146,7 +144,7 @@ public class Registracija extends Fragment implements StatusListener {
                                                 else{
 
                                                     method.Upload(ime, prezime, korIme, adresa, mail, mobitel, telefon, lozinka, slika);
-
+                                                    swapFragment();
                                                 }
                                             }
                                         }
@@ -229,25 +227,24 @@ public class Registracija extends Fragment implements StatusListener {
     @Override
     public void onStatusChanged(String s) {
         status=s;
-
+        Activity a=getActivity();
+        /*
         if(s.equals("duplikat")) {
-            Toast.makeText(getActivity(), "Korisničko ime postoji",
+            Toast.makeText(a, "Korisničko ime postoji",
                     Toast.LENGTH_LONG).show();
         }
+        else if (s.equals("greska")) {
+               swapFragment();
+                Toast.makeText(a, "Ups, greška :(",
+                        Toast.LENGTH_LONG).show();
+            }
+
         else {
-            if (s.equals("greska")) {
-                swapFragment();
-                Toast.makeText(getActivity(), "Ups, greška :(",
-                        Toast.LENGTH_LONG).show();
-            }
-            else{
-                swapFragment();
-                Toast.makeText(getActivity(), "Registrirali ste se :)",
-                        Toast.LENGTH_LONG).show();
-            }
+           swapFragment();
+            Toast.makeText(a, "Registrirali ste se :)",
+                    Toast.LENGTH_LONG).show();
         }
-
-
+*/
     }
 
     public interface OnFragmentInteractionListener {

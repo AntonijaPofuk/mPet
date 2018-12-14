@@ -108,9 +108,6 @@ public class NoviLjubimac extends Fragment implements StatusListener {
                 }
                 EditText vrstaEdit = (EditText)view.findViewById(R.id.txtVrsta);
                 String vrsta= vrstaEdit.getText().toString();
-                if(TextUtils.isEmpty(vrsta)){
-                    vrsta="DEFAULT";
-                }
 
                 Spinner spolSpin = (Spinner) view.findViewById(R.id.spinnerSpol);
                 String spin=(String) spolSpin.getSelectedItem();
@@ -124,12 +121,11 @@ public class NoviLjubimac extends Fragment implements StatusListener {
 
                 EditText opisEdit = (EditText)view.findViewById(R.id.txtOpis);
                 String opis= opisEdit.getText().toString();
-                if(TextUtils.isEmpty(opis)){
-                    opis="DEFAULT";
-                }
+
                 String kartica="DEFAULT";
                 String vlasnik="DEFAULT";
                 //String vlasnik=ID_KORISNIKA;
+                //TODO: proslijediti vlasnika
 
                 String provjera=null;
                 /**/
@@ -145,6 +141,7 @@ public class NoviLjubimac extends Fragment implements StatusListener {
 
                     method.Upload(ime, godina, masa, vrsta, spol, opis, "/", vlasnik, kartica, slika);
 
+                    swapFragment();
                 }
 
             }
@@ -195,6 +192,11 @@ public class NoviLjubimac extends Fragment implements StatusListener {
         ft.commit();
     }
 
+    private void closefragment() {
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        ft.remove(this).commit();
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -215,16 +217,18 @@ public class NoviLjubimac extends Fragment implements StatusListener {
     public void onStatusChanged(String s) {
         status=s;
 
+/*
         if(s.equals("greska")){
             swapFragment();
-            Toast.makeText(getActivity(), "Ups, greška :(",
+            Toast.makeText(getActivity(), "Ups, greška...",
                     Toast.LENGTH_LONG).show();
         }
         else{
-            swapFragment();
             Toast.makeText(getActivity(), "Upisali ste ljubimca :)",
-                    Toast.LENGTH_LONG).show();
+                Toast.LENGTH_LONG).show();
         }
+        swapFragment();
+*/
 
     }
 
