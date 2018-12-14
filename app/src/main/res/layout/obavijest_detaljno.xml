@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,6 +9,113 @@
         android:id="@+id/mapView"
         android:layout_width="430dp"
         android:layout_height="238dp"
-        
         />
-</FrameLayout>
+
+
+    <TextView
+        android:id="@+id/lblImeLjubimca"
+        android:layout_width="wrap_content"
+        android:layout_height="50px"
+        android:text="Ime ljubimca :"
+        android:layout_below="@+id/mapView"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        />
+
+    <TextView
+        android:id="@+id/lblDatumVrijemeSkeniranja"
+        android:layout_width="wrap_content"
+        android:layout_height="50px"
+        android:text="Datum i vrijeme :"
+        android:layout_below="@+id/lblImeLjubimca"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        />
+
+    <TextView
+        android:id="@+id/lblKorisnik"
+        android:layout_width="wrap_content"
+        android:layout_height="50px"
+        android:text="Skenirao :"
+        android:layout_below="@+id/lblDatumVrijemeSkeniranja"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        />
+
+    <TextView
+        android:id="@+id/lblMjestoSkeniranja"
+        android:layout_width="wrap_content"
+        android:layout_height="50px"
+        android:text="Mjesto skeniranja :"
+        android:layout_below="@+id/lblKorisnik"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        />
+
+    <TextView
+        android:id="@+id/lblKontakt"
+        android:layout_width="wrap_content"
+        android:layout_height="50px"
+        android:text="Kontakt :"
+        android:layout_below="@+id/lblMjestoSkeniranja"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        />
+
+    <TextView
+        android:id="@+id/txtImeLjubimca"
+        android:layout_width="wrap_content"
+        android:layout_height="50px"
+        android:layout_toRightOf="@+id/lblImeLjubimca"
+        android:layout_below="@id/mapView"
+        android:layout_margin="10dp"
+        android:textColor="@color/black"
+        />
+
+    <TextView
+        android:id="@+id/txtDatumVrijemeSkena"
+        android:layout_width="wrap_content"
+        android:layout_height="50px"
+        android:layout_toRightOf="@+id/lblDatumVrijemeSkeniranja"
+        android:layout_below="@id/txtImeLjubimca"
+        android:layout_margin="10dp"
+        android:textColor="@color/black"
+        />
+
+    <TextView
+        android:id="@+id/txtSkenirao"
+        android:layout_width="wrap_content"
+        android:layout_height="50px"
+        android:layout_toRightOf="@+id/lblKorisnik"
+        android:layout_below="@id/txtDatumVrijemeSkena"
+        android:layout_margin="10dp"
+        android:textColor="@color/black"
+        />
+
+    <TextView
+        android:id="@+id/txtMjestoSkena"
+        android:layout_width="wrap_content"
+        android:layout_height="50px"
+        android:layout_toRightOf="@+id/lblMjestoSkeniranja"
+        android:layout_below="@id/txtSkenirao"
+        android:layout_margin="10dp"
+        android:textColor="@color/black"
+        />
+
+    <TextView
+        android:id="@+id/txtKontakt"
+        android:layout_width="wrap_content"
+        android:layout_height="50px"
+        android:layout_below="@id/txtMjestoSkena"
+        android:layout_margin="10dp"
+        android:layout_marginStart="81dp"
+        android:layout_toEndOf="@+id/lblKontakt"
+        android:layout_toRightOf="@+id/lblMjestoSkeniranja"
+        android:textColor="@color/black" />
+
+</RelativeLayout>

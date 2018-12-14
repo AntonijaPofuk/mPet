@@ -38,7 +38,7 @@ import static mpet.project2018.air.mpet.obavijesti.CreateNotificationChannel.CHA
 public class NotificationService extends Service implements SkeniranjeDataLoadedListener {
 
     private static List<Skeniranje> listaSkeniranja =new ArrayList<>();
-    private static int delay=60000*15;//svakih tolko milisekundi provjerava ako postoji nova obavijesti
+    private static int delay=5000;//svakih tolko milisekundi provjerava ako postoji nova obavijesti
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     private Korisnik korisnik=new Korisnik();
 
@@ -85,11 +85,11 @@ public class NotificationService extends Service implements SkeniranjeDataLoaded
                                 }
                                 lokalnaBazaSkeniranje.setDatum(datum);
                                 lokalnaBazaSkeniranje.setId_skeniranja(Integer.parseInt(skeniranje.id_skeniranja));
-                                lokalnaBazaSkeniranje.setKartica(new Kartica("1"));//staviti realan id
+                                lokalnaBazaSkeniranje.setKartica(new Kartica("6542fer74f"));//staviti realan id
                                 lokalnaBazaSkeniranje.setKontakt(skeniranje.kontakt);
                                 lokalnaBazaSkeniranje.setKoordinata_x(skeniranje.koordinata_x);
                                 lokalnaBazaSkeniranje.setKoordinata_y(skeniranje.koordinata_y);
-                                korisnik.setId_korisnika(Integer.parseInt("1"));//staviti realan id
+                                korisnik.setId_korisnika(Integer.parseInt("198"));//staviti realan id
                                 lokalnaBazaSkeniranje.setKorisnik(korisnik);
                                 lokalnaBazaSkeniranje.setProcitano(skeniranje.procitano);
                                 lokalnaBazaSkeniranje.setVrijeme(skeniranje.vrijeme);

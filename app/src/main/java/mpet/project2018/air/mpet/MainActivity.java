@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.raizlabs.android.dbflow.sql.language.SQLite;
@@ -24,9 +25,11 @@ import java.util.List;
 import mpet.project2018.air.database.MainDatabase;
 import mpet.project2018.air.database.entities.Kartica;
 import mpet.project2018.air.database.entities.Korisnik;
+import mpet.project2018.air.database.entities.Ljubimac;
 import mpet.project2018.air.mpet.fragments.Pocetna;
 import mpet.project2018.air.mpet.fragments.Pocetna_neulogirani;
 import mpet.project2018.air.mpet.fragments.PrikazObavijestiDetaljno;
+import mpet.project2018.air.mpet.fragments.PrikazSvihObavijesti;
 import mpet.project2018.air.mpet.fragments.Registracija;
 import mpet.project2018.air.mpet.fragments.SkeniranjeNFCKartice;
 import mpet.project2018.air.mpet.obavijesti.NotificationService;
@@ -73,15 +76,14 @@ public class MainActivity extends AppCompatActivity
         MainDatabase.initializeDatabase(this);
        //----------------------------------------------------------------
 
-      //  popuniKorisnika();
-      // popuniKarticu();
 
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        PrikazObavijestiDetaljno fragmentObavijestiDetaljno = new PrikazObavijestiDetaljno();
-        fragmentTransaction.replace(R.id.mainFrame, fragmentObavijestiDetaljno);
-        fragmentTransaction.commit();
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                PrikazSvihObavijesti prikazSvihObavijesti = new PrikazSvihObavijesti();
+                fragmentTransaction.replace(R.id.mainFrame, prikazSvihObavijesti);
+                fragmentTransaction.commit();
 
     }
     /*private void reg(){
@@ -181,9 +183,12 @@ public class MainActivity extends AppCompatActivity
                 //otvoriti fragment za detalje skeniranja s narednim id-em
                 if (idSken != "") {
                     //otvaranje fragmenta
+                    Bundle bundle=new Bundle();
+                    bundle.putString("idSkena",idSken);
                     FragmentManager fragmentManager = getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     PrikazObavijestiDetaljno fragmentObavijestiDetaljno = new PrikazObavijestiDetaljno();
+                    fragmentObavijestiDetaljno.setArguments(bundle);
                     fragmentTransaction.replace(R.id.mainFrame, fragmentObavijestiDetaljno);
                     fragmentTransaction.commit();
                 }
@@ -207,33 +212,24 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void popuniKorisnika(){
-        Korisnik korisnik=new Korisnik(1,"Matija","Hasija","mhasija","1234","mail","adresa","0100330","32131","url");
+        Korisnik korisnik=new Korisnik(198,"Matija","Hasija","mhasija","1234","mail","adresa","0100330","32131","url");
         korisnik.save();
     }
 
+    public void popuniLjubimca(){
+            Korisnik k=new Korisnik();
+            k.setId_korisnika(198);
+        Ljubimac ljubimac=new Ljubimac(1,"Rex",21,50,"pas","m","opis","Url",k);
+        Kartica a=new Kartica("6542fer74f");
+        ljubimac.setKartica(a);
+        ljubimac.save();
+    }
+
     public void popuniKarticu(){
-        Kartica kartica=new Kartica("1");
-        kartica.save();
+        Kartica k=new Kartica("6542fer74f");
+
+        k.save();
     }
 
-    public void ispisiIDKorisnika(){
-
-        List<Korisnik> listaKorisnika=SQLite.select().from(Korisnik.class).queryList();
-
-        for (Korisnik k:listaKorisnika) {
-            Toast.makeText(this, k.getId_korisnika(), Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
-    public void ispisiIDKartice(){
-
-        List<Kartica> listaKartica=SQLite.select().from(Kartica.class).queryList();
-
-        for (Kartica k:listaKartica) {
-            Toast.makeText(this,k.getId_kartice(), Toast.LENGTH_SHORT).show();
-        }
-
-    }
 
 }

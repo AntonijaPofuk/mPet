@@ -1,45 +1,60 @@
 package mpet.project2018.air.mpet.fragments;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.MapStyleOptions;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-import java.util.zip.Inflater;
+import java.util.Locale;
 
-import mpet.project2018.air.mpet.MainActivity;
+import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.KorisnikDataLoadedListener;
+import Retrofit.DataGetListenersAndLoaders.DataLoaders.KorisnikDataLoader;
+import Retrofit.Model.Korisnik;
+import mpet.project2018.air.database.entities.Ljubimac;
+import mpet.project2018.air.database.entities.Ljubimac_Table;
+import mpet.project2018.air.database.entities.Skeniranje;
+import mpet.project2018.air.database.entities.Skeniranje_Table;
 import mpet.project2018.air.mpet.R;
 
-public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCallback{
+public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCallback, KorisnikDataLoadedListener {
 
     private OnFragmentInteractionListener mListener;
 
     GoogleMap gMap;
     MapView mView;
+    View mainView;
+
+    private String idSkeniranja="";
+
+    String idKartica="";
+    Integer idKorisnik=0;
+    Date datumSkena=null;
+    String vrijemeSkena="";
+    String kordX="";
+    String kordY="";
+    String imeLjubimca="";
+    String imeKorisnika="";
+    String kontaktKorisnik="";
+
 
 
     @Nullable
@@ -51,6 +66,10 @@ public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCall
         }
 
         View view=inflater.inflate(R.layout.obavijest_detaljno,container,false);
+
+        mainView=view;
+
+        idSkeniranja=getArguments().getString("idSkena");
 
         mView=(MapView) view.findViewById(R.id.mapView);
 
@@ -69,6 +88,34 @@ public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCall
         super.onViewCreated(view, savedInstanceState);
 
 
+
+        try {
+
+            Skeniranje skeniranje = new SQLite().select().from(Skeniranje.class).where(Skeniranje_Table.id_skeniranja.is(Integer.parseInt(idSkeniranja))).querySingle();
+
+           idKartica = skeniranje.getKartica().getId_kartice();
+
+           idKorisnik=skeniranje.getKorisnik().getId_korisnika();
+
+           datumSkena=skeniranje.getDatum();
+
+           vrijemeSkena=skeniranje.getVrijeme();
+
+           kordX=skeniranje.getKoordinata_x();
+
+           kordY=skeniranje.getKoordinata_y();
+
+           imeLjubimca=getImeLjubimca(skeniranje.getKartica().getId_kartice());
+
+           kontaktKorisnik=skeniranje.getKontakt();
+
+           loadData();
+
+        }
+
+        catch (Exception e){
+
+        }
 
     }
 
@@ -95,6 +142,7 @@ public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCall
 
 
 
+
     public interface OnFragmentInteractionListener {
         // Uri -> String
         void onFragmentInteraction(String title);
@@ -117,6 +165,62 @@ public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCall
 
 
 
+    public String getImeLjubimca(String idKartice){
+        String ime="";
 
+        Ljubimac ljubimac1upit = new SQLite().select().from(Ljubimac.class).where(Ljubimac_Table.kartica_id_kartice.is(idKartice)).querySingle();
+
+        ime=ljubimac1upit.getIme();
+
+        return ime;
+    }
+
+    public void loadData(){
+        KorisnikDataLoader korisnikDataLoader=new KorisnikDataLoader(this);
+        korisnikDataLoader.loadDataById(idKorisnik.toString());//Testni ID
+    }
+
+    @Override
+    public void KorisnikOnDataLoaded(List<Korisnik> listaKorisnika) {
+
+      TextView datumVrijemeSkena = this.mainView.findViewById(R.id.txtDatumVrijemeSkena);
+
+      SimpleDateFormat format=new SimpleDateFormat("dd. MM. yyyy.");
+
+      datumVrijemeSkena.setText(format.format(datumSkena)+" "+vrijemeSkena);
+
+      TextView imeLjubimca1=this.mainView.findViewById(R.id.txtImeLjubimca);
+
+      imeLjubimca1.setText(imeLjubimca);
+
+      LatLng latLng=new LatLng(Double.parseDouble(kordX),Double.parseDouble(kordY));
+
+      gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,7));
+
+      gMap.addMarker(new MarkerOptions().title(imeLjubimca+" se nalazio ovdje!").position(latLng));
+
+        Geocoder geocoder=new Geocoder(getContext(),Locale.getDefault());
+
+        try {
+            List<Address> adresa=geocoder.getFromLocation(Double.parseDouble(kordX),Double.parseDouble(kordY),1);
+
+            TextView mjestoSkena=mainView.findViewById(R.id.txtMjestoSkena);
+
+            mjestoSkena.setText(adresa.get(0).getLocality());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        TextView konaktTextView=mainView.findViewById(R.id.txtKontakt);
+
+        konaktTextView.setText(kontaktKorisnik);
+
+        TextView korisnikTextView=mainView.findViewById(R.id.txtSkenirao);
+
+        korisnikTextView.setText(listaKorisnika.get(0).ime+" "+listaKorisnika.get(0).prezime+" ("+listaKorisnika.get(0).korisnicko_ime+")");
+
+
+    }
 
 }
