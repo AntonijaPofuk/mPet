@@ -2,6 +2,7 @@ package mpet.project2018.air.mpet;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.preference.PreferenceActivity;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -11,9 +12,16 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.HeaderViewListAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import mpet.project2018.air.database.MainDatabase;
 import mpet.project2018.air.mpet.fragments.Pocetna_ulogirani;
@@ -63,9 +71,12 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
@@ -75,21 +86,33 @@ public class MainActivity extends AppCompatActivity
         navigationView.setCheckedItem(R.id.nav_frag1); //Provjera i odabir prvog elementa u draweru
 
 
+
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, 0);
+        String id1 = sharedPreferences.getString(EMAIL_SHARED_PREF, "").toString();
+
+
+
+
+
+
+
+//TextView textView = (TextView)findViewById(R.id.korImeIzbornik);
+//        textView.setText("Prijavljeni korisnik: " + id1);
+
+
        /*FragmentTransaction ft = getSupportFragmentManager().beginTransaction();    //otvaranje prvog fragmenta kod pokretanja app
         ft.replace(R.id.mainFrame, new Pocetna_neulogirani());
         ft.commit();*/
 
         MainDatabase.initializeDatabase(this);
 
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, 0);
-        String id1 = sharedPreferences.getString(EMAIL_SHARED_PREF, "").toString();
-        Toast.makeText(this,"Vas id je"+id1, Toast.LENGTH_SHORT).show();
 
         sharedPreferences = this.getSharedPreferences(SHARED_PREF_NAME, 0); //u fragmentu dodaj this.getActivity..... jer nema CONTEXA
         if (sharedPreferences.getString(EMAIL_SHARED_PREF, "ulogiraniKorisnikId").toString().equals("ulogiraniKorisnikId")) { //getString
             FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
             ft1.replace(R.id.mainFrame, new Pocetna_neulogirani());
             ft1.commit();
+
         }
 
         else {
