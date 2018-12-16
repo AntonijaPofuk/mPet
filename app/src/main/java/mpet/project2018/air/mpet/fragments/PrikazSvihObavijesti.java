@@ -1,5 +1,6 @@
 package mpet.project2018.air.mpet.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,11 +23,19 @@ import mpet.project2018.air.mpet.obavijesti.RecycleViewAdapter;
 
 public class PrikazSvihObavijesti extends Fragment {
 
+
+    OnFragmentInteractionListener mListener;
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view=inflater.inflate(R.layout.prikaz_svih_obavijesti,container,false);
+
+        if (mListener != null) {
+            mListener.onFragmentInteraction("Prikaz svih skeniranja");
+        }
 
         return view;
 
@@ -48,4 +57,25 @@ public class PrikazSvihObavijesti extends Fragment {
 
 
     }
+
+    public interface OnFragmentInteractionListener {
+        // Uri -> String
+        void onFragmentInteraction(String title);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof PrikazObavijestiDetaljno.OnFragmentInteractionListener) {
+            mListener = (PrikazSvihObavijesti.OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
+        }
+    }
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
 }

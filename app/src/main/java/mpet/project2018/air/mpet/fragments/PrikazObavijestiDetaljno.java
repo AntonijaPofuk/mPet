@@ -185,7 +185,7 @@ public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCall
 
       TextView datumVrijemeSkena = this.mainView.findViewById(R.id.txtDatumVrijemeSkena);
 
-      SimpleDateFormat format=new SimpleDateFormat("dd. MM. yyyy.");
+      SimpleDateFormat format=new SimpleDateFormat("dd.MM.yyyy.");
 
       datumVrijemeSkena.setText(format.format(datumSkena)+" "+vrijemeSkena);
 
@@ -195,18 +195,28 @@ public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCall
 
       LatLng latLng=new LatLng(Double.parseDouble(kordX),Double.parseDouble(kordY));
 
-      gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,7));
+      gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,7));
 
-      gMap.addMarker(new MarkerOptions().title(imeLjubimca+" se nalazio ovdje!").position(latLng));
+      gMap.addMarker(new MarkerOptions().title(imeLjubimca+" je skeniran ovdje!").position(latLng)).showInfoWindow();
 
         Geocoder geocoder=new Geocoder(getContext(),Locale.getDefault());
 
         try {
             List<Address> adresa=geocoder.getFromLocation(Double.parseDouble(kordX),Double.parseDouble(kordY),1);
 
-            TextView mjestoSkena=mainView.findViewById(R.id.txtMjestoSkena);
+            if(!adresa.isEmpty() && adresa!=null) {
 
-            mjestoSkena.setText(adresa.get(0).getLocality());
+                TextView mjestoSkena = mainView.findViewById(R.id.txtMjestoSkena);
+
+                mjestoSkena.setText(adresa.get(0).getLocality());
+
+            }
+
+            else{
+                TextView mjestoSkena = mainView.findViewById(R.id.txtMjestoSkena);
+
+                mjestoSkena.setText("-");
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -222,5 +232,6 @@ public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCall
 
 
     }
+
 
 }

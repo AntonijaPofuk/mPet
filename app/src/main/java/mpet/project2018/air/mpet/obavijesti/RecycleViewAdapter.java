@@ -31,13 +31,17 @@ import mpet.project2018.air.mpet.MainActivity;
 import mpet.project2018.air.mpet.R;
 import mpet.project2018.air.mpet.fragments.PrikazObavijestiDetaljno;
 
-public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.SkeniranjeHolder> {
+public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.SkeniranjeHolder>{
 
     List<Skeniranje> listSken=new ArrayList<>();
+
+    Integer idSkeniranja=0;
 
     public RecycleViewAdapter(List<Skeniranje> listSken) {
         this.listSken = listSken;
     }
+
+    private static List<Integer> listaID=new ArrayList<>();
 
 
     @Override
@@ -72,6 +76,10 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
 
         holder.redniBroj.setText(redniBroj.toString());
 
+        idSkeniranja=listSken.get(i).getId_skeniranja();
+
+        holder.IDSkeniranja=idSkeniranja.toString();
+
     }
 
     @Override
@@ -80,11 +88,12 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     }
 
 
-    public class SkeniranjeHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class SkeniranjeHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView detaljiObavijesti;
         TextView datumSkeniranja;
         TextView redniBroj;
+        String IDSkeniranja="";
 
         public SkeniranjeHolder(@NonNull View itemView) {
             super(itemView);
@@ -94,19 +103,20 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
             redniBroj=itemView.findViewById(R.id.redniBrojObavijesti);
         }
 
-
         @Override
         public void onClick(View v) {
             Bundle bundle=new Bundle();
-            bundle.putString("idSkena","1");
-            Object context = null;
-            FragmentManager fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();
+            bundle.putString("idSkena",IDSkeniranja);
+            FragmentManager fragmentManager = ((AppCompatActivity)v.getContext()).getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             PrikazObavijestiDetaljno fragmentObavijestiDetaljno = new PrikazObavijestiDetaljno();
             fragmentObavijestiDetaljno.setArguments(bundle);
             fragmentTransaction.replace(R.id.mainFrame, fragmentObavijestiDetaljno);
+            fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         }
+
     }
+
 
 }

@@ -85,11 +85,11 @@ public class NotificationService extends Service implements SkeniranjeDataLoaded
                                 }
                                 lokalnaBazaSkeniranje.setDatum(datum);
                                 lokalnaBazaSkeniranje.setId_skeniranja(Integer.parseInt(skeniranje.id_skeniranja));
-                                lokalnaBazaSkeniranje.setKartica(new Kartica("6542fer74f"));//staviti realan id
+                                lokalnaBazaSkeniranje.setKartica(new Kartica(skeniranje.kartica));
                                 lokalnaBazaSkeniranje.setKontakt(skeniranje.kontakt);
                                 lokalnaBazaSkeniranje.setKoordinata_x(skeniranje.koordinata_x);
                                 lokalnaBazaSkeniranje.setKoordinata_y(skeniranje.koordinata_y);
-                                korisnik.setId_korisnika(Integer.parseInt("198"));//staviti realan id
+                                korisnik.setId_korisnika(Integer.parseInt(skeniranje.korisnik));
                                 lokalnaBazaSkeniranje.setKorisnik(korisnik);
                                 lokalnaBazaSkeniranje.setProcitano(skeniranje.procitano);
                                 lokalnaBazaSkeniranje.setVrijeme(skeniranje.vrijeme);

@@ -46,7 +46,8 @@ public class MainActivity extends AppCompatActivity
         Login.OnFragmentInteractionListener,
         SkeniranjeNFCKartice.OnFragmentInteractionListener,
         NavigationView.OnNavigationItemSelectedListener,
-        PrikazObavijestiDetaljno.OnFragmentInteractionListener
+        PrikazObavijestiDetaljno.OnFragmentInteractionListener,
+        PrikazSvihObavijesti.OnFragmentInteractionListener
         //TODO: dodaj novi fragment ovdje uvijek a na početku fragmenta implementiraj mlistenere
 
 {
@@ -96,9 +97,9 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         public void onBackPressed() {
-            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-            if (drawer.isDrawerOpen(GravityCompat.START)) {
-                drawer.closeDrawer(GravityCompat.START);
+            android.app.FragmentManager fm = getFragmentManager();
+            if (fm.getBackStackEntryCount() > 0) {
+                fm.popBackStack();
             } else {
                 super.onBackPressed();
             }
@@ -197,6 +198,7 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+
     //Pokretanje servisa za obavijesti
     public void startService() {
         String input = "";
@@ -212,7 +214,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void popuniKorisnika(){
-        Korisnik korisnik=new Korisnik(198,"Matija","Hasija","mhasija","1234","mail","adresa","0100330","32131","url");
+        Korisnik korisnik=new Korisnik(177,"Matija","Hasija","mhasija","1234","mail","adresa","0100330","32131","url");
         korisnik.save();
     }
 
