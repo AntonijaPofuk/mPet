@@ -119,7 +119,6 @@ public class PisanjeNFCFragment extends  Fragment {
         private void performActionsAfterTagReading(Intent intent) {
 
             if (!scannedFlag) {
-                Toast.makeText(runningActivity, "Dap", Toast.LENGTH_SHORT).show();
                 scannedFlag=true;
                 if (nfcInstance.isNFCIntent(intent)) {
                     if (nfcInstance.validateTag(intent)) {
@@ -145,6 +144,9 @@ public class PisanjeNFCFragment extends  Fragment {
                 Toast.makeText(runningActivity, "Kartica nije zaključana", Toast.LENGTH_SHORT).show();
             }
         }
+
+        private void writeToNFC()
+        {}
 
         /*@Override
         public Fragment getModuleFragment() {
@@ -209,7 +211,7 @@ public class PisanjeNFCFragment extends  Fragment {
             } else {
                 builder = new AlertDialog.Builder(getActivity());
             }
-            builder.setTitle("Rezultat Pisanja na NFC kartivu")
+            builder.setTitle("Rezultat Pisanja na NFC karticu")
                     .setMessage(message)
                     .setPositiveButton("U redu", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {

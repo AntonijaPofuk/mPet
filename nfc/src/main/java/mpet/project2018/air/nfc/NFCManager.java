@@ -7,11 +7,14 @@ import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.nfc.tech.Ndef;
+import android.nfc.tech.NdefFormatable;
 import android.os.Parcelable;
 import android.util.Log;
 
+import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
+import java.util.Locale;
 
 public class NFCManager
 {
@@ -158,6 +161,66 @@ public class NFCManager
         {
             return false;
         }
+    }
+
+    // Metoda za provjeru da li je kartica Ndef formatirana te njeno formatiranja ukoliko nije
+    private boolean formatTag(Tag tag, NdefMessage ndefMessage) {
+        try {
+            NdefFormatable ndefFormat = NdefFormatable.get(tag);
+            if (ndefFormat != null) {
+                ndefFormat.connect();
+                ndefFormat.format(ndefMessage);
+                ndefFormat.close();
+                return true;
+            }
+        } catch (Exception e) {
+            Log.e("formatTag", e.getMessage());
+        }
+        return false;
+    }
+
+    // Metoda za pisanje na NFC karticu
+    private boolean writeNdefMessage(Tag tag, NdefMessage ndefMessage) {
+        try {
+            if (tag != null) {
+                Ndef ndef = Ndef.get(tag);
+                if (ndef == null) {
+                    return formatTag(tag, ndefMessage);
+                } else {
+                    ndef.connect();
+                    if (ndef.isWritable()) {
+                        ndef.writeNdefMessage(ndefMessage);
+                        ndef.close();
+                        return true;
+                    }
+                    ndef.close();
+                }
+            }
+        } catch (Exception e) {
+            Log.e("formatTag", e.getMessage());
+        }
+        return false;
+    }
+
+    // Metoda za kreiranje Tekstalnog zapisa za karticu
+    public NdefRecord createTextRecord(String content) {
+        try {
+            byte[] language;
+            language = Locale.getDefault().getLanguage().getBytes("UTF-8");
+            final byte[] text = content.getBytes("UTF-8");
+            final int languageSize = language.length;
+            final int textLength = text.length;
+            final ByteArrayOutputStream payload = new
+                    ByteArrayOutputStream(1 + languageSize + textLength);
+            payload.write((byte) (languageSize & 0x1F));
+            payload.write(language, 0, languageSize);
+            payload.write(text, 0, textLength);
+            return new NdefRecord(NdefRecord.TNF_WELL_KNOWN,
+                    NdefRecord.RTD_TEXT, new byte[0], payload.toByteArray());
+        } catch (UnsupportedEncodingException e) {
+            Log.e("createTextRecord", e.getMessage());
+        }
+        return null;
     }
 
 
