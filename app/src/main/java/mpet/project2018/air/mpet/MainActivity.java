@@ -23,6 +23,7 @@ import mpet.project2018.air.mpet.fragments.Registracija;
 import mpet.project2018.air.mpet.fragments.ModulNavigationFragment;
 import mpet.project2018.air.mpet.prijava.Login;
 import mpet.project2018.air.mpet.prijava.LoginActivity;
+import mpet.project2018.air.nfc.PisanjeNFCFragment;
 import mpet.project2018.air.nfc.SkeniranjeNFCFragment;
 
 
@@ -52,11 +53,11 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_frag1);         //Provjera prvog elementa u draweru
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();             //otvaranje fragmenta
-        ft.replace(R.id.mainFrame, new Pocetna_neulogirani());
-        ft.commit();
+        //FragmentTransaction ft = getSupportFragmentManager().beginTransaction();             //otvaranje fragmenta
+        //ft.replace(R.id.mainFrame, new Pocetna_neulogirani());
+        //ft.commit();
 
-        //reg2();
+        reg2();
 
 
         //---------------------------------------------------------------
@@ -66,6 +67,14 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    private void reg2(){
+        CodeHandlerHelper novaInstancaProba=new CodeHandlerHelper();
+        PisanjeNFCFragment mDiscountListFragment = new PisanjeNFCFragment(novaInstancaProba,this);
+        FragmentManager mFragmentManager = getSupportFragmentManager();
+        FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+        mFragmentTransaction.replace(R.id.mainFrame, mDiscountListFragment);
+        mFragmentTransaction.commit();
+    }
     
 
         @Override
