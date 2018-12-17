@@ -147,5 +147,18 @@ public class NFCManager
         else return false;
     }
 
+    // Metoda za provjeru formata koda kod pisanja na NFC tag
+    public boolean CcheckFormat(String code)
+    {
+        if(code.length()==10 && code.matches(("[A-Za-z0-9]+")))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
 
 }

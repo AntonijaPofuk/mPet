@@ -33,7 +33,6 @@ import mpet.project2018.air.core.ModuleImplementationMethods;
 public class PisanjeNFCFragment extends  Fragment {
 
 
-
         public PisanjeNFCFragment() {
         }
 
@@ -120,10 +119,8 @@ public class PisanjeNFCFragment extends  Fragment {
             if (nfcInstance.isNFCIntent(intent)) {
                 if (nfcInstance.validateTag(intent)) {
                     String tagCode = nfcInstance.getCodeFromNdefRecord(nfcInstance.getFirstNdefRecord(nfcInstance.getNdefMessageFromIntent(intent)));
-                    //Toast.makeText(getContext(), tagCode, Toast.LENGTH_SHORT).show();
-                    //validateCode(tagCode);
-                }
-                //else outputValidationStatus(false);
+                    outputValidationStatus(nfcInstance.CcheckFormat(tagCode));
+                    }
             }
         }
 
@@ -149,18 +146,6 @@ public class PisanjeNFCFragment extends  Fragment {
 
         }
 
-        @Override
-        public void outputValidationStatus(boolean validationStatus) {
-
-            nfcProgress.setVisibility(View.INVISIBLE);
-            if(!scannedFlag) {
-                scannedFlag=true;
-                if (validationStatus)
-                    alertingMessage(getResources().getString(mpet.project2018.air.core.R.string.codeStatusOK), mpet.project2018.air.core.R.drawable.success_message, validationStatus);
-                else
-                    alertingMessage(getResources().getString(mpet.project2018.air.core.R.string.codeStatusNotOK), mpet.project2018.air.core.R.drawable.fail_message, validationStatus);
-            }
-        }
 
         @Override
         public void showDataInFragment(FragmentActivity nowActivity, Ljubimac nowPet) {
@@ -184,6 +169,17 @@ public class PisanjeNFCFragment extends  Fragment {
 
         }*/
 
+        private void outputValidationStatus(boolean validationStatus) {
+        nfcProgress.setVisibility(View.INVISIBLE);
+        if(!scannedFlag) {
+            scannedFlag=true;
+            if (validationStatus)
+                alertingMessage(getResources().getString(R.string.write_ok), mpet.project2018.air.core.R.drawable.success_message, validationStatus);
+            else
+                alertingMessage(getResources().getString(R.string.wrtite_not_ok), mpet.project2018.air.core.R.drawable.fail_message, validationStatus);
+        }
+    }
+
         private void alertingMessage(String message, int imageIcon, final boolean status)
         {
             AlertDialog.Builder builder;
@@ -192,7 +188,7 @@ public class PisanjeNFCFragment extends  Fragment {
             } else {
                 builder = new AlertDialog.Builder(getActivity());
             }
-            builder.setTitle("Rezultat Provjere koda")
+            builder.setTitle("Rezultat Pisanja na NFC kartivu")
                     .setMessage(message)
                     .setPositiveButton("U redu", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {

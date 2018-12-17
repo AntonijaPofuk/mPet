@@ -3,5 +3,7 @@
     <string name="no_nfc">Uključite NFC na uređaju.</string>
     <string name="yes_nfc">Približite uređaj NFC tagu</string>
     <string name="module_name">NFC skeniranje koda</string>
+    <string name="write_ok">Ljubimac dodan na karticu</string>
+    <string name="wrtite_not_ok">Greška kod dodavanja ljubimca na karticu</string>
 
 </resources>
