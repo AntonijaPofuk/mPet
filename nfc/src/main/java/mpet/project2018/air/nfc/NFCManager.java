@@ -164,7 +164,7 @@ public class NFCManager
     }
 
     // Metoda za provjeru da li je kartica Ndef formatirana te njeno formatiranja ukoliko nije
-    private boolean formatTag(Tag tag, NdefMessage ndefMessage) {
+    public boolean formatTag(Tag tag, NdefMessage ndefMessage) {
         try {
             NdefFormatable ndefFormat = NdefFormatable.get(tag);
             if (ndefFormat != null) {
@@ -180,7 +180,7 @@ public class NFCManager
     }
 
     // Metoda za pisanje na NFC karticu
-    private boolean writeNdefMessage(Tag tag, NdefMessage ndefMessage) {
+    public boolean writeNdefMessage(Tag tag, NdefMessage ndefMessage) {
         try {
             if (tag != null) {
                 Ndef ndef = Ndef.get(tag);
