@@ -185,7 +185,7 @@ public class PrikazPodatakaOSkeniranomeLjubimcu extends Fragment implements View
     {
 
         SkeniranjeMethod instancaSkeniranjaPOST=new SkeniranjeMethod(this);
-        instancaSkeniranjaPOST.Upload(getDate(),getTime(),kontakt,"0",longitude,latitude,prijavljeniKorisnik,downloadedPet.kartica);
+        instancaSkeniranjaPOST.Upload(getDate(),getTime(),kontakt,"0",latitude,longitude,prijavljeniKorisnik,downloadedPet.kartica);
 
     }
 
