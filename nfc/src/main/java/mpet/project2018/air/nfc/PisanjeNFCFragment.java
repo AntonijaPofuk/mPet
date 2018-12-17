@@ -117,13 +117,19 @@ public class PisanjeNFCFragment extends  Fragment {
         }
 
         private void performActionsAfterTagReading(Intent intent) {
-            if (nfcInstance.isNFCIntent(intent)) {
-                if (nfcInstance.validateTag(intent)) {
-                    String tagCode = nfcInstance.getCodeFromNdefRecord(nfcInstance.getFirstNdefRecord(nfcInstance.getNdefMessageFromIntent(intent)));
 
-                    if(nfcInstance.checkFormat(tagCode)){}
-                    else checkLockedStatus(tagCode,intent);
+            if (!scannedFlag) {
+                Toast.makeText(runningActivity, "Dap", Toast.LENGTH_SHORT).show();
+                scannedFlag=true;
+                if (nfcInstance.isNFCIntent(intent)) {
+                    if (nfcInstance.validateTag(intent)) {
+                        String tagCode = nfcInstance.getCodeFromNdefRecord(nfcInstance.getFirstNdefRecord(nfcInstance.getNdefMessageFromIntent(intent)));
+
+                        if (nfcInstance.checkFormat(tagCode)) {
+                            checkLockedStatus(tagCode, intent);
+                        } else checkLockedStatus(tagCode, intent);
                     }
+                }
             }
         }
 
@@ -135,7 +141,9 @@ public class PisanjeNFCFragment extends  Fragment {
                 outputValidationStatus(false);
             }
 
-            else{}
+            else{
+                Toast.makeText(runningActivity, "Kartica nije zaključana", Toast.LENGTH_SHORT).show();
+            }
         }
 
         /*@Override
@@ -185,14 +193,13 @@ public class PisanjeNFCFragment extends  Fragment {
 
         private void outputValidationStatus(boolean validationStatus) {
         nfcProgress.setVisibility(View.INVISIBLE);
-        if(!scannedFlag) {
-            scannedFlag=true;
+
             if (validationStatus)
                 alertingMessage(getResources().getString(R.string.write_ok), mpet.project2018.air.core.R.drawable.success_message, validationStatus);
             else
                 alertingMessage(getResources().getString(R.string.wrtite_not_ok), mpet.project2018.air.core.R.drawable.fail_message, validationStatus);
         }
-    }
+
 
         private void alertingMessage(String message, int imageIcon, final boolean status)
         {
