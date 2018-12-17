@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -119,9 +120,22 @@ public class PisanjeNFCFragment extends  Fragment {
             if (nfcInstance.isNFCIntent(intent)) {
                 if (nfcInstance.validateTag(intent)) {
                     String tagCode = nfcInstance.getCodeFromNdefRecord(nfcInstance.getFirstNdefRecord(nfcInstance.getNdefMessageFromIntent(intent)));
-                    outputValidationStatus(nfcInstance.CcheckFormat(tagCode));
+
+                    if(nfcInstance.checkFormat(tagCode)){}
+                    else checkLockedStatus(tagCode,intent);
                     }
             }
+        }
+
+        private void checkLockedStatus(String code, Intent intent)
+        {
+            if(nfcInstance.isLocked(nfcInstance.getTag(intent)))
+            {
+                Toast.makeText(runningActivity, "Kartica zaključana", Toast.LENGTH_SHORT).show();
+                outputValidationStatus(false);
+            }
+
+            else{}
         }
 
         /*@Override
