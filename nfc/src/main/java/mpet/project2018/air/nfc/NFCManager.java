@@ -12,6 +12,7 @@ import android.os.Parcelable;
 import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.Locale;
@@ -190,6 +191,7 @@ public class NFCManager
                     ndef.connect();
                     if (ndef.isWritable()) {
                         ndef.writeNdefMessage(ndefMessage);
+                        //makeReadOnly(ndef);
                         ndef.close();
                         return true;
                     }
@@ -223,5 +225,19 @@ public class NFCManager
         return null;
     }
 
+    public boolean makeReadOnly(Ndef ndef )
+    {
+        try
+        {
+        if(ndef.canMakeReadOnly()) {
+            ndef.makeReadOnly();
+            return true;
+        }
+        }
+        catch (IOException e){
+
+        }
+        return false;
+    }
 
 }

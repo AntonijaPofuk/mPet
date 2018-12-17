@@ -123,7 +123,7 @@ public class PisanjeNFCFragment extends  Fragment {
         private void performActionsAfterTagReading(Intent intent) {
 
             if (!scannedFlag) {
-                //scannedFlag=true;
+                scannedFlag=true;
                 if (nfcInstance.isNFCIntent(intent)) {
                     if (nfcInstance.validateTag(intent)) {
                         String tagCode = nfcInstance.getCodeFromNdefRecord(nfcInstance.getFirstNdefRecord(nfcInstance.getNdefMessageFromIntent(intent)));
@@ -131,24 +131,32 @@ public class PisanjeNFCFragment extends  Fragment {
                         Toast.makeText(runningActivity, tagCode, Toast.LENGTH_SHORT).show();
 
                         if (nfcInstance.checkFormat(tagCode)) {
-                            checkLockedStatus(intent);
+                            if(checkLockedStatus(intent)) writeToNFC(intent);
+                            //else provjeri da li je kartica u bazi podataka
                         }
-                        else outputValidationStatus(false);
+                        else
+                        {
+                            if(checkLockedStatus(intent)) writeToNFC(intent);
+                            else outputValidationStatus(false);
+                        }
                     }
-                    checkLockedStatus(intent);
+                    if(checkLockedStatus(intent)) writeToNFC(intent);
+                    else outputValidationStatus(false);
                 }
             }
         }
 
-        private void checkLockedStatus(Intent intent)
+        private boolean checkLockedStatus(Intent intent)
         {
             if(!nfcInstance.isLocked(nfcInstance.getTag(intent)))
             {
-                outputValidationStatus(false);
+                Toast.makeText(runningActivity, "Locked", Toast.LENGTH_SHORT).show();
+                return false;
             }
-
-            else{
-                writeToNFC(intent);
+            else
+                {
+                    Toast.makeText(runningActivity, "Not Locked", Toast.LENGTH_SHORT).show();
+                return true;
             }
         }
 
@@ -160,11 +168,13 @@ public class PisanjeNFCFragment extends  Fragment {
                     Tag tag = nfcInstance.getTag(intent);
                     boolean writeResult = nfcInstance.writeNdefMessage(tag, ndefMessage);
                     if (writeResult) {
+                        outputValidationStatus(true);
                         Toast.makeText(getActivity(), "Tag written!", Toast.LENGTH_SHORT).show();
-                        scannedFlag=false;
+
                     } else {
+                        outputValidationStatus(false);
                         Toast.makeText(getActivity(), "Tag write failed!", Toast.LENGTH_SHORT).show();
-                        scannedFlag=false;
+
                     }
             } catch (Exception e) {
                 Log.e("onNewIntent", e.getMessage());
@@ -240,7 +250,7 @@ public class PisanjeNFCFragment extends  Fragment {
                         public void onClick(DialogInterface dialog, int which) {
                             scannedFlag=false;
                             dialog.dismiss();
-                            if(!status) nfcProgress.setVisibility(View.VISIBLE);
+                            nfcProgress.setVisibility(View.VISIBLE);
                             //if(status) showDataInFragment(getActivity(),loadedPet);
                         }
                     })
