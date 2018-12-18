@@ -65,8 +65,8 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
 
         private ModuleCommonMethods commonMethodsInstance;
         private NFCManager nfcInstance;
-        private String ljubimacID="55"; // id ljubimca koji se želi staviti na karticu, Prima se preko bundlea kod create fragmenta
-        private String upisanaKartica="6542fer74z"; // kartica
+        private String ljubimacID="1"; // id ljubimca koji se želi staviti na karticu, Prima se preko bundlea kod create fragmenta
+        private String upisanaKartica; // kartica
         private int logedUserID=213; // logirani user, dohvaća se preko shared prefsa
         private TextView nfcOutput;
         private ProgressBar nfcProgress;
@@ -129,6 +129,7 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
             if(!(receivedIntent.hasExtra("old"))) {
                 if (nfcInstance.isNFCIntent(receivedIntent)) {
                     receivedIntent.putExtra("old",1);
+
                     performActionsAfterTagReading(receivedIntent);
                 }
             }
@@ -155,6 +156,7 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
                 if (nfcInstance.isNFCIntent(intent)) {
                     if (nfcInstance.validateTag(intent)) {
                         String tagCode = nfcInstance.getCodeFromNdefRecord(nfcInstance.getFirstNdefRecord(nfcInstance.getNdefMessageFromIntent(intent)));
+                        upisanaKartica=tagCode;
 
                         Toast.makeText(runningActivity, tagCode, Toast.LENGTH_SHORT).show();
 
@@ -168,8 +170,10 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
                             else outputValidationStatus(false);
                         }
                     }
-                    if(checkLockedStatus(intent)) writeToNFC(intent);
-                    else outputValidationStatus(false);
+                    else {
+                        if (checkLockedStatus(intent)) writeToNFC(intent);
+                        else outputValidationStatus(false);
+                    }
                 }
             }
         }
@@ -217,7 +221,7 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
         {
             String tagKey=randomTagKeyGenerator();
             KarticaMethod methodPost=new KarticaMethod(this);
-            methodPost.Upload(tagKey,"213");
+            methodPost.Upload(tagKey,String.valueOf(logedUserID));
         }
 
 
