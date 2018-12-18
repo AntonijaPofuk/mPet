@@ -27,6 +27,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.security.SecureRandom;
 import java.util.List;
 
 import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.LjubimacDataLoadedListener;
@@ -50,7 +51,7 @@ public class PisanjeNFCFragment extends  Fragment {
 
         private ModuleCommonMethods commonMethodsInstance;
         private NFCManager nfcInstance;
-        private Ljubimac loadedPet;
+        private int ljubimacID;
         private TextView nfcOutput;
         private ProgressBar nfcProgress;
         private Activity runningActivity;
@@ -163,7 +164,7 @@ public class PisanjeNFCFragment extends  Fragment {
         private void writeToNFC(Intent intent)
         {
             try {
-                    NdefRecord ndefRecord = nfcInstance.createTextRecord("tojetomala");
+                    NdefRecord ndefRecord = nfcInstance.createTextRecord(randomTagKeyGenerator());
                     NdefMessage ndefMessage = new NdefMessage(new NdefRecord[] {ndefRecord });
                     Tag tag = nfcInstance.getTag(intent);
                     boolean writeResult = nfcInstance.writeNdefMessage(tag, ndefMessage);
@@ -286,6 +287,17 @@ public class PisanjeNFCFragment extends  Fragment {
                 }
             }
         };
+
+        private String randomTagKeyGenerator()
+        {
+            String AB = "0123456789abcdefghijklmnopqrstuvwxyz";
+            SecureRandom rnd = new SecureRandom();
+            StringBuilder sb = new StringBuilder( 10 );
+            for( int i = 0; i < 10; i++ ) {
+                sb.append(AB.charAt(rnd.nextInt(AB.length())));
+            }
+            return sb.toString();
+        }
 
 
     }
