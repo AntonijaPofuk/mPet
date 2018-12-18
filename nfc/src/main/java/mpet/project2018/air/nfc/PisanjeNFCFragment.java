@@ -105,7 +105,7 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
 
         @Override
         public void onResume() {
-           //testing();
+            //testing();
             actionsIfFormatOKAndLocked("6542fer74f");
             super.onResume();
             Intent intent1 = new Intent(getActivity(), commonMethodsInstance.getContainerActivity()).addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
@@ -444,12 +444,12 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
                 if(checkPetInLocalDB(tagCode)){
                     switchFlag=true;
                     LjubimacMethod ljubimacSwitch=new LjubimacMethod(this);
-                    ljubimacSwitch.Upload(returnPetFromLocalDB(tagCode),String.valueOf(55),"","zamjena");
+                    ljubimacSwitch.Upload(returnPetFromLocalDB(tagCode),String.valueOf(1),"","zamjena");
                 }
                 else{
                     switchFlag=false;
                     LjubimacMethod ljubimacSwitch=new LjubimacMethod(this);
-                    ljubimacSwitch.Upload("",String.valueOf(55),tagCode,"pridruzivanje");
+                    ljubimacSwitch.Upload("",String.valueOf(1),tagCode,"pridruzivanje");
                 }
             }
             else outputValidationStatus(false);

@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity
         //---------------------------------------------------------------
         MainDatabase.initializeDatabase(this);
         //--------------------------------------------------------------
-       // mockData();
+        mockData();
     }
 
 
@@ -92,10 +92,10 @@ public class MainActivity extends AppCompatActivity
         //ljubimac.setKartica(kartica);
        //ljubimac.setKorisnik(logiraniKorisnik);
         //ljubimac.save();
-        Ljubimac ljubimac1=SQLite.select().from(Ljubimac.class).where(Ljubimac_Table.id_ljubimca.is(1)).querySingle();
+        Ljubimac ljubimac1=SQLite.select().from(Ljubimac.class).where(Ljubimac_Table.id_ljubimca.is(55)).querySingle();
         ljubimac1.setKartica(kartica);
         ljubimac1.save();
-        Toast.makeText(this, ljubimac1.getKartica().getId_kartice() , Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, ljubimac1.getKartica().getId_kartice() , Toast.LENGTH_SHORT).show();
 
     }
 
