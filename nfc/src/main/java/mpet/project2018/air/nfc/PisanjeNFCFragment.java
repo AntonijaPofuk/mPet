@@ -412,12 +412,16 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
                     switchFlag=true;
                     LjubimacMethod ljubimacSwitch=new LjubimacMethod(this);
                     ljubimacSwitch.Upload(returnPetFromLocalDB(tagCode),ljubimacID,"","zamjena");
+
                 }
                 else{
                     switchFlag=false;
                     LjubimacMethod ljubimacSwitch=new LjubimacMethod(this);
                     ljubimacSwitch.Upload("",ljubimacID,tagCode,"pridruzivanje");
+
                 }
+
+                outputValidationStatus(true);
             }
             else outputValidationStatus(false);
         }
