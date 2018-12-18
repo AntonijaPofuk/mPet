@@ -50,7 +50,9 @@ import mpet.project2018.air.database.entities.Ljubimac_Table;
 public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPostedListener, LjubimacOnDataPostedListener {
 
 
-        public PisanjeNFCFragment() {
+    private String switchingPet;
+
+    public PisanjeNFCFragment() {
         }
 
         @SuppressLint("ValidFragment")
@@ -63,11 +65,13 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
         private ModuleCommonMethods commonMethodsInstance;
         private NFCManager nfcInstance;
         private int ljubimacID;
-        private String upisanaKartica;
+        private String upisanaKartica="6542fer74f";
         private String logedUserID;
         private TextView nfcOutput;
         private ProgressBar nfcProgress;
         private Activity runningActivity;
+
+        private boolean switchFlag=false;
 
         private boolean scannedFlag=false;
 
@@ -102,6 +106,7 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
         @Override
         public void onResume() {
            //testing();
+            actionsIfFormatOKAndLocked("6542fer74f");
             super.onResume();
             Intent intent1 = new Intent(getActivity(), commonMethodsInstance.getContainerActivity()).addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
             PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), 0, intent1, 0);
@@ -147,21 +152,7 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
 
                         if (nfcInstance.checkFormat(tagCode)) {
                             if(checkLockedStatus(intent)) writeToNFC(intent);
-                            else
-                            {
-                                if(checkTagInLocalDB(tagCode)){
-                                    if(checkPetInLocalDB(tagCode)){
-                                        LjubimacMethod ljubimacSwitch=new LjubimacMethod(this);
-                                        ljubimacSwitch.Upload(returnPetFromLocalDB(tagCode),String.valueOf(ljubimacID),"","zamjena");
-                                    }
-                                    else{
-
-                                        LjubimacMethod ljubimacSwitch=new LjubimacMethod(this);
-                                        ljubimacSwitch.Upload("",String.valueOf(ljubimacID),tagCode,"pridruzivanje");
-                                    }
-                                }
-                                else outputValidationStatus(false);
-                            }
+                            else actionsIfFormatOKAndLocked(tagCode);
                         }
                         else
                         {
@@ -199,6 +190,7 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
                     boolean writeResult = nfcInstance.writeNdefMessage(tag, ndefMessage);
                     if (writeResult) {
                         outputValidationStatus(true);
+                        switchFlag=false;
                         KarticaMethod methodPost=new KarticaMethod(this);
                         methodPost.Upload(tagKey,"213");
                         Toast.makeText(getActivity(), "Tag written!", Toast.LENGTH_SHORT).show();
@@ -377,20 +369,42 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
 
     private void writePetToDataBase(String petID)
     {
+        Toast.makeText(runningActivity, petID, Toast.LENGTH_SHORT).show();
         if(petID!="0")
         {
-            mpet.project2018.air.database.entities.Ljubimac switchLjubimac=SQLite.select().from(mpet.project2018.air.database.entities.Ljubimac.class
-            ).where(Ljubimac_Table.id_ljubimca.is(Integer.parseInt(petID))).querySingle();
+            if(switchFlag){
 
-            Kartica kartica=   SQLite.select().from(Kartica.class).where(Kartica_Table.id_kartice.is(upisanaKartica)).querySingle();
+                mpet.project2018.air.database.entities.Ljubimac switchLjubimac = SQLite.select().from(mpet.project2018.air.database.entities.Ljubimac.class
+                ).where(Ljubimac_Table.id_ljubimca.is(Integer.parseInt(petID))).querySingle();
 
-            switchLjubimac.setKartica(kartica);
-            switchLjubimac.save();
+                Kartica kartica = SQLite.select().from(Kartica.class).where(Kartica_Table.id_kartice.is(upisanaKartica)).querySingle();
 
-            mpet.project2018.air.database.entities.Ljubimac switchLjubimac2=SQLite.select().from(mpet.project2018.air.database.entities.Ljubimac.class
-            ).where(Ljubimac_Table.id_ljubimca.is(Integer.parseInt(petID))).querySingle();
+                switchLjubimac.setKartica(kartica);
+                switchLjubimac.save();
 
-            Toast.makeText(runningActivity, switchLjubimac2.getKartica().getId_kartice(), Toast.LENGTH_SHORT).show();
+                mpet.project2018.air.database.entities.Ljubimac switchLjubimac2 = SQLite.select().from(mpet.project2018.air.database.entities.Ljubimac.class
+                ).where(Ljubimac_Table.id_ljubimca.is(Integer.parseInt(switchingPet))).querySingle();
+
+                switchLjubimac2.setKartica(null);
+                switchLjubimac2.save();
+
+                //Toast.makeText(runningActivity, switchLjubimac2.getKartica().getId_kartice(), Toast.LENGTH_SHORT).show();
+
+            }
+            else {
+                mpet.project2018.air.database.entities.Ljubimac switchLjubimac = SQLite.select().from(mpet.project2018.air.database.entities.Ljubimac.class
+                ).where(Ljubimac_Table.id_ljubimca.is(Integer.parseInt(petID))).querySingle();
+
+                Kartica kartica = SQLite.select().from(Kartica.class).where(Kartica_Table.id_kartice.is(upisanaKartica)).querySingle();
+
+                switchLjubimac.setKartica(kartica);
+                switchLjubimac.save();
+
+                mpet.project2018.air.database.entities.Ljubimac switchLjubimac2 = SQLite.select().from(mpet.project2018.air.database.entities.Ljubimac.class
+                ).where(Ljubimac_Table.id_ljubimca.is(Integer.parseInt(petID))).querySingle();
+
+                Toast.makeText(runningActivity, switchLjubimac2.getKartica().getId_kartice(), Toast.LENGTH_SHORT).show();
+            }
 
         }
     }
@@ -401,7 +415,7 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
         if(kartica==null) return  false;
         else
         {
-            if(kartica.getKorisnik().getId_korisnika()==Integer.parseInt(logedUserID)) return true;
+            if(kartica.getKorisnik().getId_korisnika()==Integer.parseInt("213")) return true;
             else return false;
         }
     }
@@ -420,8 +434,26 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
         mpet.project2018.air.database.entities.Ljubimac ljubimac=SQLite.select().from(mpet.project2018.air.database.entities.Ljubimac.class
         ).where(Ljubimac_Table.kartica_id_kartice.is(tagCode)).querySingle();
 
+        switchingPet=String.valueOf(ljubimac.getId_ljubimca());
         return String.valueOf(ljubimac.getId_ljubimca());
     }
+
+    private void actionsIfFormatOKAndLocked(String tagCode)
+    {
+            if(checkTagInLocalDB(tagCode)){
+                if(checkPetInLocalDB(tagCode)){
+                    switchFlag=true;
+                    LjubimacMethod ljubimacSwitch=new LjubimacMethod(this);
+                    ljubimacSwitch.Upload(returnPetFromLocalDB(tagCode),String.valueOf(55),"","zamjena");
+                }
+                else{
+                    switchFlag=false;
+                    LjubimacMethod ljubimacSwitch=new LjubimacMethod(this);
+                    ljubimacSwitch.Upload("",String.valueOf(55),tagCode,"pridruzivanje");
+                }
+            }
+            else outputValidationStatus(false);
+        }
 }
 
 

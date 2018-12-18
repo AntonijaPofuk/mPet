@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity
         //---------------------------------------------------------------
         MainDatabase.initializeDatabase(this);
         //--------------------------------------------------------------
-        //mockData();
+       // mockData();
     }
 
 
@@ -87,13 +87,15 @@ public class MainActivity extends AppCompatActivity
         //novaKartica.setKorisnik(null);
         //novaKartica.save();
         Kartica kartica=   SQLite.select().from(Kartica.class).where(Kartica_Table.id_kartice.is("6542fer74f")).querySingle();
-        Ljubimac ljubimac =new Ljubimac();
-        ljubimac.setId_ljubimca(66);
-        ljubimac.setKartica(null);
-        ljubimac.setKorisnik(logiraniKorisnik);
-        ljubimac.save();
-        Ljubimac ljubimac1=SQLite.select().from(Ljubimac.class).where(Ljubimac_Table.id_ljubimca.is(55)).querySingle();
-        Toast.makeText(this, ljubimac1.getKorisnik().getIme() , Toast.LENGTH_SHORT).show();
+        //Ljubimac ljubimac =new Ljubimac();
+        //ljubimac.setId_ljubimca(1);
+        //ljubimac.setKartica(kartica);
+       //ljubimac.setKorisnik(logiraniKorisnik);
+        //ljubimac.save();
+        Ljubimac ljubimac1=SQLite.select().from(Ljubimac.class).where(Ljubimac_Table.id_ljubimca.is(1)).querySingle();
+        ljubimac1.setKartica(kartica);
+        ljubimac1.save();
+        Toast.makeText(this, ljubimac1.getKartica().getId_kartice() , Toast.LENGTH_SHORT).show();
 
     }
 
