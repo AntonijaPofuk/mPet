@@ -27,6 +27,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.raizlabs.android.dbflow.sql.language.SQLite;
+
 import java.security.SecureRandom;
 import java.util.List;
 
@@ -37,6 +39,10 @@ import Retrofit.Model.Ljubimac;
 import Retrofit.RemotePost.KarticaOnDataPostedListener;
 import mpet.project2018.air.core.ModuleCommonMethods;
 import mpet.project2018.air.core.ModuleImplementationMethods;
+import mpet.project2018.air.database.entities.Kartica;
+import mpet.project2018.air.database.entities.Kartica_Table;
+import mpet.project2018.air.database.entities.Korisnik;
+import mpet.project2018.air.database.entities.Korisnik_Table;
 
 public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPostedListener {
 
@@ -319,6 +325,20 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
             try{
 
                 Toast.makeText(runningActivity, idKartice, Toast.LENGTH_SHORT).show();
+                if(idKartice!="greska" && idKartice!="duplikat")
+                {
+
+                    Korisnik logiraniKorisnik= SQLite.select().from(Korisnik.class).where(Korisnik_Table.id_korisnika.is(213)).querySingle();
+                    Kartica novaKartica=new Kartica(idKartice);
+                    novaKartica.setKorisnik(logiraniKorisnik);
+                    novaKartica.save();
+
+                    //Kartica kartica=   SQLite.select().from(Kartica.class).where(Kartica_Table.id_kartice.is(idKartice)).querySingle();
+                    //List<Kartica> lista=SQLite.select().from(Kartica.class).queryList();
+
+                    //Toast.makeText(runningActivity, String.valueOf(lista.size()), Toast.LENGTH_SHORT).show();
+                }
+
             }
             catch (Exception e){}
     }
