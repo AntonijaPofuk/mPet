@@ -13,8 +13,19 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.raizlabs.android.dbflow.sql.language.SQLite;
+
+import java.util.List;
 
 import mpet.project2018.air.database.MainDatabase;
+import mpet.project2018.air.database.entities.Kartica;
+import mpet.project2018.air.database.entities.Kartica_Table;
+import mpet.project2018.air.database.entities.Korisnik;
+import mpet.project2018.air.database.entities.Korisnik_Table;
+import mpet.project2018.air.database.entities.Ljubimac;
+import mpet.project2018.air.database.entities.Ljubimac_Table;
 import mpet.project2018.air.manualinput.ManualInputFragment;
 import mpet.project2018.air.mpet.CodeHelper.CodeHandlerHelper;
 import mpet.project2018.air.mpet.fragments.Pocetna;
@@ -57,15 +68,34 @@ public class MainActivity extends AppCompatActivity
         //ft.replace(R.id.mainFrame, new Pocetna_neulogirani());
         //ft.commit();
 
+
         reg2();
 
 
         //---------------------------------------------------------------
         MainDatabase.initializeDatabase(this);
         //--------------------------------------------------------------
-
+        //mockData();
     }
 
+
+    private void mockData()
+    {
+        Korisnik logiraniKorisnik=   SQLite.select().from(Korisnik.class).where(Korisnik_Table.id_korisnika.is(213)).querySingle();
+        //Kartica novaKartica=new Kartica();
+        //novaKartica.setId_kartice("6542fer74g");
+        //novaKartica.setKorisnik(null);
+        //novaKartica.save();
+        Kartica kartica=   SQLite.select().from(Kartica.class).where(Kartica_Table.id_kartice.is("6542fer74f")).querySingle();
+        Ljubimac ljubimac =new Ljubimac();
+        ljubimac.setId_ljubimca(66);
+        ljubimac.setKartica(null);
+        ljubimac.setKorisnik(logiraniKorisnik);
+        ljubimac.save();
+        Ljubimac ljubimac1=SQLite.select().from(Ljubimac.class).where(Ljubimac_Table.id_ljubimca.is(55)).querySingle();
+        Toast.makeText(this, ljubimac1.getKorisnik().getIme() , Toast.LENGTH_SHORT).show();
+
+    }
 
     private void reg2(){
         CodeHandlerHelper novaInstancaProba=new CodeHandlerHelper();
