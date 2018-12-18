@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
@@ -64,14 +65,14 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
 
         private ModuleCommonMethods commonMethodsInstance;
         private NFCManager nfcInstance;
-        private int ljubimacID;
-        private String upisanaKartica="6542fer74f";
-        private String logedUserID;
+        private String ljubimacID="55"; // id ljubimca koji se želi staviti na karticu, Prima se preko bundlea kod create fragmenta
+        private String upisanaKartica="6542fer74z"; // kartica
+        private int logedUserID=213; // logirani user, dohvaća se preko shared prefsa
         private TextView nfcOutput;
         private ProgressBar nfcProgress;
         private Activity runningActivity;
 
-        private boolean switchFlag=false;
+        private boolean switchFlag=false; // flag za odabir odgovarajućeg nastavka izvođenja koda nakon zapisa na server
 
         private boolean scannedFlag=false;
 
@@ -87,6 +88,14 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
 
             IntentFilter filter = new IntentFilter(NfcAdapter.ACTION_ADAPTER_STATE_CHANGED);
             getActivity().registerReceiver(mReceiver, filter);
+
+            // Odkomentirati kad se spojimo s loginom
+            //Bundle bundle = this.getArguments();
+            //ljubimacID = bundle.getInt("petToPutOnTag");
+
+
+            //SharedPreferences mSettings = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+            //logedUserID=mSettings.getInt("ulogiraniKorisnikId",0);
 
             return  view;
         }
@@ -105,8 +114,9 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
 
         @Override
         public void onResume() {
+            //Metode za testiranje bez uređaja
             //testing();
-            actionsIfFormatOKAndLocked("6542fer74f");
+            //actionsIfFormatOKAndLocked("6542fer74z");
             super.onResume();
             Intent intent1 = new Intent(getActivity(), commonMethodsInstance.getContainerActivity()).addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
             PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), 0, intent1, 0);
@@ -212,50 +222,6 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
             methodPost.Upload(tagKey,"213");
         }
 
-        /*@Override
-        public Fragment getModuleFragment() {
-            return this;
-        }
-
-        @Override
-        public void validateCode(String code) {
-
-            if(commonMethodsInstance.validateCodeFormat(code))
-            {
-                if(!scannedFlag) {
-                    LjubimacDataLoader petLoader = new LjubimacDataLoader(this);
-                    petLoader.loadDataByTag(code);
-                }
-            }
-            else
-            {
-                outputValidationStatus(false);
-            }
-
-        }
-
-
-        @Override
-        public void showDataInFragment(FragmentActivity nowActivity, Ljubimac nowPet) {
-            commonMethodsInstance.showPetDataFragment(nowActivity,nowPet);
-        }
-
-        @Override
-        public String getModuleName() {
-            return runningActivity.getResources().getString(R.string.module_name);
-        }
-
-        @Override
-        public void LjubimacOnDataLoaded(List<Ljubimac> listaLjubimaca) {
-
-            if(listaLjubimaca.isEmpty()) outputValidationStatus(false);
-            else
-            {
-                loadedPet=listaLjubimaca.get(0);
-                outputValidationStatus(true);
-            }
-
-        }*/
 
         private void outputValidationStatus(boolean validationStatus) {
         nfcProgress.setVisibility(View.INVISIBLE);
@@ -340,17 +306,16 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
                 {
 
                     upisanaKartica=idKartice;
-                    Korisnik logiraniKorisnik= SQLite.select().from(Korisnik.class).where(Korisnik_Table.id_korisnika.is(213)).querySingle();
+                    Korisnik logiraniKorisnik= SQLite.select().from(Korisnik.class).where(Korisnik_Table.id_korisnika.is(logedUserID)).querySingle();
                     Kartica novaKartica=new Kartica(idKartice);
                     novaKartica.setKorisnik(logiraniKorisnik);
                     novaKartica.save();
 
                     LjubimacMethod ljubimacSwitch=new LjubimacMethod(this);
-                    ljubimacSwitch.Upload("","55",idKartice,"pridruzivanje");
+                    ljubimacSwitch.Upload("",ljubimacID,idKartice,"pridruzivanje");
 
                     //Kartica kartica=   SQLite.select().from(Kartica.class).where(Kartica_Table.id_kartice.is(idKartice)).querySingle();
                     //List<Kartica> lista=SQLite.select().from(Kartica.class).queryList();
-
                     //Toast.makeText(runningActivity, String.valueOf(lista.size()), Toast.LENGTH_SHORT).show();
                 }
 
@@ -407,6 +372,7 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
             }
 
         }
+        else;
     }
 
     private boolean checkTagInLocalDB(String tagCode)
@@ -444,12 +410,12 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
                 if(checkPetInLocalDB(tagCode)){
                     switchFlag=true;
                     LjubimacMethod ljubimacSwitch=new LjubimacMethod(this);
-                    ljubimacSwitch.Upload(returnPetFromLocalDB(tagCode),String.valueOf(1),"","zamjena");
+                    ljubimacSwitch.Upload(returnPetFromLocalDB(tagCode),ljubimacID,"","zamjena");
                 }
                 else{
                     switchFlag=false;
                     LjubimacMethod ljubimacSwitch=new LjubimacMethod(this);
-                    ljubimacSwitch.Upload("",String.valueOf(1),tagCode,"pridruzivanje");
+                    ljubimacSwitch.Upload("",ljubimacID,tagCode,"pridruzivanje");
                 }
             }
             else outputValidationStatus(false);

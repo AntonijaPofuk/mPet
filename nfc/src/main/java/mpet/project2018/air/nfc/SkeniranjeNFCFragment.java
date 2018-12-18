@@ -118,13 +118,15 @@ public class SkeniranjeNFCFragment extends Fragment implements ModuleImplementat
     }
 
     private void performActionsAfterTagReading(Intent intent) {
-        if (nfcInstance.isNFCIntent(intent)) {
-            if (nfcInstance.validateTag(intent)) {
-                String tagCode = nfcInstance.getCodeFromNdefRecord(nfcInstance.getFirstNdefRecord(nfcInstance.getNdefMessageFromIntent(intent)));
-                //Toast.makeText(getContext(), tagCode, Toast.LENGTH_SHORT).show();
-                validateCode(tagCode);
+        if(!scannedFlag) {
+            scannedFlag=true;
+            if (nfcInstance.isNFCIntent(intent)) {
+                if (nfcInstance.validateTag(intent)) {
+                    String tagCode = nfcInstance.getCodeFromNdefRecord(nfcInstance.getFirstNdefRecord(nfcInstance.getNdefMessageFromIntent(intent)));
+                    //Toast.makeText(getContext(), tagCode, Toast.LENGTH_SHORT).show();
+                    validateCode(tagCode);
+                } else outputValidationStatus(false);
             }
-            else outputValidationStatus(false);
         }
     }
 
@@ -138,10 +140,10 @@ public class SkeniranjeNFCFragment extends Fragment implements ModuleImplementat
 
         if(commonMethodsInstance.validateCodeFormat(code))
         {
-            if(!scannedFlag) {
+
                 LjubimacDataLoader petLoader = new LjubimacDataLoader(this);
                 petLoader.loadDataByTag(code);
-            }
+
         }
         else
         {
@@ -154,13 +156,12 @@ public class SkeniranjeNFCFragment extends Fragment implements ModuleImplementat
     public void outputValidationStatus(boolean validationStatus) {
 
         nfcProgress.setVisibility(View.INVISIBLE);
-        if(!scannedFlag) {
-            scannedFlag=true;
+
             if (validationStatus)
                 alertingMessage(getResources().getString(mpet.project2018.air.core.R.string.codeStatusOK), mpet.project2018.air.core.R.drawable.success_message, validationStatus);
             else
                 alertingMessage(getResources().getString(mpet.project2018.air.core.R.string.codeStatusNotOK), mpet.project2018.air.core.R.drawable.fail_message, validationStatus);
-        }
+
     }
 
     @Override
