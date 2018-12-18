@@ -35,16 +35,19 @@ import java.util.List;
 import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.LjubimacDataLoadedListener;
 import Retrofit.DataGetListenersAndLoaders.DataLoaders.LjubimacDataLoader;
 import Retrofit.DataPost.KarticaMethod;
+import Retrofit.DataPost.LjubimacMethod;
 import Retrofit.Model.Ljubimac;
 import Retrofit.RemotePost.KarticaOnDataPostedListener;
+import Retrofit.RemotePost.LjubimacOnDataPostedListener;
 import mpet.project2018.air.core.ModuleCommonMethods;
 import mpet.project2018.air.core.ModuleImplementationMethods;
 import mpet.project2018.air.database.entities.Kartica;
 import mpet.project2018.air.database.entities.Kartica_Table;
 import mpet.project2018.air.database.entities.Korisnik;
 import mpet.project2018.air.database.entities.Korisnik_Table;
+import mpet.project2018.air.database.entities.Ljubimac_Table;
 
-public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPostedListener {
+public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPostedListener, LjubimacOnDataPostedListener {
 
 
         public PisanjeNFCFragment() {
@@ -60,6 +63,7 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
         private ModuleCommonMethods commonMethodsInstance;
         private NFCManager nfcInstance;
         private int ljubimacID;
+        private  String upisanaKartica;
         private TextView nfcOutput;
         private ProgressBar nfcProgress;
         private Activity runningActivity;
@@ -324,14 +328,18 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
 
             try{
 
-                Toast.makeText(runningActivity, idKartice, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(runningActivity, idKartice, Toast.LENGTH_SHORT).show();
                 if(idKartice!="greska" && idKartice!="duplikat")
                 {
 
+                    upisanaKartica=idKartice;
                     Korisnik logiraniKorisnik= SQLite.select().from(Korisnik.class).where(Korisnik_Table.id_korisnika.is(213)).querySingle();
                     Kartica novaKartica=new Kartica(idKartice);
                     novaKartica.setKorisnik(logiraniKorisnik);
                     novaKartica.save();
+
+                    LjubimacMethod ljubimacSwitch=new LjubimacMethod(this);
+                    ljubimacSwitch.Upload("","55",idKartice,"pridruzivanje");
 
                     //Kartica kartica=   SQLite.select().from(Kartica.class).where(Kartica_Table.id_kartice.is(idKartice)).querySingle();
                     //List<Kartica> lista=SQLite.select().from(Kartica.class).queryList();
@@ -341,6 +349,35 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
 
             }
             catch (Exception e){}
+    }
+
+    @Override
+    public void onDataPostedLjubimac(String idLjubimca) {
+
+            try{
+                writePetToDataBase(idLjubimca);
+            }
+            catch (Exception e){}
+    }
+
+    private void writePetToDataBase(String petID)
+    {
+        if(petID!="0")
+        {
+            mpet.project2018.air.database.entities.Ljubimac switchLjubimac=SQLite.select().from(mpet.project2018.air.database.entities.Ljubimac.class
+            ).where(Ljubimac_Table.id_ljubimca.is(Integer.parseInt(petID))).querySingle();
+
+            Kartica kartica=   SQLite.select().from(Kartica.class).where(Kartica_Table.id_kartice.is(upisanaKartica)).querySingle();
+
+            switchLjubimac.setKartica(kartica);
+            switchLjubimac.save();
+
+            mpet.project2018.air.database.entities.Ljubimac switchLjubimac2=SQLite.select().from(mpet.project2018.air.database.entities.Ljubimac.class
+            ).where(Ljubimac_Table.id_ljubimca.is(Integer.parseInt(petID))).querySingle();
+
+            Toast.makeText(runningActivity, switchLjubimac2.getKartica().getId_kartice(), Toast.LENGTH_SHORT).show();
+
+        }
     }
 }
 

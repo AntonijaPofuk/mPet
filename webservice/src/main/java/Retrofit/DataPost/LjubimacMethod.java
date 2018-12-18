@@ -57,8 +57,8 @@ public class LjubimacMethod {
 
                 LjubimacResponse body = response.body();
                 Body[0]=body.LjubimacID;
-
-                ljubimacListener.onDataPosted(Body[0]);
+                if(Body[0]!="greska") ljubimacListener.onDataPostedLjubimac(Body[0]);
+                else ljubimacListener.onDataPostedLjubimac("0");
             }
 
             @Override

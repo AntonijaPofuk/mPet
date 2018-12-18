@@ -2,5 +2,5 @@ package Retrofit.RemotePost;
 
 public interface LjubimacOnDataPostedListener {
 
-    void onDataPosted(String idLjubimca);
+    void onDataPostedLjubimac(String idLjubimca);
 }
