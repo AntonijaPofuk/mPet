@@ -63,7 +63,8 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
         private ModuleCommonMethods commonMethodsInstance;
         private NFCManager nfcInstance;
         private int ljubimacID;
-        private  String upisanaKartica;
+        private String upisanaKartica;
+        private String logedUserID;
         private TextView nfcOutput;
         private ProgressBar nfcProgress;
         private Activity runningActivity;
@@ -100,7 +101,7 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
 
         @Override
         public void onResume() {
-            testing();
+           //testing();
             super.onResume();
             Intent intent1 = new Intent(getActivity(), commonMethodsInstance.getContainerActivity()).addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
             PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), 0, intent1, 0);
@@ -146,7 +147,21 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
 
                         if (nfcInstance.checkFormat(tagCode)) {
                             if(checkLockedStatus(intent)) writeToNFC(intent);
-                            //else provjeri da li je kartica u bazi podataka
+                            else
+                            {
+                                if(checkTagInLocalDB(tagCode)){
+                                    if(checkPetInLocalDB(tagCode)){
+                                        LjubimacMethod ljubimacSwitch=new LjubimacMethod(this);
+                                        ljubimacSwitch.Upload(returnPetFromLocalDB(tagCode),String.valueOf(ljubimacID),"","zamjena");
+                                    }
+                                    else{
+
+                                        LjubimacMethod ljubimacSwitch=new LjubimacMethod(this);
+                                        ljubimacSwitch.Upload("",String.valueOf(ljubimacID),tagCode,"pridruzivanje");
+                                    }
+                                }
+                                else outputValidationStatus(false);
+                            }
                         }
                         else
                         {
@@ -378,6 +393,34 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
             Toast.makeText(runningActivity, switchLjubimac2.getKartica().getId_kartice(), Toast.LENGTH_SHORT).show();
 
         }
+    }
+
+    private boolean checkTagInLocalDB(String tagCode)
+    {
+        Kartica kartica=   SQLite.select().from(Kartica.class).where(Kartica_Table.id_kartice.is(tagCode)).querySingle();
+        if(kartica==null) return  false;
+        else
+        {
+            if(kartica.getKorisnik().getId_korisnika()==Integer.parseInt(logedUserID)) return true;
+            else return false;
+        }
+    }
+
+    private boolean checkPetInLocalDB(String tagCode)
+    {
+        mpet.project2018.air.database.entities.Ljubimac ljubimac=SQLite.select().from(mpet.project2018.air.database.entities.Ljubimac.class
+        ).where(Ljubimac_Table.kartica_id_kartice.is(tagCode)).querySingle();
+
+        if(ljubimac==null) return false;
+        else return  true;
+    }
+
+    private String returnPetFromLocalDB(String tagCode)
+    {
+        mpet.project2018.air.database.entities.Ljubimac ljubimac=SQLite.select().from(mpet.project2018.air.database.entities.Ljubimac.class
+        ).where(Ljubimac_Table.kartica_id_kartice.is(tagCode)).querySingle();
+
+        return String.valueOf(ljubimac.getId_ljubimca());
     }
 }
 
