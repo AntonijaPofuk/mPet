@@ -71,9 +71,7 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
         private TextView nfcOutput;
         private ProgressBar nfcProgress;
         private Activity runningActivity;
-
         private boolean switchFlag=false; // flag za odabir odgovarajućeg nastavka izvođenja koda nakon zapisa na server
-
         private boolean scannedFlag=false;
 
         @Nullable
@@ -202,7 +200,7 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
                         outputValidationStatus(true);
                         switchFlag=false;
                         KarticaMethod methodPost=new KarticaMethod(this);
-                        methodPost.Upload(tagKey,"213");
+                        methodPost.Upload(tagKey,String.valueOf(logedUserID));
                         Toast.makeText(getActivity(), "Tag written!", Toast.LENGTH_SHORT).show();
 
                     } else {
@@ -281,8 +279,7 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
                             break;
                     }
                 }
-            }
-        };
+            }};
 
         private String randomTagKeyGenerator()
         {
