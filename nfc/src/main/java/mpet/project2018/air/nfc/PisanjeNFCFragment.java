@@ -32,11 +32,13 @@ import java.util.List;
 
 import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.LjubimacDataLoadedListener;
 import Retrofit.DataGetListenersAndLoaders.DataLoaders.LjubimacDataLoader;
+import Retrofit.DataPost.KarticaMethod;
 import Retrofit.Model.Ljubimac;
+import Retrofit.RemotePost.KarticaOnDataPostedListener;
 import mpet.project2018.air.core.ModuleCommonMethods;
 import mpet.project2018.air.core.ModuleImplementationMethods;
 
-public class PisanjeNFCFragment extends  Fragment {
+public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPostedListener {
 
 
         public PisanjeNFCFragment() {
@@ -88,6 +90,7 @@ public class PisanjeNFCFragment extends  Fragment {
 
         @Override
         public void onResume() {
+            testing();
             super.onResume();
             Intent intent1 = new Intent(getActivity(), commonMethodsInstance.getContainerActivity()).addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
             PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), 0, intent1, 0);
@@ -164,12 +167,15 @@ public class PisanjeNFCFragment extends  Fragment {
         private void writeToNFC(Intent intent)
         {
             try {
-                    NdefRecord ndefRecord = nfcInstance.createTextRecord(randomTagKeyGenerator());
+                    String tagKey=randomTagKeyGenerator();
+                    NdefRecord ndefRecord = nfcInstance.createTextRecord(tagKey);
                     NdefMessage ndefMessage = new NdefMessage(new NdefRecord[] {ndefRecord });
                     Tag tag = nfcInstance.getTag(intent);
                     boolean writeResult = nfcInstance.writeNdefMessage(tag, ndefMessage);
                     if (writeResult) {
                         outputValidationStatus(true);
+                        KarticaMethod methodPost=new KarticaMethod(this);
+                        methodPost.Upload(tagKey,"213");
                         Toast.makeText(getActivity(), "Tag written!", Toast.LENGTH_SHORT).show();
 
                     } else {
@@ -180,6 +186,13 @@ public class PisanjeNFCFragment extends  Fragment {
             } catch (Exception e) {
                 Log.e("onNewIntent", e.getMessage());
             }
+        }
+
+        private void testing()
+        {
+            String tagKey=randomTagKeyGenerator();
+            KarticaMethod methodPost=new KarticaMethod(this);
+            methodPost.Upload(tagKey,"213");
         }
 
         /*@Override
@@ -300,6 +313,15 @@ public class PisanjeNFCFragment extends  Fragment {
         }
 
 
+    @Override
+    public void onDataPosted(String idKartice) {
+
+            try{
+
+                Toast.makeText(runningActivity, idKartice, Toast.LENGTH_SHORT).show();
+            }
+            catch (Exception e){}
     }
+}
 
 
