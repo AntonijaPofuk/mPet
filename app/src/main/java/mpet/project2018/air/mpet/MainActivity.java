@@ -93,11 +93,6 @@ TextView textView;
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_frag1); //Provjera i odabir prvog elementa u draweru
 
-
-//TextView textView = (TextView)findViewById(R.id.korImeIzbornik);
-//        textView.setText("Prijavljeni korisnik: " + id1);
-
-
        /*FragmentTransaction ft = getSupportFragmentManager().beginTransaction();    //otvaranje prvog fragmenta kod pokretanja app
         ft.replace(R.id.mainFrame, new Pocetna_neulogirani());
         ft.commit();*/
@@ -119,13 +114,14 @@ TextView textView;
             ft2.commit();
             }
 
-    //----------------------------------------------------------
 
         View linearLayout = navigationView.inflateHeaderView(R.layout.nav_header);
 
         TextView textView = linearLayout.findViewById(R.id.korImeIzbornik);
 
         textView.setText("Prijavljeni korisnik: " + id1);
+
+
 
        /* Boolean loggedIn = sharedPreferences.getBoolean(Config.LOGGEDIN_SHARED_PREF, false);
 
@@ -140,6 +136,14 @@ TextView textView;
         }*/
 
 
+
+    }
+
+    public void openUserData(View v){
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.mainFrame, new KorisnikUredivanje());
+        ft.commit();
 
     }
 
