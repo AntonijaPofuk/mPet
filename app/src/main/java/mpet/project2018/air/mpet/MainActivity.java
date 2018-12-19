@@ -77,7 +77,9 @@ public class MainActivity extends AppCompatActivity
         MainDatabase.initializeDatabase(this);
        //----------------------------------------------------------------
 
-
+        popuniKorisnika();
+        popuniLjubimca();
+        popuniKarticu();
 
 
                 FragmentManager fragmentManager = getSupportFragmentManager();
@@ -98,6 +100,7 @@ public class MainActivity extends AppCompatActivity
         @Override
         public void onBackPressed() {
             android.app.FragmentManager fm = getFragmentManager();
+
             if (fm.getBackStackEntryCount() > 0) {
                 fm.popBackStack();
             } else {
@@ -220,7 +223,7 @@ public class MainActivity extends AppCompatActivity
 
     public void popuniLjubimca(){
             Korisnik k=new Korisnik();
-            k.setId_korisnika(198);
+            k.setId_korisnika(177);
         Ljubimac ljubimac=new Ljubimac(1,"Rex",21,50,"pas","m","opis","Url",k);
         Kartica a=new Kartica("6542fer74f");
         ljubimac.setKartica(a);
@@ -229,7 +232,9 @@ public class MainActivity extends AppCompatActivity
 
     public void popuniKarticu(){
         Kartica k=new Kartica("6542fer74f");
-
+        Korisnik kor=new Korisnik();
+        kor.setId_korisnika(177);
+        k.setKorisnik(kor);
         k.save();
     }
 

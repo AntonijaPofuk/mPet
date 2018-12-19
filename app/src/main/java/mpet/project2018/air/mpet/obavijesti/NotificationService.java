@@ -14,9 +14,14 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.raizlabs.android.dbflow.config.FlowManager;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,8 +35,11 @@ import Retrofit.DataPost.ObavijestiMethod;
 import Retrofit.Model.Skeniranje;
 import mpet.project2018.air.database.entities.Kartica;
 import mpet.project2018.air.database.entities.Korisnik;
+import mpet.project2018.air.database.entities.Skeniranje_Table;
 import mpet.project2018.air.mpet.MainActivity;
 import mpet.project2018.air.mpet.R;
+import mpet.project2018.air.mpet.fragments.PrikazObavijestiDetaljno;
+import mpet.project2018.air.mpet.fragments.PrikazSvihObavijesti;
 
 import static mpet.project2018.air.mpet.obavijesti.CreateNotificationChannel.CHANNEL_ID;
 
@@ -74,7 +82,9 @@ public class NotificationService extends Service implements SkeniranjeDataLoaded
                     loadData();
                     if (listaSkeniranja.size() != 0) {
                         for (Skeniranje skeniranje : listaSkeniranja) {
-                            if (skeniranje.procitano.contains("0")) {
+                           List <mpet.project2018.air.database.entities.Skeniranje> skeniranjeList1=new SQLite().select().from(mpet.project2018.air.database.entities.Skeniranje.class).where(Skeniranje_Table.id_skeniranja.is(Integer.parseInt(skeniranje.id_skeniranja))).queryList();
+
+                            if (skeniranje.procitano.contains("0") && skeniranjeList1.isEmpty()) {
                                 sendNotification("Vaš ljubimac je skeniran! Pritisnite za detalje ...", "Datum i vrijeme skeniranja : " + skeniranje.datum + " | " + skeniranje.vrijeme,skeniranje.id_skeniranja);
                                mpet.project2018.air.database.entities.Skeniranje lokalnaBazaSkeniranje=new mpet.project2018.air.database.entities.Skeniranje();
                                 Date datum=null;
@@ -170,14 +180,14 @@ public class NotificationService extends Service implements SkeniranjeDataLoaded
 
     public void loadData(){
         SkeniranjeDataLoader skeniranjeDataLoader=new SkeniranjeDataLoader(this);
-        skeniranjeDataLoader.loadDataByUserId("198");//Testni ID
+        skeniranjeDataLoader.loadDataByUserId("177");//Testni ID
     }
 
 
     @Override
     public void SkeniranjeOnDataLoaded(List<Skeniranje> listaSkeniranjaPreuzeta) {
         ObavijestiMethod postNaObavijesti=new ObavijestiMethod();
-        postNaObavijesti.Upload("198"); //id prijavljenog korisnika ide tu
+        postNaObavijesti.Upload("213"); //id prijavljenog korisnika ide tu
         listaSkeniranja.addAll(listaSkeniranjaPreuzeta);
     }
 }

@@ -1,5 +1,6 @@
 package mpet.project2018.air.mpet.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
@@ -7,6 +8,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +37,7 @@ import mpet.project2018.air.database.entities.Ljubimac;
 import mpet.project2018.air.database.entities.Ljubimac_Table;
 import mpet.project2018.air.database.entities.Skeniranje;
 import mpet.project2018.air.database.entities.Skeniranje_Table;
+import mpet.project2018.air.mpet.MainActivity;
 import mpet.project2018.air.mpet.R;
 
 public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCallback, KorisnikDataLoadedListener {
@@ -43,7 +48,7 @@ public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCall
     MapView mView;
     View mainView;
 
-    private String idSkeniranja="";
+    private String idSkeniranja;
 
     String idKartica="";
     Integer idKorisnik=0;
@@ -64,6 +69,7 @@ public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCall
         if (mListener != null) {
             mListener.onFragmentInteraction("Detalji o skeniranju");
         }
+
 
         View view=inflater.inflate(R.layout.obavijest_detaljno,container,false);
 
@@ -148,8 +154,10 @@ public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCall
         void onFragmentInteraction(String title);
     }
 
+
     @Override
     public void onAttach(Context context) {
+        super.onAttach(context);
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
@@ -157,6 +165,7 @@ public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCall
             throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
         }
     }
+
     @Override
     public void onDetach() {
         super.onDetach();
@@ -183,55 +192,67 @@ public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCall
     @Override
     public void KorisnikOnDataLoaded(List<Korisnik> listaKorisnika) {
 
-      TextView datumVrijemeSkena = this.mainView.findViewById(R.id.txtDatumVrijemeSkena);
-
-      SimpleDateFormat format=new SimpleDateFormat("dd.MM.yyyy.");
-
-      datumVrijemeSkena.setText(format.format(datumSkena)+" "+vrijemeSkena);
-
-      TextView imeLjubimca1=this.mainView.findViewById(R.id.txtImeLjubimca);
-
-      imeLjubimca1.setText(imeLjubimca);
-
-      LatLng latLng=new LatLng(Double.parseDouble(kordX),Double.parseDouble(kordY));
-
-      gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,7));
-
-      gMap.addMarker(new MarkerOptions().title(imeLjubimca+" je skeniran ovdje!").position(latLng)).showInfoWindow();
-
-        Geocoder geocoder=new Geocoder(getContext(),Locale.getDefault());
-
         try {
-            List<Address> adresa=geocoder.getFromLocation(Double.parseDouble(kordX),Double.parseDouble(kordY),1);
 
-            if(!adresa.isEmpty() && adresa!=null) {
+            TextView datumVrijemeSkena = this.mainView.findViewById(R.id.txtDatumVrijemeSkena);
 
-                TextView mjestoSkena = mainView.findViewById(R.id.txtMjestoSkena);
+            SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy.");
 
-                mjestoSkena.setText(adresa.get(0).getLocality());
+            datumVrijemeSkena.setText(format.format(datumSkena) + " " + vrijemeSkena);
 
+            TextView imeLjubimca1 = this.mainView.findViewById(R.id.txtImeLjubimca);
+
+            imeLjubimca1.setText(imeLjubimca);
+
+            LatLng latLng = new LatLng(Double.parseDouble(kordX), Double.parseDouble(kordY));
+
+            gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 7));
+
+            gMap.addMarker(new MarkerOptions().title(imeLjubimca + " je skeniran ovdje!").position(latLng)).showInfoWindow();
+
+            Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+
+            try {
+                List<Address> adresa = geocoder.getFromLocation(Double.parseDouble(kordX), Double.parseDouble(kordY), 1);
+
+                if (!adresa.isEmpty() && adresa != null) {
+
+                    TextView mjestoSkena = mainView.findViewById(R.id.txtMjestoSkena);
+
+                    mjestoSkena.setText(adresa.get(0).getLocality());
+
+                } else {
+                    TextView mjestoSkena = mainView.findViewById(R.id.txtMjestoSkena);
+
+                    mjestoSkena.setText("-");
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
-            else{
-                TextView mjestoSkena = mainView.findViewById(R.id.txtMjestoSkena);
+            TextView konaktTextView = mainView.findViewById(R.id.txtKontakt);
 
-                mjestoSkena.setText("-");
-            }
+            konaktTextView.setText(kontaktKorisnik);
 
-        } catch (IOException e) {
-            e.printStackTrace();
+            TextView korisnikTextView = mainView.findViewById(R.id.txtSkenirao);
+
+            korisnikTextView.setText(listaKorisnika.get(0).ime + " " + listaKorisnika.get(0).prezime + " (" + listaKorisnika.get(0).korisnicko_ime + ")");
+
+            Skeniranje skeniranje = new Skeniranje();
+            skeniranje = new SQLite().select().from(Skeniranje.class).where(Skeniranje_Table.id_skeniranja.is(Integer.parseInt(idSkeniranja))).querySingle();
+            skeniranje.setProcitano("1");
+            skeniranje.save();
+
         }
 
-        TextView konaktTextView=mainView.findViewById(R.id.txtKontakt);
-
-        konaktTextView.setText(kontaktKorisnik);
-
-        TextView korisnikTextView=mainView.findViewById(R.id.txtSkenirao);
-
-        korisnikTextView.setText(listaKorisnika.get(0).ime+" "+listaKorisnika.get(0).prezime+" ("+listaKorisnika.get(0).korisnicko_ime+")");
+        catch(Exception e)
+        {e.printStackTrace();}
 
 
     }
+
+
 
 
 }

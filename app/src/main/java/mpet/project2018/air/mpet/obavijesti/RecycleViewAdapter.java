@@ -2,6 +2,7 @@ package mpet.project2018.air.mpet.obavijesti;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -27,6 +28,7 @@ import java.util.List;
 import mpet.project2018.air.database.entities.Ljubimac;
 import mpet.project2018.air.database.entities.Ljubimac_Table;
 import mpet.project2018.air.database.entities.Skeniranje;
+import mpet.project2018.air.database.entities.Skeniranje_Table;
 import mpet.project2018.air.mpet.MainActivity;
 import mpet.project2018.air.mpet.R;
 import mpet.project2018.air.mpet.fragments.PrikazObavijestiDetaljno;
@@ -80,6 +82,10 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
 
         holder.IDSkeniranja=idSkeniranja.toString();
 
+        if(Integer.parseInt(listSken.get(i).getProcitano())<1){
+            holder.itemView.setBackgroundColor(Color.GRAY);
+        }
+
     }
 
     @Override
@@ -114,6 +120,10 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
             fragmentTransaction.replace(R.id.mainFrame, fragmentObavijestiDetaljno);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
+            Skeniranje skeniranje=new Skeniranje();
+            skeniranje=new SQLite().select().from(Skeniranje.class).where(Skeniranje_Table.id_skeniranja.is(Integer.parseInt(IDSkeniranja))).querySingle();
+            skeniranje.setProcitano("1");
+            skeniranje.save();
         }
 
     }
