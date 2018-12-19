@@ -38,8 +38,6 @@ public class PrijavaMethod {
                 .build();
 
 
-
-
         KorisnikPrijavaServis api = retrofit.create(KorisnikPrijavaServis.class);
 
         PrijavaRequest request = new PrijavaRequest();

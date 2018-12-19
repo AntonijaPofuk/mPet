@@ -38,9 +38,13 @@ public class Pocetna_neulogirani extends Fragment {
             mListener.onFragmentInteraction("Početna");
         }
 
+
+
+
+
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREF_NAME, 0);
         String idNeprijavljeni = sharedPreferences.getString(Config.EMAIL_SHARED_PREF, "").toString();
-        Toast.makeText(getActivity(),"Vas id je"+idNeprijavljeni, Toast.LENGTH_SHORT).show();
+       Toast.makeText(getActivity(),"Vas id je"+idNeprijavljeni, Toast.LENGTH_SHORT).show();
 
 
         Button btn1=(Button) view.findViewById(R.id.btnPrijava);
