@@ -54,6 +54,8 @@ public class Pocetna_neulogirani extends Fragment {
                                         //startActivity(new Intent(getContext(), LoginActivity.class));
                                         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                                         ft.replace(R.id.mainFrame, new Login());
+                                        ft.addToBackStack(null);
+
                                         ft.commit();
                                     }
                                 }
@@ -67,6 +69,8 @@ public class Pocetna_neulogirani extends Fragment {
 
                                         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                                         ft.replace(R.id.mainFrame, new Registracija());
+                                        ft.addToBackStack(null);
+
                                         ft.commit();
                                     }
                                 }
@@ -78,6 +82,8 @@ public class Pocetna_neulogirani extends Fragment {
                                     public void onClick(View v) {
                                         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                                         ft.replace(R.id.mainFrame, new SkeniranjeNFCKartice());
+                                        ft.addToBackStack(null);
+
                                         ft.commit();
                                     }
                                 }

@@ -135,12 +135,16 @@ public class Pocetna_ulogirani extends Fragment {
     private void swapFragment(){
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.mainFrame, new Pocetna_neulogirani());
+        ft.addToBackStack(null);
+
         ft.commit();
     }
 
     private void swapFragment2(){
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.mainFrame, new SkeniranjeNFCKartice());
+        ft.addToBackStack(null);
+
         ft.commit();
     }
 

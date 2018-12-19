@@ -55,6 +55,8 @@ public class Login extends Fragment implements onLoginValidation {
         if (sharedPreferences.getString("ulogiraniKorisnikId", "").toString().equals("ulogiraniKorisnikId")) { //getString
             FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.mainFrame, new Pocetna_ulogirani());
+            ft.addToBackStack(null);
+
             ft.commit();
         }
 
@@ -77,6 +79,8 @@ public class Login extends Fragment implements onLoginValidation {
             public void onClick(View v) {
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.mainFrame, new Pocetna_neulogirani());
+                ft.addToBackStack(null);
+
                 ft.commit();
                 }
             }
@@ -130,6 +134,7 @@ public class Login extends Fragment implements onLoginValidation {
 
             FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.mainFrame, new Pocetna_ulogirani());
+            ft.addToBackStack(null);
             ft.commit();
 
 

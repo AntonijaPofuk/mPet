@@ -22,7 +22,8 @@ import android.widget.HeaderViewListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
+
+import android.app.FragmentManager;
 
 import mpet.project2018.air.database.MainDatabase;
 import mpet.project2018.air.mpet.fragments.KorisnikUredivanje;
@@ -162,12 +163,22 @@ TextView textView;
 
         @Override
         public void onBackPressed() {
-            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            //+++++++++++++++++++++++++++++++++
+         /*   DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
             } else {
                 super.onBackPressed();
             }
+            */
+         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+         if(fm.getBackStackEntryCount()>0){
+             fm.popBackStack();
+
+         }
+            else{super.onBackPressed();}
+
+
         }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
