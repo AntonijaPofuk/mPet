@@ -29,6 +29,7 @@
             android:value="@string/google_maps_key" />
 
         <activity android:name=".MainActivity"
+            android:launchMode="singleTask"
             android:label="mPet"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
