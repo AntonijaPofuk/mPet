@@ -18,12 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import android.widget.Toast;
-
-
-import com.raizlabs.android.dbflow.sql.language.SQLite;
-
-import java.util.List;
 
 import mpet.project2018.air.database.MainDatabase;
 import mpet.project2018.air.mpet.fragments.KorisnikUredivanje;
@@ -31,13 +25,11 @@ import mpet.project2018.air.mpet.fragments.Pocetna_ulogirani;
 import mpet.project2018.air.database.entities.Kartica;
 import mpet.project2018.air.database.entities.Korisnik;
 import mpet.project2018.air.database.entities.Ljubimac;
-import mpet.project2018.air.mpet.fragments.Pocetna_ulogirani;
 
 import mpet.project2018.air.mpet.fragments.Pocetna_neulogirani;
 import mpet.project2018.air.mpet.fragments.PrikazObavijestiDetaljno;
 import mpet.project2018.air.mpet.fragments.PrikazSvihObavijesti;
 import mpet.project2018.air.mpet.fragments.Registracija;
-import mpet.project2018.air.mpet.fragments.SkeniranjeNFCKartice;
 
 import mpet.project2018.air.mpet.fragments.Login;
 
