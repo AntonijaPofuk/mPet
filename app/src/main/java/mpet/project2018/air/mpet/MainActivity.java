@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,17 +18,33 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import android.widget.Toast;
+
+
+import com.raizlabs.android.dbflow.sql.language.SQLite;
+
+import java.util.List;
 
 import mpet.project2018.air.database.MainDatabase;
 import mpet.project2018.air.mpet.fragments.KorisnikUredivanje;
 import mpet.project2018.air.mpet.fragments.Pocetna_ulogirani;
+import mpet.project2018.air.database.entities.Kartica;
+import mpet.project2018.air.database.entities.Korisnik;
+import mpet.project2018.air.database.entities.Ljubimac;
+import mpet.project2018.air.mpet.fragments.Pocetna_ulogirani;
+
 import mpet.project2018.air.mpet.fragments.Pocetna_neulogirani;
+import mpet.project2018.air.mpet.fragments.PrikazObavijestiDetaljno;
+import mpet.project2018.air.mpet.fragments.PrikazSvihObavijesti;
 import mpet.project2018.air.mpet.fragments.Registracija;
 import mpet.project2018.air.mpet.fragments.SkeniranjeNFCKartice;
+
 import mpet.project2018.air.mpet.fragments.Login;
 
 import static mpet.project2018.air.mpet.Config.ID_SHARED_PREF;
 import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
+import mpet.project2018.air.mpet.obavijesti.NotificationService;
+
 
 
 public class MainActivity extends AppCompatActivity
@@ -38,7 +56,10 @@ public class MainActivity extends AppCompatActivity
         Login.OnFragmentInteractionListener,
         SkeniranjeNFCKartice.OnFragmentInteractionListener,
         KorisnikUredivanje.OnFragmentInteractionListener,
-        NavigationView.OnNavigationItemSelectedListener
+        NavigationView.OnNavigationItemSelectedListener,
+        PrikazObavijestiDetaljno.OnFragmentInteractionListener,
+        PrikazSvihObavijesti.OnFragmentInteractionListener
+        //TODO: dodaj novi fragment ovdje uvijek a na početku fragmenta implementiraj mlistenere
 
         //TODO: dodaj novi fragment ovdje uvijek a na početku fragmenta implementiraj mlistenere
 {
@@ -71,6 +92,8 @@ TextView textView;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        startService();//Pokretanje servisa za obavijesti
+        getObavijestiIntent();//dohvaćanje intenta za detaljne obavijesti
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -135,13 +158,24 @@ TextView textView;
     }
 
 
-
-
     public void openUserData(View v){
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.mainFrame, new KorisnikUredivanje());
         ft.commit();
+       //----------------------------------------------------------------
+
+        popuniKorisnika();
+        popuniLjubimca();
+        popuniKarticu();
+
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                PrikazSvihObavijesti prikazSvihObavijesti = new PrikazSvihObavijesti();
+                fragmentTransaction.replace(R.id.mainFrame, prikazSvihObavijesti);
+                fragmentTransaction.commit();
+
 
     }
 
@@ -161,6 +195,11 @@ TextView textView;
          /*   DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
+            android.app.FragmentManager fm = getFragmentManager();
+
+            if (fm.getBackStackEntryCount() > 0) {
+                fm.popBackStack();
+>>>>>>> origin/Matija_Branch
             } else {
                 super.onBackPressed();
             }
@@ -227,4 +266,82 @@ TextView textView;
         setIntent(intent);
         super.onNewIntent(intent);
     }
+
+//za login
+    private String getLoginEmailAddress(){
+        String storedEmail = "";
+        Intent mIntent = getIntent();
+        Bundle mBundle = mIntent.getExtras();
+        if(mBundle != null){
+            storedEmail = mBundle.getString("EMAIL");
+        }
+        return storedEmail;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getObavijestiIntent();//dohvaćanje intenta za detaljne obavijesti
+    }
+
+    //dohvaćanje intenta od obavijesti
+    private void getObavijestiIntent(){
+            String idSken="";
+            Intent mIntent=getIntent();
+            if(mIntent.hasExtra("idSkeniranja")) {
+                idSken = mIntent.getStringExtra("idSkeniranja");
+                //otvoriti fragment za detalje skeniranja s narednim id-em
+                if (idSken != "") {
+                    //otvaranje fragmenta
+                    Bundle bundle=new Bundle();
+                    bundle.putString("idSkena",idSken);
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    PrikazObavijestiDetaljno fragmentObavijestiDetaljno = new PrikazObavijestiDetaljno();
+                    fragmentObavijestiDetaljno.setArguments(bundle);
+                    fragmentTransaction.replace(R.id.mainFrame, fragmentObavijestiDetaljno);
+                    fragmentTransaction.commit();
+                }
+
+            }
+
+    }
+
+
+    //Pokretanje servisa za obavijesti
+    public void startService() {
+        String input = "";
+        Intent serviceIntent = new Intent(this, NotificationService.class);
+        serviceIntent.putExtra("inputExtra", input);
+        ContextCompat.startForegroundService(this, serviceIntent);
+    }
+
+    //zaustavljanje servisa za obavijesti
+    public void stopService() {
+        Intent serviceIntent = new Intent(this, NotificationService.class);
+        stopService(serviceIntent);
+    }
+
+    public void popuniKorisnika(){
+        Korisnik korisnik=new Korisnik(177,"Matija","Hasija","mhasija","1234","mail","adresa","0100330","32131","url");
+        korisnik.save();
+    }
+
+    public void popuniLjubimca(){
+            Korisnik k=new Korisnik();
+            k.setId_korisnika(177);
+        Ljubimac ljubimac=new Ljubimac(1,"Rex",21,50,"pas","m","opis","Url",k);
+        Kartica a=new Kartica("6542fer74f");
+        ljubimac.setKartica(a);
+        ljubimac.save();
+    }
+
+    public void popuniKarticu(){
+        Kartica k=new Kartica("6542fer74f");
+        Korisnik kor=new Korisnik();
+        kor.setId_korisnika(177);
+        k.setKorisnik(kor);
+        k.save();
+    }
+
 }

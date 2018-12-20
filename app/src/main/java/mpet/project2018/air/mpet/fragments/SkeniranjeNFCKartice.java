@@ -6,38 +6,50 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.nfc.NfcAdapter;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import mpet.project2018.air.database.entities.Skeniranje;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
+
+import java.util.List;
+
+import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.KorisnikDataLoadedListener;
+import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.LjubimacDataLoadedListener;
+import Retrofit.DataGetListenersAndLoaders.DataLoaders.KorisnikDataLoader;
+import Retrofit.DataGetListenersAndLoaders.DataLoaders.LjubimacDataLoader;
+import Retrofit.Model.Korisnik;
+import Retrofit.Model.Ljubimac;
+import mpet.project2018.air.database.entities.Korisnik_Table;
+import mpet.project2018.air.database.entities.Ljubimac_Table;
 import mpet.project2018.air.mpet.MainActivity;
 import mpet.project2018.air.mpet.R;
 import mpet.project2018.air.mpet.nfcHelper.NFCHelper;
 import mpet.project2018.air.nfc.NFCManager;
 
 
-public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListener
+public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListener, LjubimacDataLoadedListener
 {
 
     private SkeniranjeNFCKartice.OnFragmentInteractionListener mListener;
+    private String Kod;
+    private NFCHelper nfcHelperInstance;
 
     public SkeniranjeNFCKartice() {}
 
     private NFCManager nfcInstance;
-
     private TextView ispisPoruka;
     private ProgressBar loadBar;
     private Button potvrdiUnosKoda;
@@ -49,6 +61,7 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
 
         View view=inflater.inflate(R.layout.skeniranje_kartice,container,false);
         nfcInstance= new NFCManager(getActivity());
+        nfcHelperInstance=new NFCHelper();
 
         if (mListener != null) {
             mListener.onFragmentInteraction("Skeniranje");
@@ -65,7 +78,14 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
     @Override
     public void onClick(View v) {
         String uneseniKod= unosKodaField.getText().toString();
-        nfcReadingStatusOutput(NFCHelper.checkFormat(uneseniKod));
+        Kod=uneseniKod;
+        if(nfcHelperInstance.checkFormat(uneseniKod))
+        {
+            loadData();
+            //nfcReadingStatusOutput(nfcHelperInstance.checkForCode(uneseniKod));
+        }
+        else nfcReadingStatusOutput(false);
+
     }
 
     @Override
@@ -73,6 +93,8 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
         super.onViewCreated(view, savedInstanceState);
 
         nfcStatusOutput(nfcInstance.checkNFCAvailability());
+
+        //loadDataS();
 
     }
 
@@ -117,15 +139,19 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
         if(!status) alertingMessage(getResources().getString(R.string.nfc_read_failed),R.drawable.fail_message,status);
         else alertingMessage( getResources().getString(R.string.nfc_read_ok),R.drawable.success_message,status);
 
-
-
     }
 
     private void performActionsAfterTagReading(Intent intent) {
         if (nfcInstance.isNFCIntent(intent)) {
             if (nfcInstance.validateTag(intent)) {
                 String tagCode = nfcInstance.getCodeFromNdefRecord(nfcInstance.getFirstNdefRecord(nfcInstance.getNdefMessageFromIntent(intent)));
-                nfcReadingStatusOutput(NFCHelper.checkFormat(tagCode));
+                Kod=tagCode;
+                if(nfcHelperInstance.checkFormat(tagCode))
+                {
+                    loadData();
+                    //nfcReadingStatusOutput(nfcHelperInstance.checkForCode(tagCode));
+                }
+
             }
             else nfcReadingStatusOutput(false);
         }
@@ -147,12 +173,27 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
                         dialog.dismiss();
 
                          if(!status) loadBar.setVisibility(View.VISIBLE);
-                        // else
+                        else
+                         {
+                            prikazPodatakaFragment(Kod);
+                         }
                     }
                 })
                 .setIcon(imageIcon)
                 .show();
 
+    }
+
+    private void prikazPodatakaFragment(String code)
+    {
+        Bundle bundle=new Bundle();
+        bundle.putString("code",code);
+        PrikazPodatakaOSkeniranomeLjubimcu mDiscountListFragment = new PrikazPodatakaOSkeniranomeLjubimcu();
+        mDiscountListFragment.setArguments(bundle);
+        FragmentManager mFragmentManager = getFragmentManager();
+        FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+        mFragmentTransaction.replace(R.id.mainFrame, mDiscountListFragment);
+        mFragmentTransaction.commit();
     }
 
     @Override
@@ -171,10 +212,38 @@ public class SkeniranjeNFCKartice extends Fragment implements View.OnClickListen
         mListener = null;
     }
 
+    public void loadData()
+    {
+        LjubimacDataLoader dataLoader=new LjubimacDataLoader(this);
+
+        dataLoader.loadDataByTag(Kod);
+    }
+
+    /*public void loadDataS()
+    {
+       KorisnikDataLoader dataLoader=new KorisnikDataLoader(this);
+
+        dataLoader.loadDataById("3");
+    }*/
+
+    @Override
+    public void LjubimacOnDataLoaded(List<Ljubimac> listaLjubimaca) {
+        nfcReadingStatusOutput(nfcHelperInstance.checkForCode(listaLjubimaca));
+    }
+
+    /*@Override
+    public void KorisnikOnDataLoaded(List<Korisnik> listaKorisnika) {
+       List< mpet.project2018.air.database.entities.Korisnik> korisnik = SQLite.select().from(mpet.project2018.air.database.entities.Korisnik.class).where(Korisnik_Table.id_korisnika.is(3)).queryList();
+        Toast.makeText(getActivity(), String.valueOf( korisnik.size()), Toast.LENGTH_SHORT).show();
+    }*/
+
     public interface OnFragmentInteractionListener {
 
         void onFragmentInteraction(String title);
     }
     private class ArticleFragment {
     }
+
+
+
 }

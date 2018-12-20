@@ -188,7 +188,7 @@ public class NoviLjubimac extends Fragment implements StatusListener {
 
     private void swapFragment(){
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.mainFrame, new Pocetna());
+        ft.replace(R.id.mainFrame, new Pocetna_ulogirani());
         ft.commit();
     }
 

@@ -3,8 +3,8 @@ package Retrofit.DataGet;
 import java.util.ArrayList;
 import java.util.List;
 
-import hr.com.webservice.Retrofit.Model.Ljubimac;
-import hr.com.webservice.Retrofit.RemoteGet.LjubimciService;
+import Retrofit.Model.Ljubimac;
+import Retrofit.RemoteGet.LjubimciService;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

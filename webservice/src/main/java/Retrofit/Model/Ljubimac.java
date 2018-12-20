@@ -3,6 +3,7 @@ package Retrofit.Model;
 import com.google.gson.annotations.SerializedName;
 
 public class Ljubimac {
+
     @SerializedName("id")
     public String id;
     @SerializedName("ime")
@@ -11,6 +12,7 @@ public class Ljubimac {
     public int godina;
     @SerializedName("masa")
     public float masa;
+
     @SerializedName("vrsta")
     public String vrsta;
     @SerializedName("spol")
@@ -19,6 +21,7 @@ public class Ljubimac {
     public String opis;
     @SerializedName("url_slike")
     public String url_slike;
+
     @SerializedName("vlasnik")
     public String vlasnik;
     @SerializedName("kartica")
@@ -104,5 +107,6 @@ public class Ljubimac {
     public void setKartica(String kartica) {
         this.kartica = kartica;
     }
+
 
 }

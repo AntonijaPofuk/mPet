@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+def dbflow_version = "4.2.4"
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -26,6 +26,9 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
+    //mapa
+    implementation 'com.google.android.gms:play-services-maps:16.0.0'
+
     //za dizajn
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support:design:28.0.0'
@@ -33,9 +36,19 @@ dependencies {
     //module dependencies
     implementation project (':database')
     implementation project (':nfc')
+    implementation project (':webservice')
 
     //Retrofit
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile project(path: ':webservice')
+
+    // dbflow dependencies
+    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
+    implementation "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
+    implementation "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
+    implementation 'com.google.android.gms:play-services-maps:16.0.0'
+
+    //RecyclerView
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
 }

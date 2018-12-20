@@ -144,7 +144,7 @@ public class Registracija extends Fragment implements StatusListener {
                                                 else{
 
                                                     method.Upload(ime, prezime, korIme, adresa, mail, mobitel, telefon, lozinka, slika);
-                                                    swapFragment();
+                                                    //swapFragment();
                                                 }
                                             }
                                         }
@@ -228,23 +228,24 @@ public class Registracija extends Fragment implements StatusListener {
     public void onStatusChanged(String s) {
         status=s;
         Activity a=getActivity();
-        /*
+
         if(s.equals("duplikat")) {
             Toast.makeText(a, "Korisničko ime postoji",
                     Toast.LENGTH_LONG).show();
         }
+        /*
         else if (s.equals("greska")) {
                swapFragment();
                 Toast.makeText(a, "Ups, greška :(",
                         Toast.LENGTH_LONG).show();
             }
-
-        else {
-           swapFragment();
+*/
+        else  {
+           //swapFragment();
             Toast.makeText(a, "Registrirali ste se :)",
                     Toast.LENGTH_LONG).show();
         }
-*/
+
     }
 
     public interface OnFragmentInteractionListener {
