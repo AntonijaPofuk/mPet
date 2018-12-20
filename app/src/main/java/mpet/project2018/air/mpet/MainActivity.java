@@ -1,9 +1,7 @@
 package mpet.project2018.air.mpet;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.preference.PreferenceActivity;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -13,17 +11,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.Layout;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.HeaderViewListAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
-
-import android.app.FragmentManager;
 
 import mpet.project2018.air.database.MainDatabase;
 import mpet.project2018.air.mpet.fragments.KorisnikUredivanje;
@@ -33,7 +25,7 @@ import mpet.project2018.air.mpet.fragments.Registracija;
 import mpet.project2018.air.mpet.fragments.SkeniranjeNFCKartice;
 import mpet.project2018.air.mpet.fragments.Login;
 
-import static mpet.project2018.air.mpet.Config.EMAIL_SHARED_PREF;
+import static mpet.project2018.air.mpet.Config.ID_SHARED_PREF;
 import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 
 
@@ -98,28 +90,31 @@ TextView textView;
         ft.replace(R.id.mainFrame, new Pocetna_neulogirani());
         ft.commit();*/
 
+
         MainDatabase.initializeDatabase(this);
 
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, 0);
-        String id1 = sharedPreferences.getString(EMAIL_SHARED_PREF, "").toString();
+        String id1 = sharedPreferences.getString(ID_SHARED_PREF, "").toString();
         sharedPreferences = this.getSharedPreferences(SHARED_PREF_NAME, 0); //u fragmentu dodaj this.getActivity..... jer nema CONTEXA
-        if (sharedPreferences.getString(EMAIL_SHARED_PREF, "ulogiraniKorisnikId").toString().equals("ulogiraniKorisnikId")) { //getString
+        if (sharedPreferences.getString(ID_SHARED_PREF, "ulogiraniKorisnikId").toString().equals("ulogiraniKorisnikId")) { //getString
             FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
             ft1.replace(R.id.mainFrame, new Pocetna_neulogirani());
             ft1.commit();
+            navigationView.getMenu().clear();
+            navigationView.inflateMenu(R.menu.activity_main_drawer_neulogirani);
             }
 
         else {
             FragmentTransaction ft2 = getSupportFragmentManager().beginTransaction();
             ft2.replace(R.id.mainFrame, new Pocetna_ulogirani());
             ft2.commit();
+            navigationView.getMenu().clear();
+            navigationView.inflateMenu(R.menu.activity_main_drawer);
             }
 
-
+//promjena imena korisnika u izborniku
         View linearLayout = navigationView.inflateHeaderView(R.layout.nav_header);
-
         TextView textView = linearLayout.findViewById(R.id.korImeIzbornik);
-
         textView.setText("Prijavljeni korisnik: " + id1);
 
 
@@ -137,8 +132,10 @@ TextView textView;
         }*/
 
 
-
     }
+
+
+
 
     public void openUserData(View v){
 
@@ -158,12 +155,9 @@ TextView textView;
 
 
 
-
-
-
         @Override
         public void onBackPressed() {
-            //+++++++++++++++++++++++++++++++++
+            //----------------------------------------------------------------------
          /*   DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
@@ -200,7 +194,6 @@ TextView textView;
         int id = item.getItemId();
         Fragment fragment = null;
         if (id == R.id.nav_frag1) {
-            fragment= new KorisnikUredivanje();
 
             //fragment = new Pocetna_ulogirani();  //Promjena fragmenta iz aktivnosit
         } else if (id == R.id.nav_frag2) {

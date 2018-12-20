@@ -4,11 +4,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import mpet.project2018.air.mpet.Config;
@@ -37,10 +36,28 @@ public class KorisnikUredivanje extends Fragment {
         }
 
 
+        //buttonSpremi.setOnClickListener(new View.OnClickListener() {
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREF_NAME, 0);
-        String id1 = sharedPreferences.getString(Config.EMAIL_SHARED_PREF, "").toString();
+        String id1 = sharedPreferences.getString(Config.ID_SHARED_PREF, "").toString();
         Toast.makeText(getActivity(),"Vas id je"+id1, Toast.LENGTH_SHORT).show();
+
+
+
+        EditText korImeS = (EditText) view.findViewById(R.id.unosKorImeU);
+        korImeS.setText(id1);
+        //String  korImeU= korImeS.getText().toString();
+
+        /*if(TextUtils.isEmpty(ime)||TextUtils.isEmpty(prezime)||TextUtils.isEmpty(mail)||lozinka.length()<3||korIme.length()<3){
+            Toast.makeText(getActivity(), "Provjerite polja!",
+                    Toast.LENGTH_LONG).show();
+        }
+        else{
+            UpdateMethod.Upload(ime, prezime, korIme, adresa, mail, mobitel, telefon, lozinka);
+
+        }*/
+
+
 
 
 

@@ -10,13 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import mpet.project2018.air.mpet.Config;
 import mpet.project2018.air.mpet.R;
 
-import static mpet.project2018.air.mpet.Config.EMAIL_SHARED_PREF;
 import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 
 
@@ -45,7 +43,7 @@ public class Pocetna_ulogirani extends Fragment {
 
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREF_NAME, 0);
-        String idPrijavljeni = sharedPreferences.getString(Config.EMAIL_SHARED_PREF, "").toString();
+        String idPrijavljeni = sharedPreferences.getString(Config.ID_SHARED_PREF, "").toString();
        Toast.makeText(getActivity(),"Vas id je"+idPrijavljeni, Toast.LENGTH_SHORT).show();
 
 
@@ -75,7 +73,7 @@ public class Pocetna_ulogirani extends Fragment {
         //----------------------------------------------------
         //Fetching email from shared preferences
         /*SharedPreferences sp = this.getActivity().getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        String id = sp.getString(Config.EMAIL_SHARED_PREF,"");
+        String id = sp.getString(Config.ID_SHARED_PREF,"");
         //Showing the current logged in email to textview
         */
                //-------------------------------------------
@@ -89,9 +87,7 @@ public class Pocetna_ulogirani extends Fragment {
     }
 
 
-    //Logout function
     private void logout(){
-        //Creating an alert dialog to confirm logout
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
         alertDialogBuilder.setMessage("Sigurno se želite odjaviti?");
         alertDialogBuilder.setPositiveButton("Da",
@@ -99,21 +95,15 @@ public class Pocetna_ulogirani extends Fragment {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
 
-                        //Getting out sharedpreferences
                         SharedPreferences preferences = getActivity().getSharedPreferences
                                 (Config.SHARED_PREF_NAME,Context.MODE_PRIVATE);
-                        //Getting editor
                         SharedPreferences.Editor editor = preferences.edit();
-                        //Puting the value false for loggedin
+
                         editor.putBoolean(Config.LOGGEDIN_SHARED_PREF, false);
                         editor.remove("ulogiraniKorisnikId");
 
-                        //Saving the sharedpreferences
                         editor.commit();
-                        //Starting login activity
 
-                        //------------------------
-                        //editor.commit();
 
                         swapFragment();
                     }

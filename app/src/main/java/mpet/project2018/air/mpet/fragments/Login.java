@@ -125,7 +125,7 @@ public class Login extends Fragment implements onLoginValidation {
 
             getActivity().getSharedPreferences(SHARED_PREF_NAME,MODE_PRIVATE)
                     .edit()
-                    .putString(Config.EMAIL_SHARED_PREF,id)
+                    .putString(Config.ID_SHARED_PREF,id)
                     .apply();
             //-------------------------------------------
             Toast.makeText(getActivity(), "Vas id je"+id, Toast.LENGTH_SHORT).show();
@@ -171,14 +171,14 @@ public class Login extends Fragment implements onLoginValidation {
 
 /*  PUT: getActivity().getSharedPreferences(SHARED_PREF_NAME,MODE_PRIVATE)
                     .edit()
-                    .putString(Config.EMAIL_SHARED_PREF,id)
+                    .putString(Config.ID_SHARED_PREF,id)
                     .apply();
             //-------------------------------------------
             Toast.makeText(getActivity(), "Vas id je"+id, Toast.LENGTH_SHORT).show();
 
 
          GET:SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("MyPref", 0); //u fragmentu dodaj this.getActivity..... jer nema CONTEXA
-            String id1 = sharedPreferences.getString(Config.EMAIL_SHARED_PREF, "").toString(); //getString
+            String id1 = sharedPreferences.getString(Config.ID_SHARED_PREF, "").toString(); //getString
             Toast.makeText(getActivity(), "Vas id je"+id1, Toast.LENGTH_SHORT).show();
 
    */

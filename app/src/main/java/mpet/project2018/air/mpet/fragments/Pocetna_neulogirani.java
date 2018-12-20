@@ -43,7 +43,7 @@ public class Pocetna_neulogirani extends Fragment {
 
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREF_NAME, 0);
-        String idNeprijavljeni = sharedPreferences.getString(Config.EMAIL_SHARED_PREF, "").toString();
+        String idNeprijavljeni = sharedPreferences.getString(Config.ID_SHARED_PREF, "").toString();
        Toast.makeText(getActivity(),"Vas id je"+idNeprijavljeni, Toast.LENGTH_SHORT).show();
 
 
