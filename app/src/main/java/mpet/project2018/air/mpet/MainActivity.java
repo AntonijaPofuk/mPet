@@ -19,13 +19,25 @@ import android.view.View;
 import android.widget.TextView;
 
 
+import com.raizlabs.android.dbflow.sql.language.SQLite;
+
+import java.util.List;
+
 import mpet.project2018.air.database.MainDatabase;
 import mpet.project2018.air.mpet.fragments.KorisnikUredivanje;
 import mpet.project2018.air.mpet.fragments.Pocetna_ulogirani;
 import mpet.project2018.air.database.entities.Kartica;
 import mpet.project2018.air.database.entities.Korisnik;
 import mpet.project2018.air.database.entities.Ljubimac;
-
+import mpet.project2018.air.database.entities.Kartica;
+import mpet.project2018.air.database.entities.Kartica_Table;
+import mpet.project2018.air.database.entities.Korisnik;
+import mpet.project2018.air.database.entities.Korisnik_Table;
+import mpet.project2018.air.database.entities.Ljubimac;
+import mpet.project2018.air.database.entities.Ljubimac_Table;
+import mpet.project2018.air.manualinput.ManualInputFragment;
+import mpet.project2018.air.mpet.CodeHelper.CodeHandlerHelper;
+import mpet.project2018.air.mpet.fragments.Pocetna_ulogirani;
 import mpet.project2018.air.mpet.fragments.Pocetna_neulogirani;
 import mpet.project2018.air.mpet.fragments.PrikazObavijestiDetaljno;
 import mpet.project2018.air.mpet.fragments.PrikazSvihObavijesti;
@@ -36,7 +48,9 @@ import mpet.project2018.air.mpet.fragments.Login;
 import static mpet.project2018.air.mpet.Config.ID_SHARED_PREF;
 import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 import mpet.project2018.air.mpet.obavijesti.NotificationService;
-
+import mpet.project2018.air.mpet.fragments.ModulNavigationFragment;
+import mpet.project2018.air.nfc.PisanjeNFCFragment;
+import mpet.project2018.air.nfc.SkeniranjeNFCFragment;
 
 
 public class MainActivity extends AppCompatActivity
@@ -46,11 +60,11 @@ public class MainActivity extends AppCompatActivity
         Pocetna_neulogirani.OnFragmentInteractionListener,
         Registracija.OnFragmentInteractionListener,
         Login.OnFragmentInteractionListener,
-        SkeniranjeNFCKartice.OnFragmentInteractionListener,
         KorisnikUredivanje.OnFragmentInteractionListener,
         NavigationView.OnNavigationItemSelectedListener,
         PrikazObavijestiDetaljno.OnFragmentInteractionListener,
-        PrikazSvihObavijesti.OnFragmentInteractionListener
+        PrikazSvihObavijesti.OnFragmentInteractionListener,
+        ModulNavigationFragment.OnFragmentInteractionListener
         //TODO: dodaj novi fragment ovdje uvijek a na početku fragmenta implementiraj mlistenere
 
         //TODO: dodaj novi fragment ovdje uvijek a na početku fragmenta implementiraj mlistenere
@@ -157,6 +171,7 @@ TextView textView;
         ft.commit();
        //----------------------------------------------------------------
 
+        /*
         popuniKorisnika();
         popuniLjubimca();
         popuniKarticu();
@@ -167,19 +182,60 @@ TextView textView;
                 PrikazSvihObavijesti prikazSvihObavijesti = new PrikazSvihObavijesti();
                 fragmentTransaction.replace(R.id.mainFrame, prikazSvihObavijesti);
                 fragmentTransaction.commit();
-
+*/
 
     }
 
    /*private void reg(){
         SkeniranjeNFCKartice mDiscountListFragment = new SkeniranjeNFCKartice();
+=======
+        navigationView.setCheckedItem(R.id.nav_frag1);         //Provjera prvog elementa u draweru
+        //FragmentTransaction ft = getSupportFragmentManager().beginTransaction();             //otvaranje fragmenta
+        //ft.replace(R.id.mainFrame, new Pocetna_neulogirani());
+        //ft.commit();
+
+
+        reg2();
+
+
+        //---------------------------------------------------------------
+        MainDatabase.initializeDatabase(this);
+        //--------------------------------------------------------------
+        //mockData();
+    }
+
+/*
+    private void mockData()
+    {
+        //Korisnik logiraniKorisnik=   SQLite.select().from(Korisnik.class).where(Korisnik_Table.id_korisnika.is(213)).querySingle();
+        /*Kartica novaKartica=new Kartica();
+        novaKartica.setId_kartice("6542fer74f");
+        novaKartica.setKorisnik(logiraniKorisnik);
+        novaKartica.save();
+        Kartica kartica=   SQLite.select().from(Kartica.class).where(Kartica_Table.id_kartice.is("6542fer74f")).querySingle();*/
+        /*Ljubimac ljubimac =new Ljubimac();
+        ljubimac.setId_ljubimca(55);
+        ljubimac.setKartica(null);
+        ljubimac.setKorisnik(logiraniKorisnik);
+        ljubimac.save();
+        Ljubimac ljubimac1=SQLite.select().from(Ljubimac.class).where(Ljubimac_Table.id_ljubimca.is(1)).querySingle();
+        ljubimac1.setKartica(null);
+        ljubimac1.save();
+        if(ljubimac1==null) Toast.makeText(this, "nul je", Toast.LENGTH_SHORT).show();
+        else Toast.makeText(this, ljubimac1.getKartica().getId_kartice() , Toast.LENGTH_SHORT).show();
+
+    }
+*/
+        /*
+    private void reg2(){
+        CodeHandlerHelper novaInstancaProba=new CodeHandlerHelper();
+        PisanjeNFCFragment mDiscountListFragment = new PisanjeNFCFragment(novaInstancaProba,this);
         FragmentManager mFragmentManager = getSupportFragmentManager();
         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.mainFrame, mDiscountListFragment);
         mFragmentTransaction.commit();
-    }*/
-
-
+    }
+*/
 
         @Override
         public void onBackPressed() {
@@ -205,6 +261,7 @@ TextView textView;
 
 
         }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
@@ -337,3 +394,4 @@ TextView textView;
     }
 
 }
+

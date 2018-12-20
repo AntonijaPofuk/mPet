@@ -66,6 +66,7 @@
     <string name="masa">Masa</string>
     <string name="godRodjenja">Godina rođenja</string>
     <string name="opis">Opis</string>
+
     <string name="pet_age_label">Godine</string>
     <string name="pet_gender_label">Spol</string>
     <string name="kontakt_label">Kontakt podaci</string>
@@ -74,6 +75,9 @@
     <string name="kontakt_email">Email</string>
     <string name="kontakt_telefon">Broj telefona</string>
     <string name="kontakt_mobitel">Broj mobitela</string>
+
+    <string name="hint_kontakt">Unesite kontakt podatak</string>
+    <string name="odustani">Odustani</string>
 
 
 </resources>

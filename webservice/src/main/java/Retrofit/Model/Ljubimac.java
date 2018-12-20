@@ -2,17 +2,17 @@ package Retrofit.Model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Ljubimac {
+import java.io.Serializable;
 
-    @SerializedName("id")
+public class Ljubimac implements Serializable {
+    @SerializedName("id_ljubimca")
     public String id;
     @SerializedName("ime")
     public String ime;
     @SerializedName("godina")
-    public int godina;
+    public String godina;
     @SerializedName("masa")
-    public float masa;
-
+    public String masa;
     @SerializedName("vrsta")
     public String vrsta;
     @SerializedName("spol")
@@ -34,6 +34,7 @@ public class Ljubimac {
 
     public void setId(String id) {
         this.id = id;
+
     }
 
     public String getIme() {
@@ -49,7 +50,7 @@ public class Ljubimac {
     }
 
     public void setGodina(String godina) {
-        this.godina = Integer.parseInt(godina);
+        this.godina = godina;
     }
 
     public String getMasa() {
@@ -57,8 +58,9 @@ public class Ljubimac {
     }
 
     public void setMasa(String masa) {
-        this.masa = Float.parseFloat(masa);
+        this.masa = masa;
     }
+
 
     public String getVrsta() {
         return vrsta;
@@ -107,6 +109,5 @@ public class Ljubimac {
     public void setKartica(String kartica) {
         this.kartica = kartica;
     }
-
 
 }

@@ -81,9 +81,9 @@ public class Pocetna_neulogirani extends Fragment {
                                     @Override
                                     public void onClick(View v) {
                                         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                                        ft.replace(R.id.mainFrame, new SkeniranjeNFCKartice());
-                                        ft.addToBackStack(null);
 
+                                        ft.replace(R.id.mainFrame, new ModulNavigationFragment());
+                                        ft.addToBackStack(null);
                                         ft.commit();
                                     }
                                 }

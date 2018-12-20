@@ -1,16 +1,17 @@
 package Retrofit.DataGetListenersAndLoaders.DataLoaders;
 
 import com.raizlabs.android.dbflow.sql.language.SQLite;
-
 import java.util.List;
 
 import Retrofit.DataGet.LjubimacData;
 import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.LjubimacDataLoadedListener;
 import Retrofit.DataGetListenersAndLoaders.WebServiceHandler;
+
 import Retrofit.Model.Korisnik;
 import Retrofit.Model.Ljubimac;
 import mpet.project2018.air.database.entities.Korisnik_Table;
 import mpet.project2018.air.database.entities.Ljubimac_Table;
+import Retrofit.Model.Ljubimac;
 
 
 public class LjubimacDataLoader  {
