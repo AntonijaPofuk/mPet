@@ -11,65 +11,152 @@
     android:id="@+id/acitvityBtn">
 
 
-    <EditText
-        android:id="@+id/editText2"
+    <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="109dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="118dp"
+        android:text="Korisničko ime" />
+
+    <EditText
+        android:id="@+id/unosKorImeU"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="31dp"
+        android:layout_marginEnd="8dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Korisničko ime"
-        android:layout_alignRight="@+id/editText"
-        android:layout_marginRight="0dp" />
+        android:text="" />
 
-    <EditText
-        android:id="@+id/editText"
+    <TextView
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="74dp"
-        android:layout_marginRight="74dp"
-        android:layout_marginBottom="290dp"
-        android:ems="10"
-        android:inputType="textEmailAddress"
-        android:text="E-Mail" />
-
-
-    <EditText
-        android:id="@+id/editText4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/editText"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="-1dp"
-        android:layout_marginTop="174dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="75dp"
+        android:layout_marginEnd="160dp"
+        android:text="Lozinka" />
+
+    <EditText
+        android:id="@+id/unosLozinkaU"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/textView2"
+        android:layout_alignStart="@+id/unosKorImeU"
+        android:layout_marginStart="2dp"
         android:ems="10"
-        android:inputType="phone"
-        android:text="Telefon" />
+        android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/unosImeU"
+        android:layout_width="220dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="154dp"
+        android:layout_marginEnd="-81dp"
+        android:layout_toStartOf="@+id/textView2"
+        android:ems="10"
+        android:hint="Ime"
+        android:inputType="textPersonName"
+        android:text="" />
+
+    <EditText
+        android:id="@+id/unosPrezimeU"
+        android:layout_width="220dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/unosImeU"
+        android:layout_alignStart="@+id/unosImeU"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:ems="10"
+        android:hint="Prezime"
+        android:inputType="textPersonName"
+        android:text="" />
+
+    <EditText
+        android:id="@+id/unosAdresaU"
+        android:layout_width="220dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/unosPrezimeU"
+        android:layout_alignStart="@+id/unosPrezimeU"
+        android:layout_marginStart="-1dp"
+        android:layout_marginTop="0dp"
+        android:ems="10"
+        android:hint="Adresa"
+        android:inputType="textPersonName"
+        android:text="" />
+
+    <EditText
+        android:id="@+id/unosMailU"
+        android:layout_width="220dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/unosAdresaU"
+        android:layout_alignStart="@+id/unosImeU"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:ems="10"
+        android:hint="e-mail"
+        android:inputType="textPersonName"
+        android:text="" />
+
+    <EditText
+        android:id="@+id/unosTelefonU"
+        android:layout_width="220dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/unosMailU"
+        android:layout_alignStart="@+id/unosImeU"
+        android:layout_marginTop="1dp"
+        android:ems="10"
+        android:hint="Broj telefona"
+        android:inputType="phone" />
+
+    <EditText
+        android:id="@+id/unosMobitelU"
+        android:layout_width="220dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/unosTelefonU"
+        android:layout_alignEnd="@+id/unosImeU"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:ems="10"
+        android:hint="Broj mobitela"
+        android:inputType="phone" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btnUpdateSpremi"
         android:layout_width="109dp"
-        android:layout_height="wrap_content"
+        android:layout_height="65dp"
+        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="96dp"
-        android:text="PRIHVATI"
-        android:layout_alignLeft="@+id/editText"
-        android:layout_marginLeft="-1dp" />
+        android:layout_marginStart="51dp"
+        android:layout_marginBottom="24dp"
+        android:text="Spremi" />
 
     <Button
-        android:id="@+id/button3"
-        android:layout_width="118dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="95dp"
-        android:text="ODBIJ"
-        android:layout_alignLeft="@+id/editText"
-        android:layout_marginLeft="113dp" />
+        android:id="@+id/btnUpdateOdustani"
+        android:layout_width="109dp"
+        android:layout_height="65dp"
+        android:layout_alignTop="@+id/btnUpdateSpremi"
+        android:layout_marginStart="-161dp"
+        android:layout_toEndOf="@+id/textView2"
+        android:text="Odustani" />
 
+    <ImageButton
+        android:id="@+id/button_choose_image"
+        android:layout_width="122dp"
+        android:layout_height="104dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="23dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/upload_image" />
 
 
 

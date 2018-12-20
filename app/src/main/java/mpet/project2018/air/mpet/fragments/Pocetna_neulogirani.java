@@ -1,6 +1,7 @@
 package mpet.project2018.air.mpet.fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -10,8 +11,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import mpet.project2018.air.mpet.Config;
 import mpet.project2018.air.mpet.R;
-import mpet.project2018.air.mpet.prijava.Login;
+
+import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 
 
 public class Pocetna_neulogirani extends Fragment {
@@ -37,14 +40,22 @@ public class Pocetna_neulogirani extends Fragment {
 
 
 
+
+
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREF_NAME, 0);
+        String idNeprijavljeni = sharedPreferences.getString(Config.ID_SHARED_PREF, "").toString();
+       Toast.makeText(getActivity(),"Vas id je"+idNeprijavljeni, Toast.LENGTH_SHORT).show();
+
+
         Button btn1=(Button) view.findViewById(R.id.btnPrijava);
         btn1.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        Toast.makeText(getActivity(), "Prijavljuete se",
-                                                Toast.LENGTH_LONG).show();
+                                        //startActivity(new Intent(getContext(), LoginActivity.class));
                                         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                                         ft.replace(R.id.mainFrame, new Login());
+                                        ft.addToBackStack(null);
+
                                         ft.commit();
                                     }
                                 }
@@ -58,6 +69,8 @@ public class Pocetna_neulogirani extends Fragment {
 
                                         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                                         ft.replace(R.id.mainFrame, new Registracija());
+                                        ft.addToBackStack(null);
+
                                         ft.commit();
                                     }
                                 }
@@ -67,20 +80,19 @@ public class Pocetna_neulogirani extends Fragment {
         btn3.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        Toast.makeText(getActivity(), "Skeniranje....",
-                                                Toast.LENGTH_LONG).show();
                                         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                                         ft.replace(R.id.mainFrame, new SkeniranjeNFCKartice());
+                                        ft.addToBackStack(null);
+
                                         ft.commit();
                                     }
                                 }
         );
+
+
+
         return view;
     }
-
-
-
-
 
     @Override
     public void onAttach(Context context) {
@@ -104,4 +116,7 @@ public class Pocetna_neulogirani extends Fragment {
     }
     private class ArticleFragment {
     }
+
+
+
 }

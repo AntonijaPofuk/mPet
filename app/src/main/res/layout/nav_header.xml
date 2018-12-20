@@ -10,7 +10,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    android:id="@+id/nav_header">
 
     <ImageView
         android:id="@+id/imageView"
@@ -21,10 +22,14 @@
         android:contentDescription="@string/slika_korisnika"/>
 
     <TextView
+        android:id="@+id/korImeIzbornik"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="@string/korisnicko_ime"/>
+        android:onClick="openUserData"
+        android:clickable="true"
+
+     />
 
 
 

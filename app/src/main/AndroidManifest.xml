@@ -30,9 +30,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".prijava.LoginActivity"
-            android:label="@string/title_activity_login"/>
-
 
     </application>
 
