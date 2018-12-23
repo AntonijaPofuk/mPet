@@ -70,6 +70,10 @@ public class NoviLjubimac extends Fragment implements StatusListener {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        Bundle bundle = this.getArguments();
+        readBundle(bundle);
+
         //return inflater.inflate(R.layout.novi_ljubimac, container, false);
         final View view = inflater.inflate(R.layout.novi_ljubimac, container, false);
 
@@ -123,9 +127,8 @@ public class NoviLjubimac extends Fragment implements StatusListener {
                 String opis= opisEdit.getText().toString();
 
                 String kartica="DEFAULT";
-                String vlasnik="DEFAULT";
-                //String vlasnik=ID_KORISNIKA;
-                //TODO: proslijediti vlasnika
+                //String vlasnik="DEFAULT";
+                String vlasnik=ID_KORISNIKA;
 
                 String provjera=null;
                 /**/
