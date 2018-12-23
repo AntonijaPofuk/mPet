@@ -21,11 +21,11 @@ import static android.content.Context.MODE_PRIVATE;
 import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 
 
-public class Login extends Fragment implements onLoginValidation {
+public class Prijava extends Fragment implements onLoginValidation {
 
     private OnFragmentInteractionListener mListener;
 
-    public Login() {}
+    public Prijava() {}
     EditText edtUsername;
     EditText edtPassword;
     Button btnLogin;
@@ -54,7 +54,7 @@ public class Login extends Fragment implements onLoginValidation {
         sharedPreferences = this.getActivity().getSharedPreferences("MyPref", 0); //u fragmentu dodaj this.getActivity..... jer nema CONTEXA
         if (sharedPreferences.getString("ulogiraniKorisnikId", "").toString().equals("ulogiraniKorisnikId")) { //getString
             FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.mainFrame, new Pocetna_ulogirani());
+            ft.replace(R.id.mainFrame, new PocetnaUlogirani());
             ft.addToBackStack(null);
 
             ft.commit();
@@ -78,7 +78,7 @@ public class Login extends Fragment implements onLoginValidation {
             @Override
             public void onClick(View v) {
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.mainFrame, new Pocetna_neulogirani());
+                ft.replace(R.id.mainFrame, new PocetnaNeulogirani());
                 ft.addToBackStack(null);
 
                 ft.commit();
@@ -117,23 +117,21 @@ public class Login extends Fragment implements onLoginValidation {
     @Override
     public void onDataLoaded (String id){
 
-        //validate form
-        if (Integer.parseInt(id) != 0) {
 
-            // startActivity(new Intent(LoginActivity.this, Pocetna_ulogirani.class));
+        if (Integer.parseInt(id) != 0) {
 
 
             getActivity().getSharedPreferences(SHARED_PREF_NAME,MODE_PRIVATE)
                     .edit()
                     .putString(Config.ID_SHARED_PREF,id)
                     .apply();
-            //-------------------------------------------
+
             Toast.makeText(getActivity(), "Vas id je"+id, Toast.LENGTH_SHORT).show();
 
 
 
             FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.mainFrame, new Pocetna_ulogirani());
+            ft.replace(R.id.mainFrame, new PocetnaUlogirani());
             ft.addToBackStack(null);
             ft.commit();
 

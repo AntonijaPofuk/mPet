@@ -19,47 +19,31 @@ import android.view.View;
 import android.widget.TextView;
 
 
-import com.raizlabs.android.dbflow.sql.language.SQLite;
-
-import java.util.List;
-
 import mpet.project2018.air.database.MainDatabase;
 import mpet.project2018.air.mpet.fragments.KorisnikUredivanje;
-import mpet.project2018.air.mpet.fragments.Pocetna_ulogirani;
+import mpet.project2018.air.mpet.fragments.PocetnaUlogirani;
 import mpet.project2018.air.database.entities.Kartica;
 import mpet.project2018.air.database.entities.Korisnik;
 import mpet.project2018.air.database.entities.Ljubimac;
-import mpet.project2018.air.database.entities.Kartica;
-import mpet.project2018.air.database.entities.Kartica_Table;
-import mpet.project2018.air.database.entities.Korisnik;
-import mpet.project2018.air.database.entities.Korisnik_Table;
-import mpet.project2018.air.database.entities.Ljubimac;
-import mpet.project2018.air.database.entities.Ljubimac_Table;
-import mpet.project2018.air.manualinput.ManualInputFragment;
-import mpet.project2018.air.mpet.CodeHelper.CodeHandlerHelper;
-import mpet.project2018.air.mpet.fragments.Pocetna_ulogirani;
-import mpet.project2018.air.mpet.fragments.Pocetna_neulogirani;
+import mpet.project2018.air.mpet.fragments.PocetnaNeulogirani;
+import mpet.project2018.air.mpet.fragments.Prijava;
 import mpet.project2018.air.mpet.fragments.PrikazObavijestiDetaljno;
 import mpet.project2018.air.mpet.fragments.PrikazSvihObavijesti;
 import mpet.project2018.air.mpet.fragments.Registracija;
-
-import mpet.project2018.air.mpet.fragments.Login;
 
 import static mpet.project2018.air.mpet.Config.ID_SHARED_PREF;
 import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 import mpet.project2018.air.mpet.obavijesti.NotificationService;
 import mpet.project2018.air.mpet.fragments.ModulNavigationFragment;
-import mpet.project2018.air.nfc.PisanjeNFCFragment;
-import mpet.project2018.air.nfc.SkeniranjeNFCFragment;
 
 
 public class MainActivity extends AppCompatActivity
         //Listeneri za klikove, OnFragmentInteractionListener je za sve fragmente
         implements
-        Pocetna_ulogirani.OnFragmentInteractionListener,
-        Pocetna_neulogirani.OnFragmentInteractionListener,
+        PocetnaUlogirani.OnFragmentInteractionListener,
+        PocetnaNeulogirani.OnFragmentInteractionListener,
         Registracija.OnFragmentInteractionListener,
-        Login.OnFragmentInteractionListener,
+        Prijava.OnFragmentInteractionListener,
         KorisnikUredivanje.OnFragmentInteractionListener,
         NavigationView.OnNavigationItemSelectedListener,
         PrikazObavijestiDetaljno.OnFragmentInteractionListener,
@@ -67,31 +51,8 @@ public class MainActivity extends AppCompatActivity
         ModulNavigationFragment.OnFragmentInteractionListener
         //TODO: dodaj novi fragment ovdje uvijek a na početku fragmenta implementiraj mlistenere
 
-        //TODO: dodaj novi fragment ovdje uvijek a na početku fragmenta implementiraj mlistenere
 {
-    //------------------------------------------------------------------------
-    /*private boolean loggedIn = false;
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //In onresume fetching value from sharedpreference
-        SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME,Context.MODE_PRIVATE);
-
-        //Fetching the boolean value form sharedpreferences
-        loggedIn = sharedPreferences.getBoolean(Config.LOGGEDIN_SHARED_PREF, false);
-
-        //If we will get true
-        if(loggedIn){
-            //We will start the Profile Activity
-            Intent intent = new Intent(MainActivity.this, Pocetna_ulogirani.class);
-            startActivity(intent);
-
-             findViewById(R.id.visible_login_button).setVisibility(View.VISIBLE);
-
-        }
-    } */
 
 TextView textView;
     @Override
@@ -115,9 +76,7 @@ TextView textView;
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_frag1); //Provjera i odabir prvog elementa u draweru
 
-       /*FragmentTransaction ft = getSupportFragmentManager().beginTransaction();    //otvaranje prvog fragmenta kod pokretanja app
-        ft.replace(R.id.mainFrame, new Pocetna_neulogirani());
-        ft.commit();*/
+
 
 
         MainDatabase.initializeDatabase(this);
@@ -127,7 +86,7 @@ TextView textView;
         sharedPreferences = this.getSharedPreferences(SHARED_PREF_NAME, 0); //u fragmentu dodaj this.getActivity..... jer nema CONTEXA
         if (sharedPreferences.getString(ID_SHARED_PREF, "ulogiraniKorisnikId").toString().equals("ulogiraniKorisnikId")) { //getString
             FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
-            ft1.replace(R.id.mainFrame, new Pocetna_neulogirani());
+            ft1.replace(R.id.mainFrame, new PocetnaNeulogirani());
             ft1.commit();
             navigationView.getMenu().clear();
             navigationView.inflateMenu(R.menu.activity_main_drawer_neulogirani);
@@ -135,7 +94,7 @@ TextView textView;
 
         else {
             FragmentTransaction ft2 = getSupportFragmentManager().beginTransaction();
-            ft2.replace(R.id.mainFrame, new Pocetna_ulogirani());
+            ft2.replace(R.id.mainFrame, new PocetnaUlogirani());
             ft2.commit();
             navigationView.getMenu().clear();
             navigationView.inflateMenu(R.menu.activity_main_drawer);
@@ -147,21 +106,7 @@ TextView textView;
         textView.setText("Prijavljeni korisnik: " + id1);
 
 
-
-       /* Boolean loggedIn = sharedPreferences.getBoolean(Config.LOGGEDIN_SHARED_PREF, false);
-
-        if(loggedIn) {
-            navigationView.getMenu().findItem(R.id.nav_frag3).setVisible(true);
-            navigationView.getMenu().findItem(R.id.nav_frag2).setVisible(true);
-        }
-        else{
-            navigationView.getMenu().findItem(R.id.nav_frag3).setVisible(false);
-            navigationView.getMenu().findItem(R.id.nav_frag2).setVisible(false);
-
-        }*/
-
-
-    }
+          }
 
 
     public void openUserData(View v){
@@ -191,7 +136,7 @@ TextView textView;
 =======
         navigationView.setCheckedItem(R.id.nav_frag1);         //Provjera prvog elementa u draweru
         //FragmentTransaction ft = getSupportFragmentManager().beginTransaction();             //otvaranje fragmenta
-        //ft.replace(R.id.mainFrame, new Pocetna_neulogirani());
+        //ft.replace(R.id.mainFrame, new PocetnaNeulogirani());
         //ft.commit();
 
 
@@ -239,19 +184,7 @@ TextView textView;
 
         @Override
         public void onBackPressed() {
-            //----------------------------------------------------------------------
-         /*   DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-            if (drawer.isDrawerOpen(GravityCompat.START)) {
-                drawer.closeDrawer(GravityCompat.START);
-            android.app.FragmentManager fm = getFragmentManager();
 
-            if (fm.getBackStackEntryCount() > 0) {
-                fm.popBackStack();
->>>>>>> origin/Matija_Branch
-            } else {
-                super.onBackPressed();
-            }
-            */
          android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
          if(fm.getBackStackEntryCount()>0){
              fm.popBackStack();
@@ -283,7 +216,7 @@ TextView textView;
         Fragment fragment = null;
         if (id == R.id.nav_frag1) {
 
-            //fragment = new Pocetna_ulogirani();  //Promjena fragmenta iz aktivnosit
+            //fragment = new PocetnaUlogirani();  //Promjena fragmenta iz aktivnosit
         } else if (id == R.id.nav_frag2) {
 
         }else if (id == R.id.nav_frag3) {
@@ -316,17 +249,6 @@ TextView textView;
         super.onNewIntent(intent);
     }
 
-//za login
-    private String getLoginEmailAddress(){
-        String storedEmail = "";
-        Intent mIntent = getIntent();
-        Bundle mBundle = mIntent.getExtras();
-        if(mBundle != null){
-            storedEmail = mBundle.getString("EMAIL");
-        }
-        return storedEmail;
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -355,7 +277,6 @@ TextView textView;
             }
 
     }
-
 
     //Pokretanje servisa za obavijesti
     public void startService() {

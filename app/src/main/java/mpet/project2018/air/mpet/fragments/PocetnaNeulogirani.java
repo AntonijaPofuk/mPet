@@ -17,11 +17,11 @@ import mpet.project2018.air.mpet.R;
 import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 
 
-public class Pocetna_neulogirani extends Fragment {
+public class PocetnaNeulogirani extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public Pocetna_neulogirani() {}
+    public PocetnaNeulogirani() {}
 
 
     @Override
@@ -53,7 +53,7 @@ public class Pocetna_neulogirani extends Fragment {
                                     public void onClick(View v) {
                                         //startActivity(new Intent(getContext(), LoginActivity.class));
                                         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                                        ft.replace(R.id.mainFrame, new Login());
+                                        ft.replace(R.id.mainFrame, new Prijava());
                                         ft.addToBackStack(null);
 
                                         ft.commit();

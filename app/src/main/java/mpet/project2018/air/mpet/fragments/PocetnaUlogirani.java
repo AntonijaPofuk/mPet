@@ -18,10 +18,10 @@ import mpet.project2018.air.mpet.R;
 import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 
 
-public class Pocetna_ulogirani extends Fragment {
+public class PocetnaUlogirani extends Fragment {
 
     private OnFragmentInteractionListener mListener;
-    public Pocetna_ulogirani() {}
+    public PocetnaUlogirani() {}
 
 
     @Override
@@ -67,20 +67,12 @@ public class Pocetna_ulogirani extends Fragment {
                                 }
         );
 
-
-
-
-        //----------------------------------------------------
         //Fetching email from shared preferences
         /*SharedPreferences sp = this.getActivity().getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
         String id = sp.getString(Config.ID_SHARED_PREF,"");
         //Showing the current logged in email to textview
         */
-               //-------------------------------------------
 
-
-        //TextView textView = (TextView)view.findViewById(R.id.textView1);
-        //textView.setText("Prijavljeni korisnik: " + id);
 
 
         return view;
@@ -124,7 +116,7 @@ public class Pocetna_ulogirani extends Fragment {
 
     private void swapFragment(){
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.mainFrame, new Pocetna_neulogirani());
+        ft.replace(R.id.mainFrame, new PocetnaNeulogirani());
         ft.addToBackStack(null);
 
         ft.commit();
