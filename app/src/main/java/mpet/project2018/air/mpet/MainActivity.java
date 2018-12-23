@@ -309,6 +309,10 @@ TextView textView;
                                 /**/
                                 PocetnaNeulogirani pocetna=new PocetnaNeulogirani();
                                 swap(pocetna);
+                                /*zamjena izbornika*/
+                                NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                                navigationView.getMenu().clear();
+                                navigationView.inflateMenu(R.menu.activity_main_drawer_neulogirani);
                                 break;
                             /**/
                             case R.id.nav_frag6:
