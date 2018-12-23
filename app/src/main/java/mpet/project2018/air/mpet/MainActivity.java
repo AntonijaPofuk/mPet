@@ -1,5 +1,6 @@
 package mpet.project2018.air.mpet;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.design.widget.NavigationView;
@@ -21,6 +22,8 @@ import android.widget.TextView;
 
 import mpet.project2018.air.database.MainDatabase;
 import mpet.project2018.air.mpet.fragments.KorisnikUredivanje;
+import mpet.project2018.air.mpet.fragments.MojiLjubimci;
+import mpet.project2018.air.mpet.fragments.NoviLjubimac;
 import mpet.project2018.air.mpet.fragments.PocetnaUlogirani;
 import mpet.project2018.air.database.entities.Kartica;
 import mpet.project2018.air.database.entities.Korisnik;
@@ -48,12 +51,13 @@ public class MainActivity extends AppCompatActivity
         NavigationView.OnNavigationItemSelectedListener,
         PrikazObavijestiDetaljno.OnFragmentInteractionListener,
         PrikazSvihObavijesti.OnFragmentInteractionListener,
-        ModulNavigationFragment.OnFragmentInteractionListener
+        ModulNavigationFragment.OnFragmentInteractionListener,
+        NoviLjubimac.OnFragmentInteractionListener
         //TODO: dodaj novi fragment ovdje uvijek a na početku fragmenta implementiraj mlistenere
 
 {
 
-
+    private DrawerLayout dl;
 TextView textView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +80,7 @@ TextView textView;
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_frag1); //Provjera i odabir prvog elementa u draweru
 
-
-
+        Navigation();
 
         MainDatabase.initializeDatabase(this);
 
@@ -238,6 +241,90 @@ TextView textView;
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    /*upravljanje izbornikom*/
+
+    public void swap(Fragment newFragment){
+        //android.app.FragmentTransaction t = getFragmentManager().beginTransaction();
+        FragmentTransaction t =  this.getSupportFragmentManager().beginTransaction();
+        t.replace(R.id.mainFrame, newFragment);
+        t.addToBackStack(null);
+        t.commit();
+    }
+
+    public void Navigation(){
+        dl = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        NavigationView navigationView;
+        navigationView = findViewById(R.id.nav_view);
+        //navigationView.setCheckedItem(R.id.);
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        // set item as selected to persist highlight
+                        menuItem.setChecked(true);
+                        // close drawer when item is tapped
+                        dl.closeDrawers();
+
+                        switch (menuItem.getItemId()){
+                            case R.id.nav_frag1:
+                                PocetnaNeulogirani pocetnaNeulogirani = new PocetnaNeulogirani();
+                                swap(pocetnaNeulogirani);
+                                break;
+                            /**/
+                            case R.id.nav_frag01:
+                                PocetnaUlogirani pocetnaUlogirani = new PocetnaUlogirani();
+                                swap(pocetnaUlogirani);
+                                break;
+                            /**/
+                            case R.id.nav_frag2:
+                                //getSupportActionBar().setTitle(R.string.nav_home);
+                                MojiLjubimci mojiLjubimci = new MojiLjubimci();
+                                swap(mojiLjubimci);
+                                break;
+                            /**/
+                            /*
+                            case R.id.nav_frag3:
+                                 skeniranja
+                                break;
+                                */
+                            /**/
+                            /*
+                            case R.id.nav_frag4:
+                                 oNama
+                                break;
+                                */
+
+                            case R.id.nav_frag5:
+                                //odjava
+                                SharedPreferences preferences = getSharedPreferences
+                                        (Config.SHARED_PREF_NAME,Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = preferences.edit();
+
+                                editor.putBoolean(Config.LOGGEDIN_SHARED_PREF, false);
+                                editor.remove("ulogiraniKorisnikId");
+
+                                editor.commit();
+                                /**/
+                                PocetnaNeulogirani pocetna=new PocetnaNeulogirani();
+                                swap(pocetna);
+                                break;
+                            /**/
+                            case R.id.nav_frag6:
+                                Prijava prijava = new Prijava();
+                                swap(prijava);
+                                break;
+                            /**/
+                        }
+
+                        return true;
+                    }
+                });
+    }
+
+    /************/
+
     @Override
     public void onFragmentInteraction(String title) {  // Preimenovanje stranice
         getSupportActionBar().setTitle(title);
