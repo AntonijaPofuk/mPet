@@ -4,7 +4,7 @@
         android:id="@+id/grupa1"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_frag1"
+            android:id="@+id/nav_frag01"
 
             android:title="Početna" />
         <item
