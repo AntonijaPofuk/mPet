@@ -35,8 +35,25 @@ import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 
 public class MojiLjubimci extends Fragment {
     private OnFragmentInteractionListener mListener;
+    private String ID_KORISNIKA;
 
-    public MojiLjubimci() {}
+    //public MojiLjubimci() {}
+
+    public static MojiLjubimci newInstance(String id) {
+        Bundle bundle = new Bundle();
+        bundle.putString("ID_KORISNIKA", id);
+
+        MojiLjubimci fragment = new MojiLjubimci();
+        fragment.setArguments(bundle);
+
+        return fragment;
+    }
+
+    private void readBundle(Bundle bundle) {
+        if (bundle != null) {
+            ID_KORISNIKA = bundle.getString("ID_KORISNIKA");
+        }
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +62,9 @@ public class MojiLjubimci extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Bundle bundle = this.getArguments();
+        readBundle(bundle);
+
         //return inflater.inflate(R.layout.registracija, container, false);
         final View view = inflater.inflate(R.layout.moji_ljubimci, container, false);
 
@@ -70,6 +90,21 @@ public class MojiLjubimci extends Fragment {
         return view;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof NoviLjubimac.OnFragmentInteractionListener) {
+            mListener = (MojiLjubimci.OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
 
     public interface OnFragmentInteractionListener {
 

@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity
         PrikazObavijestiDetaljno.OnFragmentInteractionListener,
         PrikazSvihObavijesti.OnFragmentInteractionListener,
         ModulNavigationFragment.OnFragmentInteractionListener,
+        MojiLjubimci.OnFragmentInteractionListener,
         NoviLjubimac.OnFragmentInteractionListener
         //TODO: dodaj novi fragment ovdje uvijek a na početku fragmenta implementiraj mlistenere
 
@@ -280,7 +281,9 @@ TextView textView;
                             /**/
                             case R.id.nav_frag2:
                                 //getSupportActionBar().setTitle(R.string.nav_home);
-                                MojiLjubimci mojiLjubimci = new MojiLjubimci();
+                                SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, 0);
+                                String idPrijavljeni = sharedPreferences.getString(Config.ID_SHARED_PREF, "").toString();
+                                MojiLjubimci mojiLjubimci = MojiLjubimci.newInstance(idPrijavljeni);
                                 swap(mojiLjubimci);
                                 break;
                             /**/
