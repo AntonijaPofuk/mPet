@@ -1,14 +1,18 @@
 package mpet.project2018.air.mpet.fragments;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Base64;
@@ -23,6 +27,7 @@ import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 import Retrofit.DataPost.LjubimacPodaciMethod;
 import Retrofit.RemotePost.StatusListener;
@@ -30,7 +35,7 @@ import mpet.project2018.air.mpet.R;
 
 import static android.app.Activity.RESULT_OK;
 
-public class NoviLjubimac extends Fragment implements StatusListener {
+public class NoviLjubimac extends Fragment implements StatusListener{
 
     private String ID_KORISNIKA;
     private OnFragmentInteractionListener mListener;
@@ -137,14 +142,14 @@ public class NoviLjubimac extends Fragment implements StatusListener {
                 }
 
                 if(TextUtils.isEmpty(ime)){
-                    Toast.makeText(getActivity(), "Potrebno je upisati bar ime!",
-                            Toast.LENGTH_LONG).show();
+                    alertingMessage("Potrebno je upisati bar ime!", R.drawable.exclamation_message);
                 }
                 else{
-
-                    method.Upload(ime, godina, masa, vrsta, spol, opis, "/", vlasnik, kartica, slika);
-
-                    swapFragment();
+                    if(provjeraNedozvoljeniZnakovi(ime, vrsta, opis))
+                        alertingMessage("Koristili ste nedozvoljene znakove!", R.drawable.exclamation_message);
+                    else
+                        method.Upload(ime, godina, masa, vrsta, spol, opis, "/", vlasnik, kartica, slika);
+                    //swapFragment();
                 }
 
             }
@@ -190,14 +195,46 @@ public class NoviLjubimac extends Fragment implements StatusListener {
 
 
     private void swapFragment(){
-        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.mainFrame, new PocetnaUlogirani());
-        ft.commit();
+        FragmentManager fm= getActivity().getSupportFragmentManager();
+        fm.popBackStack();
     }
+
 
     private void closefragment() {
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         ft.remove(this).commit();
+    }
+
+    private boolean provjeraNedozvoljeniZnakovi(String ime, String vrsta, String opis){
+        String pattern = "[\\'|\\!|\\?|\\#|\\*|\\$|\\%|\\&|\\/]";
+        Pattern p = Pattern.compile(pattern);
+        boolean found=false;
+        if(p.matcher(ime).find())
+            return true;
+        if(p.matcher(vrsta).find())
+            return true;
+        if(p.matcher(opis).find())
+            return true;
+        return found;
+    }
+
+    private void alertingMessage(String message, int imageIcon)
+    {
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(getActivity(), android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(getActivity());
+        }
+        builder.setTitle("Upozorenje")
+                .setMessage(message)
+                .setPositiveButton("U redu", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setIcon(imageIcon)
+                .show();
     }
 
     @Override
@@ -219,19 +256,14 @@ public class NoviLjubimac extends Fragment implements StatusListener {
     @Override
     public void onStatusChanged(String s) {
         status=s;
-
-/*
         if(s.equals("greska")){
-            swapFragment();
-            Toast.makeText(getActivity(), "Ups, greška...",
-                    Toast.LENGTH_LONG).show();
+            alertingMessage("Ups, greška...",R.drawable.fail_message);
         }
-        else{
+        else if(s.equals("uspjesno")){
             Toast.makeText(getActivity(), "Upisali ste ljubimca :)",
-                Toast.LENGTH_LONG).show();
+                    Toast.LENGTH_LONG).show();
+            swapFragment();
         }
-        swapFragment();
-*/
 
     }
 
