@@ -1,10 +1,13 @@
 package mpet.project2018.air.mpet.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -23,6 +26,8 @@ import android.support.v4.app.FragmentTransaction;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.regex.Pattern;
 
 import Retrofit.DataPost.RegistracijaMethod;
 import Retrofit.RemotePost.StatusListener;
@@ -113,12 +118,16 @@ public class Registracija extends Fragment implements StatusListener {
 
                                                 /**/
                                                 if(TextUtils.isEmpty(ime)||TextUtils.isEmpty(prezime)||TextUtils.isEmpty(mail)||lozinka.length()<3||korIme.length()<3){
-                                                    Toast.makeText(getActivity(), "Provjerite polja!",
-                                                            Toast.LENGTH_LONG).show();
+                                                    alertingMessage("Niste unijeli sva potrebna polja.", R.drawable.exclamation_message);
                                                 }
                                                 else{
-
-                                                    method.Upload(ime, prezime, korIme, adresa, mail, mobitel, telefon, lozinka, slika);
+                                                    if (provjeraNedozvoljeniZnakovi(ime, prezime, korIme, adresa, mobitel, telefon))
+                                                        alertingMessage("Koristili ste nedozvoljene znakove!", R.drawable.exclamation_message);
+                                                    else if(provjeraMail(mail)){
+                                                        alertingMessage("E-mail adresa nije u propisnom obliku.", R.drawable.exclamation_message);
+                                                    }
+                                                    else
+                                                        method.Upload(ime, prezime, korIme, adresa, mail, mobitel, telefon, lozinka, slika);
                                                     //swapFragment();
                                                 }
                                             }
@@ -198,27 +207,69 @@ public class Registracija extends Fragment implements StatusListener {
         mListener = null;
     }
 
+    private boolean provjeraNedozvoljeniZnakovi(String ime,String prezime,String korIme,String adresa,String mobitel,String telefon){
+        String pattern = "[\\'|\\!|\\?|\\#|\\*|\\$|\\%|\\&|\\/]";
+        Pattern p = Pattern.compile(pattern);
+        boolean found=false;
+        if(p.matcher(ime).find())
+            return true;
+        if(p.matcher(prezime).find())
+            return true;
+        if(p.matcher(korIme).find())
+            return true;
+        if(p.matcher(ime).find())
+            return true;
+        if(p.matcher(adresa).find())
+            return true;
+        if(p.matcher(mobitel).find())
+            return true;
+        if(p.matcher(telefon).find())
+            return true;
+        return found;
+    }
+
+    private boolean provjeraMail(String mail){
+        String pattern = "^[A-z0-9][A-z0-9]*\\.?[A-z0-9]*@[A-z0-9]+\\.[A-z0-9]{2,}$";
+        Pattern p = Pattern.compile(pattern);
+        if(p.matcher(mail).matches())
+            return false;
+        else return true;
+    }
+
+    private void alertingMessage(String message, int imageIcon)
+    {
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(getActivity(), android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(getActivity());
+        }
+        builder.setTitle("Upozorenje")
+                .setMessage(message)
+                .setPositiveButton("U redu", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setIcon(imageIcon)
+                .show();
+    }
 
     @Override
     public void onStatusChanged(String s) {
         status=s;
         Activity a=getActivity();
 
-        if(s.equals("duplikat")) {
-            Toast.makeText(a, "Korisničko ime postoji",
-                    Toast.LENGTH_LONG).show();
-        }
-        /*
-        else if (s.equals("greska")) {
-               swapFragment();
-                Toast.makeText(a, "Ups, greška :(",
-                        Toast.LENGTH_LONG).show();
-            }
-*/
-        else  {
-           //swapFragment();
+        if(s.equals("uspjesno")) {
+            swapFragment();
             Toast.makeText(a, "Registrirali ste se :)",
                     Toast.LENGTH_LONG).show();
+        }
+        else if(s.equals("duplikat")) {
+            alertingMessage("Korisničko ime već postoji!", R.drawable.exclamation_message);
+        }
+        else if (s.equals("greska")) {
+            alertingMessage("Ups, greška...", R.drawable.fail_message);
         }
 
     }
