@@ -11,7 +11,8 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="11dp"
-        android:layout_marginEnd="118dp"
+        android:layout_marginEnd="113dp"
+        android:fontFamily="@font/robotoblack"
         android:text="@string/korIme" />
 
     <EditText
@@ -34,6 +35,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="75dp"
         android:layout_marginEnd="160dp"
+        android:fontFamily="@font/robotoblack"
         android:text="@string/lozinkaReg" />
 
     <EditText
@@ -42,7 +44,8 @@
         android:layout_height="40dp"
         android:layout_below="@+id/textView2"
         android:layout_alignStart="@+id/unosKorIme"
-        android:layout_marginStart="2dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
         android:ems="10"
         android:inputType="textPassword" />
 
@@ -57,6 +60,7 @@
         android:ems="10"
         android:hint="@string/ime"
         android:inputType="textPersonName"
+        android:fontFamily="@font/robotoblack"
         android:text="" />
 
     <EditText
@@ -70,6 +74,7 @@
         android:ems="10"
         android:hint="@string/prezime"
         android:inputType="textPersonName"
+        android:fontFamily="@font/robotoblack"
         android:text="" />
 
     <EditText
@@ -83,6 +88,7 @@
         android:ems="10"
         android:hint="@string/adresa"
         android:inputType="textPersonName"
+        android:fontFamily="@font/robotoblack"
         android:text="" />
 
     <EditText
@@ -96,6 +102,7 @@
         android:ems="10"
         android:hint="@string/mail"
         android:inputType="textEmailAddress"
+        android:fontFamily="@font/robotoblack"
         android:text="" />
 
     <EditText
@@ -107,6 +114,7 @@
         android:layout_marginTop="1dp"
         android:ems="10"
         android:hint="@string/tel"
+        android:fontFamily="@font/robotoblack"
         android:inputType="phone" />
 
     <EditText
@@ -119,6 +127,7 @@
         android:layout_marginEnd="0dp"
         android:ems="10"
         android:hint="@string/mob"
+        android:fontFamily="@font/robotoblack"
         android:inputType="phone" />
 
     <Button
@@ -129,6 +138,10 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="51dp"
         android:layout_marginBottom="24dp"
+        android:textColor="#FFCB57"
+        android:textSize="24sp"
+        android:background="#8492A6"
+        android:fontFamily="@font/chewyregular"
         android:text="@string/gumbSpremi" />
 
     <Button
@@ -138,6 +151,10 @@
         android:layout_alignTop="@+id/btnRegistracijaSpremi"
         android:layout_marginStart="-161dp"
         android:layout_toEndOf="@+id/textView2"
+        android:textColor="#FFCB57"
+        android:textSize="24sp"
+        android:background="#8492A6"
+        android:fontFamily="@font/chewyregular"
         android:text="@string/gumbOdustani" />
 
     <ImageButton

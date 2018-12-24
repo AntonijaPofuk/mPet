@@ -12,6 +12,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="1dp"
         android:layout_marginTop="16dp"
+        android:fontFamily="@font/robotoblack"
         android:text="@string/imeLjub" />
 
     <EditText
@@ -23,6 +24,7 @@
         android:layout_marginTop="37dp"
         android:ems="10"
         android:inputType="textPersonName"
+        android:fontFamily="@font/robotoblack"
         android:text="" />
 
     <TextView
@@ -33,6 +35,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="177dp"
         android:layout_marginTop="71dp"
+        android:fontFamily="@font/robotoblack"
         android:text="@string/vrsta" />
 
     <EditText
@@ -44,6 +47,7 @@
         android:layout_marginTop="0dp"
         android:ems="10"
         android:hint="@string/vrsta_opis"
+        android:fontFamily="@font/robotoblack"
         android:inputType="text" />
 
     <EditText
@@ -57,6 +61,7 @@
         android:ems="10"
         android:hint="@string/masa"
         android:inputType="numberDecimal"
+        android:fontFamily="@font/robotoblack"
         android:text="" />
 
     <EditText
@@ -70,6 +75,7 @@
         android:ems="10"
         android:hint="@string/godRodjenja"
         android:inputType="number"
+        android:fontFamily="@font/robotoblack"
         android:text="" />
 
 
@@ -82,6 +88,7 @@
         android:layout_marginStart="2dp"
         android:layout_marginTop="204dp"
         android:entries="@array/spolovi"
+        android:fontFamily="@font/robotoblack"
         android:prompt="@string/odabir_spol" />
 
     <EditText
@@ -94,6 +101,7 @@
         android:layout_marginTop="293dp"
         android:ems="10"
         android:hint="@string/opis"
+        android:fontFamily="@font/robotoblack"
         android:inputType="textMultiLine" />
 
 
@@ -105,6 +113,10 @@
         android:layout_alignParentStart="true"
         android:layout_marginStart="46dp"
         android:layout_marginTop="0dp"
+        android:textColor="#FFCB57"
+        android:textSize="24sp"
+        android:background="#8492A6"
+        android:fontFamily="@font/chewyregular"
         android:text="@string/gumbSpremi" />
 
     <Button
@@ -115,6 +127,10 @@
         android:layout_marginStart="-40dp"
         android:layout_marginTop="442dp"
         android:layout_toEndOf="@+id/txtGodina"
+        android:textColor="#FFCB57"
+        android:textSize="24sp"
+        android:background="#8492A6"
+        android:fontFamily="@font/chewyregular"
         android:text="@string/gumbOdustani" />
 
     <ImageButton
@@ -137,6 +153,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="161dp"
         android:layout_marginEnd="99dp"
+        android:fontFamily="@font/robotoblack"
         android:text="[kg]" />
 
 
