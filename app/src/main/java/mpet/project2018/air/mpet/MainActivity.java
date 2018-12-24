@@ -24,6 +24,7 @@ import mpet.project2018.air.database.MainDatabase;
 import mpet.project2018.air.mpet.fragments.KorisnikUredivanje;
 import mpet.project2018.air.mpet.fragments.MojiLjubimci;
 import mpet.project2018.air.mpet.fragments.NoviLjubimac;
+import mpet.project2018.air.mpet.fragments.ONama;
 import mpet.project2018.air.mpet.fragments.PocetnaUlogirani;
 import mpet.project2018.air.database.entities.Kartica;
 import mpet.project2018.air.database.entities.Korisnik;
@@ -53,7 +54,8 @@ public class MainActivity extends AppCompatActivity
         PrikazSvihObavijesti.OnFragmentInteractionListener,
         ModulNavigationFragment.OnFragmentInteractionListener,
         MojiLjubimci.OnFragmentInteractionListener,
-        NoviLjubimac.OnFragmentInteractionListener
+        NoviLjubimac.OnFragmentInteractionListener,
+        ONama.OnFragmentInteractionListener
         //TODO: dodaj novi fragment ovdje uvijek a na početku fragmenta implementiraj mlistenere
 
 {
@@ -299,12 +301,10 @@ TextView textView;
                                 break;
                                 */
                             /**/
-                            /*
                             case R.id.nav_frag4:
-                                 oNama
+                                 ONama onama=new ONama();
+                                 swap(onama);
                                 break;
-                                */
-
                             case R.id.nav_frag5:
                                 //odjava
                                 SharedPreferences preferences = getSharedPreferences
