@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -134,10 +135,10 @@ public class Prijava extends Fragment implements onLoginValidation {
             navigationView.getMenu().clear();
             navigationView.inflateMenu(R.menu.activity_main_drawer);
             /**/
-
+            clearBackStack();
             FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.mainFrame, new PocetnaUlogirani());
-            ft.addToBackStack(null);
+            //ft.addToBackStack(null);
             ft.commit();
 
 
@@ -148,6 +149,13 @@ public class Prijava extends Fragment implements onLoginValidation {
 
     }
 
+    private void clearBackStack() {
+        FragmentManager manager = getActivity().getSupportFragmentManager();
+        if (manager.getBackStackEntryCount() > 0) {
+            FragmentManager.BackStackEntry first = manager.getBackStackEntryAt(0);
+            manager.popBackStack(first.getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        }
+    }
 
     @Override
     public void onAttach(Context context) {

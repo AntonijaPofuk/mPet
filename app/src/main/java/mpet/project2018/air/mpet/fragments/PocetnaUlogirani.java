@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -102,6 +103,7 @@ public class PocetnaUlogirani extends Fragment {
                         navigationView.getMenu().clear();
                         navigationView.inflateMenu(R.menu.activity_main_drawer_neulogirani);
 
+                        clearBackStack();
                         swapFragment();
                     }
                 });
@@ -119,10 +121,18 @@ public class PocetnaUlogirani extends Fragment {
         alertDialog.show();
     }
 
+    private void clearBackStack() {
+        FragmentManager manager = getActivity().getSupportFragmentManager();
+        if (manager.getBackStackEntryCount() > 0) {
+            FragmentManager.BackStackEntry first = manager.getBackStackEntryAt(0);
+            manager.popBackStack(first.getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        }
+    }
+
     private void swapFragment(){
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.mainFrame, new PocetnaNeulogirani());
-        ft.addToBackStack(null);
+        //ft.addToBackStack(null);
 
         ft.commit();
     }
@@ -130,6 +140,7 @@ public class PocetnaUlogirani extends Fragment {
     private void swapFragment2(){
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.mainFrame, new ModulNavigationFragment());
+        ft.addToBackStack(null);
         ft.commit();
     }
 

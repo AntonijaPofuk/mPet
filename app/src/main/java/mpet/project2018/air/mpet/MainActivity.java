@@ -253,6 +253,12 @@ TextView textView;
         t.commit();
     }
 
+    public void swapLogout(Fragment newFragment){
+        FragmentTransaction t =  this.getSupportFragmentManager().beginTransaction();
+        t.replace(R.id.mainFrame, newFragment);
+        t.commit();
+    }
+
     public void Navigation(){
         dl = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -310,8 +316,9 @@ TextView textView;
 
                                 editor.commit();
                                 /**/
+                                clearBackStack();
                                 PocetnaNeulogirani pocetna=new PocetnaNeulogirani();
-                                swap(pocetna);
+                                swapLogout(pocetna);
                                 /*zamjena izbornika*/
                                 NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
                                 navigationView.getMenu().clear();
@@ -331,6 +338,13 @@ TextView textView;
     }
 
     /************/
+    private void clearBackStack() {
+        FragmentManager manager = getSupportFragmentManager();
+        if (manager.getBackStackEntryCount() > 0) {
+            FragmentManager.BackStackEntry first = manager.getBackStackEntryAt(0);
+            manager.popBackStack(first.getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        }
+    }
 
     @Override
     public void onFragmentInteraction(String title) {  // Preimenovanje stranice
