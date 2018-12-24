@@ -3,6 +3,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
@@ -96,6 +97,10 @@ public class PocetnaUlogirani extends Fragment {
 
                         editor.commit();
 
+                        /*zamjena izbornika*/
+                        NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
+                        navigationView.getMenu().clear();
+                        navigationView.inflateMenu(R.menu.activity_main_drawer_neulogirani);
 
                         swapFragment();
                     }
