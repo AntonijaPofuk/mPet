@@ -14,6 +14,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.raizlabs.android.dbflow.sql.language.Delete;
+
+import mpet.project2018.air.database.entities.Kartica;
+import mpet.project2018.air.database.entities.Korisnik;
+import mpet.project2018.air.database.entities.Ljubimac;
+import mpet.project2018.air.database.entities.Skeniranje;
 import mpet.project2018.air.mpet.Config;
 import mpet.project2018.air.mpet.R;
 
@@ -103,6 +109,8 @@ public class PocetnaUlogirani extends Fragment {
                         navigationView.getMenu().clear();
                         navigationView.inflateMenu(R.menu.activity_main_drawer_neulogirani);
 
+                        deleteDatabase();
+
                         clearBackStack();
                         swapFragment();
                     }
@@ -127,6 +135,13 @@ public class PocetnaUlogirani extends Fragment {
             FragmentManager.BackStackEntry first = manager.getBackStackEntryAt(0);
             manager.popBackStack(first.getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
         }
+    }
+
+    private void deleteDatabase(){
+        Delete.table(Korisnik.class);
+        Delete.table(Skeniranje.class);
+        Delete.table(Ljubimac.class);
+        Delete.table(Kartica.class);
     }
 
     private void swapFragment(){

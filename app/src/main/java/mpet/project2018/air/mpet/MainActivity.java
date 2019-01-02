@@ -20,7 +20,10 @@ import android.view.View;
 import android.widget.TextView;
 
 
+import com.raizlabs.android.dbflow.sql.language.Delete;
+
 import mpet.project2018.air.database.MainDatabase;
+import mpet.project2018.air.database.entities.Skeniranje;
 import mpet.project2018.air.mpet.fragments.KorisnikUredivanje;
 import mpet.project2018.air.mpet.fragments.MojiLjubimci;
 import mpet.project2018.air.mpet.fragments.NoviLjubimac;
@@ -323,6 +326,9 @@ TextView textView;
                                 NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
                                 navigationView.getMenu().clear();
                                 navigationView.inflateMenu(R.menu.activity_main_drawer_neulogirani);
+
+                                deleteDatabase();
+
                                 break;
                             /**/
                             case R.id.nav_frag6:
@@ -344,6 +350,13 @@ TextView textView;
             FragmentManager.BackStackEntry first = manager.getBackStackEntryAt(0);
             manager.popBackStack(first.getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
         }
+    }
+
+    private void deleteDatabase(){
+        Delete.table(Korisnik.class);
+        Delete.table(Skeniranje.class);
+        Delete.table(Ljubimac.class);
+        Delete.table(Kartica.class);
     }
 
     @Override
