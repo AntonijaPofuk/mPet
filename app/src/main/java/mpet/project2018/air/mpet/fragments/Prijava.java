@@ -144,6 +144,8 @@ public class Prijava extends Fragment implements onLoginValidation, KorisnikData
 
             Toast.makeText(getActivity(), "Vas id je"+id, Toast.LENGTH_SHORT).show();
 
+           downloadDatabase(id);
+
             /*zamjena izbornika*/
             NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
             navigationView.getMenu().clear();
@@ -154,8 +156,6 @@ public class Prijava extends Fragment implements onLoginValidation, KorisnikData
             ft.replace(R.id.mainFrame, new PocetnaUlogirani());
             //ft.addToBackStack(null);
             ft.commit();
-
-            downloadDatabase(id);
 
         } else {
             Toast.makeText(getActivity(), "Korisnicko ime ili lozinka su netocni", Toast.LENGTH_SHORT).show();
@@ -173,6 +173,7 @@ public class Prijava extends Fragment implements onLoginValidation, KorisnikData
     }
 
     private void downloadDatabase(String id){
+
         KorisnikDataLoader kor=new KorisnikDataLoader(this);
         kor.loadUsersByUserId(id);
 
@@ -184,6 +185,7 @@ public class Prijava extends Fragment implements onLoginValidation, KorisnikData
 
         SkeniranjeDataLoader sken=new SkeniranjeDataLoader(this);
         sken.loadDataByUserId(id);
+
 
     }
 
