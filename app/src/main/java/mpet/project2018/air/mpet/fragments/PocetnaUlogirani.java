@@ -2,12 +2,16 @@ package mpet.project2018.air.mpet.fragments;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +19,10 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.raizlabs.android.dbflow.sql.language.Delete;
+
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.URL;
 
 import mpet.project2018.air.database.entities.Kartica;
 import mpet.project2018.air.database.entities.Korisnik;
@@ -179,5 +187,43 @@ public class PocetnaUlogirani extends Fragment {
         void onFragmentInteraction(String title);
     }
     private class ArticleFragment {
+    }
+
+    /***download slika*********/
+    public void saveImage(Context context, Bitmap b, String imageName) {
+        FileOutputStream foStream;
+        try {
+            foStream = context.openFileOutput(imageName, Context.MODE_PRIVATE);
+            b.compress(Bitmap.CompressFormat.PNG, 100, foStream);
+            foStream.close();
+        } catch (Exception e) {
+            Log.d("saveImage", "Exception 2, Something went wrong!");
+            e.printStackTrace();
+        }
+    }
+
+    private class DownloadImage extends AsyncTask<String, Void, Bitmap> {
+        private String TAG = "DownloadImage";
+        private Bitmap downloadImageBitmap(String sUrl) {
+            Bitmap bitmap = null;
+            try {
+                InputStream inputStream = new URL(sUrl).openStream();   // Download Image from URL
+                bitmap = BitmapFactory.decodeStream(inputStream);       // Decode Bitmap
+                inputStream.close();
+            } catch (Exception e) {
+                Log.d(TAG, "Exception 1, Something went wrong!");
+                e.printStackTrace();
+            }
+            return bitmap;
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            return downloadImageBitmap(params[0]);
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            saveImage(getActivity().getApplicationContext(), result, "my_image.png");
+        }
     }
 }
