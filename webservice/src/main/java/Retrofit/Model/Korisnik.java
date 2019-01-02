@@ -3,7 +3,7 @@ package Retrofit.Model;
 import com.google.gson.annotations.SerializedName;
 
 public class Korisnik {
-    @SerializedName("id")
+    @SerializedName("id_korisnika")
     public String id;
     @SerializedName("ime")
     public String ime;

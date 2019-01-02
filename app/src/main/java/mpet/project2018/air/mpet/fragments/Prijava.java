@@ -23,7 +23,7 @@ import static android.content.Context.MODE_PRIVATE;
 import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 
 
-public class Prijava extends Fragment implements onLoginValidation {
+public class Prijava extends Fragment implements onLoginValidation, Kori {
 
     private OnFragmentInteractionListener mListener;
 

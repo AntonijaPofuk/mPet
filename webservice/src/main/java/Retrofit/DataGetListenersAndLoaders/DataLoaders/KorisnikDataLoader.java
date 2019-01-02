@@ -26,6 +26,14 @@ public class KorisnikDataLoader {
 
     }
 
+    public void loadUsersByUserId(String userId) {
+
+        KorisnikData userWS = new KorisnikData(userHandler);
+
+        userWS.DownloadByUserId(userId);
+
+    }
+
     //TODO: As an exercise, change the architecture so that you have only one AirWebServiceHandler
 
     WebServiceHandler userHandler = new WebServiceHandler() {
