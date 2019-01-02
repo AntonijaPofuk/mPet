@@ -14,7 +14,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.List;
+
+import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.KarticaDataLoadedListener;
+import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.KorisnikDataLoadedListener;
+import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.LjubimacDataLoadedListener;
+import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.SkeniranjeDataLoadedListener;
+import Retrofit.DataGetListenersAndLoaders.DataLoaders.KarticaDataLoader;
+import Retrofit.DataGetListenersAndLoaders.DataLoaders.KorisnikDataLoader;
+import Retrofit.DataGetListenersAndLoaders.DataLoaders.LjubimacDataLoader;
+import Retrofit.DataGetListenersAndLoaders.DataLoaders.SkeniranjeDataLoader;
 import Retrofit.DataPost.PrijavaMethod;
+import Retrofit.Model.Kartica;
+import Retrofit.Model.Korisnik;
+import Retrofit.Model.Ljubimac;
+import Retrofit.Model.Skeniranje;
 import Retrofit.RemotePost.onLoginValidation;
 import mpet.project2018.air.mpet.Config;
 import mpet.project2018.air.mpet.R;
@@ -23,7 +37,7 @@ import static android.content.Context.MODE_PRIVATE;
 import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 
 
-public class Prijava extends Fragment implements onLoginValidation, Kori {
+public class Prijava extends Fragment implements onLoginValidation, KorisnikDataLoadedListener, KarticaDataLoadedListener, LjubimacDataLoadedListener, SkeniranjeDataLoadedListener {
 
     private OnFragmentInteractionListener mListener;
 
@@ -141,6 +155,7 @@ public class Prijava extends Fragment implements onLoginValidation, Kori {
             //ft.addToBackStack(null);
             ft.commit();
 
+            downloadDatabase(id);
 
         } else {
             Toast.makeText(getActivity(), "Korisnicko ime ili lozinka su netocni", Toast.LENGTH_SHORT).show();
@@ -157,6 +172,21 @@ public class Prijava extends Fragment implements onLoginValidation, Kori {
         }
     }
 
+    private void downloadDatabase(String id){
+        KorisnikDataLoader kor=new KorisnikDataLoader(this);
+        kor.loadUsersByUserId(id);
+
+        KarticaDataLoader kar=new KarticaDataLoader(this);
+        kar.loadDataByuserId(id);
+
+        LjubimacDataLoader ljub=new LjubimacDataLoader(this);
+        ljub.loadDataByUserId(id);
+
+        SkeniranjeDataLoader sken=new SkeniranjeDataLoader(this);
+        sken.loadDataByUserId(id);
+
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -171,6 +201,26 @@ public class Prijava extends Fragment implements onLoginValidation, Kori {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void KarticaOnDataLoaded(List<Kartica> listaKartica) {
+
+    }
+
+    @Override
+    public void KorisnikOnDataLoaded(List<Korisnik> listaKorisnika) {
+
+    }
+
+    @Override
+    public void LjubimacOnDataLoaded(List<Ljubimac> listaLjubimaca) {
+
+    }
+
+    @Override
+    public void SkeniranjeOnDataLoaded(List<Skeniranje> listaSkeniranja) {
+
     }
 
     public interface OnFragmentInteractionListener {

@@ -30,7 +30,7 @@ public class KorisnikDataLoader {
 
         KorisnikData userWS = new KorisnikData(userHandler);
 
-        userWS.DownloadByUserId(userId);
+        userWS.DownloadUsersByUserId(userId);
 
     }
 

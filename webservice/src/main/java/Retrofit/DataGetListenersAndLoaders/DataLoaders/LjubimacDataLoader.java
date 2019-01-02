@@ -34,6 +34,14 @@ public class LjubimacDataLoader  {
 
     }
 
+    public void loadDataByUserId(String userId) {
+
+        LjubimacData petsWS = new LjubimacData(petHandler);
+
+        petsWS.DownloadByUserId(userId);
+
+    }
+
     //TODO: As an exercise, change the architecture so that you have only one AirWebServiceHandler
 
     WebServiceHandler petHandler = new WebServiceHandler() {
