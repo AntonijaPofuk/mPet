@@ -190,6 +190,7 @@ public class PocetnaUlogirani extends Fragment {
     }
 
     /***download slika*********/
+    /*
     public void saveImage(Context context, Bitmap b, String imageName) {
         FileOutputStream foStream;
         try {
@@ -226,4 +227,7 @@ public class PocetnaUlogirani extends Fragment {
             saveImage(getActivity().getApplicationContext(), result, "my_image.png");
         }
     }
+    */
+    /*********************************/
+
 }
