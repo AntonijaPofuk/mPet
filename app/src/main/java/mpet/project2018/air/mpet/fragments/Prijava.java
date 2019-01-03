@@ -2,11 +2,14 @@ package mpet.project2018.air.mpet.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +17,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.KarticaDataLoadedListener;
@@ -30,6 +38,7 @@ import Retrofit.Model.Korisnik;
 import Retrofit.Model.Ljubimac;
 import Retrofit.Model.Skeniranje;
 import Retrofit.RemotePost.onLoginValidation;
+import mpet.project2018.air.database.entities.Korisnik_Table;
 import mpet.project2018.air.mpet.Config;
 import mpet.project2018.air.mpet.R;
 
@@ -144,7 +153,7 @@ public class Prijava extends Fragment implements onLoginValidation, KorisnikData
 
             Toast.makeText(getActivity(), "Vas id je"+id, Toast.LENGTH_SHORT).show();
 
-           downloadDatabase(id);
+            downloadDatabase(id);
 
             /*zamjena izbornika*/
             NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
@@ -185,7 +194,6 @@ public class Prijava extends Fragment implements onLoginValidation, KorisnikData
 
         SkeniranjeDataLoader sken=new SkeniranjeDataLoader(this);
         sken.loadDataByUserId(id);
-
 
     }
 

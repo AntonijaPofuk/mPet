@@ -1,11 +1,19 @@
 package Retrofit.DataGetListenersAndLoaders.DataLoaders;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+
+import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+
 import java.util.List;
 
 import Retrofit.DataGet.KorisnikData;
 import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.KorisnikDataLoadedListener;
 import Retrofit.DataGetListenersAndLoaders.WebServiceHandler;
 import Retrofit.Model.Korisnik;
+import mpet.project2018.air.database.entities.Korisnik_Table;
 
 public class KorisnikDataLoader {
 
@@ -62,8 +70,38 @@ public class KorisnikDataLoader {
             mpet.project2018.air.database.entities.Korisnik newKorisnik=new mpet.project2018.air.database.entities.Korisnik(Integer.parseInt(korisnik.id),
                     korisnik.ime,korisnik.prezime,korisnik.korisnicko_ime,null,korisnik.email,korisnik.adresa,korisnik.broj_mobitela,
                     korisnik.broj_telefona,korisnik.url_profilna);
-            newKorisnik.save();
+            /*Slika*/
+            loadBitmap("https://airprojekt.000webhostapp.com/slike_profila/"+newKorisnik.getUrl_profilna(),newKorisnik);
+            /**/
+            //newKorisnik.save();
+            //sprema se skupa sa slikom ispod
         }
     }
+
+    /*********/
+    private Target loadtarget;
+
+    public void loadBitmap(String url, final mpet.project2018.air.database.entities.Korisnik kor) {
+
+        loadtarget = new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                //handleLoadedBitmap(bitmap);
+                kor.setSlika(bitmap);
+                kor.save();
+            }
+            @Override
+            public void onBitmapFailed(Exception e, Drawable errorDrawable) { }
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) { }
+        };
+
+        Picasso.get().load(url).into(loadtarget);
+    }
+
+    public void handleLoadedBitmap(Bitmap b) {
+
+    }
+    /*********/
 
 }
