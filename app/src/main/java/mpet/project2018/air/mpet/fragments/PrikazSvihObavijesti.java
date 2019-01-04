@@ -34,7 +34,7 @@ public class PrikazSvihObavijesti extends Fragment {
         View view=inflater.inflate(R.layout.prikaz_svih_obavijesti,container,false);
 
         if (mListener != null) {
-            mListener.onFragmentInteraction("Prikaz svih skeniranja");
+            mListener.onFragmentInteraction("Prikaz svih obavijesti");
         }
 
         return view;

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.AppCompatImageView
+        android:layout_width="90px"
+        android:layout_height="90px"
+        android:src="@drawable/notificationbell"
+        android:foregroundGravity="right"
+        android:onClick="bellClick"
+        android:layout_marginTop="10px"
+        />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:layout_width="70px"
+        android:layout_height="70px"
+        android:id="@+id/textViewObavijestiBttn"
+        android:text="0"
+        />
+
+</android.support.constraint.ConstraintLayout>

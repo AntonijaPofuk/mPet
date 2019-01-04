@@ -20,7 +20,13 @@ import android.view.View;
 import android.widget.TextView;
 
 
+import com.raizlabs.android.dbflow.sql.language.SQLite;
+
+import java.util.List;
+
 import mpet.project2018.air.database.MainDatabase;
+import mpet.project2018.air.database.entities.Skeniranje;
+import mpet.project2018.air.database.entities.Skeniranje_Table;
 import mpet.project2018.air.mpet.fragments.KorisnikUredivanje;
 import mpet.project2018.air.mpet.fragments.MojiLjubimci;
 import mpet.project2018.air.mpet.fragments.NoviLjubimac;
@@ -111,8 +117,12 @@ TextView textView;
         TextView textView = linearLayout.findViewById(R.id.korImeIzbornik);
         textView.setText("Prijavljeni korisnik: " + id1);
 
+        popuniKorisnika();
+        popuniLjubimca();
+        popuniKarticu();
 
           }
+
 
 
     public void openUserData(View v){
@@ -122,11 +132,9 @@ TextView textView;
         ft.commit();
        //----------------------------------------------------------------
 
-        /*
-        popuniKorisnika();
-        popuniLjubimca();
-        popuniKarticu();
 
+
+/*
 
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -204,15 +212,17 @@ TextView textView;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
+
         return true;
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // back btn definiraj prek PARENT-a u manifestu
-        int id = item.getItemId();
+      /*  int id = item.getItemId();
         if (id == R.id.action_settings) {
             return true;
         }
+        */
         return super.onOptionsItemSelected(item);
     }
     @SuppressWarnings("StatementWithEmptyBody")
@@ -294,13 +304,16 @@ TextView textView;
                                 MojiLjubimci mojiLjubimci = MojiLjubimci.newInstance(idPrijavljeni);
                                 swap(mojiLjubimci);
                                 break;
-                            /**/
-                            /*
+
                             case R.id.nav_frag3:
-                                 skeniranja
+                                FragmentManager fragmentManager = getSupportFragmentManager();
+                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                PrikazSvihObavijesti prikazSvihObavijesti = new PrikazSvihObavijesti();
+                                fragmentTransaction.replace(R.id.mainFrame, prikazSvihObavijesti);
+                                fragmentTransaction.addToBackStack(null);
+                                fragmentTransaction.commit();
                                 break;
-                                */
-                            /**/
+
                             case R.id.nav_frag4:
                                  ONama onama=new ONama();
                                  swap(onama);
@@ -371,15 +384,24 @@ TextView textView;
                 idSken = mIntent.getStringExtra("idSkeniranja");
                 //otvoriti fragment za detalje skeniranja s narednim id-em
                 if (idSken != "") {
+
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    PrikazSvihObavijesti prikazSvihObavijesti = new PrikazSvihObavijesti();
+                    fragmentTransaction.replace(R.id.mainFrame, prikazSvihObavijesti);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+
                     //otvaranje fragmenta
                     Bundle bundle=new Bundle();
                     bundle.putString("idSkena",idSken);
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    FragmentManager fragmentManager1 = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction1 = fragmentManager1.beginTransaction();
                     PrikazObavijestiDetaljno fragmentObavijestiDetaljno = new PrikazObavijestiDetaljno();
                     fragmentObavijestiDetaljno.setArguments(bundle);
-                    fragmentTransaction.replace(R.id.mainFrame, fragmentObavijestiDetaljno);
-                    fragmentTransaction.commit();
+                    fragmentTransaction1.replace(R.id.mainFrame, fragmentObavijestiDetaljno);
+                    fragmentTransaction1.addToBackStack(null);
+                    fragmentTransaction1.commit();
                 }
 
             }
@@ -421,6 +443,16 @@ TextView textView;
         k.setKorisnik(kor);
         k.save();
     }
+
+    public void bellClick(View v){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        PrikazSvihObavijesti prikazSvihObavijesti = new PrikazSvihObavijesti();
+        fragmentTransaction.replace(R.id.mainFrame, prikazSvihObavijesti);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
 
 }
 
