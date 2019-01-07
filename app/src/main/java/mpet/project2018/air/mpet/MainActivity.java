@@ -414,7 +414,7 @@ TextView textView;
     }
 
     public void popuniKorisnika(){
-        Korisnik korisnik=new Korisnik(177,"Matija","Hasija","mhasija","1234","mail","adresa","0100330","32131","url");
+        Korisnik korisnik=new Korisnik(712,"Jabuka","Juric","jabucica","admin123","mail","adresa","0100330","32131","url");
         korisnik.save();
     }
 
