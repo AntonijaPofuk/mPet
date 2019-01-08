@@ -32,20 +32,14 @@ import mpet.project2018.air.database.entities.Skeniranje_Table;
 import mpet.project2018.air.mpet.Config;
 import mpet.project2018.air.mpet.R;
 
+import static mpet.project2018.air.database.entities.Korisnik_Table.ime;
 import static mpet.project2018.air.database.entities.Korisnik_Table.korisnicko_ime;
 import static mpet.project2018.air.mpet.Config.ID_SHARED_PREF;
 import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 
 public class KorisnikUredivanje extends Fragment {
-    String imeKorisnika="";
-    Integer idKorisnik=0;
-
-
     private KorisnikUredivanje.OnFragmentInteractionListener mListener;
-
-
     //TODO: private UpdateKorMethod method=new UpdateKorMethod(this);
-
     public KorisnikUredivanje() {}
 
 
@@ -65,25 +59,13 @@ public class KorisnikUredivanje extends Fragment {
 
         Button buttonSpremi=(Button) view.findViewById(R.id.btnUpdateSpremi);
         Button buttonOdustani=(Button) view.findViewById(R.id.btnUpdateOdustani);
-
-
         //buttonSpremi.setOnClickListener(new View.OnClickListener() {
-
-
-
-
-
-
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREF_NAME, 0);
         String id=sharedPreferences.getString(Config.ID_SHARED_PREF, "");
         Toast.makeText(getActivity(),"Vas id je"+id, Toast.LENGTH_SHORT).show();
 
-
-
-
-
-        // EditText korImeS = (EditText) view.findViewById(R.id.unosKorImeU);
-        // korImeS.setText(PRIJAVLJENI_ID);
+         EditText korImeS = (EditText) view.findViewById(R.id.unosKorImeU);
+         korImeS.setText(ime);
 
 
         //String  korImeU= korImeS.getText().toString();
@@ -143,6 +125,32 @@ public class KorisnikUredivanje extends Fragment {
             }
         });
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        try {
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREF_NAME, 0);
+            String idPrijavljeni = sharedPreferences.getString(Config.ID_SHARED_PREF, "").toString();
+            mpet.project2018.air.database.entities.Korisnik k=new SQLite().select().from(mpet.project2018.air.database.entities.Korisnik.class)
+                    .where(Korisnik_Table.id_korisnika.is(Integer.parseInt(idPrijavljeni))).querySingle();
+            String ime = k.getIme();
+            String prezime = k.getPrezime();
+            String korime = k.getKorisnicko_ime();
+            Toast.makeText(getActivity(),"Vase ime je" + ime, Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(),"Vase ime je" + prezime, Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(),"Vase ime je" + korime, Toast.LENGTH_LONG).show();
+
+
+
+
+        }
+
+        catch (Exception e){
+
+        }
+
     }
 
     private void swapFragment(){
