@@ -1,10 +1,16 @@
 package mpet.project2018.air.database.entities;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ForeignKey;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 import com.raizlabs.android.dbflow.structure.BaseModel;
+
+import java.io.ByteArrayOutputStream;
 
 import mpet.project2018.air.database.MainDatabase;
 
@@ -26,6 +32,8 @@ public class Ljubimac extends BaseModel {
     @Column Korisnik korisnik;
     @ForeignKey(tableClass = Kartica.class)
     @Column Kartica kartica;
+
+    @Column String slika;
 
     public Ljubimac(int id_ljubimca, String ime, int godine, long masa, String vrsta_zivotinje, String spol, String opis, String url_slike, Korisnik korisnik) {
         this.id_ljubimca = id_ljubimca;
@@ -120,5 +128,25 @@ public class Ljubimac extends BaseModel {
 
     public void setKartica(Kartica kartica) {
         this.kartica = kartica;
+    }
+
+    /*****/
+    public Bitmap getSlika(){
+        try {
+            byte [] encodeByte=Base64.decode(slika,Base64.DEFAULT);
+            Bitmap bitmap=BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch(Exception e) {
+            e.getMessage();
+            return null;
+        }
+    }
+
+    public void  setSlika(Bitmap bmap){
+        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
+        bmap.compress(Bitmap.CompressFormat.PNG,100, baos);
+        byte [] bi=baos.toByteArray();
+        String temp=Base64.encodeToString(bi, Base64.DEFAULT);
+        this.slika=temp;
     }
 }

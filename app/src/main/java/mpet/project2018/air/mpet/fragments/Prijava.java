@@ -15,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.raizlabs.android.dbflow.sql.language.SQLite;
@@ -40,6 +42,7 @@ import Retrofit.Model.Skeniranje;
 import Retrofit.RemotePost.onLoginValidation;
 import mpet.project2018.air.database.entities.Korisnik_Table;
 import mpet.project2018.air.mpet.Config;
+import mpet.project2018.air.mpet.MainActivity;
 import mpet.project2018.air.mpet.R;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -57,6 +60,8 @@ public class Prijava extends Fragment implements onLoginValidation, KorisnikData
     Button btnPrijavaOdustani;
 
     private SharedPreferences sharedPreferences;
+
+    private String globalId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -142,6 +147,7 @@ public class Prijava extends Fragment implements onLoginValidation, KorisnikData
     @Override
     public void onDataLoaded (String id){
 
+        globalId=id;
 
         if (Integer.parseInt(id) != 0) {
 
@@ -183,21 +189,9 @@ public class Prijava extends Fragment implements onLoginValidation, KorisnikData
 
     private void downloadDatabase(String id){
 
-
-
-        /*
         KorisnikDataLoader kor=new KorisnikDataLoader(this);
         kor.loadUsersByUserId(id);
-
-        KarticaDataLoader kar=new KarticaDataLoader(this);
-        kar.loadDataByuserId(id);
-
-        LjubimacDataLoader ljub=new LjubimacDataLoader(this);
-        ljub.loadDataByUserId(id);
-
-        SkeniranjeDataLoader sken=new SkeniranjeDataLoader(this);
-        sken.loadDataByUserId(id);
-        */
+        //nastavak skidanja baze u loaderima zbog zavisnosti
 
     }
 
@@ -219,21 +213,26 @@ public class Prijava extends Fragment implements onLoginValidation, KorisnikData
 
     @Override
     public void KarticaOnDataLoaded(List<Kartica> listaKartica) {
-
+        LjubimacDataLoader ljub=new LjubimacDataLoader(this);
+        ljub.loadDataByUserId(globalId);
     }
 
     @Override
     public void KorisnikOnDataLoaded(List<Korisnik> listaKorisnika) {
-
+        KarticaDataLoader kar=new KarticaDataLoader(this);
+        kar.loadDataByuserId(globalId);
     }
 
     @Override
     public void LjubimacOnDataLoaded(List<Ljubimac> listaLjubimaca) {
-
+        SkeniranjeDataLoader sken=new SkeniranjeDataLoader(this);
+        sken.loadDataByUserId(globalId);
     }
 
     @Override
     public void SkeniranjeOnDataLoaded(List<Skeniranje> listaSkeniranja) {
+
+
 
     }
 
