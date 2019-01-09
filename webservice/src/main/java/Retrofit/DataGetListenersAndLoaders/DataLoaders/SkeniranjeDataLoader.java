@@ -14,7 +14,7 @@ public class SkeniranjeDataLoader {
 
     protected SkeniranjeDataLoadedListener mSkeniranjeDataLoadedListener;
 
-    private boolean usersArrived= false;
+    private boolean scansArrived= false;
 
     public SkeniranjeDataLoader(SkeniranjeDataLoadedListener skeniranjeDataLoadedListener)
     {
@@ -25,7 +25,7 @@ public class SkeniranjeDataLoader {
 
         SkeniranjeData scanWS = new SkeniranjeData(scanHandler);
 
-        scanWS.Download(userId);
+        scanWS.DownloadByUserId(userId);
 
     }
 
@@ -39,7 +39,7 @@ public class SkeniranjeDataLoader {
                 /*for(Store store : stores){
                     store.save();
                 }*/
-                usersArrived = true;
+                scansArrived = true;
                 checkDataArrival(listaSkeniranja);
             }
         }
@@ -47,7 +47,7 @@ public class SkeniranjeDataLoader {
 
 
     private void checkDataArrival(List<Skeniranje> skeniranjeList){
-        if(usersArrived){
+        if(scansArrived){
             mSkeniranjeDataLoadedListener.SkeniranjeOnDataLoaded(skeniranjeList);
         }
     }

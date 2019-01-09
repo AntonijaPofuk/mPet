@@ -183,6 +183,9 @@ public class Prijava extends Fragment implements onLoginValidation, KorisnikData
 
     private void downloadDatabase(String id){
 
+
+
+        /*
         KorisnikDataLoader kor=new KorisnikDataLoader(this);
         kor.loadUsersByUserId(id);
 
@@ -194,6 +197,7 @@ public class Prijava extends Fragment implements onLoginValidation, KorisnikData
 
         SkeniranjeDataLoader sken=new SkeniranjeDataLoader(this);
         sken.loadDataByUserId(id);
+        */
 
     }
 

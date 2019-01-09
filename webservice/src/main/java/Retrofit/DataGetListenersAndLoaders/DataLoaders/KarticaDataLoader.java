@@ -13,7 +13,7 @@ public class KarticaDataLoader {
 
     protected KarticaDataLoadedListener mKarticaDataLoadedListener;
 
-    private boolean usersArrived= false;
+    private boolean cardsArrived= false;
 
     public KarticaDataLoader(KarticaDataLoadedListener karticaDataLoadedListener)
     {
@@ -24,7 +24,7 @@ public class KarticaDataLoader {
 
         KarticaData cardWS = new KarticaData(cardHandler);
 
-        cardWS.Download(userId);
+        cardWS.DownloadByUserId(userId);
 
     }
 
@@ -38,7 +38,7 @@ public class KarticaDataLoader {
                 /*for(Store store : stores){
                     store.save();
                 }*/
-                usersArrived = true;
+                cardsArrived = true;
                 checkDataArrival(listaKartica);
             }
         }
@@ -46,7 +46,7 @@ public class KarticaDataLoader {
 
 
     private void checkDataArrival(List<Kartica> karticaList){
-        if(usersArrived){
+        if(cardsArrived){
             mKarticaDataLoadedListener.KarticaOnDataLoaded(karticaList);
         }
     }

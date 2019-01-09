@@ -34,7 +34,7 @@ public class SkeniranjeData {
                 .build();
     }
 
-    public void Download(String korisnikId){
+    public void DownloadByUserId(String korisnikId){
 
         SkeniranjaService api = retrofit.create(SkeniranjaService.class);
 
