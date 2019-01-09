@@ -14,7 +14,7 @@
     android:id="@+id/nav_header">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imageViewKorSlika"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
