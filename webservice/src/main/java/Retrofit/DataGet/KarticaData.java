@@ -35,7 +35,7 @@ public class KarticaData {
                 .build();
     }
 
-    public void Download(String korisnikId){
+    public void DownloadByUserId(String korisnikId){
 
 
 

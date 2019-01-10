@@ -110,10 +110,12 @@ TextView textView;
             }
 
 //promjena imena korisnika u izborniku
+
         View linearLayout = navigationView.inflateHeaderView(R.layout.nav_header);
+        /*
         TextView textView = linearLayout.findViewById(R.id.korImeIzbornik);
         textView.setText("Prijavljeni korisnik: " + id1);
-
+*/
 
           }
 
