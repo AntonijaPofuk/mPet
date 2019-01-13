@@ -11,6 +11,8 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -24,11 +26,17 @@ import android.support.v4.app.FragmentTransaction;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 import Retrofit.DataPost.RegistracijaMethod;
 import Retrofit.RemotePost.StatusListener;
+import mpet.project2018.air.database.entities.Ljubimac;
 import mpet.project2018.air.mpet.Config;
 import mpet.project2018.air.mpet.R;
+import mpet.project2018.air.mpet.petsAdapter.PetModel;
+import mpet.project2018.air.mpet.petsAdapter.PetsAdapter;
 
 import static android.app.Activity.RESULT_OK;
 import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
@@ -87,6 +95,27 @@ public class MojiLjubimci extends Fragment {
             }
         });
 
+        RecyclerView rvLjubimci = (RecyclerView) view.findViewById(R.id.main_recycler);
+
+        // Initialize pets
+        //List<PetModel> listaLjubimaca=new List<PetModel>();
+        ArrayList<PetModel> listaLjubimaca=PetModel.createPetsList(Integer.parseInt(ID_KORISNIKA));
+
+        PetsAdapter adapter = new PetsAdapter(listaLjubimaca);
+        rvLjubimci.setAdapter(adapter);
+        rvLjubimci.setLayoutManager(new LinearLayoutManager(getContext()));
+
+/*
+        String tekst="";
+        if(listaLjubimaca.isEmpty()){
+            tekst="prazno";
+        }
+        else {
+            tekst="puno";
+        }
+        tekst=listaLjubimaca.get(1).getName();
+        Toast.makeText(getActivity(),tekst, Toast.LENGTH_SHORT).show();
+*/
         return view;
     }
 
