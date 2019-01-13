@@ -187,7 +187,7 @@ public class PocetnaUlogirani extends Fragment {
 
     private void swapFragment2(){
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.mainFrame, new KorisnikUredivanje());
+        ft.replace(R.id.mainFrame, new ModulNavigationFragment());
         ft.addToBackStack(null);
         ft.commit();
 
