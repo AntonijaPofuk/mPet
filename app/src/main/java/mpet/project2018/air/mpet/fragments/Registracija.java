@@ -97,14 +97,18 @@ public class Registracija extends Fragment implements StatusListener {
                                                 String mail=mailEdit.getText().toString();
                                                 EditText telefonEdit = (EditText)view.findViewById(R.id.unosTelefon);
                                                 String telefon=telefonEdit.getText().toString();
+                                                /*
                                                 if(TextUtils.isEmpty(telefon)){
                                                     telefon="DEFAULT";
                                                 }
+                                                */
                                                 EditText mobitelEdit = (EditText)view.findViewById(R.id.unosMobitel);
                                                 String mobitel=mobitelEdit.getText().toString();
+                                                /*
                                                 if(TextUtils.isEmpty(mobitel)){
                                                     mobitel="DEFAULT";
                                                 }
+                                                */
                                                 EditText lozinkaEdit = (EditText)view.findViewById(R.id.unosLozinka);
                                                 String lozinka=lozinkaEdit.getText().toString();
 
