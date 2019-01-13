@@ -2,28 +2,54 @@ package mpet.project2018.air.mpet.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+
+import java.io.ByteArrayOutputStream;
+import java.util.List;
+
+import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.KarticaDataLoadedListener;
+import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.KorisnikDataLoadedListener;
+import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.LjubimacDataLoadedListener;
+import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.SkeniranjeDataLoadedListener;
+import Retrofit.DataGetListenersAndLoaders.DataLoaders.KarticaDataLoader;
+import Retrofit.DataGetListenersAndLoaders.DataLoaders.KorisnikDataLoader;
+import Retrofit.DataGetListenersAndLoaders.DataLoaders.LjubimacDataLoader;
+import Retrofit.DataGetListenersAndLoaders.DataLoaders.SkeniranjeDataLoader;
 import Retrofit.DataPost.PrijavaMethod;
+import Retrofit.Model.Kartica;
+import Retrofit.Model.Korisnik;
+import Retrofit.Model.Ljubimac;
+import Retrofit.Model.Skeniranje;
 import Retrofit.RemotePost.onLoginValidation;
+import mpet.project2018.air.database.entities.Korisnik_Table;
 import mpet.project2018.air.mpet.Config;
+import mpet.project2018.air.mpet.MainActivity;
 import mpet.project2018.air.mpet.R;
 
 import static android.content.Context.MODE_PRIVATE;
 import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 
 
-public class Prijava extends Fragment implements onLoginValidation {
+public class Prijava extends Fragment implements onLoginValidation, KorisnikDataLoadedListener, KarticaDataLoadedListener, LjubimacDataLoadedListener, SkeniranjeDataLoadedListener {
 
     private OnFragmentInteractionListener mListener;
 
@@ -34,6 +60,8 @@ public class Prijava extends Fragment implements onLoginValidation {
     Button btnPrijavaOdustani;
 
     private SharedPreferences sharedPreferences;
+
+    private String globalId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -119,6 +147,7 @@ public class Prijava extends Fragment implements onLoginValidation {
     @Override
     public void onDataLoaded (String id){
 
+        globalId=id;
 
         if (Integer.parseInt(id) != 0) {
 
@@ -130,6 +159,8 @@ public class Prijava extends Fragment implements onLoginValidation {
 
             Toast.makeText(getActivity(), "Vas id je"+id, Toast.LENGTH_SHORT).show();
 
+            downloadDatabase(id);
+
             /*zamjena izbornika*/
             NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
             navigationView.getMenu().clear();
@@ -140,7 +171,6 @@ public class Prijava extends Fragment implements onLoginValidation {
             ft.replace(R.id.mainFrame, new PocetnaUlogirani());
             //ft.addToBackStack(null);
             ft.commit();
-
 
         } else {
             Toast.makeText(getActivity(), "Korisnicko ime ili lozinka su netocni", Toast.LENGTH_SHORT).show();
@@ -157,6 +187,14 @@ public class Prijava extends Fragment implements onLoginValidation {
         }
     }
 
+    private void downloadDatabase(String id){
+
+        KorisnikDataLoader kor=new KorisnikDataLoader(this);
+        kor.loadUsersByUserId(id);
+        //nastavak skidanja baze u loaderima zbog zavisnosti
+
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -171,6 +209,31 @@ public class Prijava extends Fragment implements onLoginValidation {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void KarticaOnDataLoaded(List<Kartica> listaKartica) {
+        LjubimacDataLoader ljub=new LjubimacDataLoader(this);
+        ljub.loadDataByUserId(globalId);
+    }
+
+    @Override
+    public void KorisnikOnDataLoaded(List<Korisnik> listaKorisnika) {
+        KarticaDataLoader kar=new KarticaDataLoader(this);
+        kar.loadDataByuserId(globalId);
+    }
+
+    @Override
+    public void LjubimacOnDataLoaded(List<Ljubimac> listaLjubimaca) {
+        SkeniranjeDataLoader sken=new SkeniranjeDataLoader(this);
+        sken.loadDataByUserId(globalId);
+    }
+
+    @Override
+    public void SkeniranjeOnDataLoaded(List<Skeniranje> listaSkeniranja) {
+
+
+
     }
 
     public interface OnFragmentInteractionListener {

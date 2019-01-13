@@ -1,5 +1,7 @@
 package Retrofit.DataGetListenersAndLoaders.DataLoaders;
 
+import com.raizlabs.android.dbflow.sql.language.SQLite;
+
 import java.util.List;
 
 import Retrofit.DataGet.KarticaData;
@@ -8,12 +10,15 @@ import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.KarticaDataLoaded
 import Retrofit.DataGetListenersAndLoaders.WebServiceHandler;
 import Retrofit.Model.Kartica;
 import Retrofit.Model.Korisnik;
+import mpet.project2018.air.database.entities.Korisnik_Table;
 
 public class KarticaDataLoader {
 
     protected KarticaDataLoadedListener mKarticaDataLoadedListener;
 
-    private boolean usersArrived= false;
+    private boolean cardsArrived= false;
+
+    private String idKorisnika;
 
     public KarticaDataLoader(KarticaDataLoadedListener karticaDataLoadedListener)
     {
@@ -21,10 +26,10 @@ public class KarticaDataLoader {
     }
 
     public void loadDataByuserId(String userId) {
-
+        idKorisnika=userId;
         KarticaData cardWS = new KarticaData(cardHandler);
 
-        cardWS.Download(userId);
+        cardWS.DownloadByUserId(userId);
 
     }
 
@@ -35,18 +40,27 @@ public class KarticaDataLoader {
         public void onDataArrived(Object result, boolean ok) {
             if(ok){
                 List<Kartica> listaKartica = (List<Kartica>) result;
-                /*for(Store store : stores){
-                    store.save();
-                }*/
-                usersArrived = true;
+                saveCardsInLocalDatabase(listaKartica);
+                cardsArrived = true;
                 checkDataArrival(listaKartica);
             }
         }
     };
 
+    private void saveCardsInLocalDatabase(List<Kartica> listaKartica)
+    {
+        for (Kartica kartica : listaKartica)
+        {
+            mpet.project2018.air.database.entities.Korisnik k=new SQLite().select().from(mpet.project2018.air.database.entities.Korisnik.class).where(Korisnik_Table.id_korisnika.is(Integer.parseInt(idKorisnika))).querySingle();
+            mpet.project2018.air.database.entities.Kartica newKartica=new mpet.project2018.air.database.entities.Kartica();
+            newKartica.setId_kartice(kartica.id_kartice);
+            newKartica.setKorisnik(k);
+            newKartica.save();
+        }
+    }
 
     private void checkDataArrival(List<Kartica> karticaList){
-        if(usersArrived){
+        if(cardsArrived){
             mKarticaDataLoadedListener.KarticaOnDataLoaded(karticaList);
         }
     }

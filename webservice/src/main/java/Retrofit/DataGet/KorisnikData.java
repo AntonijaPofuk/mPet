@@ -80,4 +80,51 @@ public class KorisnikData {
 
 
     }
+
+    public void DownloadUsersByUserId(String korisnikId){
+
+        KorisniciService api = retrofit.create(KorisniciService.class);
+
+        Call<List<Korisnik>> call = api.GetKorisnik("https://airprojekt.000webhostapp.com/services.php?korisnici_korID="+korisnikId);
+
+        call.enqueue(new Callback<List<Korisnik>>() {
+
+            @Override
+            public void onResponse(Call<List<Korisnik>> call, Response<List<Korisnik>> response) {
+                List<Korisnik> korisnik = response.body();
+                KorisnikList.clear();
+                if(korisnik.get(0)==null)
+                {
+                    userServiceHandler.onDataArrived(KorisnikList,true);
+                }
+                else {
+                    for (Korisnik k : korisnik) {
+                        Korisnik korisnikNew = new Korisnik();
+                        korisnikNew.prezime = k.prezime;
+                        korisnikNew.adresa = k.adresa;
+                        korisnikNew.broj_mobitela = k.broj_mobitela;
+                        korisnikNew.broj_telefona = k.broj_telefona;
+                        korisnikNew.email = k.email;
+                        korisnikNew.ime = k.ime;
+                        korisnikNew.id = k.id;
+                        korisnikNew.korisnicko_ime = k.korisnicko_ime;
+                        korisnikNew.url_profilna = k.url_profilna;
+                        KorisnikList.add(korisnikNew);
+                    }
+
+                    userServiceHandler.onDataArrived(KorisnikList,true);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Korisnik>> call, Throwable t) {
+
+            }
+        });
+
+
+
+    }
+
 }

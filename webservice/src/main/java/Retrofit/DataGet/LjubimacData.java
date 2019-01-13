@@ -89,5 +89,52 @@ public class LjubimacData extends AppCompatActivity  {
 
     }
 
+    public void DownloadByUserId(String userId){
+
+        LjubimciService api = retrofit.create(LjubimciService.class);
+
+        Call<List<Ljubimac>> call = api.GetLjubimac("https://airprojekt.000webhostapp.com/services.php?ljubimci_korID="+userId);
+
+        call.enqueue(new Callback<List<Ljubimac>>() {
+            @Override
+            public void onResponse(Call<List<Ljubimac>> call, Response<List<Ljubimac>> response) {
+
+                List<Ljubimac> ljubimac = response.body();
+
+                LjubimacList.clear();
+
+                if(ljubimac.get(0) == null)
+                {
+                    petServiceHandler.onDataArrived(LjubimacList, true);
+                }
+                else {
+                    for (Ljubimac l : ljubimac) {
+                        Ljubimac ljubimacNew = new Ljubimac();
+                        ljubimacNew.godina = l.godina;
+                        ljubimacNew.id = l.id;
+                        ljubimacNew.ime = l.ime;
+                        ljubimacNew.kartica = l.kartica;
+                        ljubimacNew.masa = l.masa;
+                        ljubimacNew.opis = l.opis;
+                        ljubimacNew.url_slike = l.url_slike;
+                        ljubimacNew.spol = l.spol;
+                        ljubimacNew.vrsta = l.vrsta;
+                        ljubimacNew.vlasnik=l.vlasnik;
+                        LjubimacList.add(ljubimacNew);
+                    }
+                    petServiceHandler.onDataArrived(LjubimacList,true);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Ljubimac>> call, Throwable t) {
+
+            }
+        });
+
+
+
+    }
 
 }
