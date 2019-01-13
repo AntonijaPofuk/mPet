@@ -80,6 +80,10 @@ public class PocetnaUlogirani extends Fragment {
                                 }
         );
 
+
+
+
+
         //Fetching email from shared preferences
         /*SharedPreferences sp = this.getActivity().getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
         String id = sp.getString(Config.ID_SHARED_PREF,"");
@@ -179,7 +183,7 @@ public class PocetnaUlogirani extends Fragment {
 
     private void swapFragment2(){
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.mainFrame, new ModulNavigationFragment());
+        ft.replace(R.id.mainFrame, new KorisnikUredivanje());
         ft.addToBackStack(null);
         ft.commit();
 

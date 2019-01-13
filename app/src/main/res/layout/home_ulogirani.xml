@@ -37,6 +37,9 @@
         tools:layout_editor_absoluteX="84dp"
         tools:layout_editor_absoluteY="274dp" />
 
+
+
+
     <Button
         android:id="@+id/btnOdjava"
         android:layout_width="216dp"
@@ -61,5 +64,8 @@
         android:fontFamily="@font/chewyregular"
         android:text="@string/app_name"
         android:textSize="20sp" />
+
+
+
 
 </RelativeLayout>

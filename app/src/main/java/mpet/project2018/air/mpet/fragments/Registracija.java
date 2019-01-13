@@ -126,8 +126,9 @@ public class Registracija extends Fragment implements StatusListener {
                                                     else if(provjeraMail(mail)){
                                                         alertingMessage("E-mail adresa nije u propisnom obliku.", R.drawable.exclamation_message);
                                                     }
-                                                    else
+                                                    else {
                                                         method.Upload(ime, prezime, korIme, adresa, mail, mobitel, telefon, lozinka, slika);
+                                                    }
                                                     //swapFragment();
                                                 }
                                             }
