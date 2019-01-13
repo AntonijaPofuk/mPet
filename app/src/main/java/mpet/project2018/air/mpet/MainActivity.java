@@ -3,6 +3,8 @@ package mpet.project2018.air.mpet;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,15 +19,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
+import Retrofit.DataPost.ObavijestiMethod;
+import Retrofit.Model.Skeniranje;
 import mpet.project2018.air.database.MainDatabase;
-import mpet.project2018.air.database.entities.Skeniranje;
 import mpet.project2018.air.database.entities.Skeniranje_Table;
 import mpet.project2018.air.mpet.fragments.KorisnikUredivanje;
 import mpet.project2018.air.mpet.fragments.MojiLjubimci;
@@ -43,6 +49,7 @@ import mpet.project2018.air.mpet.fragments.Registracija;
 
 import static mpet.project2018.air.mpet.Config.ID_SHARED_PREF;
 import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
+
 import mpet.project2018.air.mpet.obavijesti.NotificationService;
 import mpet.project2018.air.mpet.fragments.ModulNavigationFragment;
 
@@ -117,11 +124,14 @@ TextView textView;
         TextView textView = linearLayout.findViewById(R.id.korImeIzbornik);
         textView.setText("Prijavljeni korisnik: " + id1);
 
+
         popuniKorisnika();
         popuniLjubimca();
         popuniKarticu();
 
-          }
+        checkUnreadNotificationsNumber();
+
+    }
 
 
 
@@ -451,6 +461,38 @@ TextView textView;
         fragmentTransaction.replace(R.id.mainFrame, prikazSvihObavijesti);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+
+    public void checkUnreadNotificationsNumber(){
+        // List <mpet.project2018.air.database.entities.Skeniranje> skeniranjeList1=new SQLite().select().from(mpet.project2018.air.database.entities.Skeniranje.class).where(Skeniranje_Table.id_skeniranja.is(Integer.parseInt(skeniranje.id_skeniranja))).queryList();
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                List <mpet.project2018.air.database.entities.Skeniranje> skeniranjeList1=new SQLite().select().from(mpet.project2018.air.database.entities.Skeniranje.class).where(Skeniranje_Table.procitano.is("0")).queryList();
+
+                Integer counter=0;
+
+                for (mpet.project2018.air.database.entities.Skeniranje s:skeniranjeList1) {
+                    counter++;
+                }
+
+                    if (counter > 0) {
+                        TextView textViewBell = (TextView) findViewById(R.id.notificationTextView);
+                        textViewBell.setTextColor(Color.RED);
+                        textViewBell.setVisibility(View.VISIBLE);
+                        textViewBell.setText(counter.toString());
+                    } else {
+                        TextView textViewBell = (TextView) findViewById(R.id.notificationTextView);
+                        textViewBell.setVisibility(View.INVISIBLE);
+                    }
+
+                handler.postDelayed(this, 1000);
+            }
+        }, 1000);  //delay za obavijesti u milisekundama, promijeniti oboje, oboje moraju biti isti
     }
 
 

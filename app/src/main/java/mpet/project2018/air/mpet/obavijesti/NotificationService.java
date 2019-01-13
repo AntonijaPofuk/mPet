@@ -15,14 +15,11 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
-import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.text.ParseException;
@@ -41,8 +38,6 @@ import mpet.project2018.air.database.entities.Skeniranje_Table;
 import mpet.project2018.air.mpet.Config;
 import mpet.project2018.air.mpet.MainActivity;
 import mpet.project2018.air.mpet.R;
-import mpet.project2018.air.mpet.fragments.PrikazObavijestiDetaljno;
-import mpet.project2018.air.mpet.fragments.PrikazSvihObavijesti;
 
 import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 import static mpet.project2018.air.mpet.obavijesti.CreateNotificationChannel.CHANNEL_ID;
@@ -69,8 +64,6 @@ public class NotificationService extends Service implements SkeniranjeDataLoaded
 
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("Example Service")
-                //.setSmallIcon(R.drawable.ic_launcher_background) -->ikona
-                .setContentText(input)
                 .setContentIntent(pendingIntent)
                 .build();
 
@@ -85,6 +78,7 @@ public class NotificationService extends Service implements SkeniranjeDataLoaded
                     //Provjera ako postoji novo skeniranje
                     loadData();
                     if (listaSkeniranja.size() != 0) {
+
                         for (Skeniranje skeniranje : listaSkeniranja) {
                            List <mpet.project2018.air.database.entities.Skeniranje> skeniranjeList1=new SQLite().select().from(mpet.project2018.air.database.entities.Skeniranje.class).where(Skeniranje_Table.id_skeniranja.is(Integer.parseInt(skeniranje.id_skeniranja))).queryList();
 
@@ -118,14 +112,15 @@ public class NotificationService extends Service implements SkeniranjeDataLoaded
                             }
                         }
 
-                        ObavijestiMethod postNaObavijesti=new ObavijestiMethod();
-                        postNaObavijesti.Upload("213");
                         listaSkeniranja.clear();
+
+
                     }
 
                     handler.postDelayed(this, delay);
                 }
             }, delay);  //delay za obavijesti u milisekundama, promijeniti oboje, oboje moraju biti isti
+
 
         return START_STICKY;
     }
@@ -165,14 +160,14 @@ public class NotificationService extends Service implements SkeniranjeDataLoaded
             Notification notification = new Notification.Builder(this, channelId)
                     .setContentTitle(title)
                     .setContentText(message)
-                    .setSmallIcon(icon)
+                    .setSmallIcon(R.drawable.dog_icon)
                     .setAutoCancel(true)
                     .setContentIntent(pendingIntent)
                     .build();
             notificationManager.notify(m, notification);
         } else {
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                    .setSmallIcon(icon)
+                    .setSmallIcon(R.drawable.dog_icon)
                     .setContentTitle(title)
                     .setContentText(message)
                     .setAutoCancel(true)
@@ -181,7 +176,6 @@ public class NotificationService extends Service implements SkeniranjeDataLoaded
                     .setLights(Color.BLUE, 3000, 3000);
             notificationManager.notify(m, notificationBuilder.build());
         }
-
 
     }
 
@@ -198,5 +192,8 @@ public class NotificationService extends Service implements SkeniranjeDataLoaded
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, 0);
         String idPrijavljeni = sharedPreferences.getString(Config.ID_SHARED_PREF, "").toString();
         listaSkeniranja.addAll(listaSkeniranjaPreuzeta);
+        ObavijestiMethod.Upload("213");
     }
+
+
 }

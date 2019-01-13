@@ -80,14 +80,6 @@ public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCall
 
         mView.getMapAsync(this);
 
-        TextView countUnreadNotificationText=(TextView) getActivity().findViewById(R.id.textViewObavijestiBttn);
-        List<Skeniranje> skeniranjeList1=new SQLite().select().from(mpet.project2018.air.database.entities.Skeniranje.class).where(Skeniranje_Table.procitano.is("0")).queryList();
-        Integer counter=0;
-        for (Skeniranje s:skeniranjeList1) {
-            counter++;
-        }
-        countUnreadNotificationText.setText(counter.toString());
-
         return view;
 
     }
