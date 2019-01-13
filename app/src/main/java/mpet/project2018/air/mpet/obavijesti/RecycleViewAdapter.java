@@ -111,19 +111,20 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
 
         @Override
         public void onClick(View v) {
-            Bundle bundle=new Bundle();
-            bundle.putString("idSkena",IDSkeniranja);
-            FragmentManager fragmentManager = ((AppCompatActivity)v.getContext()).getSupportFragmentManager();
+            Bundle bundle = new Bundle();
+            bundle.putString("idSkena", IDSkeniranja);
+            FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             PrikazObavijestiDetaljno fragmentObavijestiDetaljno = new PrikazObavijestiDetaljno();
             fragmentObavijestiDetaljno.setArguments(bundle);
             fragmentTransaction.replace(R.id.mainFrame, fragmentObavijestiDetaljno);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
-            Skeniranje skeniranje=new Skeniranje();
-            skeniranje=new SQLite().select().from(Skeniranje.class).where(Skeniranje_Table.id_skeniranja.is(Integer.parseInt(IDSkeniranja))).querySingle();
+            Skeniranje skeniranje = new Skeniranje();
+            skeniranje = new SQLite().select().from(Skeniranje.class).where(Skeniranje_Table.id_skeniranja.is(Integer.parseInt(IDSkeniranja))).querySingle();
             skeniranje.setProcitano("1");
             skeniranje.save();
+
         }
 
     }

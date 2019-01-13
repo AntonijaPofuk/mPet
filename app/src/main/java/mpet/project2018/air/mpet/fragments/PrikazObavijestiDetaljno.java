@@ -1,6 +1,5 @@
 package mpet.project2018.air.mpet.fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
@@ -8,9 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +33,6 @@ import mpet.project2018.air.database.entities.Ljubimac;
 import mpet.project2018.air.database.entities.Ljubimac_Table;
 import mpet.project2018.air.database.entities.Skeniranje;
 import mpet.project2018.air.database.entities.Skeniranje_Table;
-import mpet.project2018.air.mpet.MainActivity;
 import mpet.project2018.air.mpet.R;
 
 public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCallback, KorisnikDataLoadedListener {
@@ -67,7 +62,7 @@ public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCall
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         if (mListener != null) {
-            mListener.onFragmentInteraction("Detalji o skeniranju");
+            mListener.onFragmentInteraction("Detalji o obavijesti");
         }
 
 
@@ -219,12 +214,39 @@ public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCall
 
                     TextView mjestoSkena = mainView.findViewById(R.id.txtMjestoSkena);
 
-                    mjestoSkena.setText(adresa.get(0).getLocality());
+                    String locality="";
+                    String subLocality="";
+                    String country="";
+
+                    subLocality=adresa.get(0).getSubLocality();
+                    country=adresa.get(0).getCountryName();
+                    locality=adresa.get(0).getLocality();
+
+                    if(locality!=null && !locality.isEmpty()){
+                        locality=locality+",";
+                    }
+                    else{
+                        locality="";
+                    }
+                    if(subLocality!=null && !locality.isEmpty()){
+                        subLocality=subLocality+",";
+                    }
+                    else {
+                        subLocality="";
+                    }
+                    if(country!=null && !country.isEmpty()){
+                        //ništa
+                    }
+                    else{
+                        country="Nepoznata država";
+                    }
+
+                    mjestoSkena.setText(locality+subLocality+country);
 
                 } else {
                     TextView mjestoSkena = mainView.findViewById(R.id.txtMjestoSkena);
 
-                    mjestoSkena.setText("-");
+                    mjestoSkena.setText("Mjesto nije prepoznato");
                 }
 
             } catch (IOException e) {
