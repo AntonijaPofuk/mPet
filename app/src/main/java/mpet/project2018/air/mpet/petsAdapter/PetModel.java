@@ -15,12 +15,16 @@ public class PetModel {
     private int petId;
     private String petName;
     private Bitmap petImage;
+    private String petCard;
 
-    public PetModel(int id, String n, Bitmap b) {
+    public PetModel(int id, String n, Bitmap b, String c) {
         petId=id;
         petName = n;
         petImage = b;
+        petCard=c;
     }
+
+    public int getId(){return petId;}
 
     public String getName() {
         return petName;
@@ -30,6 +34,8 @@ public class PetModel {
         return petImage;
     }
 
+    public String getPetCard(){return petCard;}
+
 
     public static ArrayList<PetModel> createPetsList(int idVlasnika) {
         ArrayList<PetModel> ljubimci = new ArrayList<PetModel>();
@@ -38,7 +44,8 @@ public class PetModel {
             int id=item.getId_ljubimca();
             String ime=item.getIme();
             Bitmap slika=item.getSlika();
-            ljubimci.add(new PetModel(id,ime, slika));
+            String kartica=item.getKarticaNumber();
+            ljubimci.add(new PetModel(id,ime,slika,kartica));
         }
 
         return ljubimci;

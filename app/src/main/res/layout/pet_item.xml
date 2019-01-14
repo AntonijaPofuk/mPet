@@ -5,23 +5,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
+    android:layout_height="170dp"
     android:paddingTop="10dp"
     android:paddingBottom="10dp"
     android:gravity="center_vertical"
     >
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="103dp"
+        android:orientation="horizontal">
 
-    <ImageView
-        android:id="@+id/pet_picture"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginLeft="10dp"
-        android:layout_weight="1"
-        android:adjustViewBounds="true"
-        android:scaleType="fitStart"
+        <ImageView
+            android:id="@+id/pet_picture"
+            android:layout_width="151dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:adjustViewBounds="true"
+            android:scaleType="fitStart"
 
-        tools:srcCompat="@tools:sample/avatars" />
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <Button
+            android:id="@+id/petItemGumb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="60dp"
+            android:layout_marginTop="20dp"/>
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/pet_name"

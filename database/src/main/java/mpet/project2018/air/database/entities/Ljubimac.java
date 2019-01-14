@@ -122,8 +122,15 @@ public class Ljubimac extends BaseModel {
         this.korisnik = korisnik;
     }
 
-    public Kartica getKartica() {
-        return kartica;
+    public Kartica getKartica() {return kartica;}
+
+    public String getKarticaNumber(){
+        if(kartica==null){
+            return "0";
+        }
+        else{
+            return kartica.getId_kartice();
+        }
     }
 
     public void setKartica(Kartica kartica) {
