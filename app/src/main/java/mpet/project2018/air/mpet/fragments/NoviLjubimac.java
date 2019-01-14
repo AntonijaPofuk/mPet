@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,6 +17,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.res.ResourcesCompat;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -22,8 +26,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -31,6 +40,10 @@ import java.util.regex.Pattern;
 
 import Retrofit.DataPost.LjubimacPodaciMethod;
 import Retrofit.RemotePost.StatusListener;
+import mpet.project2018.air.database.entities.Kartica;
+import mpet.project2018.air.database.entities.Korisnik;
+import mpet.project2018.air.database.entities.Korisnik_Table;
+import mpet.project2018.air.database.entities.Ljubimac;
 import mpet.project2018.air.mpet.R;
 
 import static android.app.Activity.RESULT_OK;
@@ -48,6 +61,16 @@ public class NoviLjubimac extends Fragment implements StatusListener{
 
     private String status;
     private LjubimacPodaciMethod method=new LjubimacPodaciMethod(this);
+
+    private String globalIme;
+    private String globalGodina;
+    private String globalMasa;
+    private String globalVrsta;
+    private String globalSpol;
+    private String globalOpis;
+    private String globalUrlSlike;
+
+    private Target loadtarget;
 
     //public NoviLjubimac(){};
 
@@ -103,17 +126,20 @@ public class NoviLjubimac extends Fragment implements StatusListener{
         buttonSpremi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 EditText imeEdit = (EditText)view.findViewById(R.id.txtIme);
                 String ime= imeEdit.getText().toString();
                 EditText godinaEdit = (EditText)view.findViewById(R.id.txtGodina);
                 String godina= godinaEdit.getText().toString();
                 if(TextUtils.isEmpty(godina)){
                     godina="DEFAULT";
+                    globalGodina="0";
                 }
                 EditText masaEdit = (EditText)view.findViewById(R.id.txtMasa);
                 String masa= masaEdit.getText().toString();
                 if(TextUtils.isEmpty(masa)){
                     masa="DEFAULT";
+                    globalMasa="0";
                 }
                 EditText vrstaEdit = (EditText)view.findViewById(R.id.txtVrsta);
                 String vrsta= vrstaEdit.getText().toString();
@@ -148,6 +174,11 @@ public class NoviLjubimac extends Fragment implements StatusListener{
                     if(provjeraNedozvoljeniZnakovi(ime, vrsta, opis))
                         alertingMessage("Koristili ste nedozvoljene znakove!", R.drawable.exclamation_message);
                     else
+                        globalIme=ime;
+                        globalVrsta=vrsta;
+                        globalSpol=spol;
+                        globalOpis=opis;
+
                         method.Upload(ime, godina, masa, vrsta, spol, opis, "/", vlasnik, kartica, slika);
                     //swapFragment();
                 }
@@ -259,9 +290,50 @@ public class NoviLjubimac extends Fragment implements StatusListener{
         if(s.equals("greska")){
             alertingMessage("Ups, greška...",R.drawable.fail_message);
         }
-        else if(s.equals("uspjesno")){
+        else if(!s.equals("greska")&&!s.equals("uspjesno")){
             Toast.makeText(getActivity(), "Upisali ste ljubimca :)",
                     Toast.LENGTH_LONG).show();
+            /*upis u lokalnu bazu*/
+            if(slika==null){
+                globalUrlSlike="default_ljubimac.png";
+            }
+            else{
+                globalUrlSlike=s + "_ljubimac.png";
+            }
+
+            Korisnik k=new SQLite().select().from(Korisnik.class).where(Korisnik_Table.id_korisnika.is(Integer.parseInt(ID_KORISNIKA))).querySingle();
+            Kartica kart=new Kartica();
+            final Ljubimac noviLjubimac=new Ljubimac();
+            noviLjubimac.setKartica(kart);
+            noviLjubimac.setKorisnik(k);
+            noviLjubimac.setId_ljubimca(Integer.parseInt(s));
+            noviLjubimac.setIme(globalIme);
+            noviLjubimac.setGodine(Integer.parseInt(globalGodina));
+            noviLjubimac.setMasa(Long.parseLong(globalMasa));
+            noviLjubimac.setVrsta_zivotinje(globalVrsta);
+            noviLjubimac.setSpol(globalSpol);
+            noviLjubimac.setOpis(globalOpis);
+            noviLjubimac.setUrl_slike(globalUrlSlike);
+
+            if(bit!=null){
+                noviLjubimac.setSlika(bit);
+            }
+            else {
+                loadtarget = new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        noviLjubimac.setSlika(bitmap);
+                    }
+                    @Override
+                    public void onBitmapFailed(Exception e, Drawable errorDrawable) { }
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) { }
+                };
+
+                Picasso.get().load("https://airprojekt.000webhostapp.com/slike_ljubimaca/default_ljubimac.png").into(loadtarget);
+            }
+            noviLjubimac.save();
+            /**/
             swapFragment();
         }
 
