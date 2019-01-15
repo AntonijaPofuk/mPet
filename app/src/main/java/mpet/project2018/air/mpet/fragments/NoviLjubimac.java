@@ -135,11 +135,17 @@ public class NoviLjubimac extends Fragment implements StatusListener{
                     godina="DEFAULT";
                     globalGodina="0";
                 }
+                else {
+                    globalGodina=godina;
+                }
                 EditText masaEdit = (EditText)view.findViewById(R.id.txtMasa);
                 String masa= masaEdit.getText().toString();
                 if(TextUtils.isEmpty(masa)){
                     masa="DEFAULT";
                     globalMasa="0";
+                }
+                else {
+                    globalMasa=masa;
                 }
                 EditText vrstaEdit = (EditText)view.findViewById(R.id.txtVrsta);
                 String vrsta= vrstaEdit.getText().toString();
