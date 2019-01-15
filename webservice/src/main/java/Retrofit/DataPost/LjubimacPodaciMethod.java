@@ -84,6 +84,67 @@ public class LjubimacPodaciMethod {
 
     }
 
+    /****************************/
+
+    public static void Update(String id, String ime, String godina, String masa, String vrsta, String spol, String opis, String slika) {
+
+        final LjubimacPodaciResponse body = new LjubimacPodaciResponse();
+
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
+        Retrofit retrofit;
+        retrofit = new Retrofit
+                .Builder()
+                .baseUrl("https://airprojekt.000webhostapp.com/")
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+
+
+
+        LjubimacPodaciService api = retrofit.create(LjubimacPodaciService.class);
+
+        LjubimacPodaciRequest request = new LjubimacPodaciRequest();
+
+        request.setId(id);
+
+        request.setIme(ime);
+
+        request.setGodina(godina);
+
+        request.setMasa(masa);
+
+        request.setVrsta(vrsta);
+
+        request.setSpol(spol);
+
+        request.setOpis(opis);
+
+        request.setUrl_slike("/");
+
+        request.setSlika(slika);
+
+        Call<LjubimacPodaciResponse> LjubimacPodaciCall = api.createLjubimac(request,"https://airprojekt.000webhostapp.com/updateLjubimac.php");
+
+        LjubimacPodaciCall.enqueue(new Callback<LjubimacPodaciResponse>() {
+            @Override
+            public void onResponse(Call<LjubimacPodaciResponse> call, Response<LjubimacPodaciResponse> response) {
+
+                LjubimacPodaciResponse resp=response.body();
+                body.id= resp.id;
+                listener.onStatusChanged(body.id);
+
+            }
+
+            @Override
+            public void onFailure(Call<LjubimacPodaciResponse> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+
+    }
 
 
 }
