@@ -101,7 +101,8 @@ public class MojiLjubimci extends Fragment {
         //List<PetModel> listaLjubimaca=new List<PetModel>();
         ArrayList<PetModel> listaLjubimaca=PetModel.createPetsList(Integer.parseInt(ID_KORISNIKA));
 
-        PetsAdapter adapter = new PetsAdapter(listaLjubimaca);
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        PetsAdapter adapter = new PetsAdapter(listaLjubimaca,ft);
         rvLjubimci.setAdapter(adapter);
         rvLjubimci.setLayoutManager(new LinearLayoutManager(getContext()));
 

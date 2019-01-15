@@ -56,6 +56,7 @@ import mpet.project2018.air.mpet.fragments.Registracija;
 import static mpet.project2018.air.mpet.Config.ID_SHARED_PREF;
 import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 
+import mpet.project2018.air.mpet.fragments.UpdateLjubimac;
 import mpet.project2018.air.mpet.obavijesti.NotificationService;
 import mpet.project2018.air.mpet.fragments.ModulNavigationFragment;
 
@@ -74,7 +75,8 @@ public class MainActivity extends AppCompatActivity
         ModulNavigationFragment.OnFragmentInteractionListener,
         MojiLjubimci.OnFragmentInteractionListener,
         NoviLjubimac.OnFragmentInteractionListener,
-        ONama.OnFragmentInteractionListener
+        ONama.OnFragmentInteractionListener,
+        UpdateLjubimac.OnFragmentInteractionListener
         //TODO: dodaj novi fragment ovdje uvijek a na početku fragmenta implementiraj mlistenere
 
 {

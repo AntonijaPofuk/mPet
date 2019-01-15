@@ -1,8 +1,12 @@
 package mpet.project2018.air.mpet.petsAdapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,12 +19,19 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import mpet.project2018.air.mpet.Config;
+import mpet.project2018.air.mpet.MainActivity;
 import mpet.project2018.air.mpet.R;
+import mpet.project2018.air.mpet.fragments.NoviLjubimac;
+import mpet.project2018.air.mpet.fragments.UpdateLjubimac;
 
 import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
+import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 
 public class PetsAdapter extends
-        RecyclerView.Adapter<PetsAdapter.ViewHolder> {
+        RecyclerView.Adapter<PetsAdapter.ViewHolder>  {
+
+    private FragmentTransaction transaction;
 
     @NonNull
     @Override
@@ -39,7 +50,7 @@ public class PetsAdapter extends
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int position) {
         // Get the data model based on position
-        PetModel pet = mPets.get(position);
+        final PetModel pet = mPets.get(position);
 
         // Set item views based on your views and data model
         TextView textView = viewHolder.ime;
@@ -92,7 +103,10 @@ public class PetsAdapter extends
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO uređivanje ljubimca
+                //FragmentTransaction ft= ...
+                transaction.replace(R.id.mainFrame, UpdateLjubimac.newInstance(String.valueOf(pet.getId())));
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
 
@@ -118,8 +132,10 @@ public class PetsAdapter extends
     }
     private List<PetModel> mPets;
 
-    public PetsAdapter(List<PetModel> pets) {
+    public PetsAdapter(List<PetModel> pets, FragmentTransaction f) {
+
         mPets = pets;
+        transaction=f;
     }
 
     /*****/
