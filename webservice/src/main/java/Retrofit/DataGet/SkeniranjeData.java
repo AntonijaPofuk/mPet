@@ -47,7 +47,7 @@ public class SkeniranjeData {
                 SkeniranjeList.clear();
                 if(skeniranje.get(0)==null)
                 {
-                    scanServiceHandler.onDataArrived(SkeniranjeList,true);
+                    scanServiceHandler.onDataArrived(SkeniranjeList,true,true);
                 }
                 else {
                     for (Skeniranje s : skeniranje) {
@@ -64,7 +64,7 @@ public class SkeniranjeData {
                         SkeniranjeList.add(skeniranjeNew);
                     }
 
-                    scanServiceHandler.onDataArrived(SkeniranjeList,true);
+                    scanServiceHandler.onDataArrived(SkeniranjeList,true,true);
                 }
 
             }

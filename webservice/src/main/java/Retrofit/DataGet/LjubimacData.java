@@ -57,7 +57,7 @@ public class LjubimacData extends AppCompatActivity  {
 
                 if(ljubimac.get(0) == null)
                 {
-                    petServiceHandler.onDataArrived(LjubimacList, true);
+                    petServiceHandler.onDataArrived(LjubimacList, true,false);
                 }
                 else {
                     for (Ljubimac l : ljubimac) {
@@ -74,7 +74,7 @@ public class LjubimacData extends AppCompatActivity  {
                         ljubimacNew.vlasnik=l.vlasnik;
                         LjubimacList.add(ljubimacNew);
                     }
-                    petServiceHandler.onDataArrived(LjubimacList,true);
+                    petServiceHandler.onDataArrived(LjubimacList,true,false);
                 }
 
             }
@@ -105,7 +105,7 @@ public class LjubimacData extends AppCompatActivity  {
 
                 if(ljubimac.get(0) == null)
                 {
-                    petServiceHandler.onDataArrived(LjubimacList, true);
+                    petServiceHandler.onDataArrived(LjubimacList, true,true);
                 }
                 else {
                     for (Ljubimac l : ljubimac) {
@@ -122,7 +122,7 @@ public class LjubimacData extends AppCompatActivity  {
                         ljubimacNew.vlasnik=l.vlasnik;
                         LjubimacList.add(ljubimacNew);
                     }
-                    petServiceHandler.onDataArrived(LjubimacList,true);
+                    petServiceHandler.onDataArrived(LjubimacList,true,true);
                 }
 
             }

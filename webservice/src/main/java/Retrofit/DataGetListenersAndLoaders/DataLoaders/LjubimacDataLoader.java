@@ -57,10 +57,12 @@ public class LjubimacDataLoader  {
 
     WebServiceHandler petHandler = new WebServiceHandler() {
         @Override
-        public void onDataArrived(Object result, boolean ok) {
+        public void onDataArrived(Object result, boolean ok, boolean prijava) {
             if(ok){
                 List<Ljubimac> listaLjubimaca = (List<Ljubimac>) result;
-                //savePetInLocalDatabase(listaLjubimaca);
+                if(prijava){
+                    savePetInLocalDatabase(listaLjubimaca);
+                }
                 petsArrived = true;
                 checkDataArrival(listaLjubimaca);
             }

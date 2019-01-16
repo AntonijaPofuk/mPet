@@ -50,7 +50,7 @@ public class KarticaData {
                 KarticaList.clear();
                 if(kartica.get(0)==null)
                 {
-                   cardServiceHandler.onDataArrived(KarticaList,true);
+                   cardServiceHandler.onDataArrived(KarticaList,true,true);
                 }
                else {
                     for (Kartica k : kartica) {
@@ -60,7 +60,7 @@ public class KarticaData {
                         KarticaList.add(karticaNew);
                     }
 
-                    cardServiceHandler.onDataArrived(KarticaList,true);
+                    cardServiceHandler.onDataArrived(KarticaList,true,true);
                 }
 
             }

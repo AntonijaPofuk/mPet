@@ -37,10 +37,12 @@ public class KarticaDataLoader {
 
     WebServiceHandler cardHandler = new WebServiceHandler() {
         @Override
-        public void onDataArrived(Object result, boolean ok) {
+        public void onDataArrived(Object result, boolean ok, boolean prijava) {
             if(ok){
                 List<Kartica> listaKartica = (List<Kartica>) result;
-                saveCardsInLocalDatabase(listaKartica);
+                if(prijava) {
+                    saveCardsInLocalDatabase(listaKartica);
+                }
                 cardsArrived = true;
                 checkDataArrival(listaKartica);
             }

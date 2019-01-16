@@ -49,7 +49,7 @@ public class KorisnikData {
                 KorisnikList.clear();
                 if(korisnik.get(0)==null)
                 {
-                    userServiceHandler.onDataArrived(KorisnikList,true);
+                    userServiceHandler.onDataArrived(KorisnikList,true, false);
                 }
                 else {
                     for (Korisnik k : korisnik) {
@@ -66,7 +66,7 @@ public class KorisnikData {
                         KorisnikList.add(korisnikNew);
                     }
 
-                    userServiceHandler.onDataArrived(KorisnikList,true);
+                    userServiceHandler.onDataArrived(KorisnikList,true, false);
                 }
 
             }
@@ -95,7 +95,7 @@ public class KorisnikData {
                 KorisnikList.clear();
                 if(korisnik.get(0)==null)
                 {
-                    userServiceHandler.onDataArrived(KorisnikList,true);
+                    userServiceHandler.onDataArrived(KorisnikList,true,true);
                 }
                 else {
                     for (Korisnik k : korisnik) {
@@ -112,7 +112,7 @@ public class KorisnikData {
                         KorisnikList.add(korisnikNew);
                     }
 
-                    userServiceHandler.onDataArrived(KorisnikList,true);
+                    userServiceHandler.onDataArrived(KorisnikList,true,true);
                 }
 
             }

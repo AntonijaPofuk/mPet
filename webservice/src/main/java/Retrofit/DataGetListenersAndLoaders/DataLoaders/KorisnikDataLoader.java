@@ -46,10 +46,12 @@ public class KorisnikDataLoader {
 
     WebServiceHandler userHandler = new WebServiceHandler() {
         @Override
-        public void onDataArrived(Object result, boolean ok) {
+        public void onDataArrived(Object result, boolean ok, boolean prijava) {
             if(ok){
                 List<Korisnik> listaKorisnika = (List<Korisnik>) result;
-                //saveUserInLocalDatabase(listaKorisnika);
+                if(prijava){
+                    saveUserInLocalDatabase(listaKorisnika);
+                }
                 usersArrived = true;
                 checkDataArrival(listaKorisnika);
             }

@@ -47,10 +47,12 @@ public class SkeniranjeDataLoader {
 
     WebServiceHandler scanHandler = new WebServiceHandler() {
         @Override
-        public void onDataArrived(Object result, boolean ok) {
+        public void onDataArrived(Object result, boolean ok, boolean prijava) {
             if(ok){
                 List<Skeniranje> listaSkeniranja = (List<Skeniranje>) result;
-                saveScansInLocalDatabase(listaSkeniranja);
+                if(prijava) {
+                    saveScansInLocalDatabase(listaSkeniranja);
+                }
                 scansArrived = true;
                 checkDataArrival(listaSkeniranja);
             }

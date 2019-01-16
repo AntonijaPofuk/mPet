@@ -2,6 +2,6 @@ package Retrofit.DataGetListenersAndLoaders;
 
 public interface WebServiceHandler {
 
-    void onDataArrived(Object result, boolean ok);
+    void onDataArrived(Object result, boolean ok, boolean prijava);
 
 }
