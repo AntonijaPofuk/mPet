@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -24,6 +25,7 @@ import mpet.project2018.air.mpet.MainActivity;
 import mpet.project2018.air.mpet.R;
 import mpet.project2018.air.mpet.fragments.NoviLjubimac;
 import mpet.project2018.air.mpet.fragments.UpdateLjubimac;
+import mpet.project2018.air.nfc.PisanjeNFCFragment;
 
 import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
 import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
@@ -59,14 +61,20 @@ public class PetsAdapter extends
         img.setImageBitmap(pet.getImage());
         Button button=viewHolder.gumb;
         if(pet.getPetCard()=="0"){
+            button.setText("dodaj karticu");
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //ako nema pridruženu karticu
+                    //transaction.replace(R.id.mainFrame, new PisanjeNFCFragment());
+                    transaction.addToBackStack(null);
+                    transaction.commit();
                 }
             });
         }
         else {
+            button.setText(pet.getPetCard());
+            button.setBackgroundColor(Color.parseColor("#cc0000"));
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
