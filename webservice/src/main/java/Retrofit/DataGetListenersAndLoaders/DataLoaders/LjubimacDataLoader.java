@@ -60,7 +60,7 @@ public class LjubimacDataLoader  {
         public void onDataArrived(Object result, boolean ok) {
             if(ok){
                 List<Ljubimac> listaLjubimaca = (List<Ljubimac>) result;
-                savePetInLocalDatabase(listaLjubimaca);
+                //savePetInLocalDatabase(listaLjubimaca);
                 petsArrived = true;
                 checkDataArrival(listaLjubimaca);
             }

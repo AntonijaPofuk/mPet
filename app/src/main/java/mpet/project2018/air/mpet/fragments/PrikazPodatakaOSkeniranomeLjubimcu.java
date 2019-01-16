@@ -25,6 +25,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
+import mpet.project2018.air.mpet.Config;
 import mpet.project2018.air.mpet.R;
 import mpet.project2018.air.nfc.NFCManager;
 
@@ -44,6 +47,7 @@ import mpet.project2018.air.nfc.NFCManager;
 
 import static android.content.Context.LOCATION_SERVICE;
 import static android.support.v4.content.PermissionChecker.checkSelfPermission;
+import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 
 public class PrikazPodatakaOSkeniranomeLjubimcu extends Fragment implements View.OnClickListener, KorisnikDataLoadedListener, SkeniranjeOnDataPostedListener {
 
@@ -66,12 +70,14 @@ public class PrikazPodatakaOSkeniranomeLjubimcu extends Fragment implements View
     private String kontakt="";
     private String prijavljeniKorisnik;
 
+    private boolean alreadySentFlag=false;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.prikaz_podataka_skeniranog_ljubimca, container, false);
-
+        petPic=view.findViewById(R.id.imageView2);
         petDescp = view.findViewById(R.id.PetOpisValue);
         petName = view.findViewById(R.id.PetNameValue);
         owner = view.findViewById(R.id.KontaktVlasnikValue);
@@ -87,10 +93,13 @@ public class PrikazPodatakaOSkeniranomeLjubimcu extends Fragment implements View
             downloadedPet = (Ljubimac) bundle.getSerializable("downloadPet");
             popuniPetPoljaSaPodacima(downloadedPet);
             loadKorisnikData(downloadedPet.vlasnik);
+            Picasso.get().load("https://airprojekt.000webhostapp.com/slike_ljubimaca/" + downloadedPet.url_slike).into(petPic);
         }
 
-        SharedPreferences mSettings = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        prijavljeniKorisnik=mSettings.getString("ulogiraniKorisnikId","DEFAULT");
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREF_NAME, 0);
+        prijavljeniKorisnik = sharedPreferences.getString(Config.ID_SHARED_PREF, "DEFAULT").toString();
+
+
 
         String[] LOCATION_PERMS={Manifest.permission.ACCESS_FINE_LOCATION};
 
@@ -158,6 +167,7 @@ public class PrikazPodatakaOSkeniranomeLjubimcu extends Fragment implements View
         else petYears.setText("Godine nisu unesene");
 
 
+
     }
 
     private void popuniUserPoljaSaPodacima(Korisnik downKorisnik)
@@ -172,6 +182,9 @@ public class PrikazPodatakaOSkeniranomeLjubimcu extends Fragment implements View
         else ownerPhone.setText("Podaci nisu uneseni");
         if(emptyFieldCheck(downKorisnik.broj_mobitela)) ownerCell.setText(downKorisnik.broj_mobitela);
         else ownerCell.setText("Podaci nisu uneseni");
+
+
+
     }
 
     @Override
@@ -220,9 +233,10 @@ public class PrikazPodatakaOSkeniranomeLjubimcu extends Fragment implements View
             longitude= String.valueOf(location.getLongitude());
             latitude= String.valueOf(location.getLatitude());
             Toast.makeText(getActivity(), "Stiglo", Toast.LENGTH_SHORT).show();
-            if(prijavljeniKorisnik!="DEFAULT")
+            if(prijavljeniKorisnik!="DEFAULT" && !alreadySentFlag)
             {
                 POSTdata();
+                alreadySentFlag=true;
             }
         }
 

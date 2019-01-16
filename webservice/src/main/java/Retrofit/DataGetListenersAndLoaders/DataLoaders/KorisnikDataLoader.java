@@ -49,7 +49,7 @@ public class KorisnikDataLoader {
         public void onDataArrived(Object result, boolean ok) {
             if(ok){
                 List<Korisnik> listaKorisnika = (List<Korisnik>) result;
-                saveUserInLocalDatabase(listaKorisnika);
+                //saveUserInLocalDatabase(listaKorisnika);
                 usersArrived = true;
                 checkDataArrival(listaKorisnika);
             }
