@@ -37,6 +37,7 @@ import com.squareup.picasso.Target;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import Retrofit.DataPost.LjubimacPodaciMethod;
@@ -46,6 +47,8 @@ import mpet.project2018.air.database.entities.Korisnik;
 import mpet.project2018.air.database.entities.Korisnik_Table;
 import mpet.project2018.air.database.entities.Ljubimac;
 import mpet.project2018.air.database.entities.Ljubimac_Table;
+import mpet.project2018.air.database.entities.Skeniranje;
+import mpet.project2018.air.database.entities.Skeniranje_Table;
 import mpet.project2018.air.mpet.R;
 
 import static android.app.Activity.RESULT_OK;
@@ -107,7 +110,7 @@ public class UpdateLjubimac extends Fragment implements StatusListener{
         readBundle(bundle);
 
         //return inflater.inflate(R.layout.novi_ljubimac, container, false);
-        final View view = inflater.inflate(R.layout.novi_ljubimac, container, false);
+        final View view = inflater.inflate(R.layout.update_ljubimac, container, false);
 
         if (mListener != null) {
             mListener.onFragmentInteraction("Podaci ljubimca");
@@ -115,6 +118,7 @@ public class UpdateLjubimac extends Fragment implements StatusListener{
 
         Button buttonSpremi=(Button) view.findViewById(R.id.btnNoviLjubimacSpremi);
         Button buttonOdustani=(Button) view.findViewById(R.id.btnNoviLjubimacOdustani);
+        Button buttonObrisi=(Button) view.findViewById(R.id.btnLjubimacObrisi);
         imageButton= (ImageButton) view.findViewById(R.id.btnChooseImage);
 
         imageButton.setOnClickListener(new View.OnClickListener() {
@@ -135,7 +139,7 @@ public class UpdateLjubimac extends Fragment implements StatusListener{
                 String ime= imeEdit.getText().toString();
                 EditText godinaEdit = (EditText)view.findViewById(R.id.txtGodina);
                 String godina= godinaEdit.getText().toString();
-                if(TextUtils.isEmpty(godina)){
+                if(TextUtils.isEmpty(godina)||godina.equals("0")){
                     godina="DEFAULT";
                     globalGodina="0";
                 }
@@ -144,7 +148,7 @@ public class UpdateLjubimac extends Fragment implements StatusListener{
                 }
                 EditText masaEdit = (EditText)view.findViewById(R.id.txtMasa);
                 String masa= masaEdit.getText().toString();
-                if(TextUtils.isEmpty(masa)){
+                if(TextUtils.isEmpty(masa)||masa.equals("0.0")){
                     masa="DEFAULT";
                     globalMasa="0";
                 }
@@ -189,6 +193,29 @@ public class UpdateLjubimac extends Fragment implements StatusListener{
                     //swapFragment();
                 }
 
+            }
+        });
+
+        buttonObrisi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final android.support.v7.app.AlertDialog alertDialog = new android.support.v7.app.AlertDialog.Builder(getContext()).create();
+                alertDialog.setTitle("Jeste li sigurni? Brišu se i sva skeniranja.");
+                alertDialog.setButton(android.support.v7.app.AlertDialog.BUTTON_NEGATIVE, "Odustani", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        alertDialog.dismiss();
+                    }
+                });
+                alertDialog.setButton(android.support.v7.app.AlertDialog.BUTTON_POSITIVE, "Obriši", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //brisanje ljubimca
+                        method.DeleteLjubimac(ID_LJUBIMCA,uredivaniLjubimac.getKarticaNumber(),uredivaniLjubimac.getUrl_slike());
+                    }
+                });
+
+                alertDialog.show();
             }
         });
 
@@ -325,6 +352,23 @@ public class UpdateLjubimac extends Fragment implements StatusListener{
         if(s.equals("greska")){
             alertingMessage("Ups, greška...",R.drawable.fail_message);
         }
+        else if(s.equals("uspjesno")){
+            Toast.makeText(getActivity(), "Ažurirali ste podatke :)",
+                    Toast.LENGTH_LONG).show();
+            /*upis u lokalnu bazu*/
+            if(!uredivaniLjubimac.getKarticaNumber().equals("0")) {
+                List<Skeniranje> skeniranja = new SQLite().select().from(Skeniranje.class).where(Skeniranje_Table.kartica_id_kartice.is(uredivaniLjubimac.getKartica().getId_kartice())).queryList();
+                for (Skeniranje scan : skeniranja) {
+                    scan.delete();
+                }
+            }
+            Kartica k=new Kartica();
+            uredivaniLjubimac.setKartica(k);
+            uredivaniLjubimac.update();
+            uredivaniLjubimac.delete();
+            /**/
+            swapFragment();
+        }
         else if(!s.equals("greska")&&!s.equals("uspjesno")){
             Toast.makeText(getActivity(), "Ažurirali ste podatke :)",
                     Toast.LENGTH_LONG).show();
@@ -339,7 +383,7 @@ public class UpdateLjubimac extends Fragment implements StatusListener{
             //uredivaniLjubimac.setId_ljubimca(Integer.parseInt(s));
             uredivaniLjubimac.setIme(globalIme);
             uredivaniLjubimac.setGodine(Integer.parseInt(globalGodina));
-            uredivaniLjubimac.setMasa(Long.parseLong(globalMasa));
+            uredivaniLjubimac.setMasa(Float.parseFloat(globalMasa));
             uredivaniLjubimac.setVrsta_zivotinje(globalVrsta);
             uredivaniLjubimac.setSpol(globalSpol);
             uredivaniLjubimac.setOpis(globalOpis);

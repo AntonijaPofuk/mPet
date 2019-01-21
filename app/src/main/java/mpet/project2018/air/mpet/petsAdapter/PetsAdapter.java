@@ -91,7 +91,6 @@ public class PetsAdapter extends
                     transaction.replace(R.id.mainFrame, UklanjanjeKartice.newInstance(String.valueOf(pet.getId())));
                     transaction.addToBackStack(null);
                     transaction.commit();
-
                 }
             });
         }
@@ -101,14 +100,9 @@ public class PetsAdapter extends
             public boolean onLongClick(View v) {
 
                 final AlertDialog alertDialog = new AlertDialog.Builder(viewHolder.itemView.getContext()).create();
-                alertDialog.setTitle("Zaista želiti obrisati?");
-                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OBRIŠI", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //TODO brisanje ljubimca
-                    }
-                });
-                alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Odustani", new DialogInterface.OnClickListener() {
+                alertDialog.setTitle(R.string.savjetiLjubimac);
+
+                alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         alertDialog.dismiss();

@@ -22,7 +22,7 @@ public class Ljubimac extends BaseModel {
 
     @Column String ime;
     @Column int godine;
-    @Column long masa;
+    @Column float masa;
     @Column String vrsta_zivotinje;
     @Column String spol;
     @Column String opis;
@@ -78,7 +78,7 @@ public class Ljubimac extends BaseModel {
         return masa;
     }
 
-    public void setMasa(long masa) {
+    public void setMasa(float masa) {
         this.masa = masa;
     }
 

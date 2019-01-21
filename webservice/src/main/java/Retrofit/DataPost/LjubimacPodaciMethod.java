@@ -193,5 +193,53 @@ public class LjubimacPodaciMethod {
 
     }
 
+    /****************************/
+
+    public static void DeleteLjubimac(String id, String kartica, String urlSlike) {
+
+        final LjubimacPodaciResponse body = new LjubimacPodaciResponse();
+
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
+        Retrofit retrofit;
+        retrofit = new Retrofit
+                .Builder()
+                .baseUrl("https://airprojekt.000webhostapp.com/")
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+
+
+
+        LjubimacPodaciService api = retrofit.create(LjubimacPodaciService.class);
+
+        LjubimacPodaciRequest request = new LjubimacPodaciRequest();
+
+        request.setId(id);
+        request.setKartica(kartica);
+        request.setUrl_slike(urlSlike);
+
+        Call<LjubimacPodaciResponse> LjubimacPodaciCall = api.createLjubimac(request,"https://airprojekt.000webhostapp.com/deleteLjubimac.php");
+
+        LjubimacPodaciCall.enqueue(new Callback<LjubimacPodaciResponse>() {
+            @Override
+            public void onResponse(Call<LjubimacPodaciResponse> call, Response<LjubimacPodaciResponse> response) {
+
+                LjubimacPodaciResponse resp=response.body();
+                body.id= resp.id;
+                listener.onStatusChanged(body.id);
+
+            }
+
+            @Override
+            public void onFailure(Call<LjubimacPodaciResponse> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+
+    }
+
 }
 
