@@ -375,7 +375,7 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
         if(kartica==null) return  false;
         else
         {
-            if(kartica.getKorisnik().getId_korisnika()==Integer.parseInt("213")) return true;
+            if(kartica.getKorisnik().getId_korisnika()==Integer.parseInt(logedUserID)) return true;
             else return false;
         }
     }
