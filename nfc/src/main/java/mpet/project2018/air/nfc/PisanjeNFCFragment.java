@@ -98,14 +98,6 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
 
             Toast.makeText(getActivity(), logedUserID+" "+ljubimacID, Toast.LENGTH_SHORT).show();
 
-            // Odkomentirati kad se spojimo s loginom
-            //Bundle bundle = this.getArguments();
-            //ljubimacID = bundle.getInt("petToPutOnTag");
-
-
-            //SharedPreferences mSettings = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-            //logedUserID=mSettings.getInt("ulogiraniKorisnikId",0);
-
             return  view;
         }
 
@@ -123,9 +115,7 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
 
         @Override
         public void onResume() {
-            //Metode za testiranje bez uređaja
-            //testing();
-            //actionsIfFormatOKAndLocked("6542fer74z");
+
             super.onResume();
             Intent intent1 = new Intent(getActivity(), commonMethodsInstance.getContainerActivity()).addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
             PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), 0, intent1, 0);
@@ -169,7 +159,7 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
                         String tagCode = nfcInstance.getCodeFromNdefRecord(nfcInstance.getFirstNdefRecord(nfcInstance.getNdefMessageFromIntent(intent)));
                         upisanaKartica=tagCode;
 
-                        Toast.makeText(runningActivity, tagCode, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), tagCode, Toast.LENGTH_SHORT).show();
 
                         if (nfcInstance.checkFormat(tagCode)) {
                             if(checkLockedStatus(intent)) writeToNFC(intent);
@@ -193,12 +183,12 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
         {
             if(!nfcInstance.isLocked(nfcInstance.getTag(intent)))
             {
-                Toast.makeText(runningActivity, "Locked", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Locked", Toast.LENGTH_SHORT).show();
                 return false;
             }
             else
                 {
-                    Toast.makeText(runningActivity, "Not Locked", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Not Locked", Toast.LENGTH_SHORT).show();
                 return true;
             }
         }
@@ -227,14 +217,6 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
                 Log.e("onNewIntent", e.getMessage());
             }
         }
-
-        private void testing()
-        {
-            String tagKey=randomTagKeyGenerator();
-            KarticaMethod methodPost=new KarticaMethod(this);
-            methodPost.Upload(tagKey,String.valueOf(logedUserID));
-        }
-
 
         private void outputValidationStatus(boolean validationStatus) {
         nfcProgress.setVisibility(View.INVISIBLE);
@@ -324,7 +306,7 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
                     novaKartica.save();
 
                     LjubimacMethod ljubimacSwitch=new LjubimacMethod(this);
-                   // ljubimacSwitch.Upload("",Integer.paljubimacID,idKartice,"pridruzivanje");
+                    ljubimacSwitch.Upload("",ljubimacID.toString(),idKartice,"pridruzivanje");
 
                     //Kartica kartica=   SQLite.select().from(Kartica.class).where(Kartica_Table.id_kartice.is(idKartice)).querySingle();
                     //List<Kartica> lista=SQLite.select().from(Kartica.class).queryList();
@@ -346,7 +328,7 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
 
     private void writePetToDataBase(String petID)
     {
-        Toast.makeText(runningActivity, petID, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), petID, Toast.LENGTH_SHORT).show();
         if(petID!="0")
         {
             if(switchFlag){
