@@ -55,6 +55,9 @@
     <string name="masa">Masa</string>
     <string name="godRodjenja">Godina rođenja</string>
     <string name="opis">Opis</string>
+    <string name="brisanje">Obriši</string>
+    <string name="ukloniKarticu">Ukloni</string>
+
 
     <string name="pet_age_label">Godine</string>
     <string name="pet_gender_label">Spol</string>

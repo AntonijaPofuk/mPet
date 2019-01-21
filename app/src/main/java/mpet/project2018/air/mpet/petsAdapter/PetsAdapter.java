@@ -27,6 +27,7 @@ import mpet.project2018.air.mpet.MainActivity;
 import mpet.project2018.air.mpet.R;
 import mpet.project2018.air.mpet.fragments.NoviLjubimac;
 import mpet.project2018.air.mpet.fragments.PrikazPodatakaOSkeniranomeLjubimcu;
+import mpet.project2018.air.mpet.fragments.UklanjanjeKartice;
 import mpet.project2018.air.mpet.fragments.UpdateLjubimac;
 import mpet.project2018.air.nfc.PisanjeNFCFragment;
 
@@ -87,6 +88,10 @@ public class PetsAdapter extends
                 @Override
                 public void onClick(View v) {
                     //ako ima pridruženu karticu
+                    transaction.replace(R.id.mainFrame, UklanjanjeKartice.newInstance(String.valueOf(pet.getId())));
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+
                 }
             });
         }
