@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btnLjubimacObrisi"
+        android:layout_width="77dp"
+        android:layout_height="63dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="41dp"
+        android:layout_marginBottom="17dp"
+        android:background="#8492A6"
+        android:fontFamily="@font/chewyregular"
+        android:text="@string/brisanje"
+        android:textColor="#e60000"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/txtVrsta"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/robotoblack"
+        android:text="@string/imeLjub" />
+
+    <EditText
+        android:id="@+id/txtIme"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_alignStart="@+id/textView"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="37dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:fontFamily="@font/robotoblack"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="177dp"
+        android:layout_marginTop="71dp"
+        android:fontFamily="@font/robotoblack"
+        android:text="@string/vrsta" />
+
+    <EditText
+        android:id="@+id/txtVrsta"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/textView2"
+        android:layout_alignStart="@+id/textView2"
+        android:layout_marginTop="0dp"
+        android:ems="10"
+        android:hint="@string/vrsta_opis"
+        android:fontFamily="@font/robotoblack"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/txtMasa"
+        android:layout_width="220dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="151dp"
+        android:ems="10"
+        android:hint="@string/masa"
+        android:inputType="numberDecimal"
+        android:fontFamily="@font/robotoblack"
+        android:text="" />
+
+    <EditText
+        android:id="@+id/txtGodina"
+        android:layout_width="220dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="254dp"
+        android:ems="10"
+        android:hint="@string/godRodjenja"
+        android:inputType="number"
+        android:fontFamily="@font/robotoblack"
+        android:text="" />
+
+
+    <Spinner
+        android:id="@+id/spinnerSpol"
+        android:layout_width="217dp"
+        android:layout_height="38dp"
+        android:layout_alignStart="@+id/txtGodina"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="204dp"
+        android:entries="@array/spolovi"
+        android:fontFamily="@font/robotoblack"
+        android:prompt="@string/odabir_spol" />
+
+    <EditText
+        android:id="@+id/txtOpis"
+        android:layout_width="330dp"
+        android:layout_height="76dp"
+        android:layout_alignTop="@+id/textView"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="29dp"
+        android:layout_marginTop="293dp"
+        android:ems="10"
+        android:hint="@string/opis"
+        android:fontFamily="@font/robotoblack"
+        android:inputType="textMultiLine" />
+
+
+    <Button
+        android:id="@+id/btnNoviLjubimacSpremi"
+        android:layout_width="77dp"
+        android:layout_height="63dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="151dp"
+        android:layout_marginBottom="16dp"
+        android:background="#8492A6"
+        android:fontFamily="@font/chewyregular"
+        android:text="@string/gumbSpremi"
+        android:textColor="#FFCB57"
+        android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/btnNoviLjubimacOdustani"
+        android:layout_width="110dp"
+        android:layout_height="62dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="27dp"
+        android:layout_marginBottom="17dp"
+        android:background="#8492A6"
+        android:fontFamily="@font/chewyregular"
+        android:text="@string/gumbOdustani"
+        android:textColor="#FFCB57"
+        android:textSize="24sp" />
+
+    <ImageButton
+        android:id="@+id/btnChooseImage"
+        android:layout_width="122dp"
+        android:layout_height="104dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="23dp"
+        android:onClick="chooseImage"
+        android:scaleType="fitCenter"
+        android:src="@drawable/upload_image" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="161dp"
+        android:layout_marginEnd="99dp"
+        android:fontFamily="@font/robotoblack"
+        android:text="[kg]" />
+
+
+</RelativeLayout>
