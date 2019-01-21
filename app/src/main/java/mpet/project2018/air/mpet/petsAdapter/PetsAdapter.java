@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -20,10 +21,12 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import mpet.project2018.air.mpet.CodeHelper.CodeHandlerHelper;
 import mpet.project2018.air.mpet.Config;
 import mpet.project2018.air.mpet.MainActivity;
 import mpet.project2018.air.mpet.R;
 import mpet.project2018.air.mpet.fragments.NoviLjubimac;
+import mpet.project2018.air.mpet.fragments.PrikazPodatakaOSkeniranomeLjubimcu;
 import mpet.project2018.air.mpet.fragments.UpdateLjubimac;
 import mpet.project2018.air.nfc.PisanjeNFCFragment;
 
@@ -65,8 +68,13 @@ public class PetsAdapter extends
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //ako nema pridruženu karticu
-                    //transaction.replace(R.id.mainFrame, new PisanjeNFCFragment());
+
+                    Bundle bundle=new Bundle();
+                    bundle.putSerializable("Pet",pet.getId());
+                    CodeHandlerHelper newInstance=new CodeHandlerHelper();
+                    PisanjeNFCFragment pisanjeFragment = new PisanjeNFCFragment(newInstance);
+                    pisanjeFragment.setArguments(bundle);
+                    transaction.replace(R.id.mainFrame, pisanjeFragment);
                     transaction.addToBackStack(null);
                     transaction.commit();
                 }

@@ -20,6 +20,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Config;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,17 +58,17 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
         }
 
         @SuppressLint("ValidFragment")
-        public PisanjeNFCFragment(ModuleCommonMethods supportClass, Activity rA)
+        public PisanjeNFCFragment(ModuleCommonMethods supportClass)
         {
             commonMethodsInstance=supportClass;
-            runningActivity=rA;
+            //runningActivity=rA;
         }
 
         private ModuleCommonMethods commonMethodsInstance;
         private NFCManager nfcInstance;
-        private String ljubimacID="1"; // id ljubimca koji se želi staviti na karticu, Prima se preko bundlea kod create fragmenta
+        private Integer ljubimacID; // id ljubimca koji se želi staviti na karticu, Prima se preko bundlea kod create fragmenta
         private String upisanaKartica; // kartica
-        private int logedUserID=213; // logirani user, dohvaća se preko shared prefsa
+        private String logedUserID=""; // logirani user, dohvaća se preko shared prefsa
         private TextView nfcOutput;
         private ProgressBar nfcProgress;
         private Activity runningActivity;
@@ -86,6 +87,16 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
 
             IntentFilter filter = new IntentFilter(NfcAdapter.ACTION_ADAPTER_STATE_CHANGED);
             getActivity().registerReceiver(mReceiver, filter);
+
+            Bundle bundle = this.getArguments();
+            if (bundle != null) {
+                ljubimacID =  bundle.getInt("Pet");
+            }
+
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPref", 0);
+            logedUserID = sharedPreferences.getString("ulogiraniKorisnikId", "DEFAULT").toString();
+
+            Toast.makeText(getActivity(), logedUserID+" "+ljubimacID, Toast.LENGTH_SHORT).show();
 
             // Odkomentirati kad se spojimo s loginom
             //Bundle bundle = this.getArguments();
@@ -307,13 +318,13 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
                 {
 
                     upisanaKartica=idKartice;
-                    Korisnik logiraniKorisnik= SQLite.select().from(Korisnik.class).where(Korisnik_Table.id_korisnika.is(logedUserID)).querySingle();
+                    Korisnik logiraniKorisnik= SQLite.select().from(Korisnik.class).where(Korisnik_Table.id_korisnika.is(Integer.parseInt(logedUserID))).querySingle();
                     Kartica novaKartica=new Kartica(idKartice);
                     novaKartica.setKorisnik(logiraniKorisnik);
                     novaKartica.save();
 
                     LjubimacMethod ljubimacSwitch=new LjubimacMethod(this);
-                    ljubimacSwitch.Upload("",ljubimacID,idKartice,"pridruzivanje");
+                   // ljubimacSwitch.Upload("",Integer.paljubimacID,idKartice,"pridruzivanje");
 
                     //Kartica kartica=   SQLite.select().from(Kartica.class).where(Kartica_Table.id_kartice.is(idKartice)).querySingle();
                     //List<Kartica> lista=SQLite.select().from(Kartica.class).queryList();
@@ -411,13 +422,13 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
                 if(checkPetInLocalDB(tagCode)){
                     switchFlag=true;
                     LjubimacMethod ljubimacSwitch=new LjubimacMethod(this);
-                    ljubimacSwitch.Upload(returnPetFromLocalDB(tagCode),ljubimacID,"","zamjena");
+                    ljubimacSwitch.Upload(returnPetFromLocalDB(tagCode),ljubimacID.toString(),"","zamjena");
 
                 }
                 else{
                     switchFlag=false;
                     LjubimacMethod ljubimacSwitch=new LjubimacMethod(this);
-                    ljubimacSwitch.Upload("",ljubimacID,tagCode,"pridruzivanje");
+                    ljubimacSwitch.Upload("",ljubimacID.toString(),tagCode,"pridruzivanje");
 
                 }
 
