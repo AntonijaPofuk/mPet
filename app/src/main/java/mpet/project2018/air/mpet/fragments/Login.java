@@ -213,6 +213,13 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
             NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
             navigationView.getMenu().clear();
             navigationView.inflateMenu(R.menu.activity_main_drawer);
+
+            navigationView.getHeaderView(0);
+            navigationView.removeHeaderView(navigationView.getHeaderView(0));
+            navigationView.inflateHeaderView(R.layout.nav_header);
+
+
+
             /**/
             clearBackStack();
             FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();

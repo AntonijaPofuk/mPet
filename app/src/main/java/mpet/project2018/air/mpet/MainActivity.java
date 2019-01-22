@@ -19,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
@@ -78,7 +79,10 @@ public class MainActivity extends AppCompatActivity
 {
 
     private DrawerLayout dl;
-TextView textView;
+    private LinearLayout hl;
+
+
+    TextView textView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,6 +117,7 @@ TextView textView;
             ft1.commit();
             navigationView.getMenu().clear();
             navigationView.inflateMenu(R.menu.activity_main_drawer_logged_out);
+            navigationView.inflateHeaderView(R.layout.nav_header_logged_out);
             }
 
         else {
@@ -121,39 +126,28 @@ TextView textView;
             ft2.commit();
             navigationView.getMenu().clear();
             navigationView.inflateMenu(R.menu.activity_main_drawer);
-            }
+            navigationView.inflateHeaderView(R.layout.nav_header);
+
+        }
 
 //promjena imena korisnika u izborniku
 
-        View linearLayout = navigationView.inflateHeaderView(R.layout.nav_header);
+        //View linearLayout = navigationView.inflateHeaderView(R.layout.nav_header);
         /*
         TextView textView = linearLayout.findViewById(R.id.korImeIzbornik);
         textView.setText("Prijavljeni korisnik: " + id1);
 
 
 */
-
         checkUnreadNotificationsNumber();
 
     }
-
-
-
-
-
     public void openUserData(View v){
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.mainFrame, new UserUpdate());
         ft.commit();
        //----------------------------------------------------------------
-
-
-
-
-        
-
-
 /*
 
                 FragmentManager fragmentManager = getSupportFragmentManager();
@@ -167,15 +161,12 @@ TextView textView;
 
    /*private void reg(){
         SkeniranjeNFCKartice mDiscountListFragment = new SkeniranjeNFCKartice();
-=======
         navigationView.setCheckedItem(R.id.nav_frag1);         //Provjera prvog elementa u draweru
         //FragmentTransaction ft = getSupportFragmentManager().beginTransaction();             //otvaranje fragmenta
         //ft.replace(R.id.mainFrame, new HomeLoggedOut());
         //ft.commit();
 
-
         reg2();
-
 
         //---------------------------------------------------------------
         MainDatabase.initializeDatabase(this);
@@ -215,17 +206,14 @@ TextView textView;
         mFragmentTransaction.commit();
     }
 */
-
         @Override
         public void onBackPressed() {
 
          android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
          if(fm.getBackStackEntryCount()>0){
              fm.popBackStack();
-
          }
             else{super.onBackPressed();}
-
 
         }
 
@@ -293,6 +281,7 @@ TextView textView;
 
     public void Navigation(){
         dl = (DrawerLayout) findViewById(R.id.drawer_layout);
+        hl = (LinearLayout) findViewById(R.id.nav_header);
 
         NavigationView navigationView;
         navigationView = findViewById(R.id.nav_view);
@@ -353,9 +342,13 @@ TextView textView;
                                 HomeLoggedOut pocetna=new HomeLoggedOut();
                                 swapLogout(pocetna);
                                 /*zamjena izbornika*/
-                                NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                                NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);//bez head
                                 navigationView.getMenu().clear();
-                                navigationView.inflateMenu(R.menu.activity_main_drawer_logged_out);
+                                navigationView.inflateMenu(R.menu.activity_main_drawer_logged_out); //opcije
+
+                                navigationView.getHeaderView(0);
+                                navigationView.removeHeaderView(navigationView.getHeaderView(0));
+                                navigationView.inflateHeaderView(R.layout.nav_header_logged_out); //head
 
                                 deleteDatabase();
 

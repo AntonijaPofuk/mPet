@@ -135,6 +135,12 @@ public class HomeLoggedIn extends Fragment {
                         navigationView.getMenu().clear();
                         navigationView.inflateMenu(R.menu.activity_main_drawer_logged_out);
 
+
+
+                        navigationView.getHeaderView(0);
+                        navigationView.removeHeaderView(navigationView.getHeaderView(0));
+                        navigationView.inflateHeaderView(R.layout.nav_header_logged_out);
+
                         deleteDatabase();
 
                         clearBackStack();

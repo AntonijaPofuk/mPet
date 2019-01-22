@@ -24,7 +24,7 @@
             android:layout_marginStart="61dp"
             android:layout_marginTop="80dp"
             android:fontFamily="@font/robotoblack"
-            android:text="Korisnicko ime:"
+            android:text="Korisničko ime"
             android:textSize="20dp" />
 
         <TextView
@@ -36,7 +36,7 @@
             android:layout_marginStart="67dp"
             android:layout_marginTop="178dp"
             android:fontFamily="@font/robotoblack"
-            android:text="Lozinka:"
+            android:text="Lozinka"
             android:textSize="20dp" />
 
         <EditText
