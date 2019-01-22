@@ -19,7 +19,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -30,25 +29,20 @@ import mpet.project2018.air.database.entities.Skeniranje;
 
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
-import java.text.ParseException;
-import java.util.Date;
 import java.util.List;
 
-import Retrofit.DataPost.ObavijestiMethod;
-
-import mpet.project2018.air.database.MainDatabase;
 import mpet.project2018.air.database.entities.Skeniranje_Table;
 
-import mpet.project2018.air.mpet.fragments.KorisnikUredivanje;
+import mpet.project2018.air.mpet.fragments.HomeLoggedIn;
+import mpet.project2018.air.mpet.fragments.HomeLoggedOut;
+import mpet.project2018.air.mpet.fragments.Login;
+import mpet.project2018.air.mpet.fragments.UserUpdate;
 import mpet.project2018.air.mpet.fragments.MojiLjubimci;
 import mpet.project2018.air.mpet.fragments.NoviLjubimac;
-import mpet.project2018.air.mpet.fragments.ONama;
-import mpet.project2018.air.mpet.fragments.PocetnaUlogirani;
+import mpet.project2018.air.mpet.fragments.AboutUs;
 import mpet.project2018.air.database.entities.Kartica;
 import mpet.project2018.air.database.entities.Korisnik;
 import mpet.project2018.air.database.entities.Ljubimac;
-import mpet.project2018.air.mpet.fragments.PocetnaNeulogirani;
-import mpet.project2018.air.mpet.fragments.Prijava;
 import mpet.project2018.air.mpet.fragments.PrikazObavijestiDetaljno;
 import mpet.project2018.air.mpet.fragments.PrikazSvihObavijesti;
 import mpet.project2018.air.mpet.fragments.Registracija;
@@ -65,18 +59,18 @@ import mpet.project2018.air.mpet.fragments.ModulNavigationFragment;
 public class MainActivity extends AppCompatActivity
         //Listeneri za klikove, OnFragmentInteractionListener je za sve fragmente
         implements
-        PocetnaUlogirani.OnFragmentInteractionListener,
-        PocetnaNeulogirani.OnFragmentInteractionListener,
+        HomeLoggedIn.OnFragmentInteractionListener,
+        HomeLoggedOut.OnFragmentInteractionListener,
         Registracija.OnFragmentInteractionListener,
-        Prijava.OnFragmentInteractionListener,
-        KorisnikUredivanje.OnFragmentInteractionListener,
+        Login.OnFragmentInteractionListener,
+        UserUpdate.OnFragmentInteractionListener,
         NavigationView.OnNavigationItemSelectedListener,
         PrikazObavijestiDetaljno.OnFragmentInteractionListener,
         PrikazSvihObavijesti.OnFragmentInteractionListener,
         ModulNavigationFragment.OnFragmentInteractionListener,
         MojiLjubimci.OnFragmentInteractionListener,
         NoviLjubimac.OnFragmentInteractionListener,
-        ONama.OnFragmentInteractionListener,
+        AboutUs.OnFragmentInteractionListener,
         UpdateLjubimac.OnFragmentInteractionListener,
         UklanjanjeKartice.OnFragmentInteractionListener
         //TODO: dodaj novi fragment ovdje uvijek a na početku fragmenta implementiraj mlistenere
@@ -115,15 +109,15 @@ TextView textView;
         sharedPreferences = this.getSharedPreferences(SHARED_PREF_NAME, 0); //u fragmentu dodaj this.getActivity..... jer nema CONTEXA
         if (sharedPreferences.getString(ID_SHARED_PREF, "ulogiraniKorisnikId").toString().equals("ulogiraniKorisnikId")) { //getString
             FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
-            ft1.replace(R.id.mainFrame, new PocetnaNeulogirani());
+            ft1.replace(R.id.mainFrame, new HomeLoggedOut());
             ft1.commit();
             navigationView.getMenu().clear();
-            navigationView.inflateMenu(R.menu.activity_main_drawer_neulogirani);
+            navigationView.inflateMenu(R.menu.activity_main_drawer_logged_out);
             }
 
         else {
             FragmentTransaction ft2 = getSupportFragmentManager().beginTransaction();
-            ft2.replace(R.id.mainFrame, new PocetnaUlogirani());
+            ft2.replace(R.id.mainFrame, new HomeLoggedIn());
             ft2.commit();
             navigationView.getMenu().clear();
             navigationView.inflateMenu(R.menu.activity_main_drawer);
@@ -150,7 +144,7 @@ TextView textView;
     public void openUserData(View v){
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.mainFrame, new KorisnikUredivanje());
+        ft.replace(R.id.mainFrame, new UserUpdate());
         ft.commit();
        //----------------------------------------------------------------
 
@@ -176,7 +170,7 @@ TextView textView;
 =======
         navigationView.setCheckedItem(R.id.nav_frag1);         //Provjera prvog elementa u draweru
         //FragmentTransaction ft = getSupportFragmentManager().beginTransaction();             //otvaranje fragmenta
-        //ft.replace(R.id.mainFrame, new PocetnaNeulogirani());
+        //ft.replace(R.id.mainFrame, new HomeLoggedOut());
         //ft.commit();
 
 
@@ -258,7 +252,7 @@ TextView textView;
         Fragment fragment = null;
         if (id == R.id.nav_frag1) {
 
-            //fragment = new PocetnaUlogirani();  //Promjena fragmenta iz aktivnosit
+            //fragment = new HomeLoggedIn();  //Promjena fragmenta iz aktivnosit
         } else if (id == R.id.nav_frag2) {
 
         }else if (id == R.id.nav_frag3) {
@@ -314,12 +308,12 @@ TextView textView;
 
                         switch (menuItem.getItemId()){
                             case R.id.nav_frag1:
-                                PocetnaNeulogirani pocetnaNeulogirani = new PocetnaNeulogirani();
+                                HomeLoggedOut pocetnaNeulogirani = new HomeLoggedOut();
                                 swap(pocetnaNeulogirani);
                                 break;
                             /**/
                             case R.id.nav_frag01:
-                                PocetnaUlogirani pocetnaUlogirani = new PocetnaUlogirani();
+                                HomeLoggedIn pocetnaUlogirani = new HomeLoggedIn();
                                 swap(pocetnaUlogirani);
                                 break;
                             /**/
@@ -341,7 +335,7 @@ TextView textView;
                                 break;
 
                             case R.id.nav_frag4:
-                                 ONama onama=new ONama();
+                                 AboutUs onama=new AboutUs();
                                  swap(onama);
                                 break;
                             case R.id.nav_frag5:
@@ -356,19 +350,19 @@ TextView textView;
                                 editor.commit();
                                 /**/
                                 clearBackStack();
-                                PocetnaNeulogirani pocetna=new PocetnaNeulogirani();
+                                HomeLoggedOut pocetna=new HomeLoggedOut();
                                 swapLogout(pocetna);
                                 /*zamjena izbornika*/
                                 NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
                                 navigationView.getMenu().clear();
-                                navigationView.inflateMenu(R.menu.activity_main_drawer_neulogirani);
+                                navigationView.inflateMenu(R.menu.activity_main_drawer_logged_out);
 
                                 deleteDatabase();
 
                                 break;
                             /**/
                             case R.id.nav_frag6:
-                                Prijava prijava = new Prijava();
+                                Login prijava = new Login();
                                 swap(prijava);
                                 break;
                             /**/

@@ -1,44 +1,38 @@
 package mpet.project2018.air.mpet.fragments;
-import android.content.ClipData;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.raizlabs.android.dbflow.sql.language.Delete;
-import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import mpet.project2018.air.database.entities.Kartica;
 import mpet.project2018.air.database.entities.Korisnik;
-import mpet.project2018.air.database.entities.Korisnik_Table;
 import mpet.project2018.air.database.entities.Ljubimac;
 import mpet.project2018.air.database.entities.Skeniranje;
-import mpet.project2018.air.database.entities.Skeniranje_Table;
 import mpet.project2018.air.mpet.Config;
 import mpet.project2018.air.mpet.R;
 
 import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 
 
-public class PocetnaUlogirani extends Fragment {
+public class HomeLoggedIn extends Fragment {
 
     private OnFragmentInteractionListener mListener;
-    public PocetnaUlogirani() {}
+    public HomeLoggedIn() {}
     private String idPrijavljeni;
+    private ProgressDialog progress;
 
 
 
@@ -49,7 +43,7 @@ public class PocetnaUlogirani extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.home_ulogirani, container, false);
+        View view = inflater.inflate(R.layout.home_logged_in, container, false);
         // NOTE : We are calling the onFragmentInteraction() declared in the MainActivity
         // we are sending "Fragment 1" as title parameter when fragment1 is activated
         if (mListener != null) {
@@ -119,7 +113,6 @@ public class PocetnaUlogirani extends Fragment {
     }
 
 
-
     private void logout(){
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
         alertDialogBuilder.setMessage("Sigurno se želite odjaviti?");
@@ -140,7 +133,7 @@ public class PocetnaUlogirani extends Fragment {
                         /*zamjena izbornika*/
                         NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
                         navigationView.getMenu().clear();
-                        navigationView.inflateMenu(R.menu.activity_main_drawer_neulogirani);
+                        navigationView.inflateMenu(R.menu.activity_main_drawer_logged_out);
 
                         deleteDatabase();
 
@@ -179,7 +172,7 @@ public class PocetnaUlogirani extends Fragment {
 
     private void swapFragment(){
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.mainFrame, new PocetnaNeulogirani());
+        ft.replace(R.id.mainFrame, new HomeLoggedOut());
         //ft.addToBackStack(null);
 
         ft.commit();

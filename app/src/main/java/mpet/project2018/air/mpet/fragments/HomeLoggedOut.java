@@ -17,11 +17,11 @@ import mpet.project2018.air.mpet.R;
 import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 
 
-public class PocetnaNeulogirani extends Fragment {
+public class HomeLoggedOut extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public PocetnaNeulogirani() {}
+    public HomeLoggedOut() {}
 
 
     @Override
@@ -32,7 +32,7 @@ public class PocetnaNeulogirani extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.home_ne_ulogirani, container, false);
+        View view = inflater.inflate(R.layout.home_logged_out, container, false);
 
         if (mListener != null) {
             mListener.onFragmentInteraction("Početna");
@@ -53,7 +53,7 @@ public class PocetnaNeulogirani extends Fragment {
                                     public void onClick(View v) {
                                         //startActivity(new Intent(getContext(), LoginActivity.class));
                                         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                                        ft.replace(R.id.mainFrame, new Prijava());
+                                        ft.replace(R.id.mainFrame, new Login());
                                         ft.addToBackStack(null);
 
                                         ft.commit();

@@ -9,8 +9,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
@@ -29,7 +27,6 @@ import java.io.IOException;
 import java.util.regex.Pattern;
 
 import Retrofit.DataPost.KorisnikUredivanjeMethod;
-import Retrofit.DataPost.RegistracijaMethod;
 import Retrofit.RemotePost.StatusListener;
 import mpet.project2018.air.database.entities.Korisnik_Table;
 import mpet.project2018.air.mpet.Config;
@@ -38,12 +35,12 @@ import mpet.project2018.air.mpet.R;
 import static android.app.Activity.RESULT_OK;
 import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 
-public class KorisnikUredivanje extends Fragment implements StatusListener {
-    private KorisnikUredivanje.OnFragmentInteractionListener mListener;
+public class UserUpdate extends Fragment implements StatusListener {
+    private UserUpdate.OnFragmentInteractionListener mListener;
     private KorisnikUredivanjeMethod method=new KorisnikUredivanjeMethod(this);
     //private RegistracijaMethod method=new RegistracijaMethod(this);
 
-    public KorisnikUredivanje() {}
+    public UserUpdate() {}
     public String status=null;
 
     private static int RESULT_LOAD_IMAGE = 1;
@@ -59,7 +56,7 @@ public class KorisnikUredivanje extends Fragment implements StatusListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.update, container, false);
+        final View view = inflater.inflate(R.layout.user_update, container, false);
 
         if (mListener != null) {
             mListener.onFragmentInteraction("Korisnički podaci");
@@ -207,7 +204,7 @@ public class KorisnikUredivanje extends Fragment implements StatusListener {
 
     private void swapFragment(){
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.mainFrame, new PocetnaUlogirani());
+        ft.replace(R.id.mainFrame, new HomeLoggedIn());
         ft.commit();
     }
     private boolean provjeraNedozvoljeniZnakovi(String ime,String prezime,String korIme,String adresa,String mobitel,String telefon){
@@ -260,8 +257,8 @@ public class KorisnikUredivanje extends Fragment implements StatusListener {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof KorisnikUredivanje.OnFragmentInteractionListener) {
-            mListener = (KorisnikUredivanje.OnFragmentInteractionListener) context;
+        if (context instanceof UserUpdate.OnFragmentInteractionListener) {
+            mListener = (UserUpdate.OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
         }

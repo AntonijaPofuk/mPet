@@ -27,7 +27,6 @@ import android.support.v4.app.FragmentTransaction;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.regex.Pattern;
 
 import Retrofit.DataPost.RegistracijaMethod;
@@ -196,7 +195,7 @@ public class Registracija extends Fragment implements StatusListener {
 
     private void swapFragment(){
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.mainFrame, new PocetnaNeulogirani());
+        ft.replace(R.id.mainFrame, new HomeLoggedOut());
         ft.commit();
     }
     @Override

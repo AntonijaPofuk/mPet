@@ -1,29 +1,23 @@
 package mpet.project2018.air.mpet.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.raizlabs.android.dbflow.sql.language.SQLite;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
-
-import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.KarticaDataLoadedListener;
@@ -40,7 +34,6 @@ import Retrofit.Model.Korisnik;
 import Retrofit.Model.Ljubimac;
 import Retrofit.Model.Skeniranje;
 import Retrofit.RemotePost.onLoginValidation;
-import mpet.project2018.air.database.entities.Korisnik_Table;
 import mpet.project2018.air.mpet.Config;
 import mpet.project2018.air.mpet.MainActivity;
 import mpet.project2018.air.mpet.R;
@@ -49,11 +42,11 @@ import static android.content.Context.MODE_PRIVATE;
 import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 
 
-public class Prijava extends Fragment implements onLoginValidation, KorisnikDataLoadedListener, KarticaDataLoadedListener, LjubimacDataLoadedListener, SkeniranjeDataLoadedListener {
+public class Login extends Fragment implements onLoginValidation, KorisnikDataLoadedListener, KarticaDataLoadedListener, LjubimacDataLoadedListener, SkeniranjeDataLoadedListener {
 
     private OnFragmentInteractionListener mListener;
 
-    public Prijava() {}
+    public Login() {}
     EditText edtUsername;
     EditText edtPassword;
     Button btnLogin;
@@ -62,6 +55,9 @@ public class Prijava extends Fragment implements onLoginValidation, KorisnikData
     private SharedPreferences sharedPreferences;
 
     private String globalId;
+
+    private ProgressDialog progress;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,8 +69,10 @@ public class Prijava extends Fragment implements onLoginValidation, KorisnikData
 
         View view = inflater.inflate(R.layout.activity_login, container, false);
         if (mListener != null) {
-            mListener.onFragmentInteraction("Prijava");
+            mListener.onFragmentInteraction("Login");
         }
+
+        checkConnection();
 
         edtUsername = (EditText) view.findViewById(R.id.edtUsername);
         edtPassword = (EditText) view.findViewById(R.id.edtPassword);
@@ -84,7 +82,7 @@ public class Prijava extends Fragment implements onLoginValidation, KorisnikData
         sharedPreferences = this.getActivity().getSharedPreferences("MyPref", 0); //u fragmentu dodaj this.getActivity..... jer nema CONTEXA
         if (sharedPreferences.getString("ulogiraniKorisnikId", "").toString().equals("ulogiraniKorisnikId")) { //getString
             FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.mainFrame, new PocetnaUlogirani());
+            ft.replace(R.id.mainFrame, new HomeLoggedIn());
             ft.addToBackStack(null);
 
             ft.commit();
@@ -100,15 +98,22 @@ public class Prijava extends Fragment implements onLoginValidation, KorisnikData
                 if (validateLogin(username, password)) {
                     //do login
                     doLogin(username, password);
+
+
+                    showLoadingDialog();
+
                 }
+
             }
+
+
         });
 
         btnPrijavaOdustani.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.mainFrame, new PocetnaNeulogirani());
+                ft.replace(R.id.mainFrame, new HomeLoggedOut());
                 ft.addToBackStack(null);
 
                 ft.commit();
@@ -116,9 +121,50 @@ public class Prijava extends Fragment implements onLoginValidation, KorisnikData
             }
         );
 
+
+
+
+
         return view;
     }
 
+
+    protected boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public void checkConnection(){
+        if(!isOnline()){
+            Toast.makeText(getActivity(), "Nije uspostavljena internet veza", Toast.LENGTH_SHORT).show();
+        }
+    }
+    //LoadingDialog
+      public void showLoadingDialog() {
+
+        if (progress == null) {
+            progress = new ProgressDialog(getActivity());
+            progress.setMessage("Molimo pričekajte...");
+            progress.setCancelable(false);
+            progress.setButton("Odustani",(DialogInterface.OnClickListener)null);
+
+        }
+        progress.show();
+    }
+
+    public void dismissLoadingDialog() {
+
+        if (progress != null && progress.isShowing()) {
+            progress.dismiss();
+        }
+    }
+
+
+    /**/
     private boolean validateLogin (String username, String password){
         if (username == null || username.trim().length() == 0) {
             Toast.makeText(getActivity(), "Potrebno je unijeti korisničko ime...", Toast.LENGTH_SHORT).show();
@@ -159,6 +205,8 @@ public class Prijava extends Fragment implements onLoginValidation, KorisnikData
 
             Toast.makeText(getActivity(), "Vas id je"+id, Toast.LENGTH_SHORT).show();
 
+
+
             downloadDatabase(id);
 
             /*zamjena izbornika*/
@@ -168,12 +216,15 @@ public class Prijava extends Fragment implements onLoginValidation, KorisnikData
             /**/
             clearBackStack();
             FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.mainFrame, new PocetnaUlogirani());
+            ft.replace(R.id.mainFrame, new HomeLoggedIn());
             //ft.addToBackStack(null);
             ft.commit();
+            dismissLoadingDialog();
+
 
         } else {
             Toast.makeText(getActivity(), "Korisnicko ime ili lozinka su netocni", Toast.LENGTH_SHORT).show();
+            dismissLoadingDialog();
         }
 
 

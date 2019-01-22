@@ -122,7 +122,7 @@ public class ModulNavigationFragment extends Fragment implements View.OnClickLis
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof PocetnaNeulogirani.OnFragmentInteractionListener) {
+        if (context instanceof HomeLoggedOut.OnFragmentInteractionListener) {
             mListener = (ModulNavigationFragment.OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
