@@ -44,10 +44,10 @@ import static mpet.project2018.air.mpet.obavijesti.CreateNotificationChannel.CHA
 
 public class NotificationService extends Service implements SkeniranjeDataLoadedListener {
 
-    private static List<Skeniranje> listaSkeniranja =new ArrayList<>();
-    private static int delay=5000;//svakih tolko milisekundi provjerava ako postoji nova obavijesti
+    private static List<Skeniranje> listaSkeniranja = new ArrayList<>();
+    private static int delay = 60000*15;//svakih tolko milisekundi provjerava ako postoji nova obavijesti
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-    private Korisnik korisnik=new Korisnik();
+    private Korisnik korisnik = new Korisnik();
 
     @Override
     public void onCreate() {
@@ -70,56 +70,56 @@ public class NotificationService extends Service implements SkeniranjeDataLoaded
         startForeground(1, notification);
 
         loadData();//pozivam da se ucita prije handlera
-            final Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    //Posao koji se radi svakih 15 minuta
-                    //Provjera ako postoji novo skeniranje
-                    loadData();
-                    if (listaSkeniranja.size() != 0) {
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //Posao koji se radi svakih 15 minuta
+                //Provjera ako postoji novo skeniranje
+                loadData();
+                if (listaSkeniranja.size() != 0) {
+                    for (Skeniranje skeniranje : listaSkeniranja) {
+                        List<mpet.project2018.air.database.entities.Skeniranje> skeniranjeList1 = new SQLite().select().from(mpet.project2018.air.database.entities.Skeniranje.class).where(Skeniranje_Table.id_skeniranja.is(Integer.parseInt(skeniranje.id_skeniranja))).queryList();
 
-                        for (Skeniranje skeniranje : listaSkeniranja) {
-                           List <mpet.project2018.air.database.entities.Skeniranje> skeniranjeList1=new SQLite().select().from(mpet.project2018.air.database.entities.Skeniranje.class).where(Skeniranje_Table.id_skeniranja.is(Integer.parseInt(skeniranje.id_skeniranja))).queryList();
+                        if (skeniranje.procitano.contains("0") && skeniranjeList1.isEmpty()) {
 
-                            if (skeniranje.procitano.contains("0") && skeniranjeList1.isEmpty()) {
-                                sendNotification("Vaš ljubimac je skeniran! Pritisnite za detalje ...", "Datum i vrijeme skeniranja : " + skeniranje.datum + " | " + skeniranje.vrijeme,skeniranje.id_skeniranja);
-                               mpet.project2018.air.database.entities.Skeniranje lokalnaBazaSkeniranje=new mpet.project2018.air.database.entities.Skeniranje();
-                                Date datum=null;
-                                try {
-                                    datum=format.parse(skeniranje.datum);
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
-                                lokalnaBazaSkeniranje.setDatum(datum);
-                                lokalnaBazaSkeniranje.setId_skeniranja(Integer.parseInt(skeniranje.id_skeniranja));
-                                lokalnaBazaSkeniranje.setKartica(new Kartica(skeniranje.kartica));
-                                lokalnaBazaSkeniranje.setKontakt(skeniranje.kontakt);
-                                lokalnaBazaSkeniranje.setKoordinata_x(skeniranje.koordinata_x);
-                                lokalnaBazaSkeniranje.setKoordinata_y(skeniranje.koordinata_y);
-                                korisnik.setId_korisnika(Integer.parseInt(skeniranje.korisnik));
-                                lokalnaBazaSkeniranje.setKorisnik(korisnik);
-                                lokalnaBazaSkeniranje.setProcitano(skeniranje.procitano);
-                                lokalnaBazaSkeniranje.setVrijeme(skeniranje.vrijeme);
+                            sendNotification("Vaš ljubimac je skeniran! Pritisnite za detalje ...", "Datum i vrijeme skeniranja : " + skeniranje.datum + " | " + skeniranje.vrijeme, skeniranje.id_skeniranja);
+                            mpet.project2018.air.database.entities.Skeniranje lokalnaBazaSkeniranje = new mpet.project2018.air.database.entities.Skeniranje();
+                            Date datum = null;
+                            try {
+                                datum = format.parse(skeniranje.datum);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            lokalnaBazaSkeniranje.setDatum(datum);
+                            lokalnaBazaSkeniranje.setId_skeniranja(Integer.parseInt(skeniranje.id_skeniranja));
+                            lokalnaBazaSkeniranje.setKartica(new Kartica(skeniranje.kartica));
+                            lokalnaBazaSkeniranje.setKontakt(skeniranje.kontakt);
+                            lokalnaBazaSkeniranje.setKoordinata_x(skeniranje.koordinata_x);
+                            lokalnaBazaSkeniranje.setKoordinata_y(skeniranje.koordinata_y);
+                            korisnik.setId_korisnika(Integer.parseInt(skeniranje.korisnik));
+                            lokalnaBazaSkeniranje.setKorisnik(korisnik);
+                            lokalnaBazaSkeniranje.setProcitano(skeniranje.procitano);
+                            lokalnaBazaSkeniranje.setVrijeme(skeniranje.vrijeme);
 
-                                lokalnaBazaSkeniranje.save();
+                            lokalnaBazaSkeniranje.save();
 
-                                try {
-                                    Thread.sleep(1500);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
+                            try {
+                                Thread.sleep(1500);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
                             }
                         }
-
-                        listaSkeniranja.clear();
-
-
                     }
 
-                    handler.postDelayed(this, delay);
+                    listaSkeniranja.clear();
+
+
                 }
-            }, delay);  //delay za obavijesti u milisekundama, promijeniti oboje, oboje moraju biti isti
+
+                handler.postDelayed(this, delay);
+            }
+        }, delay);  //delay za obavijesti u milisekundama, promijeniti oboje, oboje moraju biti isti
 
 
         return START_STICKY;
@@ -135,13 +135,14 @@ public class NotificationService extends Service implements SkeniranjeDataLoaded
     public IBinder onBind(Intent intent) {
         return null;
     }
+
     //funkcija za slanje obavijesti na desktop
-    private void sendNotification(String title, String message,String idSkeniranja) {
+    private void sendNotification(String title, String message, String idSkeniranja) {
         Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("idSkeniranja",idSkeniranja);
+        intent.putExtra("idSkeniranja", idSkeniranja);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this,Integer.parseInt(idSkeniranja), intent,
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, Integer.parseInt(idSkeniranja), intent,
                 PendingIntent.FLAG_ONE_SHOT);
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         int icon = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? R.drawable.ic_launcher_background : R.mipmap.ic_launcher;
@@ -179,20 +180,20 @@ public class NotificationService extends Service implements SkeniranjeDataLoaded
 
     }
 
-    public void loadData(){
+    public void loadData() {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, 0);
         String idPrijavljeni = sharedPreferences.getString(Config.ID_SHARED_PREF, "").toString();
-        SkeniranjeDataLoader skeniranjeDataLoader=new SkeniranjeDataLoader(this);
+        SkeniranjeDataLoader skeniranjeDataLoader = new SkeniranjeDataLoader(this);
         skeniranjeDataLoader.loadDataByUserId(idPrijavljeni);
     }
 
 
     @Override
     public void SkeniranjeOnDataLoaded(List<Skeniranje> listaSkeniranjaPreuzeta) {
+        listaSkeniranja.addAll(listaSkeniranjaPreuzeta);
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, 0);
         String idPrijavljeni = sharedPreferences.getString(Config.ID_SHARED_PREF, "").toString();
-        listaSkeniranja.addAll(listaSkeniranjaPreuzeta);
-        ObavijestiMethod.Upload("213");
+        ObavijestiMethod.Upload(idPrijavljeni);
     }
 
 

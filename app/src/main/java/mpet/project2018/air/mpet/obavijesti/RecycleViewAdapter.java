@@ -33,56 +33,66 @@ import mpet.project2018.air.mpet.MainActivity;
 import mpet.project2018.air.mpet.R;
 import mpet.project2018.air.mpet.fragments.PrikazObavijestiDetaljno;
 
-public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.SkeniranjeHolder>{
+public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.SkeniranjeHolder> {
 
-    List<Skeniranje> listSken=new ArrayList<>();
+    List<Skeniranje> listSken = new ArrayList<>();
 
-    Integer idSkeniranja=0;
+    Integer idSkeniranja = 0;
 
     public RecycleViewAdapter(List<Skeniranje> listSken) {
         this.listSken = listSken;
     }
 
-    private static List<Integer> listaID=new ArrayList<>();
+    private static List<Integer> listaID = new ArrayList<>();
 
 
     @Override
     public SkeniranjeHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
-        LayoutInflater inflater=LayoutInflater.from(parent.getContext());
-        View view=inflater.inflate(R.layout.jedna_obavijest_rview,parent,false);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View view = inflater.inflate(R.layout.jedna_obavijest_rview, parent, false);
         return new SkeniranjeHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull SkeniranjeHolder holder, int i) {
 
-        String imeLjubimca="";
+        String imeLjubimca = "";
 
-        String datumVrijemeSkeniranja="";
+        String datumVrijemeSkeniranja = "";
 
-        Ljubimac ljubimac=new SQLite().select().from(Ljubimac.class).where(Ljubimac_Table.kartica_id_kartice.is(listSken.get(i).getKartica().getId_kartice())).querySingle();
+        Ljubimac ljubimac = new SQLite().select().from(Ljubimac.class).where(Ljubimac_Table.kartica_id_kartice.is(listSken.get(i).getKartica().getId_kartice())).querySingle();
 
-        imeLjubimca=ljubimac.getIme();
+        try {
+            imeLjubimca = ljubimac.getIme();
+        } catch (Exception e) {
 
-        SimpleDateFormat format=new SimpleDateFormat("dd.MM.yyyy.");
+        }
 
-        String parsedDate=format.format(listSken.get(i).getDatum());
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy.");
 
-        datumVrijemeSkeniranja=listSken.get(i).getVrijeme()+"   "+parsedDate;
+        String parsedDate = "";
 
-        holder.detaljiObavijesti.setText(imeLjubimca+" je bio skeniran!");
+        try {
+            parsedDate = format.format(listSken.get(i).getDatum());
+        } catch (Exception e) {
+
+        }
+
+        datumVrijemeSkeniranja = listSken.get(i).getVrijeme() + "   " + parsedDate;
+
+        holder.detaljiObavijesti.setText(imeLjubimca + " je bio skeniran!");
 
         holder.datumSkeniranja.setText(datumVrijemeSkeniranja);
 
-        Integer redniBroj=i+1;
+        Integer redniBroj = i + 1;
 
         holder.redniBroj.setText(redniBroj.toString());
 
-        idSkeniranja=listSken.get(i).getId_skeniranja();
+        idSkeniranja = listSken.get(i).getId_skeniranja();
 
-        holder.IDSkeniranja=idSkeniranja.toString();
+        holder.IDSkeniranja = idSkeniranja.toString();
 
-        if(Integer.parseInt(listSken.get(i).getProcitano())<1){
+        if (Integer.parseInt(listSken.get(i).getProcitano()) < 1) {
             holder.itemView.setBackgroundColor(Color.GRAY);
         }
 
@@ -94,19 +104,19 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     }
 
 
-    public class SkeniranjeHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class SkeniranjeHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView detaljiObavijesti;
         TextView datumSkeniranja;
         TextView redniBroj;
-        String IDSkeniranja="";
+        String IDSkeniranja = "";
 
         public SkeniranjeHolder(@NonNull View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
-            detaljiObavijesti=itemView.findViewById(R.id.detaljiPojedineObavijesti);
-            datumSkeniranja=itemView.findViewById(R.id.datumVrijemeSkeniranja);
-            redniBroj=itemView.findViewById(R.id.redniBrojObavijesti);
+            detaljiObavijesti = itemView.findViewById(R.id.detaljiPojedineObavijesti);
+            datumSkeniranja = itemView.findViewById(R.id.datumVrijemeSkeniranja);
+            redniBroj = itemView.findViewById(R.id.redniBrojObavijesti);
         }
 
         @Override

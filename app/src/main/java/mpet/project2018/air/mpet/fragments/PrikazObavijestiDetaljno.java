@@ -45,16 +45,15 @@ public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCall
 
     private String idSkeniranja;
 
-    String idKartica="";
-    Integer idKorisnik=0;
-    Date datumSkena=null;
-    String vrijemeSkena="";
-    String kordX="";
-    String kordY="";
-    String imeLjubimca="";
-    String imeKorisnika="";
-    String kontaktKorisnik="";
-
+    String idKartica = "";
+    Integer idKorisnik = 0;
+    Date datumSkena = null;
+    String vrijemeSkena = "";
+    String kordX = "";
+    String kordY = "";
+    String imeLjubimca = "";
+    String imeKorisnika = "";
+    String kontaktKorisnik = "";
 
 
     @Nullable
@@ -66,13 +65,13 @@ public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCall
         }
 
 
-        View view=inflater.inflate(R.layout.obavijest_detaljno,container,false);
+        View view = inflater.inflate(R.layout.obavijest_detaljno, container, false);
 
-        mainView=view;
+        mainView = view;
 
-        idSkeniranja=getArguments().getString("idSkena");
+        idSkeniranja = getArguments().getString("idSkena");
 
-        mView=(MapView) view.findViewById(R.id.mapView);
+        mView = (MapView) view.findViewById(R.id.mapView);
 
         mView.onCreate(savedInstanceState);
 
@@ -89,41 +88,60 @@ public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCall
         super.onViewCreated(view, savedInstanceState);
 
 
+        Skeniranje skeniranje = new SQLite().select().from(Skeniranje.class).where(Skeniranje_Table.id_skeniranja.is(Integer.parseInt(idSkeniranja))).querySingle();
+
 
         try {
-
-            Skeniranje skeniranje = new SQLite().select().from(Skeniranje.class).where(Skeniranje_Table.id_skeniranja.is(Integer.parseInt(idSkeniranja))).querySingle();
-
-           idKartica = skeniranje.getKartica().getId_kartice();
-
-           idKorisnik=skeniranje.getKorisnik().getId_korisnika();
-
-           datumSkena=skeniranje.getDatum();
-
-           vrijemeSkena=skeniranje.getVrijeme();
-
-           kordX=skeniranje.getKoordinata_x();
-
-           kordY=skeniranje.getKoordinata_y();
-
-           imeLjubimca=getImeLjubimca(skeniranje.getKartica().getId_kartice());
-
-           kontaktKorisnik=skeniranje.getKontakt();
-
-           loadData();
+            idKartica = skeniranje.getKartica().getId_kartice();
+        } catch (Exception e) {
 
         }
 
-        catch (Exception e){
+        try {
+            idKorisnik = skeniranje.getKorisnik().getId_korisnika();
+        } catch (Exception e) {
 
         }
+        try {
+            datumSkena = skeniranje.getDatum();
+        } catch (Exception e) {
+
+        }
+        try {
+            vrijemeSkena = skeniranje.getVrijeme();
+        } catch (Exception e) {
+
+        }
+        try {
+            kordX = skeniranje.getKoordinata_x();
+        } catch (Exception e) {
+
+        }
+        try {
+            kordY = skeniranje.getKoordinata_y();
+        } catch (Exception e) {
+
+        }
+        try {
+            imeLjubimca = getImeLjubimca(skeniranje.getKartica().getId_kartice());
+        } catch (Exception e) {
+
+        }
+        try {
+            kontaktKorisnik = skeniranje.getKontakt();
+        } catch (Exception e) {
+
+        }
+
+        loadData();
+
 
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        gMap=googleMap;
+        gMap = googleMap;
 
 /*
             final int LOCATION_PERMISSION_REQUEST_CODE = 1252;
@@ -140,8 +158,6 @@ public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCall
 
 
     }
-
-
 
 
     public interface OnFragmentInteractionListener {
@@ -168,113 +184,109 @@ public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCall
     }
 
 
-
-    public String getImeLjubimca(String idKartice){
-        String ime="";
+    public String getImeLjubimca(String idKartice) {
+        String ime = "";
 
         Ljubimac ljubimac1upit = new SQLite().select().from(Ljubimac.class).where(Ljubimac_Table.kartica_id_kartice.is(idKartice)).querySingle();
 
-        ime=ljubimac1upit.getIme();
+        ime = ljubimac1upit.getIme();
 
         return ime;
     }
 
-    public void loadData(){
-        KorisnikDataLoader korisnikDataLoader=new KorisnikDataLoader(this);
+    public void loadData() {
+        KorisnikDataLoader korisnikDataLoader = new KorisnikDataLoader(this);
         korisnikDataLoader.loadDataById(idKorisnik.toString());//Testni ID
     }
 
     @Override
     public void KorisnikOnDataLoaded(List<Korisnik> listaKorisnika) {
 
+
+        TextView datumVrijemeSkena = this.mainView.findViewById(R.id.txtDatumVrijemeSkena);
+
+
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy.");
+
         try {
-
-            TextView datumVrijemeSkena = this.mainView.findViewById(R.id.txtDatumVrijemeSkena);
-
-            SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy.");
 
             datumVrijemeSkena.setText(format.format(datumSkena) + " " + vrijemeSkena);
 
-            TextView imeLjubimca1 = this.mainView.findViewById(R.id.txtImeLjubimca);
-
-            imeLjubimca1.setText(imeLjubimca);
-
-            LatLng latLng = new LatLng(Double.parseDouble(kordX), Double.parseDouble(kordY));
-
-            gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 7));
-
-            gMap.addMarker(new MarkerOptions().title(imeLjubimca + " je skeniran ovdje!").position(latLng)).showInfoWindow();
-
-            Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
-
-            try {
-                List<Address> adresa = geocoder.getFromLocation(Double.parseDouble(kordX), Double.parseDouble(kordY), 1);
-
-                if (!adresa.isEmpty() && adresa != null) {
-
-                    TextView mjestoSkena = mainView.findViewById(R.id.txtMjestoSkena);
-
-                    String locality="";
-                    String subLocality="";
-                    String country="";
-
-                    subLocality=adresa.get(0).getSubLocality();
-                    country=adresa.get(0).getCountryName();
-                    locality=adresa.get(0).getLocality();
-
-                    if(locality!=null && !locality.isEmpty()){
-                        locality=locality+",";
-                    }
-                    else{
-                        locality="";
-                    }
-                    if(subLocality!=null && !locality.isEmpty()){
-                        subLocality=subLocality+",";
-                    }
-                    else {
-                        subLocality="";
-                    }
-                    if(country!=null && !country.isEmpty()){
-                        //ništa
-                    }
-                    else{
-                        country="Nepoznata država";
-                    }
-
-                    mjestoSkena.setText(locality+subLocality+country);
-
-                } else {
-                    TextView mjestoSkena = mainView.findViewById(R.id.txtMjestoSkena);
-
-                    mjestoSkena.setText("Mjesto nije prepoznato");
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            TextView konaktTextView = mainView.findViewById(R.id.txtKontakt);
-
-            konaktTextView.setText(kontaktKorisnik);
-
-            TextView korisnikTextView = mainView.findViewById(R.id.txtSkenirao);
-
-            korisnikTextView.setText(listaKorisnika.get(0).ime + " " + listaKorisnika.get(0).prezime + " (" + listaKorisnika.get(0).korisnicko_ime + ")");
-
-            Skeniranje skeniranje = new Skeniranje();
-            skeniranje = new SQLite().select().from(Skeniranje.class).where(Skeniranje_Table.id_skeniranja.is(Integer.parseInt(idSkeniranja))).querySingle();
-            skeniranje.setProcitano("1");
-            skeniranje.save();
+        } catch (Exception e) {
 
         }
 
-        catch(Exception e)
-        {e.printStackTrace();}
+
+        TextView imeLjubimca1 = this.mainView.findViewById(R.id.txtImeLjubimca);
+
+        imeLjubimca1.setText(imeLjubimca);
+
+        LatLng latLng = new LatLng(Double.parseDouble(kordX), Double.parseDouble(kordY));
+
+        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 7));
+
+        gMap.addMarker(new MarkerOptions().title(imeLjubimca + " je skeniran ovdje!").position(latLng)).showInfoWindow();
+
+        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+
+        try {
+            List<Address> adresa = geocoder.getFromLocation(Double.parseDouble(kordX), Double.parseDouble(kordY), 1);
+
+            if (!adresa.isEmpty() && adresa != null) {
+
+                TextView mjestoSkena = mainView.findViewById(R.id.txtMjestoSkena);
+
+                String locality = "";
+                String subLocality = "";
+                String country = "";
+
+                subLocality = adresa.get(0).getSubLocality();
+                country = adresa.get(0).getCountryName();
+                locality = adresa.get(0).getLocality();
+
+                if (locality != null && !locality.isEmpty()) {
+                    locality = locality + ",";
+                } else {
+                    locality = "";
+                }
+                if (subLocality != null && !locality.isEmpty()) {
+                    subLocality = subLocality + ",";
+                } else {
+                    subLocality = "";
+                }
+                if (country != null && !country.isEmpty()) {
+                    //ništa
+                } else {
+                    country = "Nepoznata država";
+                }
+
+                mjestoSkena.setText(locality + subLocality + country);
+
+            } else {
+                TextView mjestoSkena = mainView.findViewById(R.id.txtMjestoSkena);
+
+                mjestoSkena.setText("Mjesto nije prepoznato");
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        TextView konaktTextView = mainView.findViewById(R.id.txtKontakt);
+
+        konaktTextView.setText(kontaktKorisnik);
+
+        TextView korisnikTextView = mainView.findViewById(R.id.txtSkenirao);
+
+        korisnikTextView.setText(listaKorisnika.get(0).ime + " " + listaKorisnika.get(0).prezime + " (" + listaKorisnika.get(0).korisnicko_ime + ")");
+
+        Skeniranje skeniranje = new Skeniranje();
+        skeniranje = new SQLite().select().from(Skeniranje.class).where(Skeniranje_Table.id_skeniranja.is(Integer.parseInt(idSkeniranja))).querySingle();
+        skeniranje.setProcitano("1");
+        skeniranje.save();
 
 
     }
-
-
 
 
 }

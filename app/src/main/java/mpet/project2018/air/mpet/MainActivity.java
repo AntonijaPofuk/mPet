@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity
 
 
     TextView textView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,9 +119,7 @@ public class MainActivity extends AppCompatActivity
             navigationView.getMenu().clear();
             navigationView.inflateMenu(R.menu.activity_main_drawer_logged_out);
             navigationView.inflateHeaderView(R.layout.nav_header_logged_out);
-            }
-
-        else {
+        } else {
             FragmentTransaction ft2 = getSupportFragmentManager().beginTransaction();
             ft2.replace(R.id.mainFrame, new HomeLoggedIn());
             ft2.commit();
@@ -142,12 +141,13 @@ public class MainActivity extends AppCompatActivity
         checkUnreadNotificationsNumber();
 
     }
-    public void openUserData(View v){
+
+    public void openUserData(View v) {
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.mainFrame, new UserUpdate());
         ft.commit();
-       //----------------------------------------------------------------
+        //----------------------------------------------------------------
 /*
 
                 FragmentManager fragmentManager = getSupportFragmentManager();
@@ -159,30 +159,30 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-   /*private void reg(){
-        SkeniranjeNFCKartice mDiscountListFragment = new SkeniranjeNFCKartice();
-        navigationView.setCheckedItem(R.id.nav_frag1);         //Provjera prvog elementa u draweru
-        //FragmentTransaction ft = getSupportFragmentManager().beginTransaction();             //otvaranje fragmenta
-        //ft.replace(R.id.mainFrame, new HomeLoggedOut());
-        //ft.commit();
+    /*private void reg(){
+         SkeniranjeNFCKartice mDiscountListFragment = new SkeniranjeNFCKartice();
+         navigationView.setCheckedItem(R.id.nav_frag1);         //Provjera prvog elementa u draweru
+         //FragmentTransaction ft = getSupportFragmentManager().beginTransaction();             //otvaranje fragmenta
+         //ft.replace(R.id.mainFrame, new HomeLoggedOut());
+         //ft.commit();
 
-        reg2();
+         reg2();
 
-        //---------------------------------------------------------------
-        MainDatabase.initializeDatabase(this);
-        //--------------------------------------------------------------
-        //mockData();
-    }
+         //---------------------------------------------------------------
+         MainDatabase.initializeDatabase(this);
+         //--------------------------------------------------------------
+         //mockData();
+     }
 
-/*
-    private void mockData()
-    {
-        //Korisnik logiraniKorisnik=   SQLite.select().from(Korisnik.class).where(Korisnik_Table.id_korisnika.is(213)).querySingle();
-        /*Kartica novaKartica=new Kartica();
-        novaKartica.setId_kartice("6542fer74f");
-        novaKartica.setKorisnik(logiraniKorisnik);
-        novaKartica.save();
-        Kartica kartica=   SQLite.select().from(Kartica.class).where(Kartica_Table.id_kartice.is("6542fer74f")).querySingle();*/
+ /*
+     private void mockData()
+     {
+         //Korisnik logiraniKorisnik=   SQLite.select().from(Korisnik.class).where(Korisnik_Table.id_korisnika.is(213)).querySingle();
+         /*Kartica novaKartica=new Kartica();
+         novaKartica.setId_kartice("6542fer74f");
+         novaKartica.setKorisnik(logiraniKorisnik);
+         novaKartica.save();
+         Kartica kartica=   SQLite.select().from(Kartica.class).where(Kartica_Table.id_kartice.is("6542fer74f")).querySingle();*/
         /*Ljubimac ljubimac =new Ljubimac();
         ljubimac.setId_ljubimca(55);
         ljubimac.setKartica(null);
@@ -206,16 +206,17 @@ public class MainActivity extends AppCompatActivity
         mFragmentTransaction.commit();
     }
 */
-        @Override
-        public void onBackPressed() {
+    @Override
+    public void onBackPressed() {
 
-         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
-         if(fm.getBackStackEntryCount()>0){
-             fm.popBackStack();
-         }
-            else{super.onBackPressed();}
-
+        android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+        if (fm.getBackStackEntryCount() > 0) {
+            fm.popBackStack();
+        } else {
+            super.onBackPressed();
         }
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -223,6 +224,7 @@ public class MainActivity extends AppCompatActivity
 
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // back btn definiraj prek PARENT-a u manifestu
@@ -233,6 +235,7 @@ public class MainActivity extends AppCompatActivity
         */
         return super.onOptionsItemSelected(item);
     }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -243,13 +246,11 @@ public class MainActivity extends AppCompatActivity
             //fragment = new HomeLoggedIn();  //Promjena fragmenta iz aktivnosit
         } else if (id == R.id.nav_frag2) {
 
-        }else if (id == R.id.nav_frag3) {
+        } else if (id == R.id.nav_frag3) {
 
-        }
-        else if (id == R.id.nav_frag4) {
+        } else if (id == R.id.nav_frag4) {
 
-        }
-        else if (id == R.id.nav_frag5) {
+        } else if (id == R.id.nav_frag5) {
 
         }
         if (fragment != null) {
@@ -265,21 +266,21 @@ public class MainActivity extends AppCompatActivity
 
     /*upravljanje izbornikom*/
 
-    public void swap(Fragment newFragment){
+    public void swap(Fragment newFragment) {
         //android.app.FragmentTransaction t = getFragmentManager().beginTransaction();
-        FragmentTransaction t =  this.getSupportFragmentManager().beginTransaction();
+        FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
         t.replace(R.id.mainFrame, newFragment);
         t.addToBackStack(null);
         t.commit();
     }
 
-    public void swapLogout(Fragment newFragment){
-        FragmentTransaction t =  this.getSupportFragmentManager().beginTransaction();
+    public void swapLogout(Fragment newFragment) {
+        FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
         t.replace(R.id.mainFrame, newFragment);
         t.commit();
     }
 
-    public void Navigation(){
+    public void Navigation() {
         dl = (DrawerLayout) findViewById(R.id.drawer_layout);
         hl = (LinearLayout) findViewById(R.id.nav_header);
 
@@ -295,7 +296,7 @@ public class MainActivity extends AppCompatActivity
                         // close drawer when item is tapped
                         dl.closeDrawers();
 
-                        switch (menuItem.getItemId()){
+                        switch (menuItem.getItemId()) {
                             case R.id.nav_frag1:
                                 HomeLoggedOut pocetnaNeulogirani = new HomeLoggedOut();
                                 swap(pocetnaNeulogirani);
@@ -324,13 +325,13 @@ public class MainActivity extends AppCompatActivity
                                 break;
 
                             case R.id.nav_frag4:
-                                 AboutUs onama=new AboutUs();
-                                 swap(onama);
+                                AboutUs onama = new AboutUs();
+                                swap(onama);
                                 break;
                             case R.id.nav_frag5:
                                 //odjava
                                 SharedPreferences preferences = getSharedPreferences
-                                        (Config.SHARED_PREF_NAME,Context.MODE_PRIVATE);
+                                        (Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = preferences.edit();
 
                                 editor.putBoolean(Config.LOGGEDIN_SHARED_PREF, false);
@@ -339,7 +340,7 @@ public class MainActivity extends AppCompatActivity
                                 editor.commit();
                                 /**/
                                 clearBackStack();
-                                HomeLoggedOut pocetna=new HomeLoggedOut();
+                                HomeLoggedOut pocetna = new HomeLoggedOut();
                                 swapLogout(pocetna);
                                 /*zamjena izbornika*/
                                 NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);//bez head
@@ -375,7 +376,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void deleteDatabase(){
+    private void deleteDatabase() {
         Delete.table(Korisnik.class);
         Delete.table(Skeniranje.class);
         Delete.table(Ljubimac.class);
@@ -386,6 +387,7 @@ public class MainActivity extends AppCompatActivity
     public void onFragmentInteraction(String title) {  // Preimenovanje stranice
         getSupportActionBar().setTitle(title);
     }
+
     // Dohvaćanje pristiglih Intenta
     @Override
     protected void onNewIntent(Intent intent) {
@@ -400,34 +402,34 @@ public class MainActivity extends AppCompatActivity
     }
 
     //dohvaćanje intenta od obavijesti
-    private void getObavijestiIntent(){
-            String idSken="";
-            Intent mIntent=getIntent();
-            if(mIntent.hasExtra("idSkeniranja")) {
-                idSken = mIntent.getStringExtra("idSkeniranja");
-                //otvoriti fragment za detalje skeniranja s narednim id-em
-                if (idSken != "") {
+    private void getObavijestiIntent() {
+        String idSken = "";
+        Intent mIntent = getIntent();
+        if (mIntent.hasExtra("idSkeniranja")) {
+            idSken = mIntent.getStringExtra("idSkeniranja");
+            //otvoriti fragment za detalje skeniranja s narednim id-em
+            if (idSken != "") {
 
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    PrikazSvihObavijesti prikazSvihObavijesti = new PrikazSvihObavijesti();
-                    fragmentTransaction.replace(R.id.mainFrame, prikazSvihObavijesti);
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                PrikazSvihObavijesti prikazSvihObavijesti = new PrikazSvihObavijesti();
+                fragmentTransaction.replace(R.id.mainFrame, prikazSvihObavijesti);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
 
-                    //otvaranje fragmenta
-                    Bundle bundle=new Bundle();
-                    bundle.putString("idSkena",idSken);
-                    FragmentManager fragmentManager1 = getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction1 = fragmentManager1.beginTransaction();
-                    PrikazObavijestiDetaljno fragmentObavijestiDetaljno = new PrikazObavijestiDetaljno();
-                    fragmentObavijestiDetaljno.setArguments(bundle);
-                    fragmentTransaction1.replace(R.id.mainFrame, fragmentObavijestiDetaljno);
-                    fragmentTransaction1.addToBackStack(null);
-                    fragmentTransaction1.commit();
-                }
-
+                //otvaranje fragmenta
+                Bundle bundle = new Bundle();
+                bundle.putString("idSkena", idSken);
+                FragmentManager fragmentManager1 = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction1 = fragmentManager1.beginTransaction();
+                PrikazObavijestiDetaljno fragmentObavijestiDetaljno = new PrikazObavijestiDetaljno();
+                fragmentObavijestiDetaljno.setArguments(bundle);
+                fragmentTransaction1.replace(R.id.mainFrame, fragmentObavijestiDetaljno);
+                fragmentTransaction1.addToBackStack(null);
+                fragmentTransaction1.commit();
             }
+
+        }
 
     }
 
@@ -445,29 +447,29 @@ public class MainActivity extends AppCompatActivity
         stopService(serviceIntent);
     }
 
-    public void popuniKorisnika(){
-        Korisnik korisnik=new Korisnik(712,"Jabuka","Juric","jabucica","admin123","mail","adresa","0100330","32131","url");
+    public void popuniKorisnika() {
+        Korisnik korisnik = new Korisnik(712, "Jabuka", "Juric", "jabucica", "admin123", "mail", "adresa", "0100330", "32131", "url");
         korisnik.save();
     }
 
-    public void popuniLjubimca(){
-            Korisnik k=new Korisnik();
-            k.setId_korisnika(177);
-        Ljubimac ljubimac=new Ljubimac(1,"Rex",21,50,"pas","m","opis","Url",k);
-        Kartica a=new Kartica("6542fer74f");
+    public void popuniLjubimca() {
+        Korisnik k = new Korisnik();
+        k.setId_korisnika(177);
+        Ljubimac ljubimac = new Ljubimac(1, "Rex", 21, 50, "pas", "m", "opis", "Url", k);
+        Kartica a = new Kartica("6542fer74f");
         ljubimac.setKartica(a);
         ljubimac.save();
     }
 
-    public void popuniKarticu(){
-        Kartica k=new Kartica("6542fer74f");
-        Korisnik kor=new Korisnik();
+    public void popuniKarticu() {
+        Kartica k = new Kartica("6542fer74f");
+        Korisnik kor = new Korisnik();
         kor.setId_korisnika(177);
         k.setKorisnik(kor);
         k.save();
     }
 
-    public void bellClick(View v){
+    public void bellClick(View v) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         PrikazSvihObavijesti prikazSvihObavijesti = new PrikazSvihObavijesti();
@@ -477,7 +479,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    public void checkUnreadNotificationsNumber(){
+    public void checkUnreadNotificationsNumber() {
         // List <mpet.project2018.air.database.entities.Skeniranje> skeniranjeList1=new SQLite().select().from(mpet.project2018.air.database.entities.Skeniranje.class).where(Skeniranje_Table.id_skeniranja.is(Integer.parseInt(skeniranje.id_skeniranja))).queryList();
 
         final Handler handler = new Handler();
@@ -485,23 +487,23 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void run() {
 
-                List <mpet.project2018.air.database.entities.Skeniranje> skeniranjeList1=new SQLite().select().from(mpet.project2018.air.database.entities.Skeniranje.class).where(Skeniranje_Table.procitano.is("0")).queryList();
+                List<mpet.project2018.air.database.entities.Skeniranje> skeniranjeList1 = new SQLite().select().from(mpet.project2018.air.database.entities.Skeniranje.class).where(Skeniranje_Table.procitano.is("0")).queryList();
 
-                Integer counter=0;
+                Integer counter = 0;
 
-                for (mpet.project2018.air.database.entities.Skeniranje s:skeniranjeList1) {
+                for (mpet.project2018.air.database.entities.Skeniranje s : skeniranjeList1) {
                     counter++;
                 }
 
-                    if (counter > 0) {
-                        TextView textViewBell = (TextView) findViewById(R.id.notificationTextView);
-                        textViewBell.setTextColor(Color.RED);
-                        textViewBell.setVisibility(View.VISIBLE);
-                        textViewBell.setText(counter.toString());
-                    } else {
-                        TextView textViewBell = (TextView) findViewById(R.id.notificationTextView);
-                        textViewBell.setVisibility(View.INVISIBLE);
-                    }
+                if (counter > 0) {
+                    TextView textViewBell = (TextView) findViewById(R.id.notificationTextView);
+                    textViewBell.setTextColor(Color.RED);
+                    textViewBell.setVisibility(View.VISIBLE);
+                    textViewBell.setText(counter.toString());
+                } else {
+                    TextView textViewBell = (TextView) findViewById(R.id.notificationTextView);
+                    textViewBell.setVisibility(View.INVISIBLE);
+                }
 
                 handler.postDelayed(this, 1000);
             }

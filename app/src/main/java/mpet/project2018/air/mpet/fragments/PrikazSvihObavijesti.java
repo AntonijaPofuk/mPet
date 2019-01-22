@@ -31,7 +31,7 @@ public class PrikazSvihObavijesti extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view=inflater.inflate(R.layout.prikaz_svih_obavijesti,container,false);
+        View view = inflater.inflate(R.layout.prikaz_svih_obavijesti, container, false);
 
         if (mListener != null) {
             mListener.onFragmentInteraction("Prikaz svih obavijesti");
@@ -45,13 +45,13 @@ public class PrikazSvihObavijesti extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView recyclerView=(RecyclerView) view.findViewById(R.id.prikazObavijestiRecyclerView);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.prikazObavijestiRecyclerView);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        List<mpet.project2018.air.database.entities.Skeniranje> skeniranjeList=new SQLite().select().from(mpet.project2018.air.database.entities.Skeniranje.class).queryList();
+        List<mpet.project2018.air.database.entities.Skeniranje> skeniranjeList = new SQLite().select().from(mpet.project2018.air.database.entities.Skeniranje.class).queryList();
 
-        RecycleViewAdapter obavijestiAdapter=new RecycleViewAdapter(skeniranjeList);
+        RecycleViewAdapter obavijestiAdapter = new RecycleViewAdapter(skeniranjeList);
 
         recyclerView.setAdapter(obavijestiAdapter);
 
@@ -72,6 +72,7 @@ public class PrikazSvihObavijesti extends Fragment {
             throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
         }
     }
+
     @Override
     public void onDetach() {
         super.onDetach();
