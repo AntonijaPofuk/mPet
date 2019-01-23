@@ -84,7 +84,60 @@ public class RegistracijaMethod {
 
     }
 
+    /**************/
 
+    public static void Update(String id, String ime, String prezime, String korIme, String adresa, String email, String mobitel, String telefon, String slika) {
+
+        final RegistracijaResponse body = new RegistracijaResponse();
+
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
+        Retrofit retrofit;
+        retrofit = new Retrofit
+                .Builder()
+                .baseUrl("https://airprojekt.000webhostapp.com/")
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+
+
+
+        KorisnikService api = retrofit.create(KorisnikService.class);
+
+        RegistracijaRequest request = new RegistracijaRequest();
+
+        request.setId(id);
+        request.setAdresa(adresa);
+        request.setBroj_mobitela(mobitel);
+        request.setEmail(email);
+        request.setIme(ime);
+        request.setPrezime(prezime);
+        request.setKorisnicko_ime(korIme);
+        request.setBroj_telefona(telefon);
+        request.setUrl_profilna("/");
+        request.setSlika(slika);
+
+        Call<RegistracijaResponse> KorisnikResponseCall = api.createKorisnik(request,"https://airprojekt.000webhostapp.com/updateKorisnik.php");
+
+        KorisnikResponseCall.enqueue(new Callback<RegistracijaResponse>() {
+            @Override
+            public void onResponse(Call<RegistracijaResponse> call, Response<RegistracijaResponse> response) {
+
+                RegistracijaResponse resp=response.body();
+                body.id= resp.id;
+                listener.onStatusChanged(body.id);
+
+            }
+
+            @Override
+            public void onFailure(Call<RegistracijaResponse> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+
+    }
 
 }
 

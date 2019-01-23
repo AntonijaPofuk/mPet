@@ -37,6 +37,7 @@ import mpet.project2018.air.database.entities.Skeniranje_Table;
 import mpet.project2018.air.mpet.fragments.HomeLoggedIn;
 import mpet.project2018.air.mpet.fragments.HomeLoggedOut;
 import mpet.project2018.air.mpet.fragments.Login;
+import mpet.project2018.air.mpet.fragments.UpdateKorisnik;
 import mpet.project2018.air.mpet.fragments.UserUpdate;
 import mpet.project2018.air.mpet.fragments.MojiLjubimci;
 import mpet.project2018.air.mpet.fragments.NoviLjubimac;
@@ -73,7 +74,8 @@ public class MainActivity extends AppCompatActivity
         NoviLjubimac.OnFragmentInteractionListener,
         AboutUs.OnFragmentInteractionListener,
         UpdateLjubimac.OnFragmentInteractionListener,
-        UklanjanjeKartice.OnFragmentInteractionListener
+        UklanjanjeKartice.OnFragmentInteractionListener,
+        UpdateKorisnik.OnFragmentInteractionListener
         //TODO: dodaj novi fragment ovdje uvijek a na početku fragmenta implementiraj mlistenere
 
 {
