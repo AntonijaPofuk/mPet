@@ -13,10 +13,10 @@ import android.widget.TextView;
 
 import mpet.project2018.air.mpet.R;
 
-public class AboutUs extends Fragment{
+public class AboutApp extends Fragment{
     private OnFragmentInteractionListener mListener;
 
-    public AboutUs() {}
+    public AboutApp() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -26,12 +26,15 @@ public class AboutUs extends Fragment{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.about_us, container, false);
+        final View view = inflater.inflate(R.layout.about_app, container, false);
 
         if (mListener != null) {
             mListener.onFragmentInteraction("O nama");
         }
-
+        TextView textView = (TextView) view.findViewById(R.id.textView10);
+        textView.setMovementMethod(new ScrollingMovementMethod());
+        textView.setText("Aplikacije je izrađena u svrhu predmeta Analiza i razvoj programa koji se izvodi na diplomskom studiju informatike te kao takva još nije predviđena za širu upotrebu. Ukratko aplikacija predstavlja način vođenja evidencije o kućnim ljubimcima. Osnovna funkcionalnost koju nudi je praćenje ljubimca putem NFC kartice. Korisniku je na raspolaganju također i skreniranje tuđih ljubimaca te slanje poruka vlasniku. Na ovaj način se može olakšati pronalazak ljubimca u slučaju da je nestao ili pobjegao."
+        );
         return view;
 
     }

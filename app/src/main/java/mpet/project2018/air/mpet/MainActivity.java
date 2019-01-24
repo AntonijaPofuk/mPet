@@ -21,7 +21,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -33,17 +32,20 @@ import mpet.project2018.air.database.entities.Korisnik_Table;
 import mpet.project2018.air.database.entities.Skeniranje;
 
 import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.raizlabs.android.dbflow.sql.language.Update;
 
 import java.util.List;
 
 import mpet.project2018.air.database.entities.Skeniranje_Table;
+import mpet.project2018.air.mpet.fragments.AboutApp;
+import mpet.project2018.air.mpet.fragments.AboutUs;
 import mpet.project2018.air.mpet.fragments.HomeLoggedIn;
 import mpet.project2018.air.mpet.fragments.HomeLoggedOut;
 import mpet.project2018.air.mpet.fragments.Login;
 import mpet.project2018.air.mpet.fragments.UpdateKorisnik;
 import mpet.project2018.air.mpet.fragments.MojiLjubimci;
 import mpet.project2018.air.mpet.fragments.NoviLjubimac;
-import mpet.project2018.air.mpet.fragments.AboutUs;
+import mpet.project2018.air.mpet.fragments.About;
 import mpet.project2018.air.database.entities.Kartica;
 import mpet.project2018.air.database.entities.Korisnik;
 import mpet.project2018.air.database.entities.Ljubimac;
@@ -73,10 +75,12 @@ public class MainActivity extends AppCompatActivity
         ModulNavigationFragment.OnFragmentInteractionListener,
         MojiLjubimci.OnFragmentInteractionListener,
         NoviLjubimac.OnFragmentInteractionListener,
-        AboutUs.OnFragmentInteractionListener,
+        About.OnFragmentInteractionListener,
         UpdateLjubimac.OnFragmentInteractionListener,
         UklanjanjeKartice.OnFragmentInteractionListener,
-        UpdateKorisnik.OnFragmentInteractionListener
+        UpdateKorisnik.OnFragmentInteractionListener,
+        AboutApp.OnFragmentInteractionListener,
+        AboutUs.OnFragmentInteractionListener
         //TODO: dodaj novi fragment ovdje uvijek a na početku fragmenta implementiraj mlistenere
 
 {
@@ -139,10 +143,17 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void openUserData(View v) {
-
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, 0);
+        String idPrijavljeni = sharedPreferences.getString(Config.ID_SHARED_PREF, "").toString();
+        UpdateKorisnik updateKorisnik = UpdateKorisnik.newInstance(idPrijavljeni);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.mainFrame, new UpdateKorisnik());
+        ft.addToBackStack(null);
+
         ft.commit();
+
+
+
         //----------------------------------------------------------------
 /*
 
@@ -323,6 +334,8 @@ public class MainActivity extends AppCompatActivity
                                 SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, 0);
                                 String idPrijavljeni = sharedPreferences.getString(Config.ID_SHARED_PREF, "").toString();
                                 MojiLjubimci mojiLjubimci = MojiLjubimci.newInstance(idPrijavljeni);
+
+
                                 swap(mojiLjubimci);
                                 break;
 
@@ -336,7 +349,7 @@ public class MainActivity extends AppCompatActivity
                                 break;
 
                             case R.id.nav_frag4:
-                                AboutUs onama = new AboutUs();
+                                About onama = new About();
                                 swap(onama);
                                 break;
                             case R.id.nav_frag5:
