@@ -69,7 +69,7 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
 
         View view = inflater.inflate(R.layout.activity_login, container, false);
         if (mListener != null) {
-            mListener.onFragmentInteraction("Login");
+            mListener.onFragmentInteraction("Prijava");
         }
 
         checkConnection();

@@ -3,6 +3,7 @@ package mpet.project2018.air.mpet;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -19,27 +20,27 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 
 import com.raizlabs.android.dbflow.sql.language.Delete;
 
 import mpet.project2018.air.database.MainDatabase;
+import mpet.project2018.air.database.entities.Korisnik_Table;
 import mpet.project2018.air.database.entities.Skeniranje;
 
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.util.List;
 
-import mpet.project2018.air.database.entities.Skeniranje;
-
 import mpet.project2018.air.database.entities.Skeniranje_Table;
 import mpet.project2018.air.mpet.fragments.HomeLoggedIn;
 import mpet.project2018.air.mpet.fragments.HomeLoggedOut;
 import mpet.project2018.air.mpet.fragments.Login;
 import mpet.project2018.air.mpet.fragments.UpdateKorisnik;
-import mpet.project2018.air.mpet.fragments.UserUpdate;
 import mpet.project2018.air.mpet.fragments.MojiLjubimci;
 import mpet.project2018.air.mpet.fragments.NoviLjubimac;
 import mpet.project2018.air.mpet.fragments.AboutUs;
@@ -66,7 +67,6 @@ public class MainActivity extends AppCompatActivity
         HomeLoggedOut.OnFragmentInteractionListener,
         Registracija.OnFragmentInteractionListener,
         Login.OnFragmentInteractionListener,
-        UserUpdate.OnFragmentInteractionListener,
         NavigationView.OnNavigationItemSelectedListener,
         PrikazObavijestiDetaljno.OnFragmentInteractionListener,
         PrikazSvihObavijesti.OnFragmentInteractionListener,
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity
 {
 
     private DrawerLayout dl;
-    private LinearLayout hl;
+    private RelativeLayout hl;
 
 
     TextView textView;
@@ -129,18 +129,10 @@ public class MainActivity extends AppCompatActivity
             navigationView.getMenu().clear();
             navigationView.inflateMenu(R.menu.activity_main_drawer);
             navigationView.inflateHeaderView(R.layout.nav_header);
+            changeHeaderData();
 
         }
 
-//promjena imena korisnika u izborniku
-
-        //View linearLayout = navigationView.inflateHeaderView(R.layout.nav_header);
-        /*
-        TextView textView = linearLayout.findViewById(R.id.korImeIzbornik);
-        textView.setText("Prijavljeni korisnik: " + id1);
-
-
-*/
 
         checkUnreadNotificationsNumber();//obavijesti
 
@@ -149,7 +141,7 @@ public class MainActivity extends AppCompatActivity
     public void openUserData(View v) {
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.mainFrame, new UserUpdate());
+        ft.replace(R.id.mainFrame, new UpdateKorisnik());
         ft.commit();
         //----------------------------------------------------------------
 /*
@@ -210,6 +202,26 @@ public class MainActivity extends AppCompatActivity
         mFragmentTransaction.commit();
     }
 */
+    public void changeHeaderData(){ //promjena headera kod pokretanja app
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, 0);
+        String id1 = sharedPreferences.getString(ID_SHARED_PREF, "").toString();
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+        navigationView.getHeaderView(0);
+        View header =navigationView.getHeaderView(0);
+
+        mpet.project2018.air.database.entities.Korisnik k=new SQLite().select().from(mpet.project2018.air.database.entities.Korisnik.class)
+                .where(Korisnik_Table.id_korisnika.is(Integer.parseInt(id1))).querySingle();
+        String korime=k.getKorisnicko_ime();
+        Bitmap slika = k.getSlika();
+
+        TextView textView = header.findViewById(R.id.korImeIzbornik);
+        textView.setText(korime);
+
+        ImageView imageView = header.findViewById(R.id.imageViewKorSlika);
+        imageView.setImageBitmap(slika);
+
+    };
     @Override
     public void onBackPressed() {
 
@@ -231,12 +243,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // back btn definiraj prek PARENT-a u manifestu
-      /*  int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        */
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -286,7 +293,7 @@ public class MainActivity extends AppCompatActivity
 
     public void Navigation() {
         dl = (DrawerLayout) findViewById(R.id.drawer_layout);
-        hl = (LinearLayout) findViewById(R.id.nav_header);
+        hl = (RelativeLayout) findViewById(R.id.nav_header);
 
         NavigationView navigationView;
         navigationView = findViewById(R.id.nav_view);

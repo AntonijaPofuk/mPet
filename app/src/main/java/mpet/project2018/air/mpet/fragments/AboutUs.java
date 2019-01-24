@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import mpet.project2018.air.mpet.R;
 
@@ -29,7 +30,8 @@ public class AboutUs extends Fragment{
         if (mListener != null) {
             mListener.onFragmentInteraction("O nama");
         }
-
+        TextView textView = (TextView) view.findViewById(R.id.textView10);
+        textView.setText("Aplikacije je izrađena u svrhu predmeta Analiza i razvoj programa.");
         return view;
     }
 
