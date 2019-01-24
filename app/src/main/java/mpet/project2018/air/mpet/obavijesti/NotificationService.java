@@ -45,7 +45,7 @@ import static mpet.project2018.air.mpet.obavijesti.CreateNotificationChannel.CHA
 public class NotificationService extends Service implements SkeniranjeDataLoadedListener {
 
     private static List<Skeniranje> listaSkeniranja = new ArrayList<>();
-    private static int delay = 60000*15;//svakih tolko milisekundi provjerava ako postoji nova obavijesti
+    private static int delay = 10000;//svakih tolko milisekundi provjerava ako postoji nova obavijesti
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     private Korisnik korisnik = new Korisnik();
 
@@ -69,7 +69,7 @@ public class NotificationService extends Service implements SkeniranjeDataLoaded
 
         startForeground(1, notification);
 
-        loadData();//pozivam da se ucita prije handlera
+        //loadData();//pozivam da se ucita prije handlera
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -79,9 +79,8 @@ public class NotificationService extends Service implements SkeniranjeDataLoaded
                 loadData();
                 if (listaSkeniranja.size() != 0) {
                     for (Skeniranje skeniranje : listaSkeniranja) {
-                        List<mpet.project2018.air.database.entities.Skeniranje> skeniranjeList1 = new SQLite().select().from(mpet.project2018.air.database.entities.Skeniranje.class).where(Skeniranje_Table.id_skeniranja.is(Integer.parseInt(skeniranje.id_skeniranja))).queryList();
 
-                        if (skeniranje.procitano.contains("0") && skeniranjeList1.isEmpty()) {
+                        if (skeniranje.procitano.contains("0")) {
 
                             sendNotification("Vaš ljubimac je skeniran! Pritisnite za detalje ...", "Datum i vrijeme skeniranja : " + skeniranje.datum + " | " + skeniranje.vrijeme, skeniranje.id_skeniranja);
                             mpet.project2018.air.database.entities.Skeniranje lokalnaBazaSkeniranje = new mpet.project2018.air.database.entities.Skeniranje();
@@ -194,7 +193,7 @@ public class NotificationService extends Service implements SkeniranjeDataLoaded
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, 0);
         String idPrijavljeni = sharedPreferences.getString(Config.ID_SHARED_PREF, "").toString();
         ObavijestiMethod.Upload(idPrijavljeni);
-    }
+       }
 
 
 }
