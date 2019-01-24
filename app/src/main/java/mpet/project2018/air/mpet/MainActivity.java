@@ -32,8 +32,9 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.util.List;
 
-import mpet.project2018.air.database.entities.Skeniranje_Table;
+import mpet.project2018.air.database.entities.Skeniranje;
 
+import mpet.project2018.air.database.entities.Skeniranje_Table;
 import mpet.project2018.air.mpet.fragments.HomeLoggedIn;
 import mpet.project2018.air.mpet.fragments.HomeLoggedOut;
 import mpet.project2018.air.mpet.fragments.Login;
@@ -140,7 +141,8 @@ public class MainActivity extends AppCompatActivity
 
 
 */
-        checkUnreadNotificationsNumber();
+
+        checkUnreadNotificationsNumber();//obavijesti
 
     }
 
@@ -489,6 +491,9 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void run() {
 
+                SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, 0);
+                String idPrijavljeni = sharedPreferences.getString(Config.ID_SHARED_PREF, "").toString();
+
                 List<mpet.project2018.air.database.entities.Skeniranje> skeniranjeList1 = new SQLite().select().from(mpet.project2018.air.database.entities.Skeniranje.class).where(Skeniranje_Table.procitano.is("0")).queryList();
 
                 Integer counter = 0;
@@ -497,14 +502,25 @@ public class MainActivity extends AppCompatActivity
                     counter++;
                 }
 
-                if (counter > 0) {
+                if (counter > 0 && !(idPrijavljeni == "" || idPrijavljeni.isEmpty() || idPrijavljeni == null)) {
                     TextView textViewBell = (TextView) findViewById(R.id.notificationTextView);
                     textViewBell.setTextColor(Color.RED);
                     textViewBell.setVisibility(View.VISIBLE);
                     textViewBell.setText(counter.toString());
                 } else {
+
+
                     TextView textViewBell = (TextView) findViewById(R.id.notificationTextView);
                     textViewBell.setVisibility(View.INVISIBLE);
+                }
+
+
+                if (idPrijavljeni == "" || idPrijavljeni.isEmpty() || idPrijavljeni == null) {
+
+                    findViewById(R.id.notificationBell).setVisibility(View.INVISIBLE);
+
+                } else {
+                    findViewById(R.id.notificationBell).setVisibility(View.VISIBLE);
                 }
 
                 handler.postDelayed(this, 1000);
