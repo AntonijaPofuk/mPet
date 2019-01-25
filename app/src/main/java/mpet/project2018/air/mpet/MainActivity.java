@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.raizlabs.android.dbflow.sql.language.Delete;
@@ -60,6 +61,7 @@ import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 import mpet.project2018.air.mpet.fragments.UklanjanjeKartice;
 import mpet.project2018.air.mpet.fragments.UpdateLjubimac;
 import mpet.project2018.air.mpet.obavijesti.NotificationService;
+import mpet.project2018.air.nfc.NFCManager;
 
 
 public class MainActivity extends AppCompatActivity implements PetDataInterface,
@@ -136,6 +138,8 @@ public class MainActivity extends AppCompatActivity implements PetDataInterface,
 
 
         checkUnreadNotificationsNumber();//obavijesti
+
+        setDefaultCodeInputMethod();
 
     }
 
@@ -557,6 +561,24 @@ public class MainActivity extends AppCompatActivity implements PetDataInterface,
         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.mainFrame, petFrag);
         mFragmentTransaction.commit();
+    }
+
+    private void setDefaultCodeInputMethod()
+    {
+        NFCManager managerInstance=new NFCManager(this);
+        if(managerInstance.checkNFCExistence())
+        {
+            this.getSharedPreferences("CodeInputMethod",MODE_PRIVATE)
+                    .edit()
+                    .putString("defaultCodeInputMethod","nfc")
+                    .apply();
+        }
+        else {
+            this.getSharedPreferences("nfcExists", MODE_PRIVATE)
+                    .edit()
+                    .putString("defaultCodeInputMethod", "manual")
+                    .apply();
+        }
     }
 }
 
