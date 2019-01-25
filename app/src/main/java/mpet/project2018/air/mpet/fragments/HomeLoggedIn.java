@@ -1,5 +1,4 @@
 package mpet.project2018.air.mpet.fragments;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -13,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.raizlabs.android.dbflow.sql.language.Delete;
 
@@ -23,20 +21,14 @@ import mpet.project2018.air.database.entities.Ljubimac;
 import mpet.project2018.air.database.entities.Skeniranje;
 import mpet.project2018.air.manualinput.ManualInputFragment;
 import mpet.project2018.air.mpet.Config;
+import mpet.project2018.air.mpet.OnFragmentInteractionListener;
 import mpet.project2018.air.mpet.R;
 import mpet.project2018.air.nfc.SkeniranjeNFCFragment;
-
-import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
-
 
 public class HomeLoggedIn extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     public HomeLoggedIn() {}
-    private String idPrijavljeni;
-    private ProgressDialog progress;
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,8 +43,6 @@ public class HomeLoggedIn extends Fragment {
         if (mListener != null) {
             mListener.onFragmentInteraction("Početna");
         }
-
-
         Button btn1=(Button) view.findViewById(R.id.btnOdjava);
         btn1.setOnClickListener(new View.OnClickListener() {
                                     @Override
@@ -66,17 +56,11 @@ public class HomeLoggedIn extends Fragment {
         btn2.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        Toast.makeText(getActivity(), "Skeniranje....",
-                                                Toast.LENGTH_LONG).show();
-                                        swapFragment2();
+                                       swapFragment2();
                                     }
                                 }
         );
-
-
-
-
-        return view;
+            return view;
     }
 
 
@@ -101,17 +85,15 @@ public class HomeLoggedIn extends Fragment {
                         NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
                         navigationView.getMenu().clear();
                         navigationView.inflateMenu(R.menu.activity_main_drawer_logged_out);
-
-
-
                         navigationView.getHeaderView(0);
                         navigationView.removeHeaderView(navigationView.getHeaderView(0));
                         navigationView.inflateHeaderView(R.layout.nav_header_logged_out);
 
                         deleteDatabase();
 
-                        clearBackStack();
-                        swapFragment();
+                        HomeLoggedOut frag;
+                        frag = new HomeLoggedOut();
+                        mListener.swapFragment(false,(HomeLoggedOut) frag);
                     }
                 });
 
@@ -128,14 +110,6 @@ public class HomeLoggedIn extends Fragment {
         alertDialog.show();
     }
 
-    private void clearBackStack() {
-        FragmentManager manager = getActivity().getSupportFragmentManager();
-        if (manager.getBackStackEntryCount() > 0) {
-            FragmentManager.BackStackEntry first = manager.getBackStackEntryAt(0);
-            manager.popBackStack(first.getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        }
-    }
-
     private void deleteDatabase(){
         Delete.table(Korisnik.class);
         Delete.table(Skeniranje.class);
@@ -143,14 +117,9 @@ public class HomeLoggedIn extends Fragment {
         Delete.table(Kartica.class);
     }
 
-    private void swapFragment(){
-        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.mainFrame, new HomeLoggedOut());
-        //ft.addToBackStack(null);
 
-        ft.commit();
-    }
 
+    //TODO: izbrisati swap returnRightCodeInputMethod
     private void swapFragment2(){
 
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
@@ -173,7 +142,7 @@ public class HomeLoggedIn extends Fragment {
     }
 
 
-   @Override
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
@@ -187,54 +156,6 @@ public class HomeLoggedIn extends Fragment {
         super.onDetach();
         mListener = null;
     }
-    public interface OnFragmentInteractionListener {
-        // Uri -> String
-        void onFragmentInteraction(String title);
-    }
-    private class ArticleFragment {
-    }
-
-    /***download slika*********/
-    /*
-    public void saveImage(Context context, Bitmap b, String imageName) {
-        FileOutputStream foStream;
-        try {
-            foStream = context.openFileOutput(imageName, Context.MODE_PRIVATE);
-            b.compress(Bitmap.CompressFormat.PNG, 100, foStream);
-            foStream.close();
-        } catch (Exception e) {
-            Log.d("saveImage", "Exception 2, Something went wrong!");
-            e.printStackTrace();
-        }
-    }
-
-    private class DownloadImage extends AsyncTask<String, Void, Bitmap> {
-        private String TAG = "DownloadImage";
-        private Bitmap downloadImageBitmap(String sUrl) {
-            Bitmap bitmap = null;
-            try {
-                InputStream inputStream = new URL(sUrl).openStream();   // Download Image from URL
-                bitmap = BitmapFactory.decodeStream(inputStream);       // Decode Bitmap
-                inputStream.close();
-            } catch (Exception e) {
-                Log.d(TAG, "Exception 1, Something went wrong!");
-                e.printStackTrace();
-            }
-            return bitmap;
-        }
-
-        @Override
-        protected Bitmap doInBackground(String... params) {
-            return downloadImageBitmap(params[0]);
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            saveImage(getActivity().getApplicationContext(), result, "my_image.png");
-        }
-    }
-    */
-    /*********************************/
 
 
-
-}
+  }

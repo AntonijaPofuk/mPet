@@ -66,33 +66,14 @@ import mpet.project2018.air.mpet.obavijesti.NotificationService;
 import mpet.project2018.air.nfc.NFCManager;
 
 
-public class MainActivity extends AppCompatActivity implements PetDataInterface,
-        HomeLoggedIn.OnFragmentInteractionListener,
-        HomeLoggedOut.OnFragmentInteractionListener,
-        Registracija.OnFragmentInteractionListener,
-        Login.OnFragmentInteractionListener,
-        NavigationView.OnNavigationItemSelectedListener,
-        PrikazObavijestiDetaljno.OnFragmentInteractionListener,
-        PrikazSvihObavijesti.OnFragmentInteractionListener,
-        MojiLjubimci.OnFragmentInteractionListener,
-        NoviLjubimac.OnFragmentInteractionListener,
-        About.OnFragmentInteractionListener,
-        UpdateLjubimac.OnFragmentInteractionListener,
-        UklanjanjeKartice.OnFragmentInteractionListener,
-        UpdateKorisnik.OnFragmentInteractionListener,
-        AboutApp.OnFragmentInteractionListener,
-        AboutUs.OnFragmentInteractionListener,
-        CheckNFCOptions.OnFragmentInteractionListener
-        //TODO: dodaj novi fragment ovdje uvijek a na početku fragmenta implementiraj mlistenere
-
-{
+public class MainActivity extends AppCompatActivity implements PetDataInterface, OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener{
 
     private DrawerLayout dl;
-    private RelativeLayout hl;
 
 
     TextView textView;
 
+    //TODO: swapFragment u MainActivity?
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements PetDataInterface,
             FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
             ft1.replace(R.id.mainFrame, new HomeLoggedOut());
             ft1.commit();
+
             navigationView.getMenu().clear();
             navigationView.inflateMenu(R.menu.activity_main_drawer_logged_out);
             navigationView.inflateHeaderView(R.layout.nav_header_logged_out);
@@ -135,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements PetDataInterface,
             FragmentTransaction ft2 = getSupportFragmentManager().beginTransaction();
             ft2.replace(R.id.mainFrame, new HomeLoggedIn());
             ft2.commit();
+
             navigationView.getMenu().clear();
             navigationView.inflateMenu(R.menu.activity_main_drawer);
             navigationView.inflateHeaderView(R.layout.nav_header);
@@ -153,10 +136,10 @@ public class MainActivity extends AppCompatActivity implements PetDataInterface,
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, 0);
         String idPrijavljeni = sharedPreferences.getString(Config.ID_SHARED_PREF, "").toString();
         UpdateKorisnik updateKorisnik = UpdateKorisnik.newInstance(idPrijavljeni);
+
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.mainFrame, new UpdateKorisnik());
         ft.addToBackStack(null);
-
         ft.commit();
 
     }
@@ -207,7 +190,6 @@ public class MainActivity extends AppCompatActivity implements PetDataInterface,
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -236,7 +218,6 @@ public class MainActivity extends AppCompatActivity implements PetDataInterface,
     }
 
     /*upravljanje izbornikom*/
-
     public void swap(Fragment newFragment) {
         //android.app.FragmentTransaction t = getFragmentManager().beginTransaction();
         FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
@@ -253,8 +234,6 @@ public class MainActivity extends AppCompatActivity implements PetDataInterface,
 
     public void Navigation() {
         dl = (DrawerLayout) findViewById(R.id.drawer_layout);
-        hl = (RelativeLayout) findViewById(R.id.nav_header);
-
         NavigationView navigationView;
         navigationView = findViewById(R.id.nav_view);
         //navigationView.setCheckedItem(R.id.);
@@ -283,8 +262,6 @@ public class MainActivity extends AppCompatActivity implements PetDataInterface,
                                 SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, 0);
                                 String idPrijavljeni = sharedPreferences.getString(Config.ID_SHARED_PREF, "").toString();
                                 MojiLjubimci mojiLjubimci = MojiLjubimci.newInstance(idPrijavljeni);
-
-
                                 swap(mojiLjubimci);
                                 break;
 
@@ -306,10 +283,8 @@ public class MainActivity extends AppCompatActivity implements PetDataInterface,
                                 SharedPreferences preferences = getSharedPreferences
                                         (Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = preferences.edit();
-
                                 editor.putBoolean(Config.LOGGEDIN_SHARED_PREF, false);
                                 editor.remove("ulogiraniKorisnikId");
-
                                 editor.commit();
                                 /**/
                                 clearBackStack();
@@ -319,13 +294,10 @@ public class MainActivity extends AppCompatActivity implements PetDataInterface,
                                 NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);//bez head
                                 navigationView.getMenu().clear();
                                 navigationView.inflateMenu(R.menu.activity_main_drawer_logged_out); //opcije
-
                                 navigationView.getHeaderView(0);
                                 navigationView.removeHeaderView(navigationView.getHeaderView(0));
                                 navigationView.inflateHeaderView(R.layout.nav_header_logged_out); //head
-
                                 deleteDatabase();
-
                                 break;
                             /**/
                             case R.id.nav_frag6:
@@ -339,13 +311,11 @@ public class MainActivity extends AppCompatActivity implements PetDataInterface,
                                 swap(checkNFCOptions);
                                 break;
                         }
-
                         return true;
                     }
                 });
     }
 
-    /************/
     private void clearBackStack() {
         FragmentManager manager = getSupportFragmentManager();
         if (manager.getBackStackEntryCount() > 0) {
@@ -387,7 +357,6 @@ public class MainActivity extends AppCompatActivity implements PetDataInterface,
             idSken = mIntent.getStringExtra("idSkeniranja");
             //otvoriti fragment za detalje skeniranja s narednim id-em
             if (idSken != "") {
-
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 PrikazSvihObavijesti prikazSvihObavijesti = new PrikazSvihObavijesti();
@@ -398,6 +367,7 @@ public class MainActivity extends AppCompatActivity implements PetDataInterface,
                 //otvaranje fragmenta
                 Bundle bundle = new Bundle();
                 bundle.putString("idSkena", idSken);
+
                 FragmentManager fragmentManager1 = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction1 = fragmentManager1.beginTransaction();
                 PrikazObavijestiDetaljno fragmentObavijestiDetaljno = new PrikazObavijestiDetaljno();
@@ -455,11 +425,8 @@ public class MainActivity extends AppCompatActivity implements PetDataInterface,
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
-
-
     public void checkUnreadNotificationsNumber() {
         // List <mpet.project2018.air.database.entities.Skeniranje> skeniranjeList1=new SQLite().select().from(mpet.project2018.air.database.entities.Skeniranje.class).where(Skeniranje_Table.id_skeniranja.is(Integer.parseInt(skeniranje.id_skeniranja))).queryList();
-
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -502,6 +469,15 @@ public class MainActivity extends AppCompatActivity implements PetDataInterface,
         }, 1000);  //delay za obavijesti u milisekundama, promijeniti oboje, oboje moraju biti isti
     }
 
+    public void swapFragment(boolean addToBackstack, Fragment fragToShow){
+        if(this == null)
+            return;
+        FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.mainFrame, (Fragment) fragToShow);
+        if(addToBackstack)
+            ft.addToBackStack(null);
+        ft.commit();
+    }
 
     @Override
     public void petCodeLoaded(Retrofit.Model.Ljubimac pet) {

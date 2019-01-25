@@ -36,6 +36,7 @@ import Retrofit.DataPost.RegistracijaMethod;
 import Retrofit.RemotePost.StatusListener;
 import mpet.project2018.air.database.entities.Korisnik;
 import mpet.project2018.air.database.entities.Korisnik_Table;
+import mpet.project2018.air.mpet.OnFragmentInteractionListener;
 import mpet.project2018.air.mpet.R;
 
 import static android.app.Activity.RESULT_OK;
@@ -180,7 +181,10 @@ public class UpdateKorisnik extends Fragment implements StatusListener {
         buttonOdustani.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                swapFragment();
+                HomeLoggedIn frag;
+                frag = new HomeLoggedIn();
+                swapFragment(false,(HomeLoggedIn) frag);
+                ;
             }
         });
 
@@ -241,16 +245,21 @@ public class UpdateKorisnik extends Fragment implements StatusListener {
     }
 
 
-    private void swapFragment(){
+    private void swapFragment(boolean addToBackstack, Fragment fragToShow){
+        if(getActivity() == null)
+            return;
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.mainFrame, new HomeLoggedIn());
+        ft.replace(R.id.mainFrame, (Fragment) fragToShow);
+        if(addToBackstack)
+            ft.addToBackStack(null);
         ft.commit();
     }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof mpet.project2018.air.mpet.OnFragmentInteractionListener) {
+            mListener = (mpet.project2018.air.mpet.OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
         }
@@ -336,17 +345,13 @@ public class UpdateKorisnik extends Fragment implements StatusListener {
             }
             uredivaniKorisnik.update();
             /**/
-            swapFragment();
+            HomeLoggedIn frag;
+            frag = new HomeLoggedIn();
+            swapFragment(false,(HomeLoggedIn) frag);
         }
 
     }
 
-    public interface OnFragmentInteractionListener {
-
-        void onFragmentInteraction(String title);
-    }
-    private class ArticleFragment {
-    }
 
 }
 

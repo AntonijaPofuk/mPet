@@ -5,23 +5,18 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
+import mpet.project2018.air.mpet.OnFragmentInteractionListener;
 import mpet.project2018.air.mpet.R;
 
 public class About extends Fragment{
-    private OnFragmentInteractionListener mListener;
 
+    private OnFragmentInteractionListener mListener;
     public About() {}
 
     @Override
@@ -47,10 +42,10 @@ public class About extends Fragment{
             textView.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
-                                                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                                                ft.replace(R.id.mainFrame, new AboutApp());
-                                                ft.addToBackStack(null);
-                                                ft.commit();
+                                                AboutApp frag;
+                                                frag = new AboutApp();
+                                                mListener.swapFragment(true,(AboutApp) frag);
+
 
                                             }
                                         }
@@ -59,10 +54,9 @@ public class About extends Fragment{
         imageView.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
-                                            FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                                            ft.replace(R.id.mainFrame, new AboutApp());
-                                            ft.addToBackStack(null);
-                                            ft.commit();
+                                            AboutApp frag;
+                                            frag = new AboutApp();
+                                            mListener.swapFragment(true,(AboutApp) frag);
 
                                         }
                                     }
@@ -71,11 +65,9 @@ public class About extends Fragment{
         textView2.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
-                                            FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                                            ft.replace(R.id.mainFrame, new AboutUs());
-                                            ft.addToBackStack(null);
-                                            ft.commit();
-
+                                            AboutUs frag;
+                                            frag = new AboutUs();
+                                            mListener.swapFragment(true,(AboutUs) frag);
                                         }
                                     }
         );
@@ -83,42 +75,30 @@ public class About extends Fragment{
         imageView2.setOnClickListener(new View.OnClickListener() {
                                          @Override
                                          public void onClick(View v) {
-                                             FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                                             ft.replace(R.id.mainFrame, new AboutUs());
-                                             ft.addToBackStack(null);
-                                             ft.commit();
-
+                                             AboutUs frag;
+                                             frag = new AboutUs();
+                                             mListener.swapFragment(true,(AboutUs) frag);
                                          }
                                      }
         );
-
-
-
         return view;
     }
+
+
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof mpet.project2018.air.mpet.OnFragmentInteractionListener) {
+            mListener = (mpet.project2018.air.mpet.OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
         }
     }
-
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-
-    public interface OnFragmentInteractionListener {
-
-        void onFragmentInteraction(String title);
-    }
-    private class ArticleFragment {
     }
 
 }

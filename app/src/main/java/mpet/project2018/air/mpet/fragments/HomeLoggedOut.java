@@ -9,14 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import mpet.project2018.air.manualinput.ManualInputFragment;
 import mpet.project2018.air.mpet.Config;
+import mpet.project2018.air.mpet.OnFragmentInteractionListener;
 import mpet.project2018.air.mpet.R;
 import mpet.project2018.air.nfc.SkeniranjeNFCFragment;
-
-import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 
 
 public class HomeLoggedOut extends Fragment {
@@ -47,12 +45,10 @@ public class HomeLoggedOut extends Fragment {
         btn1.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        //startActivity(new Intent(getContext(), LoginActivity.class));
-                                        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                                        ft.replace(R.id.mainFrame, new Login());
-                                        ft.addToBackStack(null);
+                                        Login frag;
+                                        frag = new Login();
+                                        mListener.swapFragment(true,(Login) frag);
 
-                                        ft.commit();
                                     }
                                 }
         );
@@ -62,12 +58,11 @@ public class HomeLoggedOut extends Fragment {
         btn2.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
+                                        Registracija frag;
+                                        frag = new Registracija();
+                                        mListener.swapFragment(false,(Registracija) frag);
 
-                                        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                                        ft.replace(R.id.mainFrame, new Registracija());
-                                        ft.addToBackStack(null);
 
-                                        ft.commit();
                                     }
                                 }
         );
@@ -77,17 +72,15 @@ public class HomeLoggedOut extends Fragment {
                                     @Override
                                     public void onClick(View v) {
                                         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-
                                         ft.replace(R.id.mainFrame, returnRightCodeInputMethod());
                                         ft.addToBackStack(null);
                                         ft.commit();
+
+
                                     }
                                 }
         );
-
-
-
-        return view;
+       return view;
     }
 
     private Fragment returnRightCodeInputMethod()
@@ -116,13 +109,6 @@ public class HomeLoggedOut extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    public interface OnFragmentInteractionListener {
-
-        void onFragmentInteraction(String title);
-    }
-    private class ArticleFragment {
     }
 
 
