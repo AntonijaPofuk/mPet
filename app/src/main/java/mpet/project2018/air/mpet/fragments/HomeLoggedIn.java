@@ -197,8 +197,8 @@ public class HomeLoggedIn extends Fragment {
 
     private Fragment returnRightCodeInputMethod()
     {
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("CodeInputMethod", 0);
-        String defaultMethod=sharedPreferences.getString("defaultCodeInputMethod", "");
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(Config.SHARED_PREF_NAME, 0);
+        String defaultMethod=sharedPreferences.getString(Config.DEFAULT_INPUT_METHOD, "");
         if(defaultMethod.equals("nfc"))
         {
             return new SkeniranjeNFCFragment();

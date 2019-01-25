@@ -568,15 +568,15 @@ public class MainActivity extends AppCompatActivity implements PetDataInterface,
         NFCManager managerInstance=new NFCManager(this);
         if(managerInstance.checkNFCExistence())
         {
-            this.getSharedPreferences("CodeInputMethod",MODE_PRIVATE)
+            this.getSharedPreferences(Config.SHARED_PREF_NAME,MODE_PRIVATE)
                     .edit()
-                    .putString("defaultCodeInputMethod","nfc")
+                    .putString(Config.DEFAULT_INPUT_METHOD,"nfc")
                     .apply();
         }
         else {
-            this.getSharedPreferences("CodeInputMethod", MODE_PRIVATE)
+            this.getSharedPreferences(Config.SHARED_PREF_NAME,MODE_PRIVATE)
                     .edit()
-                    .putString("defaultCodeInputMethod", "manual")
+                    .putString(Config.DEFAULT_INPUT_METHOD,"manual")
                     .apply();
         }
     }
