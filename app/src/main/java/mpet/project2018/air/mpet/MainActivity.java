@@ -574,7 +574,7 @@ public class MainActivity extends AppCompatActivity implements PetDataInterface,
                     .apply();
         }
         else {
-            this.getSharedPreferences("nfcExists", MODE_PRIVATE)
+            this.getSharedPreferences("CodeInputMethod", MODE_PRIVATE)
                     .edit()
                     .putString("defaultCodeInputMethod", "manual")
                     .apply();

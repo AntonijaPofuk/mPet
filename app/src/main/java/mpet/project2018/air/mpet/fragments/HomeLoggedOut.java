@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import mpet.project2018.air.manualinput.ManualInputFragment;
 import mpet.project2018.air.mpet.Config;
 import mpet.project2018.air.mpet.R;
 import mpet.project2018.air.nfc.SkeniranjeNFCFragment;
@@ -83,7 +84,7 @@ public class HomeLoggedOut extends Fragment {
                                     public void onClick(View v) {
                                         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
 
-                                        ft.replace(R.id.mainFrame, new SkeniranjeNFCFragment());
+                                        ft.replace(R.id.mainFrame, returnRightCodeInputMethod());
                                         ft.addToBackStack(null);
                                         ft.commit();
                                     }
@@ -93,6 +94,18 @@ public class HomeLoggedOut extends Fragment {
 
 
         return view;
+    }
+
+    private Fragment returnRightCodeInputMethod()
+    {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("CodeInputMethod", 0);
+        String defaultMethod=sharedPreferences.getString("defaultCodeInputMethod", "");
+        if(defaultMethod.equals("nfc"))
+        {
+            return new SkeniranjeNFCFragment();
+        }
+
+        else return new ManualInputFragment();
     }
 
     @Override

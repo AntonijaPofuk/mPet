@@ -21,6 +21,7 @@ import mpet.project2018.air.database.entities.Kartica;
 import mpet.project2018.air.database.entities.Korisnik;
 import mpet.project2018.air.database.entities.Ljubimac;
 import mpet.project2018.air.database.entities.Skeniranje;
+import mpet.project2018.air.manualinput.ManualInputFragment;
 import mpet.project2018.air.mpet.Config;
 import mpet.project2018.air.mpet.R;
 import mpet.project2018.air.nfc.SkeniranjeNFCFragment;
@@ -186,11 +187,24 @@ public class HomeLoggedIn extends Fragment {
     }
 
     private void swapFragment2(){
+
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.mainFrame, new SkeniranjeNFCFragment());
+        ft.replace(R.id.mainFrame, returnRightCodeInputMethod());
         ft.addToBackStack(null);
         ft.commit();
 
+    }
+
+    private Fragment returnRightCodeInputMethod()
+    {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("CodeInputMethod", 0);
+        String defaultMethod=sharedPreferences.getString("defaultCodeInputMethod", "");
+        if(defaultMethod.equals("nfc"))
+        {
+            return new SkeniranjeNFCFragment();
+        }
+
+        else return new ManualInputFragment();
     }
 
 

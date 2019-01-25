@@ -232,7 +232,6 @@ public class PetDataFragment extends Fragment implements View.OnClickListener, K
         public void onLocationChanged(final Location location) {
             longitude= String.valueOf(location.getLongitude());
             latitude= String.valueOf(location.getLatitude());
-            Toast.makeText(getActivity(), "Stiglo", Toast.LENGTH_SHORT).show();
             if(prijavljeniKorisnik!="DEFAULT" && !alreadySentFlag)
             {
                 POSTdata();
