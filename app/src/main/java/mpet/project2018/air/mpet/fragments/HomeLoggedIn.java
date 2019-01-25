@@ -23,6 +23,7 @@ import mpet.project2018.air.database.entities.Ljubimac;
 import mpet.project2018.air.database.entities.Skeniranje;
 import mpet.project2018.air.mpet.Config;
 import mpet.project2018.air.mpet.R;
+import mpet.project2018.air.nfc.SkeniranjeNFCFragment;
 
 import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 
@@ -186,7 +187,7 @@ public class HomeLoggedIn extends Fragment {
 
     private void swapFragment2(){
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.mainFrame, new ModulNavigationFragment());
+        ft.replace(R.id.mainFrame, new SkeniranjeNFCFragment());
         ft.addToBackStack(null);
         ft.commit();
 

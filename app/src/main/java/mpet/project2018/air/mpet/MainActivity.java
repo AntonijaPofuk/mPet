@@ -27,12 +27,12 @@ import android.widget.TextView;
 
 import com.raizlabs.android.dbflow.sql.language.Delete;
 
+import mpet.project2018.air.core.PetDataInterface;
 import mpet.project2018.air.database.MainDatabase;
 import mpet.project2018.air.database.entities.Korisnik_Table;
 import mpet.project2018.air.database.entities.Skeniranje;
 
 import com.raizlabs.android.dbflow.sql.language.SQLite;
-import com.raizlabs.android.dbflow.sql.language.Update;
 
 import java.util.List;
 
@@ -42,6 +42,7 @@ import mpet.project2018.air.mpet.fragments.AboutUs;
 import mpet.project2018.air.mpet.fragments.HomeLoggedIn;
 import mpet.project2018.air.mpet.fragments.HomeLoggedOut;
 import mpet.project2018.air.mpet.fragments.Login;
+import mpet.project2018.air.mpet.fragments.PetDataFragment;
 import mpet.project2018.air.mpet.fragments.UpdateKorisnik;
 import mpet.project2018.air.mpet.fragments.MojiLjubimci;
 import mpet.project2018.air.mpet.fragments.NoviLjubimac;
@@ -59,12 +60,9 @@ import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 import mpet.project2018.air.mpet.fragments.UklanjanjeKartice;
 import mpet.project2018.air.mpet.fragments.UpdateLjubimac;
 import mpet.project2018.air.mpet.obavijesti.NotificationService;
-import mpet.project2018.air.mpet.fragments.ModulNavigationFragment;
 
 
-public class MainActivity extends AppCompatActivity
-        //Listeneri za klikove, OnFragmentInteractionListener je za sve fragmente
-        implements
+public class MainActivity extends AppCompatActivity implements PetDataInterface,
         HomeLoggedIn.OnFragmentInteractionListener,
         HomeLoggedOut.OnFragmentInteractionListener,
         Registracija.OnFragmentInteractionListener,
@@ -72,7 +70,6 @@ public class MainActivity extends AppCompatActivity
         NavigationView.OnNavigationItemSelectedListener,
         PrikazObavijestiDetaljno.OnFragmentInteractionListener,
         PrikazSvihObavijesti.OnFragmentInteractionListener,
-        ModulNavigationFragment.OnFragmentInteractionListener,
         MojiLjubimci.OnFragmentInteractionListener,
         NoviLjubimac.OnFragmentInteractionListener,
         About.OnFragmentInteractionListener,
@@ -549,5 +546,17 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    @Override
+    public void petCodeLoaded(Retrofit.Model.Ljubimac pet) {
+
+        Bundle bundle=new Bundle();
+        bundle.putSerializable("downloadPet", pet);
+        PetDataFragment petFrag = new PetDataFragment();
+        petFrag.setArguments(bundle);
+        FragmentManager mFragmentManager = getSupportFragmentManager();
+        FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
+        mFragmentTransaction.replace(R.id.mainFrame, petFrag);
+        mFragmentTransaction.commit();
+    }
 }
 

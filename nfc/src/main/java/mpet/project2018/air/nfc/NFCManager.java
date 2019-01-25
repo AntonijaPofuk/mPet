@@ -151,19 +151,6 @@ public class NFCManager
         else return false;
     }
 
-    // Metoda za provjeru formata koda kod pisanja na NFC tag
-    public boolean checkFormat(String code)
-    {
-        if(code.length()==10 && code.matches(("[A-Za-z0-9]+")))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
     // Metoda za provjeru da li je kartica Ndef formatirana te njeno formatiranja ukoliko nije
     public boolean formatTag(Tag tag, NdefMessage ndefMessage) {
         try {

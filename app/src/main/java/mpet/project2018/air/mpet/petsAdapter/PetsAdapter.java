@@ -1,13 +1,10 @@
 package mpet.project2018.air.mpet.petsAdapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -17,22 +14,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
-import mpet.project2018.air.mpet.CodeHelper.CodeHandlerHelper;
-import mpet.project2018.air.mpet.Config;
-import mpet.project2018.air.mpet.MainActivity;
+
 import mpet.project2018.air.mpet.R;
-import mpet.project2018.air.mpet.fragments.NoviLjubimac;
-import mpet.project2018.air.mpet.fragments.PrikazPodatakaOSkeniranomeLjubimcu;
 import mpet.project2018.air.mpet.fragments.UklanjanjeKartice;
 import mpet.project2018.air.mpet.fragments.UpdateLjubimac;
 import mpet.project2018.air.nfc.PisanjeNFCFragment;
-
-import static com.raizlabs.android.dbflow.config.FlowManager.getContext;
-import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 
 public class PetsAdapter extends
         RecyclerView.Adapter<PetsAdapter.ViewHolder>  {
@@ -72,8 +61,7 @@ public class PetsAdapter extends
 
                     Bundle bundle=new Bundle();
                     bundle.putSerializable("Pet",pet.getId());
-                    CodeHandlerHelper newInstance=new CodeHandlerHelper();
-                    PisanjeNFCFragment pisanjeFragment = new PisanjeNFCFragment(newInstance);
+                    PisanjeNFCFragment pisanjeFragment = new PisanjeNFCFragment();
                     pisanjeFragment.setArguments(bundle);
                     transaction.replace(R.id.mainFrame, pisanjeFragment);
                     transaction.addToBackStack(null);

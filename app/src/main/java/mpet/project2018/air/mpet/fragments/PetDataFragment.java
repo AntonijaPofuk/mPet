@@ -49,7 +49,7 @@ import static android.content.Context.LOCATION_SERVICE;
 import static android.support.v4.content.PermissionChecker.checkSelfPermission;
 import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 
-public class PrikazPodatakaOSkeniranomeLjubimcu extends Fragment implements View.OnClickListener, KorisnikDataLoadedListener, SkeniranjeOnDataPostedListener {
+public class PetDataFragment extends Fragment implements View.OnClickListener, KorisnikDataLoadedListener, SkeniranjeOnDataPostedListener {
 
     private ImageView petPic;
     private TextView petDescp;
@@ -213,7 +213,7 @@ public class PrikazPodatakaOSkeniranomeLjubimcu extends Fragment implements View
 
     private String getDate()
     {
-        DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy.");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
         return dateFormat.format(date);
 

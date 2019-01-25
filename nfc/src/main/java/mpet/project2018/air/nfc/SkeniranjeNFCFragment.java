@@ -10,7 +10,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.nfc.NfcAdapter;
-import android.nfc.NfcManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,34 +21,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
 import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.LjubimacDataLoadedListener;
 import Retrofit.DataGetListenersAndLoaders.DataLoaders.LjubimacDataLoader;
 import Retrofit.Model.Ljubimac;
-import mpet.project2018.air.core.ModuleCommonMethods;
-import mpet.project2018.air.core.ModuleImplementationMethods;
+import mpet.project2018.air.core.CodeValidation;
+import mpet.project2018.air.core.PetDataInterface;
 
-public class SkeniranjeNFCFragment extends Fragment implements ModuleImplementationMethods, LjubimacDataLoadedListener {
+public class SkeniranjeNFCFragment extends Fragment implements LjubimacDataLoadedListener {
 
-    public SkeniranjeNFCFragment() {
-    }
-
-    @SuppressLint("ValidFragment")
-    public SkeniranjeNFCFragment(ModuleCommonMethods supportClass, Activity rA)
-    {
-        commonMethodsInstance=supportClass;
-        runningActivity=rA;
-    }
-
-    private ModuleCommonMethods commonMethodsInstance;
+    private PetDataInterface listenerActivity ;
     private NFCManager nfcInstance;
     private Ljubimac loadedPet;
     private TextView nfcOutput;
     private ProgressBar nfcProgress;
-    private Activity runningActivity;
 
     private boolean scannedFlag=false;
 
@@ -85,7 +72,7 @@ public class SkeniranjeNFCFragment extends Fragment implements ModuleImplementat
     @Override
     public void onResume() {
         super.onResume();
-        Intent intent1 = new Intent(getActivity(), commonMethodsInstance.getContainerActivity()).addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
+        Intent intent1 = new Intent(getActivity(), getActivity().getClass()).addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
         PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), 0, intent1, 0);
         IntentFilter[] intentFilter = new IntentFilter[] { };
 
@@ -130,30 +117,21 @@ public class SkeniranjeNFCFragment extends Fragment implements ModuleImplementat
         }
     }
 
-    @Override
-    public Fragment getModuleFragment() {
-        return this;
-    }
+    private void validateCode(String code) {
 
-    @Override
-    public void validateCode(String code) {
-
-        if(commonMethodsInstance.validateCodeFormat(code))
+        if(CodeValidation.validateCodeFormat(code))
         {
-
                 LjubimacDataLoader petLoader = new LjubimacDataLoader(this);
                 petLoader.loadDataByTag(code);
-
         }
         else
         {
             outputValidationStatus(false);
         }
-
     }
 
-    @Override
-    public void outputValidationStatus(boolean validationStatus) {
+
+    private void outputValidationStatus(boolean validationStatus) {
 
         nfcProgress.setVisibility(View.INVISIBLE);
 
@@ -164,15 +142,6 @@ public class SkeniranjeNFCFragment extends Fragment implements ModuleImplementat
 
     }
 
-    @Override
-    public void showDataInFragment(FragmentActivity nowActivity, Ljubimac nowPet) {
-        commonMethodsInstance.showPetDataFragment(nowActivity,nowPet);
-    }
-
-    @Override
-    public String getModuleName() {
-        return runningActivity.getResources().getString(R.string.module_name);
-    }
 
     @Override
     public void LjubimacOnDataLoaded(List<Ljubimac> listaLjubimaca) {
@@ -201,7 +170,7 @@ public class SkeniranjeNFCFragment extends Fragment implements ModuleImplementat
                         scannedFlag=false;
                         dialog.dismiss();
                         if(!status) nfcProgress.setVisibility(View.VISIBLE);
-                        if(status) showDataInFragment(getActivity(),loadedPet);
+                        if(status) listenerActivity.petCodeLoaded(loadedPet);
                     }
                 })
                 .setIcon(imageIcon)
@@ -224,7 +193,7 @@ public class SkeniranjeNFCFragment extends Fragment implements ModuleImplementat
                     case NfcAdapter.STATE_TURNING_OFF:
                         break;
                     case NfcAdapter.STATE_ON:
-                        Intent intent1 = new Intent(getActivity(), commonMethodsInstance.getContainerActivity()).addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
+                        Intent intent1 = new Intent(getActivity(), getActivity().getClass()).addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
                         PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), 0, intent1, 0);
                         IntentFilter[] intentFilter = new IntentFilter[] { };
                         if(nfcInstance.checkNFCAvailability()) nfcInstance.getNfcAdapterInstance().enableForegroundDispatch(getActivity(), pendingIntent, intentFilter, null);
@@ -237,5 +206,14 @@ public class SkeniranjeNFCFragment extends Fragment implements ModuleImplementat
         }
     };
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof PetDataInterface) {
+            listenerActivity = (PetDataInterface) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement PetDataInterface");
+        }
+    }
 
 }

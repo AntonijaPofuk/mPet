@@ -3,13 +3,8 @@ package mpet.project2018.air.manualinput;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
-import android.nfc.NfcManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,34 +17,24 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import java.util.List;
 
 import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.LjubimacDataLoadedListener;
 import Retrofit.DataGetListenersAndLoaders.DataLoaders.LjubimacDataLoader;
 import Retrofit.Model.Ljubimac;
-import mpet.project2018.air.core.ModuleCommonMethods;
-import mpet.project2018.air.core.ModuleImplementationMethods;
+import mpet.project2018.air.core.CodeValidation;
+import mpet.project2018.air.core.PetDataInterface;
 
 @SuppressLint("ValidFragment")
-public class ManualInputFragment extends Fragment implements ModuleImplementationMethods, LjubimacDataLoadedListener, View.OnClickListener {
+public class ManualInputFragment extends Fragment implements LjubimacDataLoadedListener, View.OnClickListener {
 
 
-    @SuppressLint("ValidFragment")
-    public ManualInputFragment(ModuleCommonMethods supportClass, Activity rA)
-    {
-        commonMethodsInstance=supportClass;
-        runningActivity=rA;
-
-    }
-
-    private ModuleCommonMethods commonMethodsInstance;
+    private PetDataInterface listenerActivity;
     private Ljubimac loadedPet;
     private Button potvrdiUnos;
     private EditText unosKoda;
     private ProgressBar manualProgress;
-    private Activity runningActivity;
 
     @Nullable
     @Override
@@ -72,26 +57,11 @@ public class ManualInputFragment extends Fragment implements ModuleImplementatio
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
 
 
-    @Override
-    public Fragment getModuleFragment() {
-        return this;
-    }
+    private void validateCode(String code) {
 
-    @Override
-    public void validateCode(String code) {
-
-        if(commonMethodsInstance.validateCodeFormat(code))
+        if(CodeValidation.validateCodeFormat(code))
         {
             LjubimacDataLoader petLoader=new LjubimacDataLoader(this);
             petLoader.loadDataByTag(code);
@@ -103,21 +73,11 @@ public class ManualInputFragment extends Fragment implements ModuleImplementatio
 
     }
 
-    @Override
-    public void outputValidationStatus(boolean validationStatus) {
+
+    private void outputValidationStatus(boolean validationStatus) {
 
         if(validationStatus)alertingMessage( getResources().getString(R.string.codeStatusOK),R.drawable.success_message,validationStatus);
         else alertingMessage(getResources().getString(R.string.codeStatusNotOK),R.drawable.fail_message,validationStatus);
-    }
-
-    @Override
-    public void showDataInFragment(FragmentActivity nowActivity, Ljubimac nowPet) {
-        commonMethodsInstance.showPetDataFragment(nowActivity,nowPet);
-    }
-
-    @Override
-    public String getModuleName() {
-        return runningActivity.getResources().getString(R.string.module_namex);
     }
 
     @Override
@@ -151,7 +111,7 @@ public class ManualInputFragment extends Fragment implements ModuleImplementatio
                             potvrdiUnos.setVisibility(View.VISIBLE);
                             manualProgress.setVisibility(View.INVISIBLE);
                         }
-                        if(status) showDataInFragment(getActivity(),loadedPet);
+                        if(status) listenerActivity.petCodeLoaded(loadedPet);
                     }
                 })
                 .setIcon(imageIcon)
@@ -169,5 +129,15 @@ public class ManualInputFragment extends Fragment implements ModuleImplementatio
         editor.remove("ulogiraniKorisnikId");
         //editor.putString("ulogiraniKorisnikId","177");
         editor.apply();*/
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof PetDataInterface) {
+            listenerActivity = (PetDataInterface) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement PetDataInterface");
+        }
     }
 }

@@ -19,8 +19,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.util.Config;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,19 +28,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.raizlabs.android.dbflow.sql.language.Update;
 
 import java.security.SecureRandom;
-import java.util.List;
 
-import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.LjubimacDataLoadedListener;
-import Retrofit.DataGetListenersAndLoaders.DataLoaders.LjubimacDataLoader;
 import Retrofit.DataPost.KarticaMethod;
 import Retrofit.DataPost.LjubimacMethod;
-import Retrofit.Model.Ljubimac;
 import Retrofit.RemotePost.KarticaOnDataPostedListener;
 import Retrofit.RemotePost.LjubimacOnDataPostedListener;
-import mpet.project2018.air.core.ModuleCommonMethods;
-import mpet.project2018.air.core.ModuleImplementationMethods;
+import mpet.project2018.air.core.CodeValidation;
 import mpet.project2018.air.database.entities.Kartica;
 import mpet.project2018.air.database.entities.Kartica_Table;
 import mpet.project2018.air.database.entities.Korisnik;
@@ -52,26 +46,14 @@ import mpet.project2018.air.database.entities.Ljubimac_Table;
 public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPostedListener, LjubimacOnDataPostedListener {
 
 
-    private String switchingPet;
+        private String switchingPet;
 
-    public PisanjeNFCFragment() {
-        }
-
-        @SuppressLint("ValidFragment")
-        public PisanjeNFCFragment(ModuleCommonMethods supportClass)
-        {
-            commonMethodsInstance=supportClass;
-            //runningActivity=rA;
-        }
-
-        private ModuleCommonMethods commonMethodsInstance;
         private NFCManager nfcInstance;
         private Integer ljubimacID; // id ljubimca koji se želi staviti na karticu, Prima se preko bundlea kod create fragmenta
         private String upisanaKartica; // kartica
         private String logedUserID=""; // logirani user, dohvaća se preko shared prefsa
         private TextView nfcOutput;
         private ProgressBar nfcProgress;
-        private Activity runningActivity;
         private boolean switchFlag=false; // flag za odabir odgovarajućeg nastavka izvođenja koda nakon zapisa na server
         private boolean scannedFlag=false;
 
@@ -117,7 +99,7 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
         public void onResume() {
 
             super.onResume();
-            Intent intent1 = new Intent(getActivity(), commonMethodsInstance.getContainerActivity()).addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
+            Intent intent1 = new Intent(getActivity(), getActivity().getClass()).addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
             PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), 0, intent1, 0);
             IntentFilter[] intentFilter = new IntentFilter[] { };
 
@@ -161,7 +143,7 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
 
                         Toast.makeText(getActivity(), tagCode, Toast.LENGTH_SHORT).show();
 
-                        if (nfcInstance.checkFormat(tagCode)) {
+                        if (CodeValidation.validateCodeFormat(tagCode)) {
                             if(checkLockedStatus(intent)) writeToNFC(intent);
                             else actionsIfFormatOKAndLocked(tagCode);
                         }
@@ -266,7 +248,7 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
                         case NfcAdapter.STATE_TURNING_OFF:
                             break;
                         case NfcAdapter.STATE_ON:
-                            Intent intent1 = new Intent(getActivity(), commonMethodsInstance.getContainerActivity()).addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
+                            Intent intent1 = new Intent(getActivity(), getActivity().getClass()).addFlags(Intent.FLAG_RECEIVER_REPLACE_PENDING);
                             PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), 0, intent1, 0);
                             IntentFilter[] intentFilter = new IntentFilter[] { };
                             if(nfcInstance.checkNFCAvailability()) nfcInstance.getNfcAdapterInstance().enableForegroundDispatch(getActivity(), pendingIntent, intentFilter, null);
@@ -362,7 +344,7 @@ public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPosted
                 mpet.project2018.air.database.entities.Ljubimac switchLjubimac2 = SQLite.select().from(mpet.project2018.air.database.entities.Ljubimac.class
                 ).where(Ljubimac_Table.id_ljubimca.is(Integer.parseInt(petID))).querySingle();
 
-                Toast.makeText(runningActivity, switchLjubimac2.getKartica().getId_kartice(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), switchLjubimac2.getKartica().getId_kartice(), Toast.LENGTH_SHORT).show();
             }
 
         }

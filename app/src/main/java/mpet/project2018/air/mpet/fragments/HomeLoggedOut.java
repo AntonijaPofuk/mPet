@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import mpet.project2018.air.mpet.Config;
 import mpet.project2018.air.mpet.R;
+import mpet.project2018.air.nfc.SkeniranjeNFCFragment;
 
 import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 
@@ -82,7 +83,7 @@ public class HomeLoggedOut extends Fragment {
                                     public void onClick(View v) {
                                         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
 
-                                        ft.replace(R.id.mainFrame, new ModulNavigationFragment());
+                                        ft.replace(R.id.mainFrame, new SkeniranjeNFCFragment());
                                         ft.addToBackStack(null);
                                         ft.commit();
                                     }
