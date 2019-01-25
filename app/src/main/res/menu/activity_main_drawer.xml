@@ -26,10 +26,15 @@
 
             android:title="O nama" />
         <item
+            android:id="@+id/nav_fragOptions"
+
+            android:title="Opcije" />
+        <item
             android:id="@+id/nav_frag5"
 
             android:title="Odjava" />
 
     </group>
+
 
 </menu>

@@ -52,12 +52,6 @@ public class HomeLoggedIn extends Fragment {
             mListener.onFragmentInteraction("Početna");
         }
 
-        // Listeneri za btn
-        // Button btn1= (Button) view.findViewById(R.id.frag1_btn1); btn1.setOnclickListener(...
-
-
-
-
 
         Button btn1=(Button) view.findViewById(R.id.btnOdjava);
         btn1.setOnClickListener(new View.OnClickListener() {
@@ -79,35 +73,6 @@ public class HomeLoggedIn extends Fragment {
                                 }
         );
 
-
-
-
-
-
-        //Fetching email from shared preferences
-        /*SharedPreferences sp = this.getActivity().getSharedPreferences(Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        String id = sp.getString(Config.ID_SHARED_PREF,"");
-        //Showing the current logged in email to textview
-        */
-
-
-
-     /*    Korisnik k = new Korisnik();
-        k = new SQLite().select().from(Korisnik.class).where(Korisnik_Table.id_korisnika.is(Integer.valueOf(idPrijavljeni))).querySingle();
-        idKorisnik = k.getId_korisnika();
-        ime = k.getIme();
-        Toast.makeText(getActivity(),"Vase ime je" + ime, Toast.LENGTH_LONG).show();
-        //ne radi kad se odjavis */
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREF_NAME, 0);
-        String idPrijavljeni = sharedPreferences.getString(Config.ID_SHARED_PREF, "").toString();
-        //Toast.makeText(getActivity(),"Vas id je"+idPrijavljeni, Toast.LENGTH_SHORT).show();
-        //Korisnik k=new Korisnik();
-        //Korisnik korisnik = new SQLite().select().from(Korisnik.class).where(Korisnik_Table.id_korisnika.is(Integer.parseInt((idPrijavljeni)))).querySingle();
-        //k = new SQLite().select().from(Korisnik.class).where(Korisnik_Table.id_korisnika.is(Integer.parseInt(idPrijavljeni))).querySingle();
-
-
-
-        //Skeniranje skeniranje = new SQLite().select().from(Skeniranje.class).where(Skeniranje_Table.id_skeniranja.is(Integer.parseInt(idSkeniranja))).querySingle();
 
 
 

@@ -20,6 +20,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Checkable;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -40,6 +41,7 @@ import java.util.List;
 import mpet.project2018.air.database.entities.Skeniranje_Table;
 import mpet.project2018.air.mpet.fragments.AboutApp;
 import mpet.project2018.air.mpet.fragments.AboutUs;
+import mpet.project2018.air.mpet.fragments.CheckNFCOptions;
 import mpet.project2018.air.mpet.fragments.HomeLoggedIn;
 import mpet.project2018.air.mpet.fragments.HomeLoggedOut;
 import mpet.project2018.air.mpet.fragments.Login;
@@ -79,7 +81,8 @@ public class MainActivity extends AppCompatActivity implements PetDataInterface,
         UklanjanjeKartice.OnFragmentInteractionListener,
         UpdateKorisnik.OnFragmentInteractionListener,
         AboutApp.OnFragmentInteractionListener,
-        AboutUs.OnFragmentInteractionListener
+        AboutUs.OnFragmentInteractionListener,
+        CheckNFCOptions.OnFragmentInteractionListener
         //TODO: dodaj novi fragment ovdje uvijek a na početku fragmenta implementiraj mlistenere
 
 {
@@ -114,6 +117,9 @@ public class MainActivity extends AppCompatActivity implements PetDataInterface,
         Navigation();
 
         MainDatabase.initializeDatabase(this);
+
+
+        Toast.makeText(this, "NFC je "+ Config.DEFAULT_INPUT_METHOD, Toast.LENGTH_SHORT).show();
 
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, 0);
         String id1 = sharedPreferences.getString(ID_SHARED_PREF, "").toString();
@@ -153,67 +159,9 @@ public class MainActivity extends AppCompatActivity implements PetDataInterface,
 
         ft.commit();
 
-
-
-        //----------------------------------------------------------------
-/*
-
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                PrikazSvihObavijesti prikazSvihObavijesti = new PrikazSvihObavijesti();
-                fragmentTransaction.replace(R.id.mainFrame, prikazSvihObavijesti);
-                fragmentTransaction.commit();
-*/
-
     }
 
-    /*private void reg(){
-         SkeniranjeNFCKartice mDiscountListFragment = new SkeniranjeNFCKartice();
-         navigationView.setCheckedItem(R.id.nav_frag1);         //Provjera prvog elementa u draweru
-         //FragmentTransaction ft = getSupportFragmentManager().beginTransaction();             //otvaranje fragmenta
-         //ft.replace(R.id.mainFrame, new HomeLoggedOut());
-         //ft.commit();
 
-         reg2();
-
-         //---------------------------------------------------------------
-         MainDatabase.initializeDatabase(this);
-         //--------------------------------------------------------------
-         //mockData();
-     }
-
- /*
-     private void mockData()
-     {
-         //Korisnik logiraniKorisnik=   SQLite.select().from(Korisnik.class).where(Korisnik_Table.id_korisnika.is(213)).querySingle();
-         /*Kartica novaKartica=new Kartica();
-         novaKartica.setId_kartice("6542fer74f");
-         novaKartica.setKorisnik(logiraniKorisnik);
-         novaKartica.save();
-         Kartica kartica=   SQLite.select().from(Kartica.class).where(Kartica_Table.id_kartice.is("6542fer74f")).querySingle();*/
-        /*Ljubimac ljubimac =new Ljubimac();
-        ljubimac.setId_ljubimca(55);
-        ljubimac.setKartica(null);
-        ljubimac.setKorisnik(logiraniKorisnik);
-        ljubimac.save();
-        Ljubimac ljubimac1=SQLite.select().from(Ljubimac.class).where(Ljubimac_Table.id_ljubimca.is(1)).querySingle();
-        ljubimac1.setKartica(null);
-        ljubimac1.save();
-        if(ljubimac1==null) Toast.makeText(this, "nul je", Toast.LENGTH_SHORT).show();
-        else Toast.makeText(this, ljubimac1.getKartica().getId_kartice() , Toast.LENGTH_SHORT).show();
-
-    }
-*/
-        /*
-    private void reg2(){
-        CodeHandlerHelper novaInstancaProba=new CodeHandlerHelper();
-        PisanjeNFCFragment mDiscountListFragment = new PisanjeNFCFragment(novaInstancaProba,this);
-        FragmentManager mFragmentManager = getSupportFragmentManager();
-        FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
-        mFragmentTransaction.replace(R.id.mainFrame, mDiscountListFragment);
-        mFragmentTransaction.commit();
-    }
-*/
     public void changeHeaderData(){ //promjena headera kod pokretanja app
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, 0);
         String id1 = sharedPreferences.getString(ID_SHARED_PREF, "").toString();
@@ -385,6 +333,11 @@ public class MainActivity extends AppCompatActivity implements PetDataInterface,
                                 swap(prijava);
                                 break;
                             /**/
+
+                            case R.id.nav_fragOptions:
+                                CheckNFCOptions checkNFCOptions = new CheckNFCOptions();
+                                swap(checkNFCOptions);
+                                break;
                         }
 
                         return true;

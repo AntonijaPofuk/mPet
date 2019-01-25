@@ -5,7 +5,7 @@ public class Config {
     //This would be the name of our shared preferences
     public static final String SHARED_PREF_NAME = "MyPref";
 
-    //This would be used to store the email of current logged in user
+    //This would be used to store the id of current logged in user
     public static final String ID_SHARED_PREF = "ulogiraniKorisnikId";
 
     //This would be used to store the default method of code input

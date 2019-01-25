@@ -43,12 +43,6 @@ public class HomeLoggedOut extends Fragment {
 
 
 
-
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREF_NAME, 0);
-        String idNeprijavljeni = sharedPreferences.getString(Config.ID_SHARED_PREF, "").toString();
-       Toast.makeText(getActivity(),"Vas id je"+idNeprijavljeni, Toast.LENGTH_SHORT).show();
-
-
         Button btn1=(Button) view.findViewById(R.id.btnPrijava);
         btn1.setOnClickListener(new View.OnClickListener() {
                                     @Override
