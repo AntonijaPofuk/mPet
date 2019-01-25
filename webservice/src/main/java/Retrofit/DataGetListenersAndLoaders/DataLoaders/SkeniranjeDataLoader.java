@@ -40,7 +40,14 @@ public class SkeniranjeDataLoader {
         SkeniranjeData scanWS = new SkeniranjeData(scanHandler);
 
         scanWS.DownloadByUserId(userId);
+    }
 
+    public void loadDataForUser(String userId) {
+
+        idKorisnika=userId;
+        SkeniranjeData scanWS = new SkeniranjeData(scanHandler);
+
+        scanWS.DownloadDataForNotification(userId);
     }
 
     //TODO: As an exercise, change the architecture so that you have only one AirWebServiceHandler
