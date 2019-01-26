@@ -34,6 +34,7 @@ import Retrofit.RemotePost.onLoginValidation;
 import mpet.project2018.air.core.InternetConnectionHandler;
 import mpet.project2018.air.core.OnFragmentInteractionListener;
 import mpet.project2018.air.mpet.Config;
+import mpet.project2018.air.mpet.MainActivity;
 import mpet.project2018.air.mpet.R;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -176,6 +177,7 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
             /**/
             progressDialogEdit(15,"Vaši korisnički podaci su u redu!");
 
+
         } else {
             Toast.makeText(getActivity(), "Korisnicko ime ili lozinka su netocni", Toast.LENGTH_SHORT).show();
             dismissLoadingDialog();
@@ -225,6 +227,7 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
         SkeniranjeDataLoader sken=new SkeniranjeDataLoader(this);
         sken.loadDataByUserId(globalId);
         progressDialogEdit(90,"Ljubimci su u kućicama!");
+
     }
 
     @Override
@@ -236,7 +239,13 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
         HomeLoggedIn frag;
         getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         frag = new HomeLoggedIn();
+
+        ((MainActivity)getActivity()).changeHeaderData();
+
         mListener.swapFragment(false,(HomeLoggedIn) frag);
+
+
+
         progressDialogEdit(100,"Pozdrav!");
         dismissLoadingDialog();
     }
