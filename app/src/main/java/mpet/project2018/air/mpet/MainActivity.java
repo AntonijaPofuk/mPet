@@ -17,6 +17,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -58,7 +59,7 @@ import mpet.project2018.air.mpet.obavijesti.NotificationService;
 import mpet.project2018.air.nfc.NFCManager;
 
 
-public class MainActivity extends AppCompatActivity implements OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements OnFragmentInteractionListener{
 
     private DrawerLayout dl;
 
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        //navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_frag1); //Provjera i odabir prvog elementa u draweru
 
         Navigation();
@@ -136,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     public void changeHeaderData(){ //promjena headera kod pokretanja app
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, 0);
         String id1 = sharedPreferences.getString(ID_SHARED_PREF, "").toString();
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 
         navigationView.getHeaderView(0);
         View header =navigationView.getHeaderView(0);
@@ -160,6 +161,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                                                 String idPrijavljeni = sharedPreferences.getString(Config.ID_SHARED_PREF, "").toString();
                                                 UpdateKorisnik updateKorisnik = UpdateKorisnik.newInstance(idPrijavljeni);
                                                 swap(updateKorisnik);
+                                                dl.closeDrawer(Gravity.LEFT, false);
+
                                             }
                                         }
             );
@@ -190,32 +193,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        Fragment fragment = null;
-        if (id == R.id.nav_frag1) {
 
-            //fragment = new HomeLoggedIn();  //Promjena fragmenta iz aktivnosit
-        } else if (id == R.id.nav_frag2) {
-
-        } else if (id == R.id.nav_frag3) {
-
-        } else if (id == R.id.nav_frag4) {
-
-        } else if (id == R.id.nav_frag5) {
-
-        }
-        if (fragment != null) {
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.mainFrame, fragment);
-            ft.commit();
-        }
-        //zatvaranje izbornika
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout); //globaliziraj ju ili ovak
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
 
     /*upravljanje izbornikom*/
     public void swap(Fragment newFragment) {

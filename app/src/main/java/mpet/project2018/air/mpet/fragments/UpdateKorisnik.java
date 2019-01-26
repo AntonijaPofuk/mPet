@@ -2,6 +2,7 @@ package mpet.project2018.air.mpet.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -67,6 +68,9 @@ public class UpdateKorisnik extends Fragment implements StatusListener {
     private Target loadtarget;
 
     private Korisnik uredivaniKorisnik;
+
+    private ProgressDialog progress;
+
 
     public static UpdateKorisnik newInstance(String idKor) {
         Bundle bundle = new Bundle();
@@ -163,6 +167,8 @@ public class UpdateKorisnik extends Fragment implements StatusListener {
                                                         globalTelefon=telefon;
                                                         globalMobitel=mobitel;
                                                         method.Update(ID_KORISNIKA,ime,prezime,korIme,adresa,mail,mobitel,telefon,slika);
+                                                        showLoadingDialog();
+
                                                     }
                                                 }
                                             }
@@ -323,6 +329,9 @@ public class UpdateKorisnik extends Fragment implements StatusListener {
         }
         /*promjena podataka*/
         else if(!s.equals("uspjesno")&&!s.equals("duplikat")){
+            progressDialogEdit(15,"Ažuriramo podatke");
+            progressDialogEdit(100,"Postavljamo nove podatke");
+
             Toast.makeText(getActivity(), "Ažurirali ste podatke :)",
                     Toast.LENGTH_LONG).show();
             uredivaniKorisnik.setKorisnicko_ime(globalKorIme);
@@ -337,14 +346,37 @@ public class UpdateKorisnik extends Fragment implements StatusListener {
             }
             uredivaniKorisnik.update();
             ((MainActivity)getActivity()).changeHeaderData();
+
             /**/
             HomeLoggedIn frag;
             frag = new HomeLoggedIn();
             swapFragment(false,(HomeLoggedIn) frag);
+            dismissLoadingDialog();
         }
 
     }
+    public void showLoadingDialog() {
+        if (progress == null) {
+            progress = new ProgressDialog(getActivity());
+            progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progress.setProgressNumberFormat(null);
+            progress.setProgressPercentFormat(null);
+            progress.setMessage("Molimo pričekajte...");
+            progress.setCancelable(false);
+            progress.setButton("Odustani",(DialogInterface.OnClickListener)null);
+        }
+        progress.show();
+    }
+    private void progressDialogEdit(int progressNum, String message)
+    {
+        progress.setProgress(progressNum);
+        progress.setMessage(message);
+    }
 
-
+    public void dismissLoadingDialog() {
+        if (progress != null && progress.isShowing()) {
+            progress.dismiss();
+        }
+    }
 }
 
