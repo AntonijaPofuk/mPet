@@ -148,8 +148,10 @@ public class ScanningNFCFragment extends Fragment implements LjubimacDataLoadedL
                 LjubimacDataLoader petLoader = new LjubimacDataLoader(this);
                 petLoader.loadDataByTag(code);
             }
-            else Toast.makeText(getContext(), mpet.project2018.air.core.R.string.internetNotAvailable, Toast.LENGTH_SHORT).show();
-            scannedFlag=false;
+            else {
+                Toast.makeText(getContext(), mpet.project2018.air.core.R.string.internetNotAvailable, Toast.LENGTH_SHORT).show();
+                scannedFlag = false;
+            }
         }
         else
         {
@@ -164,7 +166,10 @@ public class ScanningNFCFragment extends Fragment implements LjubimacDataLoadedL
     private void outputValidationStatus(boolean validationStatus)
     {
             nfcProgress.setVisibility(View.INVISIBLE);
-            if (validationStatus) listenerActivity.petCodeLoaded(loadedPet);
+            if (validationStatus)
+            {listenerActivity.petCodeLoaded(loadedPet);
+                scannedFlag=false;
+            }
             else alertingMessage(getResources().getString(mpet.project2018.air.core.R.string.codeStatusNotOK), mpet.project2018.air.core.R.drawable.fail_message);
     }
 
