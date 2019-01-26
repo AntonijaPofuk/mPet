@@ -170,11 +170,8 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
     public void onDataLoaded (String id){
         globalId=id;
         if (Integer.parseInt(id) != 0) {
-            getActivity().getSharedPreferences(SHARED_PREF_NAME,MODE_PRIVATE)
-                    .edit()
-                    .putString(Config.ID_SHARED_PREF,id)
-                    .apply();
             downloadDatabase(id);
+
             /*zamjena izbornika*/
             NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
             navigationView.getMenu().clear();
@@ -183,10 +180,6 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
             navigationView.removeHeaderView(navigationView.getHeaderView(0));
             navigationView.inflateHeaderView(R.layout.nav_header);
             /**/
-            HomeLoggedIn frag;
-            frag = new HomeLoggedIn();
-            mListener.swapFragment(false,(HomeLoggedIn) frag);
-
 
         } else {
             Toast.makeText(getActivity(), "Korisnicko ime ili lozinka su netocni", Toast.LENGTH_SHORT).show();
@@ -238,6 +231,13 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
 
     @Override
     public void SkeniranjeOnDataLoaded(List<Skeniranje> listaSkeniranja) {
+        getActivity().getSharedPreferences(SHARED_PREF_NAME,MODE_PRIVATE)
+                .edit()
+                .putString(Config.ID_SHARED_PREF,globalId)
+                .apply();
+        HomeLoggedIn frag;
+        frag = new HomeLoggedIn();
+        mListener.swapFragment(false,(HomeLoggedIn) frag);
         dismissLoadingDialog();
     }
 
