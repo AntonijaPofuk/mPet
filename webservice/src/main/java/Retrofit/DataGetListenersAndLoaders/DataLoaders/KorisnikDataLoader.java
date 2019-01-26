@@ -21,6 +21,10 @@ public class KorisnikDataLoader {
 
     private boolean usersArrived= false;
 
+    private List<Korisnik> lista;
+
+    private Integer userCount=0;
+
     public KorisnikDataLoader(KorisnikDataLoadedListener korisnikDataLoadedListener)
     {
         this.mKorisnikDataLoadedListener = korisnikDataLoadedListener;
@@ -48,12 +52,15 @@ public class KorisnikDataLoader {
         @Override
         public void onDataArrived(Object result, boolean ok, boolean prijava) {
             if(ok){
+                usersArrived = true;
                 List<Korisnik> listaKorisnika = (List<Korisnik>) result;
+                lista=listaKorisnika;
+                userCount=lista.size();
                 if(prijava){
                     saveUserInLocalDatabase(listaKorisnika);
                 }
-                usersArrived = true;
-                checkDataArrival(listaKorisnika);
+
+               else checkDataArrival(listaKorisnika);
             }
         }
     };
@@ -91,6 +98,10 @@ public class KorisnikDataLoader {
                 //handleLoadedBitmap(bitmap);
                 kor.setSlika(bitmap);
                 kor.save();
+
+                userCount=userCount-1;
+
+                if(userCount==0) checkDataArrival(lista);
             }
             @Override
             public void onBitmapFailed(Exception e, Drawable errorDrawable) { }

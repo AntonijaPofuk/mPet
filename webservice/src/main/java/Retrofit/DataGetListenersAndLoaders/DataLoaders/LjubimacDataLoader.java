@@ -29,7 +29,11 @@ public class LjubimacDataLoader  {
 
     private boolean petsArrived= false;
 
+    private Integer petCount=0;
+
     private String idKorisnika;
+
+    private List<Ljubimac> lista;
 
     public LjubimacDataLoader(LjubimacDataLoadedListener ljubimacDataLoadedListener)
     {
@@ -60,11 +64,14 @@ public class LjubimacDataLoader  {
         public void onDataArrived(Object result, boolean ok, boolean prijava) {
             if(ok){
                 List<Ljubimac> listaLjubimaca = (List<Ljubimac>) result;
+                lista=listaLjubimaca;
+                petCount=listaLjubimaca.size();
+                petsArrived = true;
                 if(prijava){
                     savePetInLocalDatabase(listaLjubimaca);
                 }
-                petsArrived = true;
-                checkDataArrival(listaLjubimaca);
+
+                else checkDataArrival(listaLjubimaca);
             }
         }
     };
@@ -78,6 +85,7 @@ public class LjubimacDataLoader  {
 
     private void savePetInLocalDatabase(List<Ljubimac> listaLjubimaca)
     {
+        if(petCount==0) checkDataArrival(lista);
         for (Ljubimac ljubimac : listaLjubimaca)
         {
             mpet.project2018.air.database.entities.Korisnik k=new SQLite().select().from(mpet.project2018.air.database.entities.Korisnik.class).where(Korisnik_Table.id_korisnika.is(Integer.parseInt(idKorisnika))).querySingle();
@@ -108,6 +116,10 @@ public class LjubimacDataLoader  {
                 //handleLoadedBitmap(bitmap);
                 ljub.setSlika(bitmap);
                 ljub.save();
+
+                petCount=petCount-1;
+
+                if(petCount==0) checkDataArrival(lista);
             }
             @Override
             public void onBitmapFailed(Exception e, Drawable errorDrawable) { }

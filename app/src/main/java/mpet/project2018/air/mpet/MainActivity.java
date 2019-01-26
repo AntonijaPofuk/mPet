@@ -78,8 +78,8 @@ public class MainActivity extends AppCompatActivity implements PetDataInterface,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        startService();//Pokretanje servisa za obavijesti
-        getObavijestiIntent();//dohvaćanje intenta za detaljne obavijesti
+        //startService();//Pokretanje servisa za obavijesti
+        //getObavijestiIntent();//dohvaćanje intenta za detaljne obavijesti
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements PetDataInterface,
         }
 
 
-        checkUnreadNotificationsNumber();//obavijesti
+        //checkUnreadNotificationsNumber();//obavijesti
 
         setDefaultCodeInputMethod();
 
@@ -155,14 +155,16 @@ public class MainActivity extends AppCompatActivity implements PetDataInterface,
 
         mpet.project2018.air.database.entities.Korisnik k=new SQLite().select().from(mpet.project2018.air.database.entities.Korisnik.class)
                 .where(Korisnik_Table.id_korisnika.is(Integer.parseInt(id1))).querySingle();
-        String korime=k.getKorisnicko_ime();
-        Bitmap slika = k.getSlika();
+        if(k!=null) {
+            String korime = k.getKorisnicko_ime();
+            Bitmap slika = k.getSlika();
 
-        TextView textView = header.findViewById(R.id.korImeIzbornik);
-        textView.setText(korime);
+            TextView textView = header.findViewById(R.id.korImeIzbornik);
+            textView.setText(korime);
 
-        ImageView imageView = header.findViewById(R.id.imageViewKorSlika);
-        imageView.setImageBitmap(slika);
+            ImageView imageView = header.findViewById(R.id.imageViewKorSlika);
+            imageView.setImageBitmap(slika);
+        }
 
     };
     @Override
