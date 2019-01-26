@@ -1,7 +1,5 @@
 package mpet.project2018.air.nfc;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -15,33 +13,34 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.List;
-
 import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.LjubimacDataLoadedListener;
 import Retrofit.DataGetListenersAndLoaders.DataLoaders.LjubimacDataLoader;
 import Retrofit.Model.Ljubimac;
 import mpet.project2018.air.core.CodeValidation;
 import mpet.project2018.air.core.InternetConnectionHandler;
 import mpet.project2018.air.core.OnFragmentInteractionListener;
-import mpet.project2018.air.core.PetDataInterface;
 
 public class ScanningNFCFragment extends Fragment implements LjubimacDataLoadedListener {
 
+    // running aktivnost
     private OnFragmentInteractionListener listenerActivity ;
+    // instanca NFCManagera koja služi za nfc operacije
     private NFCManager nfcInstance;
+    // Dohvaćeni ljubimac
     private Ljubimac loadedPet;
+    // view elementi
     private TextView nfcOutput;
     private ProgressBar nfcProgress;
-
+    // zastavica koja onemogućuje višestruko skeniranje
     private boolean scannedFlag=false;
+
 
     @Nullable
     @Override
@@ -59,6 +58,9 @@ public class ScanningNFCFragment extends Fragment implements LjubimacDataLoadedL
         return  view;
     }
 
+    /**
+     * override kako bi se uklonio nfc listener
+     */
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -68,7 +70,6 @@ public class ScanningNFCFragment extends Fragment implements LjubimacDataLoadedL
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         nfcStatusOutput(nfcInstance.checkNFCAvailability());
     }
 
@@ -85,8 +86,10 @@ public class ScanningNFCFragment extends Fragment implements LjubimacDataLoadedL
 
         Intent receivedIntent=getActivity().getIntent();
 
-        if(!(receivedIntent.hasExtra("old"))) {
-            if (nfcInstance.isNFCIntent(receivedIntent)) {
+        if(!(receivedIntent.hasExtra("old")))
+        {
+            if (nfcInstance.isNFCIntent(receivedIntent))
+            {
                 receivedIntent.putExtra("old",1);
                 performActionsAfterTagReading(receivedIntent);
             }
@@ -100,6 +103,10 @@ public class ScanningNFCFragment extends Fragment implements LjubimacDataLoadedL
             nfcInstance.getNfcAdapterInstance().disableForegroundDispatch(getActivity());
     }
 
+    /**
+     * Ispis statusa nfc značajke
+     * @param status status nfc značajke
+     */
     private void nfcStatusOutput(Boolean status)
     {
         if(!status) nfcOutput.setText(getString(R.string.no_nfc));
@@ -107,18 +114,30 @@ public class ScanningNFCFragment extends Fragment implements LjubimacDataLoadedL
 
     }
 
+    /**
+     * Okida se nakon što je pristigao novi intent
+     * @param intent pristigli intent
+     */
     private void performActionsAfterTagReading(Intent intent) {
-        if(!scannedFlag) {
+        if(!scannedFlag)
+        {
             scannedFlag=true;
-            if (nfcInstance.isNFCIntent(intent)) {
-                if (nfcInstance.validateTag(intent)) {
+            if (nfcInstance.isNFCIntent(intent))
+            {
+                if (nfcInstance.validateTag(intent))
+                {
                     String tagCode = nfcInstance.getCodeFromNdefRecord(nfcInstance.getFirstNdefRecord(nfcInstance.getNdefMessageFromIntent(intent)));
                     validateCode(tagCode);
-                } else outputValidationStatus(false);
+                }
+                else outputValidationStatus(false);
             }
         }
     }
 
+    /**
+     * Validacija formata koda
+     * @param code
+     */
     private void validateCode(String code) {
 
         if(CodeValidation.validateCodeFormat(code))
@@ -136,29 +155,36 @@ public class ScanningNFCFragment extends Fragment implements LjubimacDataLoadedL
         }
     }
 
-
-    private void outputValidationStatus(boolean validationStatus) {
-
-        nfcProgress.setVisibility(View.INVISIBLE);
-
+    /**
+     * Ispis statusa validacije
+     * @param validationStatus status validacije
+     */
+    private void outputValidationStatus(boolean validationStatus)
+    {
+            nfcProgress.setVisibility(View.INVISIBLE);
             if (validationStatus) listenerActivity.petCodeLoaded(loadedPet);
             else alertingMessage(getResources().getString(mpet.project2018.air.core.R.string.codeStatusNotOK), mpet.project2018.air.core.R.drawable.fail_message);
-
     }
 
-
+    /**
+     * Okida se nakon dohvata ljubimca pomoću web servisa
+     * @param listaLjubimaca lista dohvaćenih ljubimaca, prazna ili s jednim elementom
+     */
     @Override
     public void LjubimacOnDataLoaded(List<Ljubimac> listaLjubimaca) {
-
         if(listaLjubimaca.isEmpty()) outputValidationStatus(false);
         else
         {
             loadedPet=listaLjubimaca.get(0);
             outputValidationStatus(true);
         }
-
     }
 
+    /**
+     * Ispis prikladne poruke kod skeniranja
+     * @param message poruka za ispis
+     * @param imageIcon odgovarajuća popratna ikona
+     */
     private void alertingMessage(String message, int imageIcon)
     {
         AlertDialog.Builder builder;
@@ -181,6 +207,9 @@ public class ScanningNFCFragment extends Fragment implements LjubimacDataLoadedL
                 .show();
     }
 
+    /**
+     * Broadcast reciever za praćenje stanja NFC adaptera
+     */
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -210,13 +239,17 @@ public class ScanningNFCFragment extends Fragment implements LjubimacDataLoadedL
         }
     };
 
+    /**
+     * Dohvat instance aktivnosti
+     * @param context
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             listenerActivity = (OnFragmentInteractionListener) context;
         } else {
-            throw new RuntimeException(context.toString() + " must implement PetDataInterface");
+            throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
         }
     }
 

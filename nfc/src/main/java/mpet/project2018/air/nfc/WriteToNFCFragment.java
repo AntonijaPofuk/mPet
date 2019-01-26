@@ -1,7 +1,5 @@
 package mpet.project2018.air.nfc;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -26,12 +24,8 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.raizlabs.android.dbflow.sql.language.SQLite;
-import com.raizlabs.android.dbflow.sql.language.Update;
-
 import java.security.SecureRandom;
-
 import Retrofit.DataPost.KarticaMethod;
 import Retrofit.DataPost.LjubimacMethod;
 import Retrofit.RemotePost.KarticaOnDataPostedListener;
@@ -39,7 +33,6 @@ import Retrofit.RemotePost.LjubimacOnDataPostedListener;
 import mpet.project2018.air.core.CodeValidation;
 import mpet.project2018.air.core.InternetConnectionHandler;
 import mpet.project2018.air.core.OnFragmentInteractionListener;
-import mpet.project2018.air.core.PetDataInterface;
 import mpet.project2018.air.database.entities.Kartica;
 import mpet.project2018.air.database.entities.Kartica_Table;
 import mpet.project2018.air.database.entities.Korisnik;
@@ -48,18 +41,24 @@ import mpet.project2018.air.database.entities.Ljubimac_Table;
 
 public class WriteToNFCFragment extends  Fragment implements KarticaOnDataPostedListener, LjubimacOnDataPostedListener {
 
-
+        // ljubimac koji se remova s taga
         private String switchingPet;
-
+        // instanca za rad snfc operacijama
         private NFCManager nfcInstance;
-        private Integer ljubimacID; // id ljubimca koji se želi staviti na karticu, Prima se preko bundlea kod create fragmenta
-        private String upisanaKartica; // kartica
-        private String logedUserID=""; // logirani user, dohvaća se preko shared prefsa
+        // id ljubimca koji se želi staviti na karticu, Prima se preko bundlea kod create fragmenta
+        private Integer ljubimacID;
+        // nfc tag na koji se pokušava staviti ljubimac
+        private String upisanaKartica;
+        // logirani korisnik
+        private String logedUserID="";
+        // view elementi
         private TextView nfcOutput;
         private ProgressBar nfcProgress;
-        private boolean switchFlag=false; // flag za odabir odgovarajućeg nastavka izvođenja koda nakon zapisa na server
+        // zastavica koja opisuje radnje stavljanja na karticu, put ili switch
+        private boolean switchFlag=false;
+        // zastavica koja onemogućuje višestruko skeniranje
         private boolean scannedFlag=false;
-
+        // trenutna aktivnost
         private OnFragmentInteractionListener listenerActivity;
 
         @Nullable
@@ -134,15 +133,21 @@ public class WriteToNFCFragment extends  Fragment implements KarticaOnDataPosted
                 nfcInstance.getNfcAdapterInstance().disableForegroundDispatch(getActivity());
         }
 
+    /**
+     * Ispis statusa nfc adaptear
+     * @param status status nfc adaptera
+     */
         private void nfcStatusOutput(Boolean status)
         {
             if(!status) nfcOutput.setText(getString(R.string.no_nfc));
             else nfcOutput.setText(getString(R.string.yes_nfc));
-
         }
 
-        private void performActionsAfterTagReading(Intent intent) {
-
+    /**
+     * Akcije nakon pristiglog inetnta
+     * @param intent pristigli intent
+     */
+    private void performActionsAfterTagReading(Intent intent) {
 
             if (!scannedFlag) {
                 scannedFlag=true;
@@ -150,8 +155,6 @@ public class WriteToNFCFragment extends  Fragment implements KarticaOnDataPosted
                     if (nfcInstance.validateTag(intent)) {
                         String tagCode = nfcInstance.getCodeFromNdefRecord(nfcInstance.getFirstNdefRecord(nfcInstance.getNdefMessageFromIntent(intent)));
                         upisanaKartica=tagCode;
-
-                        Toast.makeText(getActivity(), tagCode, Toast.LENGTH_SHORT).show();
 
                         if (CodeValidation.validateCodeFormat(tagCode)) {
                             if(checkLockedStatus(intent)) writeToNFC(intent);
@@ -163,7 +166,8 @@ public class WriteToNFCFragment extends  Fragment implements KarticaOnDataPosted
                             else outputValidationStatus(false);
                         }
                     }
-                    else {
+                    else
+                        {
                         if (checkLockedStatus(intent)) writeToNFC(intent);
                         else outputValidationStatus(false);
                     }
@@ -171,21 +175,22 @@ public class WriteToNFCFragment extends  Fragment implements KarticaOnDataPosted
             }
         }
 
-        private boolean checkLockedStatus(Intent intent)
+    /**
+     * Provjera statusa zaključanosti kartice
+     * @param intent pristigli intent
+     * @return status zaključanosti
+     */
+    private boolean checkLockedStatus(Intent intent)
         {
-            if(!nfcInstance.isLocked(nfcInstance.getTag(intent)))
-            {
-                Toast.makeText(getActivity(), "Locked", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-            else
-                {
-                    Toast.makeText(getActivity(), "Not Locked", Toast.LENGTH_SHORT).show();
-                return true;
-            }
+            if(!nfcInstance.isLocked(nfcInstance.getTag(intent))) return false;
+            else return true;
         }
 
-        private void writeToNFC(Intent intent)
+    /**
+     * Pisanje na karticu
+     * @param intent pristigli intent
+     */
+    private void writeToNFC(Intent intent)
         {
 
             try {
@@ -198,11 +203,9 @@ public class WriteToNFCFragment extends  Fragment implements KarticaOnDataPosted
                         switchFlag=false;
                         KarticaMethod methodPost=new KarticaMethod(this);
                         methodPost.Upload(tagKey,String.valueOf(logedUserID));
-                        Toast.makeText(getActivity(), "Tag written!", Toast.LENGTH_SHORT).show();
 
                     } else {
                         outputValidationStatus(false);
-                        Toast.makeText(getActivity(), "Tag write failed!", Toast.LENGTH_SHORT).show();
 
                     }
             } catch (Exception e) {
@@ -210,7 +213,11 @@ public class WriteToNFCFragment extends  Fragment implements KarticaOnDataPosted
             }
         }
 
-        private void outputValidationStatus(boolean validationStatus) {
+    /**
+     * Ispis stanja validacije
+     * @param validationStatus status validacije
+     */
+    private void outputValidationStatus(boolean validationStatus) {
         nfcProgress.setVisibility(View.INVISIBLE);
 
             if (validationStatus)
@@ -220,6 +227,12 @@ public class WriteToNFCFragment extends  Fragment implements KarticaOnDataPosted
         }
 
 
+    /**
+     * Dialog za ispis statusa validacije
+     * @param message poruka koja se ispisuje
+     * @param imageIcon popratna ikona
+     * @param status status validacije
+     */
         private void alertingMessage(String message, int imageIcon, final boolean status)
         {
             AlertDialog.Builder builder;
@@ -242,7 +255,10 @@ public class WriteToNFCFragment extends  Fragment implements KarticaOnDataPosted
                     .show();
         }
 
-        private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+    /**
+     * Praćenje stanja nfc adaptera
+     */
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 final String action = intent.getAction();
@@ -270,7 +286,11 @@ public class WriteToNFCFragment extends  Fragment implements KarticaOnDataPosted
                 }
             }};
 
-        private String randomTagKeyGenerator()
+    /**
+     * Generiranje jedinstvenog ključa kartice kod pisanja na istu
+     * @return jedinstvani kod
+     */
+    private String randomTagKeyGenerator()
         {
             String AB = "0123456789abcdefghijklmnopqrstuvwxyz";
             SecureRandom rnd = new SecureRandom();
@@ -281,35 +301,33 @@ public class WriteToNFCFragment extends  Fragment implements KarticaOnDataPosted
             return sb.toString();
         }
 
-
+    /**
+     * Okida se kada se kartica zapiše u remote bazu
+      * @param idKartice id kartice koju se sprema
+     */
     @Override
     public void onDataPosted(String idKartice) {
 
             try{
-
-                //Toast.makeText(runningActivity, idKartice, Toast.LENGTH_SHORT).show();
                 if(!idKartice.equals("greska") && !idKartice.equals("duplikat"))
                 {
-
                     upisanaKartica=idKartice;
                     Korisnik logiraniKorisnik= SQLite.select().from(Korisnik.class).where(Korisnik_Table.id_korisnika.is(Integer.parseInt(logedUserID))).querySingle();
                     Kartica novaKartica=new Kartica(idKartice);
                     novaKartica.setKorisnik(logiraniKorisnik);
                     novaKartica.save();
-
                     LjubimacMethod ljubimacSwitch=new LjubimacMethod(this);
                     ljubimacSwitch.Upload("",ljubimacID.toString(),idKartice,"pridruzivanje");
-
-                    //Kartica kartica=   SQLite.select().from(Kartica.class).where(Kartica_Table.id_kartice.is(idKartice)).querySingle();
-                    //List<Kartica> lista=SQLite.select().from(Kartica.class).queryList();
-                    //Toast.makeText(runningActivity, String.valueOf(lista.size()), Toast.LENGTH_SHORT).show();
                 }
-
                 else outputValidationStatus(false);
             }
             catch (Exception e){}
     }
 
+    /**
+     * Okida se kada je ljubimcu pridružena kartica u remore bazi podataka
+     * @param idLjubimca id ljubimca kojeg se sprema
+     */
     @Override
     public void onDataPostedLjubimac(String idLjubimca) {
 
@@ -323,16 +341,17 @@ public class WriteToNFCFragment extends  Fragment implements KarticaOnDataPosted
             catch (Exception e){}
     }
 
+    /**
+     * Zapsivanje promjena u lokalnu bazu podataka
+     * @param petID id ljubimca kojeg se mijenjalo
+     */
     private void writePetToDataBase(String petID)
     {
-        Toast.makeText(getActivity(), petID, Toast.LENGTH_SHORT).show();
         if(petID!="0")
         {
             if(switchFlag){
-
                 mpet.project2018.air.database.entities.Ljubimac switchLjubimac = SQLite.select().from(mpet.project2018.air.database.entities.Ljubimac.class
                 ).where(Ljubimac_Table.id_ljubimca.is(Integer.parseInt(petID))).querySingle();
-
                 Kartica kartica = SQLite.select().from(Kartica.class).where(Kartica_Table.id_kartice.is(upisanaKartica)).querySingle();
 
                 switchLjubimac.setKartica(kartica);
@@ -340,32 +359,28 @@ public class WriteToNFCFragment extends  Fragment implements KarticaOnDataPosted
 
                 mpet.project2018.air.database.entities.Ljubimac switchLjubimac2 = SQLite.select().from(mpet.project2018.air.database.entities.Ljubimac.class
                 ).where(Ljubimac_Table.id_ljubimca.is(Integer.parseInt(switchingPet))).querySingle();
-
                 switchLjubimac2.setKartica(null);
                 switchLjubimac2.save();
-
-                //Toast.makeText(runningActivity, switchLjubimac2.getKartica().getId_kartice(), Toast.LENGTH_SHORT).show();
 
             }
             else {
                 mpet.project2018.air.database.entities.Ljubimac switchLjubimac = SQLite.select().from(mpet.project2018.air.database.entities.Ljubimac.class
                 ).where(Ljubimac_Table.id_ljubimca.is(Integer.parseInt(petID))).querySingle();
-
                 Kartica kartica = SQLite.select().from(Kartica.class).where(Kartica_Table.id_kartice.is(upisanaKartica)).querySingle();
 
                 switchLjubimac.setKartica(kartica);
                 switchLjubimac.save();
-
-                mpet.project2018.air.database.entities.Ljubimac switchLjubimac2 = SQLite.select().from(mpet.project2018.air.database.entities.Ljubimac.class
-                ).where(Ljubimac_Table.id_ljubimca.is(Integer.parseInt(petID))).querySingle();
-
-                Toast.makeText(getActivity(), switchLjubimac2.getKartica().getId_kartice(), Toast.LENGTH_SHORT).show();
             }
 
         }
         else;
     }
 
+    /**
+     * Provjera nalazi li se kartica u lokalnoj bazi podataka
+     * @param tagCode od kartice koja se traži
+     * @return status pretrage
+     */
     private boolean checkTagInLocalDB(String tagCode)
     {
         Kartica kartica=   SQLite.select().from(Kartica.class).where(Kartica_Table.id_kartice.is(tagCode)).querySingle();
@@ -377,6 +392,11 @@ public class WriteToNFCFragment extends  Fragment implements KarticaOnDataPosted
         }
     }
 
+    /**
+     * Provjera nalazi li se ljubimac u lokalnoj bazi podataka i da li mu je pridružena kartica
+     * @param tagCode id kartice pod kojom bi se ljubimac trebao nalaziti
+     * @return
+     */
     private boolean checkPetInLocalDB(String tagCode)
     {
         mpet.project2018.air.database.entities.Ljubimac ljubimac=SQLite.select().from(mpet.project2018.air.database.entities.Ljubimac.class
@@ -386,6 +406,11 @@ public class WriteToNFCFragment extends  Fragment implements KarticaOnDataPosted
         else return  true;
     }
 
+    /**
+     * Dohvaćanje ljubimca iz lokalne baze podataka prema kartici
+     * @param tagCode kartica koja bi trebala biti pridružena ljubimcu
+     * @return ljubimac pridružen kartici
+     */
     private String returnPetFromLocalDB(String tagCode)
     {
         mpet.project2018.air.database.entities.Ljubimac ljubimac=SQLite.select().from(mpet.project2018.air.database.entities.Ljubimac.class
@@ -395,6 +420,10 @@ public class WriteToNFCFragment extends  Fragment implements KarticaOnDataPosted
         return String.valueOf(ljubimac.getId_ljubimca());
     }
 
+    /**
+     * Akcije koje se pokreću ukoliko se ljubimac sprema na novu karticu
+     * @param tagCode generirani kod kartice
+     */
     private void actionsIfFormatOKAndLocked(String tagCode)
     {
             if(checkTagInLocalDB(tagCode)){
@@ -410,19 +439,21 @@ public class WriteToNFCFragment extends  Fragment implements KarticaOnDataPosted
                     ljubimacSwitch.Upload("",ljubimacID.toString(),tagCode,"pridruzivanje");
 
                 }
-
-                outputValidationStatus(true);
             }
             else outputValidationStatus(false);
         }
 
+    /**
+     * Dohvat aktivnosti
+      * @param context kontekst u kojem se dohvaća aktivnost
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             listenerActivity = (OnFragmentInteractionListener) context;
         } else {
-            throw new RuntimeException(context.toString() + " must implement PetDataInterface");
+            throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
         }
     }
 }

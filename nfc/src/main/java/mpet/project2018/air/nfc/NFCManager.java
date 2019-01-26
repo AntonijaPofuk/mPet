@@ -42,7 +42,6 @@ public class NFCManager
     }
 
     // Metoda za provjeru postojanja nfc značajke na uređaju
-
     public boolean checkNFCExistence()
     {
         if (nfcAdapterInstance != null) return true;

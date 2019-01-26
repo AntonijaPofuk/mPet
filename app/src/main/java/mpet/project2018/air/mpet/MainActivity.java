@@ -28,7 +28,6 @@ import android.widget.Toast;
 import com.raizlabs.android.dbflow.sql.language.Delete;
 
 import mpet.project2018.air.core.OnFragmentInteractionListener;
-import mpet.project2018.air.core.PetDataInterface;
 import mpet.project2018.air.database.MainDatabase;
 import mpet.project2018.air.database.entities.Korisnik_Table;
 import mpet.project2018.air.database.entities.Skeniranje;
