@@ -22,7 +22,7 @@ public class NFCManager
 
     NfcAdapter nfcAdapterInstance;
 
-    // Konstruktor kojim se kreira instanca nfc adaptera
+    // Konstruktor kojim se kreira instanca nfc adapteraa
     public NFCManager(Context appContext)
     {
         this.nfcAdapterInstance = NfcAdapter.getDefaultAdapter(appContext);
