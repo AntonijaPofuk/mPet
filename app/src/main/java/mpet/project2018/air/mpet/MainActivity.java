@@ -65,7 +65,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
     TextView textView;
 
-    //TODO: swapFragment u MainActivity?
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -153,6 +152,17 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
             ImageView imageView = header.findViewById(R.id.imageViewKorSlika);
             imageView.setImageBitmap(slika);
+
+            textView.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, 0);
+                                                String idPrijavljeni = sharedPreferences.getString(Config.ID_SHARED_PREF, "").toString();
+                                                UpdateKorisnik updateKorisnik = UpdateKorisnik.newInstance(idPrijavljeni);
+                                                swap(updateKorisnik);
+                                            }
+                                        }
+            );
         }
 
     };

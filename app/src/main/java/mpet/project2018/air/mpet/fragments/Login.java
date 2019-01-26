@@ -4,8 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -33,8 +31,8 @@ import Retrofit.Model.Ljubimac;
 import Retrofit.Model.Skeniranje;
 import Retrofit.RemotePost.onLoginValidation;
 import mpet.project2018.air.core.InternetConnectionHandler;
-import mpet.project2018.air.mpet.Config;
 import mpet.project2018.air.core.OnFragmentInteractionListener;
+import mpet.project2018.air.mpet.Config;
 import mpet.project2018.air.mpet.R;
 
 import static android.content.Context.MODE_PRIVATE;
