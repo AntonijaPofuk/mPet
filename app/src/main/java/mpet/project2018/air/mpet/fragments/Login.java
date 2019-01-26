@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -233,6 +234,7 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
                 .putString(Config.ID_SHARED_PREF,globalId)
                 .apply();
         HomeLoggedIn frag;
+        getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         frag = new HomeLoggedIn();
         mListener.swapFragment(false,(HomeLoggedIn) frag);
         progressDialogEdit(100,"Pozdrav!");
