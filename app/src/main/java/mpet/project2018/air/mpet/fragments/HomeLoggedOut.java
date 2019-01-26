@@ -14,7 +14,7 @@ import android.widget.Toast;
 import mpet.project2018.air.core.InternetConnectionHandler;
 import mpet.project2018.air.manualinput.ManualInputFragment;
 import mpet.project2018.air.mpet.Config;
-import mpet.project2018.air.mpet.OnFragmentInteractionListener;
+import mpet.project2018.air.core.OnFragmentInteractionListener;
 import mpet.project2018.air.mpet.R;
 import mpet.project2018.air.nfc.ScanningNFCFragment;
 

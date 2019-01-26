@@ -9,4 +9,6 @@ public interface PetDataInterface {
 
     void petCodeLoaded(Ljubimac pet);
 
+    void petPutOnTag();
+
 }

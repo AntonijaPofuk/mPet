@@ -22,7 +22,7 @@ import mpet.project2018.air.database.entities.Ljubimac;
 import mpet.project2018.air.database.entities.Skeniranje;
 import mpet.project2018.air.manualinput.ManualInputFragment;
 import mpet.project2018.air.mpet.Config;
-import mpet.project2018.air.mpet.OnFragmentInteractionListener;
+import mpet.project2018.air.core.OnFragmentInteractionListener;
 import mpet.project2018.air.mpet.R;
 import mpet.project2018.air.nfc.ScanningNFCFragment;
 

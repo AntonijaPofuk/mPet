@@ -20,15 +20,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Checkable;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 import com.raizlabs.android.dbflow.sql.language.Delete;
 
+import mpet.project2018.air.core.OnFragmentInteractionListener;
 import mpet.project2018.air.core.PetDataInterface;
 import mpet.project2018.air.database.MainDatabase;
 import mpet.project2018.air.database.entities.Korisnik_Table;
@@ -39,8 +38,6 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 import java.util.List;
 
 import mpet.project2018.air.database.entities.Skeniranje_Table;
-import mpet.project2018.air.mpet.fragments.AboutApp;
-import mpet.project2018.air.mpet.fragments.AboutUs;
 import mpet.project2018.air.mpet.fragments.CheckNFCOptions;
 import mpet.project2018.air.mpet.fragments.HomeLoggedIn;
 import mpet.project2018.air.mpet.fragments.HomeLoggedOut;
@@ -48,25 +45,21 @@ import mpet.project2018.air.mpet.fragments.Login;
 import mpet.project2018.air.mpet.fragments.PetDataFragment;
 import mpet.project2018.air.mpet.fragments.UpdateKorisnik;
 import mpet.project2018.air.mpet.fragments.MojiLjubimci;
-import mpet.project2018.air.mpet.fragments.NoviLjubimac;
 import mpet.project2018.air.mpet.fragments.About;
 import mpet.project2018.air.database.entities.Kartica;
 import mpet.project2018.air.database.entities.Korisnik;
 import mpet.project2018.air.database.entities.Ljubimac;
 import mpet.project2018.air.mpet.fragments.PrikazObavijestiDetaljno;
 import mpet.project2018.air.mpet.fragments.PrikazSvihObavijesti;
-import mpet.project2018.air.mpet.fragments.Registracija;
 
 import static mpet.project2018.air.mpet.Config.ID_SHARED_PREF;
 import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 
-import mpet.project2018.air.mpet.fragments.UklanjanjeKartice;
-import mpet.project2018.air.mpet.fragments.UpdateLjubimac;
 import mpet.project2018.air.mpet.obavijesti.NotificationService;
 import mpet.project2018.air.nfc.NFCManager;
 
 
-public class MainActivity extends AppCompatActivity implements PetDataInterface, OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener{
 
     private DrawerLayout dl;
 
@@ -483,7 +476,6 @@ public class MainActivity extends AppCompatActivity implements PetDataInterface,
 
     @Override
     public void petCodeLoaded(Retrofit.Model.Ljubimac pet) {
-
         Bundle bundle=new Bundle();
         bundle.putSerializable("downloadPet", pet);
         PetDataFragment petFrag = new PetDataFragment();
@@ -493,6 +485,19 @@ public class MainActivity extends AppCompatActivity implements PetDataInterface,
         mFragmentTransaction.replace(R.id.mainFrame, petFrag);
         mFragmentTransaction.commit();
     }
+
+
+    @Override
+    public void petPutOnTag(String userId) {
+        FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
+        Bundle bundle = new Bundle();
+        bundle.putString("ID_KORISNIKA", userId);
+        MojiLjubimci fragment = new MojiLjubimci();
+        fragment.setArguments(bundle);
+        ft.replace(R.id.mainFrame, fragment);
+        ft.commit();
+    }
+
 
     private void setDefaultCodeInputMethod()
     {

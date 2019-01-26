@@ -26,13 +26,14 @@ import Retrofit.DataGetListenersAndLoaders.DataLoaders.LjubimacDataLoader;
 import Retrofit.Model.Ljubimac;
 import mpet.project2018.air.core.CodeValidation;
 import mpet.project2018.air.core.InternetConnectionHandler;
+import mpet.project2018.air.core.OnFragmentInteractionListener;
 import mpet.project2018.air.core.PetDataInterface;
 
 @SuppressLint("ValidFragment")
 public class ManualInputFragment extends Fragment implements LjubimacDataLoadedListener, View.OnClickListener {
 
 
-    private PetDataInterface listenerActivity;
+    private OnFragmentInteractionListener listenerActivity;
     private Ljubimac loadedPet;
     private Button potvrdiUnos;
     private EditText unosKoda;
@@ -130,8 +131,8 @@ public class ManualInputFragment extends Fragment implements LjubimacDataLoadedL
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof PetDataInterface) {
-            listenerActivity = (PetDataInterface) context;
+        if (context instanceof OnFragmentInteractionListener) {
+            listenerActivity = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString() + " must implement PetDataInterface");
         }

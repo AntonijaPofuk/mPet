@@ -38,6 +38,8 @@ import Retrofit.RemotePost.KarticaOnDataPostedListener;
 import Retrofit.RemotePost.LjubimacOnDataPostedListener;
 import mpet.project2018.air.core.CodeValidation;
 import mpet.project2018.air.core.InternetConnectionHandler;
+import mpet.project2018.air.core.OnFragmentInteractionListener;
+import mpet.project2018.air.core.PetDataInterface;
 import mpet.project2018.air.database.entities.Kartica;
 import mpet.project2018.air.database.entities.Kartica_Table;
 import mpet.project2018.air.database.entities.Korisnik;
@@ -58,9 +60,13 @@ public class WriteToNFCFragment extends  Fragment implements KarticaOnDataPosted
         private boolean switchFlag=false; // flag za odabir odgovarajućeg nastavka izvođenja koda nakon zapisa na server
         private boolean scannedFlag=false;
 
+        private OnFragmentInteractionListener listenerActivity;
+
         @Nullable
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+            listenerActivity.onFragmentInteraction("Dodavanje ljubimca na NFC tag");
 
             View view=inflater.inflate(R.layout.writting_to_nfc_tag,container,false);
             nfcInstance=new NFCManager(getContext());
@@ -189,7 +195,6 @@ public class WriteToNFCFragment extends  Fragment implements KarticaOnDataPosted
                     Tag tag = nfcInstance.getTag(intent);
                     boolean writeResult = nfcInstance.writeNdefMessage(tag, ndefMessage);
                     if (writeResult) {
-                        outputValidationStatus(true);
                         switchFlag=false;
                         KarticaMethod methodPost=new KarticaMethod(this);
                         methodPost.Upload(tagKey,String.valueOf(logedUserID));
@@ -230,7 +235,7 @@ public class WriteToNFCFragment extends  Fragment implements KarticaOnDataPosted
                             scannedFlag=false;
                             dialog.dismiss();
                             nfcProgress.setVisibility(View.VISIBLE);
-                            //if(status) showDataInFragment(getActivity(),loadedPet);
+                            if(status) listenerActivity.petPutOnTag(logedUserID);
                         }
                     })
                     .setIcon(imageIcon)
@@ -283,7 +288,7 @@ public class WriteToNFCFragment extends  Fragment implements KarticaOnDataPosted
             try{
 
                 //Toast.makeText(runningActivity, idKartice, Toast.LENGTH_SHORT).show();
-                if(idKartice!="greska" && idKartice!="duplikat")
+                if(!idKartice.equals("greska") && !idKartice.equals("duplikat"))
                 {
 
                     upisanaKartica=idKartice;
@@ -300,6 +305,7 @@ public class WriteToNFCFragment extends  Fragment implements KarticaOnDataPosted
                     //Toast.makeText(runningActivity, String.valueOf(lista.size()), Toast.LENGTH_SHORT).show();
                 }
 
+                else outputValidationStatus(false);
             }
             catch (Exception e){}
     }
@@ -308,7 +314,11 @@ public class WriteToNFCFragment extends  Fragment implements KarticaOnDataPosted
     public void onDataPostedLjubimac(String idLjubimca) {
 
             try{
-                writePetToDataBase(idLjubimca);
+                if(!idLjubimca.equals("greska")) {
+                    writePetToDataBase(idLjubimca);
+                    outputValidationStatus(true);
+                }
+                else outputValidationStatus(false);
             }
             catch (Exception e){}
     }
@@ -405,6 +415,16 @@ public class WriteToNFCFragment extends  Fragment implements KarticaOnDataPosted
             }
             else outputValidationStatus(false);
         }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            listenerActivity = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement PetDataInterface");
+        }
+    }
 }
 
 

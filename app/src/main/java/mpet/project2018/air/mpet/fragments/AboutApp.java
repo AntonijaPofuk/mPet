@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import mpet.project2018.air.mpet.OnFragmentInteractionListener;
+import mpet.project2018.air.core.OnFragmentInteractionListener;
 import mpet.project2018.air.mpet.R;
 
 public class AboutApp extends Fragment{

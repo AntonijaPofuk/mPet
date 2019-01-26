@@ -30,11 +30,12 @@ import Retrofit.DataGetListenersAndLoaders.DataLoaders.LjubimacDataLoader;
 import Retrofit.Model.Ljubimac;
 import mpet.project2018.air.core.CodeValidation;
 import mpet.project2018.air.core.InternetConnectionHandler;
+import mpet.project2018.air.core.OnFragmentInteractionListener;
 import mpet.project2018.air.core.PetDataInterface;
 
 public class ScanningNFCFragment extends Fragment implements LjubimacDataLoadedListener {
 
-    private PetDataInterface listenerActivity ;
+    private OnFragmentInteractionListener listenerActivity ;
     private NFCManager nfcInstance;
     private Ljubimac loadedPet;
     private TextView nfcOutput;
@@ -212,8 +213,8 @@ public class ScanningNFCFragment extends Fragment implements LjubimacDataLoadedL
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof PetDataInterface) {
-            listenerActivity = (PetDataInterface) context;
+        if (context instanceof OnFragmentInteractionListener) {
+            listenerActivity = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString() + " must implement PetDataInterface");
         }
