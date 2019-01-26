@@ -9,7 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
+import mpet.project2018.air.core.InternetConnectionHandler;
 import mpet.project2018.air.manualinput.ManualInputFragment;
 import mpet.project2018.air.mpet.Config;
 import mpet.project2018.air.mpet.OnFragmentInteractionListener;
@@ -71,12 +73,13 @@ public class HomeLoggedOut extends Fragment {
         btn3.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                                        ft.replace(R.id.mainFrame, returnRightCodeInputMethod());
-                                        ft.addToBackStack(null);
-                                        ft.commit();
-
-
+                                        if(InternetConnectionHandler.isOnline(getActivity())) {
+                                            FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                                            ft.replace(R.id.mainFrame, returnRightCodeInputMethod());
+                                            ft.addToBackStack(null);
+                                            ft.commit();
+                                        }
+                                        else Toast.makeText(getActivity(), "Povežite se na mrežu!", Toast.LENGTH_SHORT).show();
                                     }
                                 }
         );

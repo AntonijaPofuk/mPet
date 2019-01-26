@@ -11,9 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.raizlabs.android.dbflow.sql.language.Delete;
 
+import mpet.project2018.air.core.InternetConnectionHandler;
 import mpet.project2018.air.database.entities.Kartica;
 import mpet.project2018.air.database.entities.Korisnik;
 import mpet.project2018.air.database.entities.Ljubimac;
@@ -52,10 +54,12 @@ public class HomeLoggedIn extends Fragment {
         );
 
         Button btn2=(Button) view.findViewById(R.id.btnScanUlogirani);
+
         btn2.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                       swapFragment2();
+                                       if(InternetConnectionHandler.isOnline(getActivity())) swapFragment2();
+                                       else Toast.makeText(getActivity(), "Povežite se na mrežu!", Toast.LENGTH_SHORT).show();
                                     }
                                 }
         );
