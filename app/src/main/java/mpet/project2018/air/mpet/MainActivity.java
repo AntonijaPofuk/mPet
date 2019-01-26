@@ -168,7 +168,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         } else {
             super.onBackPressed();
         }
-
     }
 
     @Override
@@ -482,6 +481,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         FragmentManager mFragmentManager = getSupportFragmentManager();
         FragmentTransaction mFragmentTransaction = mFragmentManager.beginTransaction();
         mFragmentTransaction.replace(R.id.mainFrame, petFrag);
+        mFragmentTransaction.addToBackStack(null);
         mFragmentTransaction.commit();
     }
 
@@ -498,6 +498,9 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     }
 
 
+    /**
+     * Metoda koja automatski postavlja default način unosa koda
+     */
     private void setDefaultCodeInputMethod()
     {
         SharedPreferences sharedPreferences = this.getSharedPreferences(Config.SHARED_PREF_NAME, 0);

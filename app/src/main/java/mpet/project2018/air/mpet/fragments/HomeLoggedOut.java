@@ -73,12 +73,8 @@ public class HomeLoggedOut extends Fragment {
         btn3.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        if(InternetConnectionHandler.isOnline(getActivity())) {
-                                            FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                                            ft.replace(R.id.mainFrame, returnRightCodeInputMethod());
-                                            ft.addToBackStack(null);
-                                            ft.commit();
-                                        }
+                                        if(InternetConnectionHandler.isOnline(getActivity())) mListener.swapFragment(true,returnRightCodeInputMethod());
+
                                         else Toast.makeText(getActivity(), mpet.project2018.air.core.R.string.internetNotAvailable, Toast.LENGTH_SHORT).show();
                                     }
                                 }

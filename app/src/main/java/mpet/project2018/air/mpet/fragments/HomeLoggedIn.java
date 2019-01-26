@@ -58,7 +58,7 @@ public class HomeLoggedIn extends Fragment {
         btn2.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                       if(InternetConnectionHandler.isOnline(getActivity())) swapFragment2();
+                                       if(InternetConnectionHandler.isOnline(getActivity())) mListener.swapFragment(true,returnRightCodeInputMethod());
                                        else Toast.makeText(getActivity(), mpet.project2018.air.core.R.string.internetNotAvailable, Toast.LENGTH_SHORT).show();
                                     }
                                 }
