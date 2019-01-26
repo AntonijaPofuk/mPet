@@ -40,11 +40,12 @@ public class KarticaDataLoader {
         public void onDataArrived(Object result, boolean ok, boolean prijava) {
             if(ok){
                 List<Kartica> listaKartica = (List<Kartica>) result;
+                cardsArrived = true;
                 if(prijava) {
                     saveCardsInLocalDatabase(listaKartica);
+                    checkDataArrival(listaKartica);
                 }
-                cardsArrived = true;
-                checkDataArrival(listaKartica);
+                else checkDataArrival(listaKartica);
             }
         }
     };

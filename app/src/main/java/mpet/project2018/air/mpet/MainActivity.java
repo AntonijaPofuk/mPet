@@ -494,19 +494,25 @@ public class MainActivity extends AppCompatActivity implements PetDataInterface,
 
     private void setDefaultCodeInputMethod()
     {
-        NFCManager managerInstance=new NFCManager(this);
-        if(managerInstance.checkNFCExistence())
-        {
-            this.getSharedPreferences(Config.SHARED_PREF_NAME,MODE_PRIVATE)
-                    .edit()
-                    .putString(Config.DEFAULT_INPUT_METHOD,"nfc")
-                    .apply();
-        }
-        else {
-            this.getSharedPreferences(Config.SHARED_PREF_NAME,MODE_PRIVATE)
-                    .edit()
-                    .putString(Config.DEFAULT_INPUT_METHOD,"manual")
-                    .apply();
+        SharedPreferences sharedPreferences = this.getSharedPreferences(Config.SHARED_PREF_NAME, 0);
+        if(sharedPreferences!=null) {
+
+            String defaultMethod = sharedPreferences.getString(Config.DEFAULT_INPUT_METHOD, "");
+
+            if (defaultMethod.equals("")) {
+                NFCManager managerInstance = new NFCManager(this);
+                if (managerInstance.checkNFCExistence()) {
+                    this.getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE)
+                            .edit()
+                            .putString(Config.DEFAULT_INPUT_METHOD, "nfc")
+                            .apply();
+                } else {
+                    this.getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE)
+                            .edit()
+                            .putString(Config.DEFAULT_INPUT_METHOD, "manual")
+                            .apply();
+                }
+            }
         }
     }
 }

@@ -42,7 +42,6 @@ import static android.app.Activity.RESULT_OK;
 import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 
 public class MojiLjubimci extends Fragment {
-    private OnFragmentInteractionListener mListener;
     private String ID_KORISNIKA;
 
     //public MojiLjubimci() {}
@@ -76,9 +75,7 @@ public class MojiLjubimci extends Fragment {
         //return inflater.inflate(R.layout.registracija, container, false);
         final View view = inflater.inflate(R.layout.moji_ljubimci, container, false);
 
-        if (mListener != null) {
-            mListener.onFragmentInteraction("Moji ljubimci");
-        }
+
 
         Button buttonNoviLjubimac=(Button) view.findViewById(R.id.btnNoviLjubimac);
         buttonNoviLjubimac.setOnClickListener(new View.OnClickListener() {
@@ -118,27 +115,6 @@ public class MojiLjubimci extends Fragment {
         Toast.makeText(getActivity(),tekst, Toast.LENGTH_SHORT).show();
 */
         return view;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof NoviLjubimac.OnFragmentInteractionListener) {
-            mListener = (MojiLjubimci.OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    public interface OnFragmentInteractionListener {
-
-        void onFragmentInteraction(String title);
     }
     private class ArticleFragment {
     }

@@ -56,12 +56,14 @@ public class SkeniranjeDataLoader {
         @Override
         public void onDataArrived(Object result, boolean ok, boolean prijava) {
             if(ok){
+                scansArrived = true;
                 List<Skeniranje> listaSkeniranja = (List<Skeniranje>) result;
                 if(prijava) {
                     saveScansInLocalDatabase(listaSkeniranja);
+                    checkDataArrival(listaSkeniranja);
                 }
-                scansArrived = true;
-                checkDataArrival(listaSkeniranja);
+
+                else checkDataArrival(listaSkeniranja);
             }
         }
     };

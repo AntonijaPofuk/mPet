@@ -187,7 +187,7 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
             frag = new HomeLoggedIn();
             mListener.swapFragment(false,(HomeLoggedIn) frag);
 
-            dismissLoadingDialog();
+
         } else {
             Toast.makeText(getActivity(), "Korisnicko ime ili lozinka su netocni", Toast.LENGTH_SHORT).show();
             dismissLoadingDialog();
@@ -238,6 +238,7 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
 
     @Override
     public void SkeniranjeOnDataLoaded(List<Skeniranje> listaSkeniranja) {
+        dismissLoadingDialog();
     }
 
 
