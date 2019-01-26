@@ -37,6 +37,7 @@ import Retrofit.RemotePost.StatusListener;
 import mpet.project2018.air.database.entities.Korisnik;
 import mpet.project2018.air.database.entities.Korisnik_Table;
 import mpet.project2018.air.core.OnFragmentInteractionListener;
+import mpet.project2018.air.mpet.MainActivity;
 import mpet.project2018.air.mpet.R;
 
 import static android.app.Activity.RESULT_OK;
@@ -324,6 +325,7 @@ public class UpdateKorisnik extends Fragment implements StatusListener {
         else if(!s.equals("uspjesno")&&!s.equals("duplikat")){
             Toast.makeText(getActivity(), "Ažurirali ste podatke :)",
                     Toast.LENGTH_LONG).show();
+            uredivaniKorisnik.setKorisnicko_ime(globalKorIme);
             uredivaniKorisnik.setIme(globalIme);
             uredivaniKorisnik.setPrezime(globalPrezime);
             uredivaniKorisnik.setAdresa(globalAdresa);
@@ -334,6 +336,7 @@ public class UpdateKorisnik extends Fragment implements StatusListener {
                 uredivaniKorisnik.setSlika(bit);
             }
             uredivaniKorisnik.update();
+            ((MainActivity)getActivity()).changeHeaderData();
             /**/
             HomeLoggedIn frag;
             frag = new HomeLoggedIn();
