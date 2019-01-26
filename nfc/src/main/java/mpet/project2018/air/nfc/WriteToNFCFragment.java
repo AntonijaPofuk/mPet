@@ -78,8 +78,6 @@ public class WriteToNFCFragment extends  Fragment implements KarticaOnDataPosted
             SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPref", 0);
             logedUserID = sharedPreferences.getString("ulogiraniKorisnikId", "DEFAULT").toString();
 
-            Toast.makeText(getActivity(), logedUserID+" "+ljubimacID, Toast.LENGTH_SHORT).show();
-
             return  view;
         }
 

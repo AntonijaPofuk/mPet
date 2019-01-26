@@ -72,6 +72,8 @@ public class PetDataFragment extends Fragment implements View.OnClickListener, K
 
     private boolean alreadySentFlag=false;
 
+    public static int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -99,14 +101,11 @@ public class PetDataFragment extends Fragment implements View.OnClickListener, K
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREF_NAME, 0);
         prijavljeniKorisnik = sharedPreferences.getString(Config.ID_SHARED_PREF, "DEFAULT").toString();
 
-
-
         String[] LOCATION_PERMS={Manifest.permission.ACCESS_FINE_LOCATION};
 
         if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
         {
-            if(prijavljeniKorisnik!="DEFAULT") POSTdata();
-            requestPermissions(LOCATION_PERMS, 1340);
+            requestPermissions(LOCATION_PERMS, MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
 
         }
         else
@@ -115,19 +114,16 @@ public class PetDataFragment extends Fragment implements View.OnClickListener, K
             if(mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
             {
                 mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, mLocationListener);
+                if(prijavljeniKorisnik=="DEFAULT") getUserContacts();
+
             }
             else
             {
                 if(prijavljeniKorisnik!="DEFAULT") POSTdata();
+                if(prijavljeniKorisnik=="DEFAULT") getUserContacts();
             }
 
         }
-
-        if(prijavljeniKorisnik=="DEFAULT")
-        {
-            getUserContacts();
-        }
-
 
         return view;
     }
@@ -284,5 +280,44 @@ public class PetDataFragment extends Fragment implements View.OnClickListener, K
 
             builder.show();
         }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+                    {
+
+                        LocationManager mLocationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
+                        if (mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
+                        {
+                            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, mLocationListener);
+                            if(prijavljeniKorisnik=="DEFAULT") getUserContacts();
+                        }
+                        else
+                            {
+                            // pitati da se uključi
+                            if (prijavljeniKorisnik != "DEFAULT") POSTdata();
+                            else getUserContacts();
+                        }
+                    }
+
+                    Toast.makeText(getActivity(), "Permission granted", Toast.LENGTH_SHORT).show();
+
+
+                }
+                else {
+
+                    if(prijavljeniKorisnik!="DEFAULT") POSTdata();
+                    else getUserContacts();
+                    Toast.makeText(getActivity(), "Permission denied", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+
+        }
+    }
 
 }
