@@ -132,6 +132,9 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
       public void showLoadingDialog() {
         if (progress == null) {
             progress = new ProgressDialog(getActivity());
+            progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progress.setProgressNumberFormat(null);
+            progress.setProgressPercentFormat(null);
             progress.setMessage("Molimo pričekajte...");
             progress.setCancelable(false);
             progress.setButton("Odustani",(DialogInterface.OnClickListener)null);
@@ -180,6 +183,7 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
             navigationView.removeHeaderView(navigationView.getHeaderView(0));
             navigationView.inflateHeaderView(R.layout.nav_header);
             /**/
+            progressDialogEdit(15,"Vaši korisnički podaci su u redu!");
 
         } else {
             Toast.makeText(getActivity(), "Korisnicko ime ili lozinka su netocni", Toast.LENGTH_SHORT).show();
@@ -215,18 +219,21 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
     public void KarticaOnDataLoaded(List<Kartica> listaKartica) {
         LjubimacDataLoader ljub=new LjubimacDataLoader(this);
         ljub.loadDataByUserId(globalId);
+        progressDialogEdit(65,"Svi vaši NFC tagovi upravo su skinuti!");
     }
 
     @Override
     public void KorisnikOnDataLoaded(List<Korisnik> listaKorisnika) {
         KarticaDataLoader kar=new KarticaDataLoader(this);
         kar.loadDataByuserId(globalId);
+        progressDialogEdit(45,"Vaši podaci su na sigurnome!");
     }
 
     @Override
     public void LjubimacOnDataLoaded(List<Ljubimac> listaLjubimaca) {
         SkeniranjeDataLoader sken=new SkeniranjeDataLoader(this);
         sken.loadDataByUserId(globalId);
+        progressDialogEdit(90,"Ljubimci su u kućicama!");
     }
 
     @Override
@@ -238,8 +245,14 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
         HomeLoggedIn frag;
         frag = new HomeLoggedIn();
         mListener.swapFragment(false,(HomeLoggedIn) frag);
+        progressDialogEdit(100,"Pozdrav!");
         dismissLoadingDialog();
     }
 
+    private void progressDialogEdit(int progressNum, String message)
+    {
+        progress.setProgress(progressNum);
+        progress.setMessage(message);
+    }
 
 }
