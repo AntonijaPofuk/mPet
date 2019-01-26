@@ -32,6 +32,7 @@ import Retrofit.Model.Korisnik;
 import Retrofit.Model.Ljubimac;
 import Retrofit.Model.Skeniranje;
 import Retrofit.RemotePost.onLoginValidation;
+import mpet.project2018.air.core.InternetConnectionHandler;
 import mpet.project2018.air.mpet.Config;
 import mpet.project2018.air.core.OnFragmentInteractionListener;
 import mpet.project2018.air.mpet.R;
@@ -70,7 +71,6 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
             mListener.onFragmentInteraction("Prijava");
         }
 
-        checkConnection();
 
         edtUsername = (EditText) view.findViewById(R.id.edtUsername);
         edtPassword = (EditText) view.findViewById(R.id.edtPassword);
@@ -86,22 +86,27 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
         }
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String username = edtUsername.getText().toString();
-                String password = edtPassword.getText().toString();
-                //validate form
-                if (validateLogin(username, password)) {
-                    //do login
-                    doLogin(username, password);
-                    showLoadingDialog();
+                                        @Override
+                                        public void onClick(View v) {
+                                            if ( InternetConnectionHandler.isOnline(getActivity()) ) {
 
-                }
-
-            }
+                                                String username = edtUsername.getText().toString();
+                                                String password = edtPassword.getText().toString();
+                                                //validate form
+                                                if ( validateLogin(username, password) ) {
+                                                    //do login
+                                                    doLogin(username, password);
+                                                    showLoadingDialog();
 
 
-        });
+                                                }
+                                            }
+                                            else
+                                                Toast.makeText(getActivity(), mpet.project2018.air.core.R.string.internetNotAvailable, Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    }
+        );
         btnPrijavaOdustani.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,20 +119,7 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
         );
         return view;
     }
-    protected boolean isOnline() {
-        ConnectivityManager cm = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    public void checkConnection(){
-        if(!isOnline()){
-            Toast.makeText(getActivity(), "Nije uspostavljena internet veza", Toast.LENGTH_SHORT).show();
-        }
-    }
+
     //LoadingDialog
       public void showLoadingDialog() {
         if (progress == null) {

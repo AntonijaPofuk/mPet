@@ -91,9 +91,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
         MainDatabase.initializeDatabase(this);
 
-
-        Toast.makeText(this, "NFC je "+ Config.DEFAULT_INPUT_METHOD, Toast.LENGTH_SHORT).show();
-
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, 0);
         String id1 = sharedPreferences.getString(ID_SHARED_PREF, "").toString();
         sharedPreferences = this.getSharedPreferences(SHARED_PREF_NAME, 0); //u fragmentu dodaj this.getActivity..... jer nema CONTEXA
