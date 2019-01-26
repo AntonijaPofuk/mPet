@@ -59,8 +59,6 @@ public class PetsAdapter extends
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    if(InternetConnectionHandler.isOnline())
                     Bundle bundle=new Bundle();
                     bundle.putSerializable("Pet",pet.getId());
                     WriteToNFCFragment pisanjeFragment = new WriteToNFCFragment();
