@@ -49,8 +49,9 @@ import static android.content.Context.LOCATION_SERVICE;
 import static android.support.v4.content.PermissionChecker.checkSelfPermission;
 import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 
-public class PetDataFragment extends Fragment implements View.OnClickListener, KorisnikDataLoadedListener, SkeniranjeOnDataPostedListener {
+public class PetDataFragment extends Fragment implements KorisnikDataLoadedListener, SkeniranjeOnDataPostedListener {
 
+    //View elementi u koje se upisuju kontakt informacije i informacije o ljubimcu
     private ImageView petPic;
     private TextView petDescp;
     private TextView petName;
@@ -61,18 +62,19 @@ public class PetDataFragment extends Fragment implements View.OnClickListener, K
     private TextView ownerCell;
     private TextView petYears;
     private TextView petSpec;
-
+    //Skenirani ljubimac
     private Ljubimac downloadedPet = null;
-
+    //Informacije o lokaciji
     private String longitude="";
     private String latitude="";
-
+    // Kontakt podaci upisani od strane neprijavljenog korisnika
     private String kontakt="";
+    // ID prijavljenog korisnika
     private String prijavljeniKorisnik;
-
+    // Zastavica koja onemogućuje ponovno zapisivanje zapisa o skeniranju
     private boolean alreadySentFlag=false;
-
-    public static int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    // Request kod za traženje dopuštenja korištenja lokacije
+    private Integer MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION=1;
 
     @Nullable
     @Override
@@ -101,29 +103,7 @@ public class PetDataFragment extends Fragment implements View.OnClickListener, K
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREF_NAME, 0);
         prijavljeniKorisnik = sharedPreferences.getString(Config.ID_SHARED_PREF, "DEFAULT").toString();
 
-        String[] LOCATION_PERMS={Manifest.permission.ACCESS_FINE_LOCATION};
-
-        if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-        {
-            requestPermissions(LOCATION_PERMS, MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-
-        }
-        else
-        {
-            LocationManager mLocationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
-            if(mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
-            {
-                mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, mLocationListener);
-                if(prijavljeniKorisnik=="DEFAULT") getUserContacts();
-
-            }
-            else
-            {
-                if(prijavljeniKorisnik!="DEFAULT") POSTdata();
-                if(prijavljeniKorisnik=="DEFAULT") getUserContacts();
-            }
-
-        }
+        locationCheck();
 
         return view;
     }
@@ -133,22 +113,42 @@ public class PetDataFragment extends Fragment implements View.OnClickListener, K
         super.onViewCreated(view, savedInstanceState);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
+    /**
+     * Provjera stanja mogućnosti dohvata lokacije uređaja
+     */
+    private void locationCheck()
+    {
+        String[] LOCATION_PERMS={Manifest.permission.ACCESS_FINE_LOCATION};
+        if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
+            requestPermissions(LOCATION_PERMS, MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+        else {
+            LocationManager mLocationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
+            if (mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+                mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, mLocationListener);
+                if (prijavljeniKorisnik == "DEFAULT") getUserContacts();
+            } else {
+                if (prijavljeniKorisnik != "DEFAULT") POSTdata();
+                if (prijavljeniKorisnik == "DEFAULT") getUserContacts();
+            }
+        }
     }
 
-    @Override
-    public void onClick(View v) {
-    }
-
+    /**
+     * Dohvat podataka o korisniku koji je vlasnik skeniranog ljubimca
+     * @param userID ID vlasnika
+     */
     private void loadKorisnikData(String userID) {
         KorisnikDataLoader userLoad = new KorisnikDataLoader(this);
         userLoad.loadDataById(userID);
     }
 
+    /**
+     * Punjenje view elemenata podacima o ljubimcu
+     * @param downLjubimac skenirani ljubimac
+     */
     private void popuniPetPoljaSaPodacima(Ljubimac downLjubimac) {
-
 
         if(emptyFieldCheck(downLjubimac.opis)) petDescp.setText(downLjubimac.opis);
         else petDescp.setText("Opis nije unesen");
@@ -161,11 +161,12 @@ public class PetDataFragment extends Fragment implements View.OnClickListener, K
 
         if(emptyFieldCheck(downLjubimac.godina)) petYears.setText(downLjubimac.godina);
         else petYears.setText("Godine nisu unesene");
-
-
-
     }
 
+    /**
+     * Popunjavanje view elemenata podacima o vlasniku
+     * @param downKorisnik vlasnik ljubimca
+     */
     private void popuniUserPoljaSaPodacima(Korisnik downKorisnik)
     {
         if(emptyFieldCheck(downKorisnik.ime)) owner.setText(downKorisnik.ime+" "+downKorisnik.prezime);
@@ -178,51 +179,70 @@ public class PetDataFragment extends Fragment implements View.OnClickListener, K
         else ownerPhone.setText("Podaci nisu uneseni");
         if(emptyFieldCheck(downKorisnik.broj_mobitela)) ownerCell.setText(downKorisnik.broj_mobitela);
         else ownerCell.setText("Podaci nisu uneseni");
-
-
-
     }
 
+    /**
+     * Metoda koja se okida kada se preuzmu podaci o vlasniku ljubimca
+     * @param listaKorisnika vlasnik ljubimca kao prvi elelment liste
+     */
     @Override
     public void KorisnikOnDataLoaded(List<Korisnik> listaKorisnika) {
-        popuniUserPoljaSaPodacima(listaKorisnika.get(0));
+        if(listaKorisnika.size()!=0) popuniUserPoljaSaPodacima(listaKorisnika.get(0));
     }
 
+    /**
+     * Metoda kojom se provjerava prazni atribut objekta
+     * @param field atribut kojeg se provjerava
+     * @return vraća stanje atributa, prazno, popunjeno
+     */
     private boolean emptyFieldCheck(String field)
     {
         if(field==null || field=="") return  false;
         else return  true;
     }
 
+    /**
+     * Metoda za POST zapisa o skeniranju
+     */
     private void POSTdata()
     {
-
         SkeniranjeMethod instancaSkeniranjaPOST=new SkeniranjeMethod(this);
         instancaSkeniranjaPOST.Upload(getDate(),getTime(),kontakt,"0",latitude,longitude,prijavljeniKorisnik,downloadedPet.kartica);
-
     }
 
+    /**
+     * Metoda koja se okida nakon zapisa skeniranja u remote bazu
+     * @param idSkeniranja ID zapisa skeniranja
+     */
     @Override
     public void onDataPosted(String idSkeniranja) {
-        Toast.makeText(getActivity(), idSkeniranja, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Metoda za dohvat trenutnog datuma
+     * @return vraća datum u definiranome formatu
+     */
     private String getDate()
     {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
         return dateFormat.format(date);
-
     }
 
+    /**
+     * Metoda za dohvat vremena skeniranja
+     * @return vraća trenutno vrijeme
+     */
     private String getTime()
     {
         DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
         Date date = new Date();
         return dateFormat.format(date);
-
     }
 
+    /**
+     * Dohvat lokacije
+     */
     private final LocationListener mLocationListener = new LocationListener() {
         @Override
         public void onLocationChanged(final Location location) {
@@ -251,17 +271,16 @@ public class PetDataFragment extends Fragment implements View.OnClickListener, K
         }
     };
 
-        private void getUserContacts()
+    /**
+     * Dohvat kontakt podataka kada korisnik nije ulogiran
+     */
+    private void getUserContacts()
         {
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setTitle("Poruka vlasniku");
-
             View viewInflated = LayoutInflater.from(getContext()).inflate(R.layout.neulogirani_unos_kontakta, (ViewGroup) getView(), false);
-
-            final EditText input = (EditText) viewInflated.findViewById(R.id.input);
-
+            final EditText input = viewInflated.findViewById(R.id.input);
             builder.setView(viewInflated);
-
             builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -277,19 +296,22 @@ public class PetDataFragment extends Fragment implements View.OnClickListener, K
                     POSTdata();
                 }
             });
-
             builder.show();
         }
 
+    /**
+     * Okida se nakon što korisnik reagira na traženje dopuštenja korištenja lokacije uređaja
+      * @param requestCode kod zahtjeva
+     * @param permissions dozvole
+     * @param grantResults dozvole
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case 1: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
                     if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
                     {
-
                         LocationManager mLocationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
                         if (mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
                         {
@@ -298,26 +320,17 @@ public class PetDataFragment extends Fragment implements View.OnClickListener, K
                         }
                         else
                             {
-                            // pitati da se uključi
                             if (prijavljeniKorisnik != "DEFAULT") POSTdata();
                             else getUserContacts();
                         }
                     }
-
-                    Toast.makeText(getActivity(), "Permission granted", Toast.LENGTH_SHORT).show();
-
-
                 }
                 else {
-
                     if(prijavljeniKorisnik!="DEFAULT") POSTdata();
                     else getUserContacts();
-                    Toast.makeText(getActivity(), "Permission denied", Toast.LENGTH_SHORT).show();
                 }
                 return;
             }
-
         }
     }
-
 }
