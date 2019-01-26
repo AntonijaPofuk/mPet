@@ -57,7 +57,6 @@ import static android.app.Activity.RESULT_OK;
 public class UklanjanjeKartice extends Fragment implements StatusListener{
 
     private String ID_LJUBIMCA;
-    private OnFragmentInteractionListener mListener;
 
 
     private String status;
@@ -95,9 +94,7 @@ public class UklanjanjeKartice extends Fragment implements StatusListener{
 
         final View view = inflater.inflate(R.layout.brisanje_kartice, container, false);
 
-        if (mListener != null) {
-            mListener.onFragmentInteraction("Ukloniti karticu?");
-        }
+
 
         Button buttonUkloni=(Button) view.findViewById(R.id.btnBrisanjeKarticeSpremi);
         Button buttonOdustani=(Button) view.findViewById(R.id.btnBrisanjeKarticeOdustani);
@@ -158,21 +155,7 @@ public class UklanjanjeKartice extends Fragment implements StatusListener{
                 .show();
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof NoviLjubimac.OnFragmentInteractionListener) {
-            mListener = (UklanjanjeKartice.OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
-        }
-    }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
 
     @Override
     public void onStatusChanged(String s) {
@@ -198,10 +181,6 @@ public class UklanjanjeKartice extends Fragment implements StatusListener{
 
     }
 
-    public interface OnFragmentInteractionListener {
-
-        void onFragmentInteraction(String title);
-    }
     private class ArticleFragment {
     }
 

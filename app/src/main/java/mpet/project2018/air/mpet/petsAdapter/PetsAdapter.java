@@ -21,7 +21,7 @@ import java.util.List;
 import mpet.project2018.air.mpet.R;
 import mpet.project2018.air.mpet.fragments.UklanjanjeKartice;
 import mpet.project2018.air.mpet.fragments.UpdateLjubimac;
-import mpet.project2018.air.nfc.PisanjeNFCFragment;
+import mpet.project2018.air.nfc.WriteToNFCFragment;
 
 public class PetsAdapter extends
         RecyclerView.Adapter<PetsAdapter.ViewHolder>  {
@@ -61,7 +61,7 @@ public class PetsAdapter extends
 
                     Bundle bundle=new Bundle();
                     bundle.putSerializable("Pet",pet.getId());
-                    PisanjeNFCFragment pisanjeFragment = new PisanjeNFCFragment();
+                    WriteToNFCFragment pisanjeFragment = new WriteToNFCFragment();
                     pisanjeFragment.setArguments(bundle);
                     transaction.replace(R.id.mainFrame, pisanjeFragment);
                     transaction.addToBackStack(null);

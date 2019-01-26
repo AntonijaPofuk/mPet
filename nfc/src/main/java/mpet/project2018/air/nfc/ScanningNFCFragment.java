@@ -30,7 +30,7 @@ import Retrofit.Model.Ljubimac;
 import mpet.project2018.air.core.CodeValidation;
 import mpet.project2018.air.core.PetDataInterface;
 
-public class SkeniranjeNFCFragment extends Fragment implements LjubimacDataLoadedListener {
+public class ScanningNFCFragment extends Fragment implements LjubimacDataLoadedListener {
 
     private PetDataInterface listenerActivity ;
     private NFCManager nfcInstance;

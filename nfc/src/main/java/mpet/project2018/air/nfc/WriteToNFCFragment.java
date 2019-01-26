@@ -43,7 +43,7 @@ import mpet.project2018.air.database.entities.Korisnik;
 import mpet.project2018.air.database.entities.Korisnik_Table;
 import mpet.project2018.air.database.entities.Ljubimac_Table;
 
-public class PisanjeNFCFragment extends  Fragment implements KarticaOnDataPostedListener, LjubimacOnDataPostedListener {
+public class WriteToNFCFragment extends  Fragment implements KarticaOnDataPostedListener, LjubimacOnDataPostedListener {
 
 
         private String switchingPet;

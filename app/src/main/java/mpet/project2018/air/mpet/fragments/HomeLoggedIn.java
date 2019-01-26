@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -23,7 +22,7 @@ import mpet.project2018.air.manualinput.ManualInputFragment;
 import mpet.project2018.air.mpet.Config;
 import mpet.project2018.air.mpet.OnFragmentInteractionListener;
 import mpet.project2018.air.mpet.R;
-import mpet.project2018.air.nfc.SkeniranjeNFCFragment;
+import mpet.project2018.air.nfc.ScanningNFCFragment;
 
 public class HomeLoggedIn extends Fragment {
 
@@ -135,7 +134,7 @@ public class HomeLoggedIn extends Fragment {
         String defaultMethod=sharedPreferences.getString(Config.DEFAULT_INPUT_METHOD, "");
         if(defaultMethod.equals("nfc"))
         {
-            return new SkeniranjeNFCFragment();
+            return new ScanningNFCFragment();
         }
 
         else return new ManualInputFragment();

@@ -14,7 +14,7 @@ import mpet.project2018.air.manualinput.ManualInputFragment;
 import mpet.project2018.air.mpet.Config;
 import mpet.project2018.air.mpet.OnFragmentInteractionListener;
 import mpet.project2018.air.mpet.R;
-import mpet.project2018.air.nfc.SkeniranjeNFCFragment;
+import mpet.project2018.air.nfc.ScanningNFCFragment;
 
 
 public class HomeLoggedOut extends Fragment {
@@ -89,7 +89,7 @@ public class HomeLoggedOut extends Fragment {
         String defaultMethod=sharedPreferences.getString(Config.DEFAULT_INPUT_METHOD, "");
         if(defaultMethod.equals("nfc"))
         {
-            return new SkeniranjeNFCFragment();
+            return new ScanningNFCFragment();
         }
 
         else return new ManualInputFragment();
