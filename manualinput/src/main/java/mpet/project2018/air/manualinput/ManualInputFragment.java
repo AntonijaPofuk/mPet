@@ -78,8 +78,8 @@ public class ManualInputFragment extends Fragment implements LjubimacDataLoadedL
 
     private void outputValidationStatus(boolean validationStatus) {
 
-        if(validationStatus)alertingMessage( getResources().getString(R.string.codeStatusOK),R.drawable.success_message,validationStatus);
-        else alertingMessage(getResources().getString(R.string.codeStatusNotOK),R.drawable.fail_message,validationStatus);
+        if(validationStatus) listenerActivity.petCodeLoaded(loadedPet);
+        else alertingMessage(getResources().getString(R.string.codeStatusNotOK),R.drawable.fail_message);
     }
 
     @Override
@@ -94,7 +94,7 @@ public class ManualInputFragment extends Fragment implements LjubimacDataLoadedL
 
     }
 
-    private void alertingMessage(String message, int imageIcon, final boolean status)
+    private void alertingMessage(String message, int imageIcon)
     {
 
         AlertDialog.Builder builder;
@@ -108,12 +108,8 @@ public class ManualInputFragment extends Fragment implements LjubimacDataLoadedL
                 .setPositiveButton("U redu", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        if(!status)
-                        {
-                            potvrdiUnos.setVisibility(View.VISIBLE);
-                            manualProgress.setVisibility(View.INVISIBLE);
-                        }
-                        if(status) listenerActivity.petCodeLoaded(loadedPet);
+                        potvrdiUnos.setVisibility(View.VISIBLE);
+                        manualProgress.setVisibility(View.INVISIBLE);
                     }
                 })
                 .setIcon(imageIcon)

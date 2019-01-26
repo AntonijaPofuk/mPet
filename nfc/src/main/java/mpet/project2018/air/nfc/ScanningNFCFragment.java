@@ -112,7 +112,6 @@ public class ScanningNFCFragment extends Fragment implements LjubimacDataLoadedL
             if (nfcInstance.isNFCIntent(intent)) {
                 if (nfcInstance.validateTag(intent)) {
                     String tagCode = nfcInstance.getCodeFromNdefRecord(nfcInstance.getFirstNdefRecord(nfcInstance.getNdefMessageFromIntent(intent)));
-                    //Toast.makeText(getContext(), tagCode, Toast.LENGTH_SHORT).show();
                     validateCode(tagCode);
                 } else outputValidationStatus(false);
             }
@@ -141,10 +140,8 @@ public class ScanningNFCFragment extends Fragment implements LjubimacDataLoadedL
 
         nfcProgress.setVisibility(View.INVISIBLE);
 
-            if (validationStatus)
-                alertingMessage(getResources().getString(mpet.project2018.air.core.R.string.codeStatusOK), mpet.project2018.air.core.R.drawable.success_message, validationStatus);
-            else
-                alertingMessage(getResources().getString(mpet.project2018.air.core.R.string.codeStatusNotOK), mpet.project2018.air.core.R.drawable.fail_message, validationStatus);
+            if (validationStatus) listenerActivity.petCodeLoaded(loadedPet);
+            else alertingMessage(getResources().getString(mpet.project2018.air.core.R.string.codeStatusNotOK), mpet.project2018.air.core.R.drawable.fail_message);
 
     }
 
@@ -161,7 +158,7 @@ public class ScanningNFCFragment extends Fragment implements LjubimacDataLoadedL
 
     }
 
-    private void alertingMessage(String message, int imageIcon, final boolean status)
+    private void alertingMessage(String message, int imageIcon)
     {
         AlertDialog.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -175,8 +172,8 @@ public class ScanningNFCFragment extends Fragment implements LjubimacDataLoadedL
                     public void onClick(DialogInterface dialog, int which) {
                         scannedFlag=false;
                         dialog.dismiss();
-                        if(!status) nfcProgress.setVisibility(View.VISIBLE);
-                        if(status) listenerActivity.petCodeLoaded(loadedPet);
+                        nfcProgress.setVisibility(View.VISIBLE);
+
                     }
                 })
                 .setIcon(imageIcon)
