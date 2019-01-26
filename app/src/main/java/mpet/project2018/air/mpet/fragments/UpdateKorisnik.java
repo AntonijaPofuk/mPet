@@ -133,18 +133,9 @@ public class UpdateKorisnik extends Fragment implements StatusListener {
                                                 String mail=mailEdit.getText().toString();
                                                 EditText telefonEdit = (EditText)view.findViewById(R.id.unosTelefon);
                                                 String telefon=telefonEdit.getText().toString();
-                                                /*
-                                                if(TextUtils.isEmpty(telefon)){
-                                                    telefon="DEFAULT";
-                                                }
-                                                */
                                                 EditText mobitelEdit = (EditText)view.findViewById(R.id.unosMobitel);
                                                 String mobitel=mobitelEdit.getText().toString();
-                                                /*
-                                                if(TextUtils.isEmpty(mobitel)){
-                                                    mobitel="DEFAULT";
-                                                }
-                                               */
+
                                                 String provjera=null;
 
                                                 /**/
@@ -172,7 +163,6 @@ public class UpdateKorisnik extends Fragment implements StatusListener {
                                                         globalMobitel=mobitel;
                                                         method.Update(ID_KORISNIKA,ime,prezime,korIme,adresa,mail,mobitel,telefon,slika);
                                                     }
-                                                    //swapFragment();
                                                 }
                                             }
                                         }
@@ -337,7 +327,7 @@ public class UpdateKorisnik extends Fragment implements StatusListener {
             uredivaniKorisnik.setIme(globalIme);
             uredivaniKorisnik.setPrezime(globalPrezime);
             uredivaniKorisnik.setAdresa(globalAdresa);
-            uredivaniKorisnik.setBroj_mobitela(globalMail);
+            uredivaniKorisnik.setEmail(globalMail);
             uredivaniKorisnik.setBroj_telefona(globalTelefon);
             uredivaniKorisnik.setBroj_mobitela(globalMobitel);
             if(bit!=null){
