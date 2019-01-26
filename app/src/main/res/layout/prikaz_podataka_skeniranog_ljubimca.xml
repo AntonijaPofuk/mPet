@@ -24,19 +24,20 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="232dp"
-        android:text="Ime ljubimca"
         android:fontFamily="@font/chewyregular"
+        android:text="Ime ljubimca"
         android:textAlignment="viewStart"
         android:textColor="@color/colorAccent"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/PetOpisValue"
+        android:fontFamily="@font/chewyregular"
         android:layout_width="168dp"
         android:layout_height="70dp"
         android:layout_marginStart="12dp"
@@ -56,18 +57,18 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="60dp"
-
+        android:fontFamily="@font/chewyregular"
         android:layout_marginEnd="8dp"
         android:text="@string/kontakt_label"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.038"
-
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <TextView
         android:id="@+id/textView4"
+        android:fontFamily="@font/chewyregular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -78,6 +79,7 @@
 
     <TextView
         android:id="@+id/textView5"
+        android:fontFamily="@font/chewyregular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -88,6 +90,7 @@
 
     <TextView
         android:id="@+id/textView6"
+        android:fontFamily="@font/chewyregular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -98,6 +101,7 @@
 
     <TextView
         android:id="@+id/textView7"
+        android:fontFamily="@font/chewyregular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -108,6 +112,7 @@
 
     <TextView
         android:id="@+id/textView8"
+        android:fontFamily="@font/chewyregular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -118,6 +123,7 @@
 
     <TextView
         android:id="@+id/KontaktVlasnikValue"
+        android:fontFamily="@font/chewyregular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -131,6 +137,7 @@
 
     <TextView
         android:id="@+id/KontaktAdresaValue"
+        android:fontFamily="@font/chewyregular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -144,6 +151,7 @@
 
     <TextView
         android:id="@+id/KontaktEmailValue"
+        android:fontFamily="@font/chewyregular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -157,6 +165,7 @@
 
     <TextView
         android:id="@+id/KontaktTelefonValue"
+        android:fontFamily="@font/chewyregular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -170,6 +179,7 @@
 
     <TextView
         android:id="@+id/KontaktMobitelValue"
+        android:fontFamily="@font/chewyregular"
         android:layout_width="wrap_content"
         android:layout_height="17dp"
         android:layout_marginStart="8dp"
@@ -183,6 +193,7 @@
 
     <TextView
         android:id="@+id/PetVrstaLabel"
+        android:fontFamily="@font/chewyregular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
@@ -194,6 +205,7 @@
 
     <TextView
         android:id="@+id/PetYearsLabel"
+        android:fontFamily="@font/chewyregular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
@@ -205,6 +217,7 @@
 
     <TextView
         android:id="@+id/PetSpInput"
+        android:fontFamily="@font/chewyregular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -219,6 +232,7 @@
 
     <TextView
         android:id="@+id/PetYInput"
+        android:fontFamily="@font/chewyregular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -228,8 +242,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.394"
         app:layout_constraintStart_toEndOf="@+id/PetYearsLabel"
-        app:layout_constraintTop_toBottomOf="@+id/PetSpInput" /><![CDATA[
-
-    >>>>>>> origin/lkoscakDrugiSprint
-]]>
+        app:layout_constraintTop_toBottomOf="@+id/PetSpInput" />
 </android.support.constraint.ConstraintLayout>

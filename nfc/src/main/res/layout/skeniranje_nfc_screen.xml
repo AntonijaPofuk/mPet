@@ -8,6 +8,7 @@
 
     <TextView
         android:id="@+id/NFCStatusOutput"
+        android:fontFamily="@font/chewyregular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -24,6 +25,7 @@
 
     <ImageView
         android:id="@+id/imageView"
+        android:fontFamily="@font/chewyregular"
         android:layout_width="251dp"
         android:layout_height="258dp"
         android:layout_marginStart="8dp"
@@ -40,6 +42,7 @@
 
     <ProgressBar
         android:id="@+id/progressBarNFC"
+        android:fontFamily="@font/chewyregular"
         style="?android:attr/progressBarStyle"
         android:layout_width="83dp"
         android:layout_height="136dp"
