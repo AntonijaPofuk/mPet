@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.LjubimacDataLoade
 import Retrofit.DataGetListenersAndLoaders.DataLoaders.LjubimacDataLoader;
 import Retrofit.Model.Ljubimac;
 import mpet.project2018.air.core.CodeValidation;
+import mpet.project2018.air.core.InternetConnectionHandler;
 import mpet.project2018.air.core.PetDataInterface;
 
 public class ScanningNFCFragment extends Fragment implements LjubimacDataLoadedListener {
@@ -121,8 +123,12 @@ public class ScanningNFCFragment extends Fragment implements LjubimacDataLoadedL
 
         if(CodeValidation.validateCodeFormat(code))
         {
+            if(InternetConnectionHandler.isOnline(getActivity())) {
                 LjubimacDataLoader petLoader = new LjubimacDataLoader(this);
                 petLoader.loadDataByTag(code);
+            }
+            else Toast.makeText(getContext(), mpet.project2018.air.core.R.string.internetNotAvailable, Toast.LENGTH_SHORT).show();
+            scannedFlag=false;
         }
         else
         {

@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -24,6 +25,7 @@ import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.LjubimacDataLoade
 import Retrofit.DataGetListenersAndLoaders.DataLoaders.LjubimacDataLoader;
 import Retrofit.Model.Ljubimac;
 import mpet.project2018.air.core.CodeValidation;
+import mpet.project2018.air.core.InternetConnectionHandler;
 import mpet.project2018.air.core.PetDataInterface;
 
 @SuppressLint("ValidFragment")
@@ -120,15 +122,13 @@ public class ManualInputFragment extends Fragment implements LjubimacDataLoadedL
 
     @Override
     public void onClick(View v) {
-        String uneseniKod=unosKoda.getText().toString();
-        validateCode(uneseniKod);
-        potvrdiUnos.setVisibility(View.INVISIBLE);
-        manualProgress.setVisibility(View.VISIBLE);
-       /* SharedPreferences mSettings = getActivity().getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = mSettings.edit();
-        editor.remove("ulogiraniKorisnikId");
-        //editor.putString("ulogiraniKorisnikId","177");
-        editor.apply();*/
+        if(InternetConnectionHandler.isOnline(getActivity())) {
+            String uneseniKod = unosKoda.getText().toString();
+            validateCode(uneseniKod);
+            potvrdiUnos.setVisibility(View.INVISIBLE);
+            manualProgress.setVisibility(View.VISIBLE);
+        }
+        else Toast.makeText(getContext(), mpet.project2018.air.core.R.string.internetNotAvailable, Toast.LENGTH_SHORT).show();
     }
 
     @Override

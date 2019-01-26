@@ -18,6 +18,7 @@ import android.widget.TextView;
 import java.util.List;
 
 
+import mpet.project2018.air.core.InternetConnectionHandler;
 import mpet.project2018.air.mpet.R;
 import mpet.project2018.air.mpet.fragments.UklanjanjeKartice;
 import mpet.project2018.air.mpet.fragments.UpdateLjubimac;
@@ -59,6 +60,7 @@ public class PetsAdapter extends
                 @Override
                 public void onClick(View v) {
 
+                    if(InternetConnectionHandler.isOnline())
                     Bundle bundle=new Bundle();
                     bundle.putSerializable("Pet",pet.getId());
                     WriteToNFCFragment pisanjeFragment = new WriteToNFCFragment();

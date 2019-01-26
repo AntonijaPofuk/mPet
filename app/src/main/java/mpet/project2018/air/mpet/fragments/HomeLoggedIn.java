@@ -59,7 +59,7 @@ public class HomeLoggedIn extends Fragment {
                                     @Override
                                     public void onClick(View v) {
                                        if(InternetConnectionHandler.isOnline(getActivity())) swapFragment2();
-                                       else Toast.makeText(getActivity(), "Povežite se na mrežu!", Toast.LENGTH_SHORT).show();
+                                       else Toast.makeText(getActivity(), mpet.project2018.air.core.R.string.internetNotAvailable, Toast.LENGTH_SHORT).show();
                                     }
                                 }
         );

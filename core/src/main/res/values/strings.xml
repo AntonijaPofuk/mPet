@@ -2,4 +2,5 @@
     <string name="app_name">core</string>
     <string name="codeStatusOK">Kod je u redu!</string>
     <string name="codeStatusNotOK">Kod ne postoji!</string>
+    <string name="internetNotAvailable">Molimo vas da se spojite na mrežu</string>
 </resources>

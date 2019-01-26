@@ -37,6 +37,7 @@ import Retrofit.DataPost.LjubimacMethod;
 import Retrofit.RemotePost.KarticaOnDataPostedListener;
 import Retrofit.RemotePost.LjubimacOnDataPostedListener;
 import mpet.project2018.air.core.CodeValidation;
+import mpet.project2018.air.core.InternetConnectionHandler;
 import mpet.project2018.air.database.entities.Kartica;
 import mpet.project2018.air.database.entities.Kartica_Table;
 import mpet.project2018.air.database.entities.Korisnik;
@@ -111,7 +112,11 @@ public class WriteToNFCFragment extends  Fragment implements KarticaOnDataPosted
                 if (nfcInstance.isNFCIntent(receivedIntent)) {
                     receivedIntent.putExtra("old",1);
 
-                    performActionsAfterTagReading(receivedIntent);
+                    if(InternetConnectionHandler.isOnline(getActivity())) performActionsAfterTagReading(receivedIntent);
+                    else
+                    {
+                        Toast.makeText(getContext(), mpet.project2018.air.core.R.string.internetNotAvailable, Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         }
@@ -131,6 +136,7 @@ public class WriteToNFCFragment extends  Fragment implements KarticaOnDataPosted
         }
 
         private void performActionsAfterTagReading(Intent intent) {
+
 
             if (!scannedFlag) {
                 scannedFlag=true;
@@ -175,6 +181,7 @@ public class WriteToNFCFragment extends  Fragment implements KarticaOnDataPosted
 
         private void writeToNFC(Intent intent)
         {
+
             try {
                     String tagKey=randomTagKeyGenerator();
                     NdefRecord ndefRecord = nfcInstance.createTextRecord(tagKey);

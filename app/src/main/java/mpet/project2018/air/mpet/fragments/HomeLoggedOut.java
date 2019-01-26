@@ -79,7 +79,7 @@ public class HomeLoggedOut extends Fragment {
                                             ft.addToBackStack(null);
                                             ft.commit();
                                         }
-                                        else Toast.makeText(getActivity(), "Povežite se na mrežu!", Toast.LENGTH_SHORT).show();
+                                        else Toast.makeText(getActivity(), mpet.project2018.air.core.R.string.internetNotAvailable, Toast.LENGTH_SHORT).show();
                                     }
                                 }
         );
