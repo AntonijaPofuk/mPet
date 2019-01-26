@@ -41,6 +41,8 @@ public class ManualInputFragment extends Fragment implements LjubimacDataLoadedL
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        listenerActivity.onFragmentInteraction("Unos koda");
+
         View view=inflater.inflate(R.layout.manual_input,container,false);
 
         potvrdiUnos=view.findViewById(R.id.potvrdiKodButton);

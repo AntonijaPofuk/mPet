@@ -65,7 +65,7 @@ public class WriteToNFCFragment extends  Fragment implements KarticaOnDataPosted
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-            listenerActivity.onFragmentInteraction("Dodavanje ljubimca na NFC tag");
+            listenerActivity.onFragmentInteraction("Dodavanje na NFC tag");
 
             View view=inflater.inflate(R.layout.writting_to_nfc_tag,container,false);
             nfcInstance=new NFCManager(getContext());

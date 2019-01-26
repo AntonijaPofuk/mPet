@@ -46,6 +46,8 @@ public class ScanningNFCFragment extends Fragment implements LjubimacDataLoadedL
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        listenerActivity.onFragmentInteraction("NFC skeniranje");
+
         View view=inflater.inflate(R.layout.skeniranje_nfc_screen,container,false);
         nfcInstance=new NFCManager(getContext());
 

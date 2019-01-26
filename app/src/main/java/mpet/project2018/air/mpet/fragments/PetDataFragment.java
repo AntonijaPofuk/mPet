@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import mpet.project2018.air.core.OnFragmentInteractionListener;
 import mpet.project2018.air.mpet.Config;
 import mpet.project2018.air.mpet.R;
 import mpet.project2018.air.nfc.NFCManager;
@@ -75,10 +76,14 @@ public class PetDataFragment extends Fragment implements KorisnikDataLoadedListe
     private boolean alreadySentFlag=false;
     // Request kod za traženje dopuštenja korištenja lokacije
     private Integer MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION=1;
+    // trenutna aktivnost
+    OnFragmentInteractionListener listenerActivity;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        listenerActivity.onFragmentInteraction("Skenirani ljubimac");
 
         View view = inflater.inflate(R.layout.prikaz_podataka_skeniranog_ljubimca, container, false);
         petPic=view.findViewById(R.id.imageView2);
@@ -331,6 +336,20 @@ public class PetDataFragment extends Fragment implements KorisnikDataLoadedListe
                 }
                 return;
             }
+        }
+    }
+
+    /**
+     * Dohvat aktivnosti
+     * @param context kontekst u kojem se dohvaća aktivnost
+     */
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            listenerActivity = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
         }
     }
 }
