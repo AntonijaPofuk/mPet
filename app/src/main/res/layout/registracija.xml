@@ -136,26 +136,27 @@
         android:layout_height="65dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="51dp"
-        android:layout_marginBottom="24dp"
-        android:textColor="#FFCB57"
-        android:textSize="24sp"
+        android:layout_marginStart="49dp"
+        android:layout_marginBottom="20dp"
         android:background="#8492A6"
         android:fontFamily="@font/chewyregular"
-        android:text="@string/gumbSpremi" />
+        android:text="@string/gumbSpremi"
+        android:textColor="#FFCB57"
+        android:textSize="24sp" />
 
     <Button
         android:id="@+id/btnRegistracijaOdustani"
         android:layout_width="109dp"
         android:layout_height="65dp"
-        android:layout_alignTop="@+id/btnRegistracijaSpremi"
-        android:layout_marginStart="-161dp"
-        android:layout_toEndOf="@+id/textView2"
-        android:textColor="#FFCB57"
-        android:textSize="24sp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="51dp"
+        android:layout_marginBottom="20dp"
         android:background="#8492A6"
         android:fontFamily="@font/chewyregular"
-        android:text="@string/gumbOdustani" />
+        android:text="@string/gumbOdustani"
+        android:textColor="#FFCB57"
+        android:textSize="24sp" />
 
     <ImageButton
         android:id="@+id/btnChooseImage"

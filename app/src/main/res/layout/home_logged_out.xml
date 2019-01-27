@@ -52,23 +52,25 @@
 
     <Button
         android:id="@+id/btnReg"
-        android:layout_width="121dp"
+        android:layout_width="131dp"
         android:layout_height="18dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="38dp"
-        android:layout_marginBottom="69dp"
+        android:layout_marginEnd="17dp"
+        android:layout_marginBottom="68dp"
         android:background="#0000"
         android:fontFamily="@font/robotoblack"
         android:text="@string/registrirajte_se"
         android:textSize="12sp" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="210dp"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/btnReg"
-        android:layout_marginTop="-2dp"
-        android:layout_marginEnd="0dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="68dp"
         android:layout_toStartOf="@+id/btnReg"
         android:fontFamily="@font/robotolight"
         android:text="@string/ukoliko_nemate_aktiviran_profil"

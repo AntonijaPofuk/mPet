@@ -11,12 +11,14 @@
         android:layout_height="374dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="51dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="55dp"
         android:layout_marginTop="50dp"
+        android:layout_marginEnd="55dp"
         android:scrollbars="vertical"
         android:text="ispis opisa aplikacije"
-        android:textSize="18dp"
-        android:textAlignment="gravity"/>
+        android:textAlignment="gravity"
+        android:textSize="18dp" />
 
     <TextView
         android:id="@+id/textView"
