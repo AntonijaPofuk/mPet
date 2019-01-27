@@ -37,6 +37,7 @@ import java.util.regex.Pattern;
 
 import Retrofit.DataPost.LjubimacPodaciMethod;
 import Retrofit.RemotePost.StatusListener;
+import mpet.project2018.air.core.OnFragmentInteractionListener;
 import mpet.project2018.air.database.entities.Kartica;
 import mpet.project2018.air.database.entities.Korisnik;
 import mpet.project2018.air.database.entities.Korisnik_Table;
@@ -45,7 +46,7 @@ import mpet.project2018.air.mpet.R;
 
 import static android.app.Activity.RESULT_OK;
 
-public class NoviLjubimac extends Fragment implements StatusListener{
+public class NewPet extends Fragment implements StatusListener{
 
     private String ID_KORISNIKA;
     private OnFragmentInteractionListener mListener;
@@ -69,13 +70,13 @@ public class NoviLjubimac extends Fragment implements StatusListener{
 
     private Target loadtarget;
 
-    //public NoviLjubimac(){};
+    //public NewPet(){};
 
-    public static NoviLjubimac newInstance(String id) {
+    public static NewPet newInstance(String id) {
         Bundle bundle = new Bundle();
         bundle.putString("ID_KORISNIKA", id);
 
-        NoviLjubimac fragment = new NoviLjubimac();
+        NewPet fragment = new NewPet();
         fragment.setArguments(bundle);
 
         return fragment;
@@ -99,7 +100,6 @@ public class NoviLjubimac extends Fragment implements StatusListener{
         Bundle bundle = this.getArguments();
         readBundle(bundle);
 
-        //return inflater.inflate(R.layout.novi_ljubimac, container, false);
         final View view = inflater.inflate(R.layout.novi_ljubimac, container, false);
 
         if (mListener != null) {
@@ -183,7 +183,6 @@ public class NoviLjubimac extends Fragment implements StatusListener{
                         globalOpis=opis;
 
                         method.Upload(ime, godina, masa, vrsta, spol, opis, "/", vlasnik, kartica, slika);
-                    //swapFragment();
                 }
 
             }
@@ -235,12 +234,6 @@ public class NoviLjubimac extends Fragment implements StatusListener{
         fm.popBackStack();
     }
 
-
-    private void closefragment() {
-        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.remove(this).commit();
-    }
-
     private boolean provjeraNedozvoljeniZnakovi(String ime, String vrsta, String opis){
         String pattern = "[\\'|\\!|\\?|\\#|\\*|\\$|\\%|\\&|\\/]";
         Pattern p = Pattern.compile(pattern);
@@ -276,8 +269,8 @@ public class NoviLjubimac extends Fragment implements StatusListener{
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof NoviLjubimac.OnFragmentInteractionListener) {
-            mListener = (NoviLjubimac.OnFragmentInteractionListener) context;
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
         }
@@ -342,13 +335,6 @@ public class NoviLjubimac extends Fragment implements StatusListener{
             swapFragment();
         }
 
-    }
-
-    public interface OnFragmentInteractionListener {
-
-        void onFragmentInteraction(String title);
-    }
-    private class ArticleFragment {
     }
 
 }

@@ -18,10 +18,9 @@ import android.widget.TextView;
 import java.util.List;
 
 
-import mpet.project2018.air.core.InternetConnectionHandler;
 import mpet.project2018.air.mpet.R;
-import mpet.project2018.air.mpet.fragments.UklanjanjeKartice;
-import mpet.project2018.air.mpet.fragments.UpdateLjubimac;
+import mpet.project2018.air.mpet.fragments.RemoveTag;
+import mpet.project2018.air.mpet.fragments.UpdatePet;
 import mpet.project2018.air.nfc.WriteToNFCFragment;
 
 public class PetsAdapter extends
@@ -76,7 +75,7 @@ public class PetsAdapter extends
                 @Override
                 public void onClick(View v) {
                     //ako ima pridruženu karticu
-                    transaction.replace(R.id.mainFrame, UklanjanjeKartice.newInstance(String.valueOf(pet.getId())));
+                    transaction.replace(R.id.mainFrame, RemoveTag.newInstance(String.valueOf(pet.getId())));
                     transaction.addToBackStack(null);
                     transaction.commit();
                 }
@@ -107,7 +106,7 @@ public class PetsAdapter extends
             @Override
             public void onClick(View v) {
                 //FragmentTransaction ft= ...
-                transaction.replace(R.id.mainFrame, UpdateLjubimac.newInstance(String.valueOf(pet.getId())));
+                transaction.replace(R.id.mainFrame, UpdatePet.newInstance(String.valueOf(pet.getId())));
                 transaction.addToBackStack(null);
                 transaction.commit();
             }

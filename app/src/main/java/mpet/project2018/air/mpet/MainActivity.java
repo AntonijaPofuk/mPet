@@ -11,7 +11,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -23,7 +22,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.raizlabs.android.dbflow.sql.language.Delete;
@@ -42,9 +40,9 @@ import mpet.project2018.air.mpet.fragments.CheckNFCOptions;
 import mpet.project2018.air.mpet.fragments.HomeLoggedIn;
 import mpet.project2018.air.mpet.fragments.HomeLoggedOut;
 import mpet.project2018.air.mpet.fragments.Login;
+import mpet.project2018.air.mpet.fragments.MyPets;
 import mpet.project2018.air.mpet.fragments.PetDataFragment;
-import mpet.project2018.air.mpet.fragments.UpdateKorisnik;
-import mpet.project2018.air.mpet.fragments.MojiLjubimci;
+import mpet.project2018.air.mpet.fragments.UpdateUser;
 import mpet.project2018.air.mpet.fragments.About;
 import mpet.project2018.air.database.entities.Kartica;
 import mpet.project2018.air.database.entities.Korisnik;
@@ -124,10 +122,10 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     public void openUserData(View v) {
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, 0);
         String idPrijavljeni = sharedPreferences.getString(Config.ID_SHARED_PREF, "").toString();
-        UpdateKorisnik updateKorisnik = UpdateKorisnik.newInstance(idPrijavljeni);
+        UpdateUser updateKorisnik = UpdateUser.newInstance(idPrijavljeni);
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.mainFrame, new UpdateKorisnik());
+        ft.replace(R.id.mainFrame, new UpdateUser());
         ft.addToBackStack(null);
         ft.commit();
 
@@ -159,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                                             public void onClick(View v) {
                                                 SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, 0);
                                                 String idPrijavljeni = sharedPreferences.getString(Config.ID_SHARED_PREF, "").toString();
-                                                UpdateKorisnik updateKorisnik = UpdateKorisnik.newInstance(idPrijavljeni);
+                                                UpdateUser updateKorisnik = UpdateUser.newInstance(idPrijavljeni);
                                                 swap(updateKorisnik);
                                                 dl.closeDrawer(Gravity.LEFT, false);
 
@@ -239,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                                 //getSupportActionBar().setTitle(R.string.nav_home);
                                 SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, 0);
                                 String idPrijavljeni = sharedPreferences.getString(Config.ID_SHARED_PREF, "").toString();
-                                MojiLjubimci mojiLjubimci = MojiLjubimci.newInstance(idPrijavljeni);
+                                MyPets mojiLjubimci = MyPets.newInstance(idPrijavljeni);
                                 swap(mojiLjubimci);
                                 break;
 
@@ -476,7 +474,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
         Bundle bundle = new Bundle();
         bundle.putString("ID_KORISNIKA", userId);
-        MojiLjubimci fragment = new MojiLjubimci();
+        MyPets fragment = new MyPets();
         fragment.setArguments(bundle);
         ft.replace(R.id.mainFrame, fragment);
         ft.commit();

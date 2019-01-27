@@ -43,7 +43,7 @@ import mpet.project2018.air.mpet.R;
 
 import static android.app.Activity.RESULT_OK;
 
-public class UpdateKorisnik extends Fragment implements StatusListener {
+public class UpdateUser extends Fragment implements StatusListener {
     private OnFragmentInteractionListener mListener;
     private String ID_KORISNIKA;
 
@@ -72,11 +72,11 @@ public class UpdateKorisnik extends Fragment implements StatusListener {
     private ProgressDialog progress;
 
 
-    public static UpdateKorisnik newInstance(String idKor) {
+    public static UpdateUser newInstance(String idKor) {
         Bundle bundle = new Bundle();
         bundle.putString("ID_KORISNIKA", idKor);
 
-        UpdateKorisnik fragment = new UpdateKorisnik();
+        UpdateUser fragment = new UpdateUser();
         fragment.setArguments(bundle);
 
         return fragment;
@@ -181,7 +181,6 @@ public class UpdateKorisnik extends Fragment implements StatusListener {
                 HomeLoggedIn frag;
                 frag = new HomeLoggedIn();
                 swapFragment(false,(HomeLoggedIn) frag);
-                ;
             }
         });
 

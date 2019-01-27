@@ -31,11 +31,12 @@ import java.util.regex.Pattern;
 
 import Retrofit.DataPost.RegistracijaMethod;
 import Retrofit.RemotePost.StatusListener;
+import mpet.project2018.air.core.OnFragmentInteractionListener;
 import mpet.project2018.air.mpet.R;
 
 import static android.app.Activity.RESULT_OK;
 
-public class Registracija extends Fragment implements StatusListener {
+public class Registration extends Fragment implements StatusListener {
     private OnFragmentInteractionListener mListener;
     private static int RESULT_LOAD_IMAGE = 1;
     private final int PICK_IMAGE_REQUEST = 71;
@@ -46,7 +47,7 @@ public class Registracija extends Fragment implements StatusListener {
     public String status=null;
     private RegistracijaMethod method=new RegistracijaMethod(this);
 
-    public Registracija() {}
+    public Registration() {}
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +56,6 @@ public class Registracija extends Fragment implements StatusListener {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //return inflater.inflate(R.layout.registracija, container, false);
         final View view = inflater.inflate(R.layout.registracija, container, false);
 
         if (mListener != null) {
@@ -69,10 +69,6 @@ public class Registracija extends Fragment implements StatusListener {
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
-                Intent i=new   Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(i, RESULT_LOAD_IMAGE);
-                */
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -111,16 +107,11 @@ public class Registracija extends Fragment implements StatusListener {
                                                 */
                                                 EditText lozinkaEdit = (EditText)view.findViewById(R.id.unosLozinka);
                                                 String lozinka=lozinkaEdit.getText().toString();
-
                                                 String provjera=null;
-
                                                 /**/
                                                 if(bit!=null){
                                                     slika = BitmapTOString(bit);
                                                 }
-                                                //String slika = BitmapTOString(bit);
-
-                                                /**/
                                                 if(TextUtils.isEmpty(ime)||TextUtils.isEmpty(prezime)||TextUtils.isEmpty(mail)||lozinka.length()<3||korIme.length()<3){
                                                     alertingMessage("Niste unijeli sva potrebna polja.", R.drawable.exclamation_message);
                                                 }
@@ -133,7 +124,6 @@ public class Registracija extends Fragment implements StatusListener {
                                                     else {
                                                         method.Upload(ime, prezime, korIme, adresa, mail, mobitel, telefon, lozinka, slika);
                                                     }
-                                                    //swapFragment();
                                                 }
                                             }
                                         }
@@ -142,22 +132,11 @@ public class Registracija extends Fragment implements StatusListener {
         buttonOdustani.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                swapFragment();
+                HomeLoggedOut frag;
+                frag = new HomeLoggedOut();
+                swapFragment(false,(HomeLoggedOut) frag);
             }
         });
-
-       /* Button buttonSpremi=(Button) getActivity().findViewById(R.id.btnRegistracijaSpremi);
-        Button buttonOdustani=(Button) getActivity().findViewById(R.id.btnRegistracijaOdustani);
-
-        private void Poruka(String tekst){
-            Context context = getApplicationContext();
-            CharSequence text = tekst;
-            int duration = Toast.LENGTH_SHORT;
-
-            Toast toast = Toast.makeText(context, text, duration);
-            toast.show();
-        }
-        */
 
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
@@ -193,11 +172,6 @@ public class Registracija extends Fragment implements StatusListener {
     }
 
 
-    private void swapFragment(){
-        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.mainFrame, new HomeLoggedOut());
-        ft.commit();
-    }
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -262,13 +236,25 @@ public class Registracija extends Fragment implements StatusListener {
                 .show();
     }
 
+    private void swapFragment(boolean addToBackstack, Fragment fragToShow){
+        if(getActivity() == null)
+            return;
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.mainFrame, (Fragment) fragToShow);
+        if(addToBackstack)
+            ft.addToBackStack(null);
+        ft.commit();
+    }
+
     @Override
     public void onStatusChanged(String s) {
         status=s;
         Activity a=getActivity();
 
         if(s.equals("uspjesno")) {
-            swapFragment();
+            HomeLoggedOut frag;
+            frag = new HomeLoggedOut();
+            swapFragment(false,(HomeLoggedOut) frag);
             Toast.makeText(a, "Registrirali ste se :)",
                     Toast.LENGTH_LONG).show();
         }
@@ -279,13 +265,6 @@ public class Registracija extends Fragment implements StatusListener {
             alertingMessage("Ups, greška...", R.drawable.fail_message);
         }
 
-    }
-
-    public interface OnFragmentInteractionListener {
-
-        void onFragmentInteraction(String title);
-    }
-    private class ArticleFragment {
     }
 
 }

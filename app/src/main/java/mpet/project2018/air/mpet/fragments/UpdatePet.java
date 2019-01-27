@@ -5,9 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,7 +14,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.res.ResourcesCompat;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -27,12 +23,10 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.raizlabs.android.dbflow.sql.language.SQLite;
-import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.io.ByteArrayOutputStream;
@@ -42,9 +36,8 @@ import java.util.regex.Pattern;
 
 import Retrofit.DataPost.LjubimacPodaciMethod;
 import Retrofit.RemotePost.StatusListener;
+import mpet.project2018.air.core.OnFragmentInteractionListener;
 import mpet.project2018.air.database.entities.Kartica;
-import mpet.project2018.air.database.entities.Korisnik;
-import mpet.project2018.air.database.entities.Korisnik_Table;
 import mpet.project2018.air.database.entities.Ljubimac;
 import mpet.project2018.air.database.entities.Ljubimac_Table;
 import mpet.project2018.air.database.entities.Skeniranje;
@@ -53,7 +46,7 @@ import mpet.project2018.air.mpet.R;
 
 import static android.app.Activity.RESULT_OK;
 
-public class UpdateLjubimac extends Fragment implements StatusListener{
+public class UpdatePet extends Fragment implements StatusListener{
 
     private String ID_LJUBIMCA;
     private OnFragmentInteractionListener mListener;
@@ -79,13 +72,11 @@ public class UpdateLjubimac extends Fragment implements StatusListener{
 
     private Ljubimac uredivaniLjubimac;
 
-    //public NoviLjubimac(){};
-
-    public static UpdateLjubimac newInstance(String idLjub) {
+    public static UpdatePet newInstance(String idLjub) {
         Bundle bundle = new Bundle();
         bundle.putString("ID_LJUBIMCA", idLjub);
 
-        UpdateLjubimac fragment = new UpdateLjubimac();
+        UpdatePet fragment = new UpdatePet();
         fragment.setArguments(bundle);
 
         return fragment;
@@ -109,7 +100,6 @@ public class UpdateLjubimac extends Fragment implements StatusListener{
         Bundle bundle = this.getArguments();
         readBundle(bundle);
 
-        //return inflater.inflate(R.layout.novi_ljubimac, container, false);
         final View view = inflater.inflate(R.layout.update_ljubimac, container, false);
 
         if (mListener != null) {
@@ -190,7 +180,6 @@ public class UpdateLjubimac extends Fragment implements StatusListener{
                         globalOpis=opis;
 
                     method.Update(ID_LJUBIMCA, ime, godina, masa, vrsta, spol, opis, slika);
-                    //swapFragment();
                 }
 
             }
@@ -292,12 +281,6 @@ public class UpdateLjubimac extends Fragment implements StatusListener{
         fm.popBackStack();
     }
 
-
-    private void closefragment() {
-        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.remove(this).commit();
-    }
-
     private boolean provjeraNedozvoljeniZnakovi(String ime, String vrsta, String opis){
         String pattern = "[\\'|\\!|\\?|\\#|\\*|\\$|\\%|\\&|\\/]";
         Pattern p = Pattern.compile(pattern);
@@ -333,8 +316,8 @@ public class UpdateLjubimac extends Fragment implements StatusListener{
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof NoviLjubimac.OnFragmentInteractionListener) {
-            mListener = (UpdateLjubimac.OnFragmentInteractionListener) context;
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
         }
@@ -392,34 +375,11 @@ public class UpdateLjubimac extends Fragment implements StatusListener{
             if(bit!=null){
                 uredivaniLjubimac.setSlika(bit);
             }
-            /*
-            else {
-                loadtarget = new Target() {
-                    @Override
-                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        uredivaniLjubimac.setSlika(bitmap);
-                    }
-                    @Override
-                    public void onBitmapFailed(Exception e, Drawable errorDrawable) { }
-                    @Override
-                    public void onPrepareLoad(Drawable placeHolderDrawable) { }
-                };
-
-                Picasso.get().load("https://airprojekt.000webhostapp.com/slike_ljubimaca/default_ljubimac.png").into(loadtarget);
-            }
-            */
            uredivaniLjubimac.update();
             /**/
             swapFragment();
         }
 
-    }
-
-    public interface OnFragmentInteractionListener {
-
-        void onFragmentInteraction(String title);
-    }
-    private class ArticleFragment {
     }
 
 }

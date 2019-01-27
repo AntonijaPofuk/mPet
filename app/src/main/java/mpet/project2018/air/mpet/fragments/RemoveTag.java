@@ -1,74 +1,49 @@
 package mpet.project2018.air.mpet.fragments;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.res.ResourcesCompat;
-import android.text.TextUtils;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.raizlabs.android.dbflow.sql.language.SQLite;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import Retrofit.DataPost.LjubimacPodaciMethod;
 import Retrofit.RemotePost.StatusListener;
 import mpet.project2018.air.database.entities.Kartica;
-import mpet.project2018.air.database.entities.Korisnik;
-import mpet.project2018.air.database.entities.Korisnik_Table;
 import mpet.project2018.air.database.entities.Ljubimac;
 import mpet.project2018.air.database.entities.Ljubimac_Table;
 import mpet.project2018.air.database.entities.Skeniranje;
 import mpet.project2018.air.database.entities.Skeniranje_Table;
 import mpet.project2018.air.mpet.R;
 
-import static android.app.Activity.RESULT_OK;
-
-public class UklanjanjeKartice extends Fragment implements StatusListener{
+public class RemoveTag extends Fragment implements StatusListener{
 
     private String ID_LJUBIMCA;
-
 
     private String status;
     private LjubimacPodaciMethod method=new LjubimacPodaciMethod(this);
 
     private Ljubimac uredivaniLjubimac;
 
-    public static UklanjanjeKartice newInstance(String idLjub) {
+    public static RemoveTag newInstance(String idLjub) {
         Bundle bundle = new Bundle();
         bundle.putString("ID_LJUBIMCA", idLjub);
 
-        UklanjanjeKartice fragment = new UklanjanjeKartice();
+        RemoveTag fragment = new RemoveTag();
         fragment.setArguments(bundle);
 
         return fragment;
@@ -93,8 +68,6 @@ public class UklanjanjeKartice extends Fragment implements StatusListener{
         readBundle(bundle);
 
         final View view = inflater.inflate(R.layout.brisanje_kartice, container, false);
-
-
 
         Button buttonUkloni=(Button) view.findViewById(R.id.btnBrisanjeKarticeSpremi);
         Button buttonOdustani=(Button) view.findViewById(R.id.btnBrisanjeKarticeOdustani);
@@ -129,13 +102,6 @@ public class UklanjanjeKartice extends Fragment implements StatusListener{
         fm.popBackStack();
     }
 
-
-    private void closefragment() {
-        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.remove(this).commit();
-    }
-
-
     private void alertingMessage(String message, int imageIcon)
     {
         AlertDialog.Builder builder;
@@ -154,8 +120,6 @@ public class UklanjanjeKartice extends Fragment implements StatusListener{
                 .setIcon(imageIcon)
                 .show();
     }
-
-
 
     @Override
     public void onStatusChanged(String s) {
@@ -179,9 +143,6 @@ public class UklanjanjeKartice extends Fragment implements StatusListener{
             swapFragment();
         }
 
-    }
-
-    private class ArticleFragment {
     }
 
 }
