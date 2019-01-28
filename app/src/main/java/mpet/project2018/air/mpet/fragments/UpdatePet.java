@@ -1,6 +1,7 @@
 package mpet.project2018.air.mpet.fragments;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -71,6 +72,8 @@ public class UpdatePet extends Fragment implements StatusListener{
     private Target loadtarget;
 
     private Ljubimac uredivaniLjubimac;
+
+    private ProgressDialog progress;
 
     public static UpdatePet newInstance(String idLjub) {
         Bundle bundle = new Bundle();
@@ -180,6 +183,7 @@ public class UpdatePet extends Fragment implements StatusListener{
                         globalOpis=opis;
 
                     method.Update(ID_LJUBIMCA, ime, godina, masa, vrsta, spol, opis, slika);
+                    showLoadingDialog();
                 }
 
             }
@@ -201,6 +205,7 @@ public class UpdatePet extends Fragment implements StatusListener{
                     public void onClick(DialogInterface dialog, int which) {
                         //brisanje ljubimca
                         method.DeleteLjubimac(ID_LJUBIMCA,uredivaniLjubimac.getKarticaNumber(),uredivaniLjubimac.getUrl_slike());
+                        showLoadingDialog();
                     }
                 });
 
@@ -336,8 +341,8 @@ public class UpdatePet extends Fragment implements StatusListener{
             alertingMessage("Ups, greška...",R.drawable.fail_message);
         }
         else if(s.equals("uspjesno")){
-            Toast.makeText(getActivity(), "Ažurirali ste podatke :)",
-                    Toast.LENGTH_LONG).show();
+
+            Toast.makeText(getActivity(), "Ažurirali ste podatke :)",Toast.LENGTH_LONG).show();
             /*upis u lokalnu bazu*/
             if(!uredivaniLjubimac.getKarticaNumber().equals("0")) {
                 List<Skeniranje> skeniranja = new SQLite().select().from(Skeniranje.class).where(Skeniranje_Table.kartica_id_kartice.is(uredivaniLjubimac.getKartica().getId_kartice())).queryList();
@@ -349,7 +354,9 @@ public class UpdatePet extends Fragment implements StatusListener{
             uredivaniLjubimac.setKartica(k);
             uredivaniLjubimac.update();
             uredivaniLjubimac.delete();
+
             /**/
+
             swapFragment();
         }
         else if(!s.equals("greska")&&!s.equals("uspjesno")){
@@ -375,11 +382,38 @@ public class UpdatePet extends Fragment implements StatusListener{
             if(bit!=null){
                 uredivaniLjubimac.setSlika(bit);
             }
-           uredivaniLjubimac.update();
+            progressDialogEdit(50,"Postavljamo nove podatke.");
+
+            uredivaniLjubimac.update();
             /**/
+            progressDialogEdit(100,"Ažurirali smo ljubimca uspješno!");
             swapFragment();
+            dismissLoadingDialog();
         }
 
+    }
+    public void showLoadingDialog() {
+        if (progress == null) {
+            progress = new ProgressDialog(getActivity());
+            progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progress.setProgressNumberFormat(null);
+            progress.setProgressPercentFormat(null);
+            progress.setMessage("Molimo pričekajte...");
+            progress.setCancelable(false);
+            progress.setButton("Odustani",(DialogInterface.OnClickListener)null);
+        }
+        progress.show();
+    }
+    private void progressDialogEdit(int progressNum, String message)
+    {
+        progress.setProgress(progressNum);
+        progress.setMessage(message);
+    }
+
+    public void dismissLoadingDialog() {
+        if (progress != null && progress.isShowing()) {
+            progress.dismiss();
+        }
     }
 
 }
