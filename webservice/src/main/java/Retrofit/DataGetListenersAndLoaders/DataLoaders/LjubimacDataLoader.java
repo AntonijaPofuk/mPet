@@ -116,6 +116,10 @@ public class LjubimacDataLoader  {
                 //handleLoadedBitmap(bitmap);
                 ljub.setSlika(bitmap);
                 ljub.save();
+
+                petCount=petCount-1;
+
+                if(petCount==0) checkDataArrival(lista);
             }
             @Override
             public void onBitmapFailed(Exception e, Drawable errorDrawable) { }
@@ -124,10 +128,6 @@ public class LjubimacDataLoader  {
         };
 
         Picasso.get().load(url).into(loadtarget);
-
-        petCount=petCount-1;
-
-        if(petCount==0) checkDataArrival(lista);
     }
 
     public void handleLoadedBitmap(Bitmap b) {
