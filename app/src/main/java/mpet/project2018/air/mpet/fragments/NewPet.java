@@ -307,7 +307,7 @@ public class NewPet extends Fragment implements StatusListener{
             noviLjubimac.setId_ljubimca(Integer.parseInt(s));
             noviLjubimac.setIme(globalIme);
             noviLjubimac.setGodine(Integer.parseInt(globalGodina));
-            noviLjubimac.setMasa(Long.parseLong(globalMasa));
+            noviLjubimac.setMasa(Float.parseFloat(globalMasa));
             noviLjubimac.setVrsta_zivotinje(globalVrsta);
             noviLjubimac.setSpol(globalSpol);
             noviLjubimac.setOpis(globalOpis);
