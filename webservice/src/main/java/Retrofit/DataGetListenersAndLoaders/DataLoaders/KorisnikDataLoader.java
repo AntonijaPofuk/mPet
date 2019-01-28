@@ -99,9 +99,6 @@ public class KorisnikDataLoader {
                 kor.setSlika(bitmap);
                 kor.save();
 
-                userCount=userCount-1;
-
-                if(userCount==0) checkDataArrival(lista);
             }
             @Override
             public void onBitmapFailed(Exception e, Drawable errorDrawable) { }
@@ -110,6 +107,10 @@ public class KorisnikDataLoader {
         };
 
         Picasso.get().load(url).into(loadtarget);
+
+        userCount=userCount-1;
+
+        if(userCount==0) checkDataArrival(lista);
     }
 
     public void handleLoadedBitmap(Bitmap b) {
