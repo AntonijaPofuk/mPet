@@ -10,12 +10,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import Retrofit.DataPost.ObavijestiMethod;
 import mpet.project2018.air.database.entities.Ljubimac;
 import mpet.project2018.air.database.entities.Ljubimac_Table;
 import mpet.project2018.air.database.entities.Skeniranje;
@@ -32,6 +35,8 @@ import mpet.project2018.air.database.entities.Skeniranje_Table;
 import mpet.project2018.air.mpet.MainActivity;
 import mpet.project2018.air.mpet.R;
 import mpet.project2018.air.mpet.fragments.PrikazObavijestiDetaljno;
+
+import static android.text.TextUtils.isEmpty;
 
 public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.SkeniranjeHolder> {
 
@@ -92,8 +97,16 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
 
         holder.IDSkeniranja = idSkeniranja.toString();
 
-        if (Integer.parseInt(listSken.get(i).getProcitano()) < 1) {
-            holder.itemView.setBackgroundColor(Color.GRAY);
+        try {
+
+            if (Integer.parseInt(listSken.get(i).getProcitano()) < 1) {
+                holder.itemView.setBackgroundColor(Color.GRAY);
+            }
+
+        }
+
+        catch(Exception e){
+            //
         }
 
     }
@@ -113,6 +126,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
 
         public SkeniranjeHolder(@NonNull View itemView) {
             super(itemView);
+            itemView.setBackgroundColor(Color.parseColor("#ebebe4"));
             itemView.setOnClickListener(this);
             detaljiObavijesti = itemView.findViewById(R.id.detaljiPojedineObavijesti);
             datumSkeniranja = itemView.findViewById(R.id.datumVrijemeSkeniranja);
@@ -139,5 +153,13 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
 
     }
 
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
 }

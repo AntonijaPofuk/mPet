@@ -3,7 +3,6 @@ package Retrofit.DataPost;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import Retrofit.RemotePost.KorisnikService;
 import Retrofit.RemotePost.ObavijestService;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -13,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ObavijestiMethod {
 
-    public static String Upload(String ID) {
+    public static String Upload(String ID,String vrijednost) {
 
         final String[] Body = new String[1];
 
@@ -37,7 +36,9 @@ public class ObavijestiMethod {
 
         request.setID(ID);  // tu ide id prijavljenog korisnika
 
-        Call<ObavijestiResponse> ObavijestResponseCall = api.createKorisnik(request,"https://airprojekt.000webhostapp.com/procitaneObavijesti.php");
+        request.setProcitano(vrijednost);
+
+        Call<ObavijestiResponse> ObavijestResponseCall = api.createKorisnik(request,"https://airprojekt.000webhostapp.com/updateSkeniranje.php");
 
         ObavijestResponseCall.enqueue(new Callback<ObavijestiResponse>() {
             @Override

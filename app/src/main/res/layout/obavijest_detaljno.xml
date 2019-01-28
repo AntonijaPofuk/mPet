@@ -21,6 +21,7 @@
         android:layout_margin="10dp"
         android:gravity="center"
         android:textColor="@color/black"
+        android:textSize="18dp"
         />
 
     <TextView
@@ -32,6 +33,7 @@
         android:layout_margin="10dp"
         android:gravity="center"
         android:textColor="@color/black"
+        android:textSize="18dp"
         />
 
     <TextView
@@ -43,17 +45,19 @@
         android:layout_margin="10dp"
         android:gravity="center"
         android:textColor="@color/black"
+        android:textSize="18dp"
         />
 
     <TextView
         android:id="@+id/lblMjestoSkeniranja"
         android:layout_width="wrap_content"
         android:layout_height="50px"
-        android:text="Mjesto skeniranja :"
+        android:text="Mjesto :"
         android:layout_below="@+id/lblKorisnik"
         android:layout_margin="10dp"
         android:gravity="center"
         android:textColor="@color/black"
+        android:textSize="18dp"
         />
 
     <TextView
@@ -65,6 +69,7 @@
         android:layout_margin="10dp"
         android:gravity="center"
         android:textColor="@color/black"
+        android:textSize="18dp"
         />
 
     <TextView
@@ -75,6 +80,7 @@
         android:layout_below="@id/mapView"
         android:layout_margin="10dp"
         android:textColor="@color/black"
+        android:textSize="18dp"
         />
 
     <TextView
@@ -85,6 +91,7 @@
         android:layout_below="@id/txtImeLjubimca"
         android:layout_margin="10dp"
         android:textColor="@color/black"
+        android:textSize="18dp"
         />
 
     <TextView
@@ -95,6 +102,7 @@
         android:layout_below="@id/txtDatumVrijemeSkena"
         android:layout_margin="10dp"
         android:textColor="@color/black"
+        android:textSize="18dp"
         />
 
     <TextView
@@ -105,6 +113,7 @@
         android:layout_below="@id/txtSkenirao"
         android:layout_margin="10dp"
         android:textColor="@color/black"
+        android:textSize="18dp"
         />
 
     <TextView
@@ -116,6 +125,8 @@
         android:layout_marginStart="81dp"
         android:layout_toEndOf="@+id/lblKontakt"
         android:layout_toRightOf="@+id/lblMjestoSkeniranja"
-        android:textColor="@color/black" />
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        />
 
 </RelativeLayout>

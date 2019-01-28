@@ -16,9 +16,6 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.TextView;
 
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
@@ -30,7 +27,6 @@ import java.util.List;
 
 import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.SkeniranjeDataLoadedListener;
 import Retrofit.DataGetListenersAndLoaders.DataLoaders.SkeniranjeDataLoader;
-import Retrofit.DataPost.ObavijestiMethod;
 import Retrofit.Model.Skeniranje;
 import mpet.project2018.air.database.entities.Kartica;
 import mpet.project2018.air.database.entities.Korisnik;
@@ -78,11 +74,16 @@ public class NotificationService extends Service implements SkeniranjeDataLoaded
                 //Provjera ako postoji novo skeniranje
                 loadData();
                 if (listaSkeniranja.size() != 0) {
+
                     for (Skeniranje skeniranje : listaSkeniranja) {
 
-                        if (skeniranje.procitano.contains("0")) {
+                        mpet.project2018.air.database.entities.Skeniranje scanLocal=null;
 
-                            sendNotification("Vaš ljubimac je skeniran! Pritisnite za detalje ...", "Datum i vrijeme skeniranja : " + skeniranje.datum + " | " + skeniranje.vrijeme, skeniranje.id_skeniranja);
+                        scanLocal=new SQLite().select().from(mpet.project2018.air.database.entities.Skeniranje.class).where(Skeniranje_Table.id_skeniranja.is(Integer.parseInt(skeniranje.id_skeniranja))).querySingle();
+
+                        if (skeniranje.procitano.contains("0") && scanLocal==null) {
+
+                            sendNotification("Vaš ljubimac je skeniran! Pritisnite za detalje ...", "", skeniranje.id_skeniranja);
                             mpet.project2018.air.database.entities.Skeniranje lokalnaBazaSkeniranje = new mpet.project2018.air.database.entities.Skeniranje();
                             Date datum = null;
                             try {
@@ -160,14 +161,14 @@ public class NotificationService extends Service implements SkeniranjeDataLoaded
             Notification notification = new Notification.Builder(this, channelId)
                     .setContentTitle(title)
                     .setContentText(message)
-                    .setSmallIcon(R.drawable.dog_icon)
+                    .setSmallIcon(R.drawable.dog_icon_)
                     .setAutoCancel(true)
                     .setContentIntent(pendingIntent)
                     .build();
             notificationManager.notify(m, notification);
         } else {
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                    .setSmallIcon(R.drawable.dog_icon)
+                    .setSmallIcon(R.drawable.dog_icon_)
                     .setContentTitle(title)
                     .setContentText(message)
                     .setAutoCancel(true)
@@ -183,16 +184,13 @@ public class NotificationService extends Service implements SkeniranjeDataLoaded
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, 0);
         String idPrijavljeni = sharedPreferences.getString(Config.ID_SHARED_PREF, "").toString();
         SkeniranjeDataLoader skeniranjeDataLoader = new SkeniranjeDataLoader(this);
-        skeniranjeDataLoader.loadDataByUserId(idPrijavljeni);
+        skeniranjeDataLoader.loadDataForUser(idPrijavljeni);
     }
 
 
     @Override
     public void SkeniranjeOnDataLoaded(List<Skeniranje> listaSkeniranjaPreuzeta) {
         listaSkeniranja.addAll(listaSkeniranjaPreuzeta);
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, 0);
-        String idPrijavljeni = sharedPreferences.getString(Config.ID_SHARED_PREF, "").toString();
-        ObavijestiMethod.Upload(idPrijavljeni);
        }
 
 

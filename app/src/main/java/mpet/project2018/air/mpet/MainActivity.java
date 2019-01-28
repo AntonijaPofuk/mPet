@@ -68,8 +68,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //startService();//Pokretanje servisa za obavijesti
-        //getObavijestiIntent();//dohvaćanje intenta za detaljne obavijesti
+        startService();//Pokretanje servisa za obavijesti
+        getObavijestiIntent();//dohvaćanje intenta za detaljne obavijesti
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         }
 
 
-        //checkUnreadNotificationsNumber();//obavijesti
+        checkUnreadNotificationsNumber();//obavijesti
 
         setDefaultCodeInputMethod();
 

@@ -110,7 +110,7 @@ public class SkeniranjeData {
                         SkeniranjeList.add(skeniranjeNew);
                     }
 
-                    scanServiceHandler.onDataArrived(SkeniranjeList,true,true);
+                    scanServiceHandler.onDataArrived(SkeniranjeList,true,false);
                 }
 
             }

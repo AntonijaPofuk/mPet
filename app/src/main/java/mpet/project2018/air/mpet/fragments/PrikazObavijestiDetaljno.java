@@ -1,6 +1,8 @@
 package mpet.project2018.air.mpet.fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -28,12 +30,17 @@ import java.util.Locale;
 
 import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.KorisnikDataLoadedListener;
 import Retrofit.DataGetListenersAndLoaders.DataLoaders.KorisnikDataLoader;
+import Retrofit.DataPost.ObavijestiMethod;
 import Retrofit.Model.Korisnik;
+import mpet.project2018.air.core.OnFragmentInteractionListener;
 import mpet.project2018.air.database.entities.Ljubimac;
 import mpet.project2018.air.database.entities.Ljubimac_Table;
 import mpet.project2018.air.database.entities.Skeniranje;
 import mpet.project2018.air.database.entities.Skeniranje_Table;
+import mpet.project2018.air.mpet.Config;
 import mpet.project2018.air.mpet.R;
+
+import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 
 public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCallback, KorisnikDataLoadedListener {
 
@@ -85,6 +92,11 @@ public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCall
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
+        ObavijestiMethod.Upload(idSkeniranja,"1");
+
+        view.setBackgroundColor(Color.parseColor("#ebebe4"));
+
         super.onViewCreated(view, savedInstanceState);
 
 
@@ -160,15 +172,11 @@ public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCall
     }
 
 
-    public interface OnFragmentInteractionListener {
-        // Uri -> String
-        void onFragmentInteraction(String title);
-    }
+
 
 
     @Override
     public void onAttach(Context context) {
-        super.onAttach(context);
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
@@ -210,7 +218,7 @@ public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCall
 
         try {
 
-            datumVrijemeSkena.setText(format.format(datumSkena) + " " + vrijemeSkena);
+            datumVrijemeSkena.setText(format.format(datumSkena) + " ; " + vrijemeSkena);
 
         } catch (Exception e) {
 
@@ -221,15 +229,25 @@ public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCall
 
         imeLjubimca1.setText(imeLjubimca);
 
-        LatLng latLng = new LatLng(Double.parseDouble(kordX), Double.parseDouble(kordY));
+        try {
 
-        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 7));
+            LatLng latLng = new LatLng(Double.parseDouble(kordX), Double.parseDouble(kordY));
 
-        gMap.addMarker(new MarkerOptions().title(imeLjubimca + " je skeniran ovdje!").position(latLng)).showInfoWindow();
+            gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 7));
+
+            gMap.addMarker(new MarkerOptions().title(imeLjubimca + " je skeniran ovdje!").position(latLng)).showInfoWindow();
+
+
+        }
+
+        catch(Exception e){
+            //
+        }
 
         Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
 
         try {
+
             List<Address> adresa = geocoder.getFromLocation(Double.parseDouble(kordX), Double.parseDouble(kordY), 1);
 
             if (!adresa.isEmpty() && adresa != null) {

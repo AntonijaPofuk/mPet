@@ -18,6 +18,7 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 import java.util.List;
 
 
+import mpet.project2018.air.core.OnFragmentInteractionListener;
 import mpet.project2018.air.mpet.R;
 import mpet.project2018.air.mpet.obavijesti.RecycleViewAdapter;
 
@@ -58,16 +59,13 @@ public class PrikazSvihObavijesti extends Fragment {
 
     }
 
-    public interface OnFragmentInteractionListener {
-        // Uri -> String
-        void onFragmentInteraction(String title);
-    }
+
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof PrikazObavijestiDetaljno.OnFragmentInteractionListener) {
-            mListener = (PrikazSvihObavijesti.OnFragmentInteractionListener) context;
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
         }
