@@ -342,6 +342,7 @@ public class UpdateUser extends Fragment implements StatusListener {
             uredivaniKorisnik.setBroj_mobitela(globalMobitel);
             if(bit!=null){
                 uredivaniKorisnik.setSlika(bit);
+                uredivaniKorisnik.setUrl_profilna(uredivaniKorisnik.getId_korisnika()+"_profil.png");
             }
             uredivaniKorisnik.update();
             ((MainActivity)getActivity()).changeHeaderData();
