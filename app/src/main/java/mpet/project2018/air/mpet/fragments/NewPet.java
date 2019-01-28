@@ -1,6 +1,7 @@
 package mpet.project2018.air.mpet.fragments;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -69,6 +70,8 @@ public class NewPet extends Fragment implements StatusListener{
     private String globalUrlSlike;
 
     private Target loadtarget;
+
+    private ProgressDialog progress;
 
     //public NewPet(){};
 
@@ -183,6 +186,8 @@ public class NewPet extends Fragment implements StatusListener{
                         globalOpis=opis;
 
                         method.Upload(ime, godina, masa, vrsta, spol, opis, "/", vlasnik, kartica, slika);
+                        showLoadingDialog();
+
                 }
 
             }
@@ -289,6 +294,8 @@ public class NewPet extends Fragment implements StatusListener{
             alertingMessage("Ups, greška...",R.drawable.fail_message);
         }
         else if(!s.equals("greska")&&!s.equals("uspjesno")){
+            progressDialogEdit(15,"Spremamo novog ljubimca.");
+
             Toast.makeText(getActivity(), "Upisali ste ljubimca :)",
                     Toast.LENGTH_LONG).show();
             /*upis u lokalnu bazu*/
@@ -298,6 +305,7 @@ public class NewPet extends Fragment implements StatusListener{
             else{
                 globalUrlSlike=s + "_ljubimac.png";
             }
+            progressDialogEdit(75,"Pripremamo novog ljubimca.");
 
             Korisnik k=new SQLite().select().from(Korisnik.class).where(Korisnik_Table.id_korisnika.is(Integer.parseInt(ID_KORISNIKA))).querySingle();
             Kartica kart=new Kartica();
@@ -331,10 +339,36 @@ public class NewPet extends Fragment implements StatusListener{
                 Picasso.get().load("https://airprojekt.000webhostapp.com/slike_ljubimaca/default_ljubimac.png").into(loadtarget);
             }
             noviLjubimac.save();
+            progressDialogEdit(85,"Podaci su spremni!");
+
             /**/
+            dismissLoadingDialog();
             swapFragment();
         }
 
+    }
+    public void showLoadingDialog() {
+        if (progress == null) {
+            progress = new ProgressDialog(getActivity());
+            progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progress.setProgressNumberFormat(null);
+            progress.setProgressPercentFormat(null);
+            progress.setMessage("Molimo pričekajte...");
+            progress.setCancelable(false);
+            progress.setButton("Odustani",(DialogInterface.OnClickListener)null);
+        }
+        progress.show();
+    }
+    private void progressDialogEdit(int progressNum, String message)
+    {
+        progress.setProgress(progressNum);
+        progress.setMessage(message);
+    }
+
+    public void dismissLoadingDialog() {
+        if (progress != null && progress.isShowing()) {
+            progress.dismiss();
+        }
     }
 
 }

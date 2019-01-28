@@ -64,11 +64,8 @@ public class UpdateUser extends Fragment implements StatusListener {
     private String globalMail;
     private String globalMobitel;
     private String globalTelefon;
-
     private Target loadtarget;
-
     private Korisnik uredivaniKorisnik;
-
     private ProgressDialog progress;
 
 
@@ -329,7 +326,6 @@ public class UpdateUser extends Fragment implements StatusListener {
         /*promjena podataka*/
         else if(!s.equals("uspjesno")&&!s.equals("duplikat")){
             progressDialogEdit(15,"Ažuriramo podatke");
-            progressDialogEdit(100,"Postavljamo nove podatke");
 
             Toast.makeText(getActivity(), "Ažurirali ste podatke :)",
                     Toast.LENGTH_LONG).show();
@@ -346,6 +342,8 @@ public class UpdateUser extends Fragment implements StatusListener {
             }
             uredivaniKorisnik.update();
             ((MainActivity)getActivity()).changeHeaderData();
+            progressDialogEdit(100,"Postavljamo nove podatke");
+
 
             /**/
             HomeLoggedIn frag;

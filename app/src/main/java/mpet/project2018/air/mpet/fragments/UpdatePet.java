@@ -356,7 +356,7 @@ public class UpdatePet extends Fragment implements StatusListener{
             uredivaniLjubimac.delete();
 
             /**/
-
+            dismissLoadingDialog();
             swapFragment();
         }
         else if(!s.equals("greska")&&!s.equals("uspjesno")){

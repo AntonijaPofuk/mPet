@@ -2,6 +2,7 @@ package mpet.project2018.air.mpet.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -46,6 +47,8 @@ public class Registration extends Fragment implements StatusListener {
 
     public String status=null;
     private RegistracijaMethod method=new RegistracijaMethod(this);
+    private ProgressDialog progress;
+
 
     public Registration() {}
     @Override
@@ -123,6 +126,7 @@ public class Registration extends Fragment implements StatusListener {
                                                     }
                                                     else {
                                                         method.Upload(ime, prezime, korIme, adresa, mail, mobitel, telefon, lozinka, slika);
+                                                        showLoadingDialog();
                                                     }
                                                 }
                                             }
@@ -254,7 +258,12 @@ public class Registration extends Fragment implements StatusListener {
         if(s.equals("uspjesno")) {
             HomeLoggedOut frag;
             frag = new HomeLoggedOut();
+
+            progressDialogEdit(75,"Postavljamo novi profil.");
+
             swapFragment(false,(HomeLoggedOut) frag);
+            dismissLoadingDialog();
+
             Toast.makeText(a, "Registrirali ste se :)",
                     Toast.LENGTH_LONG).show();
         }
@@ -265,6 +274,29 @@ public class Registration extends Fragment implements StatusListener {
             alertingMessage("Ups, greška...", R.drawable.fail_message);
         }
 
+    }
+    public void showLoadingDialog() {
+        if (progress == null) {
+            progress = new ProgressDialog(getActivity());
+            progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progress.setProgressNumberFormat(null);
+            progress.setProgressPercentFormat(null);
+            progress.setMessage("Molimo pričekajte...");
+            progress.setCancelable(false);
+            progress.setButton("Odustani",(DialogInterface.OnClickListener)null);
+        }
+        progress.show();
+    }
+    private void progressDialogEdit(int progressNum, String message)
+    {
+        progress.setProgress(progressNum);
+        progress.setMessage(message);
+    }
+
+    public void dismissLoadingDialog() {
+        if (progress != null && progress.isShowing()) {
+            progress.dismiss();
+        }
     }
 
 }
