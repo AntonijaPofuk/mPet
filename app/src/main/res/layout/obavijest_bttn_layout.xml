@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.v7.widget.AppCompatImageView
+    <ImageView
         android:id="@+id/notificationBell"
         android:layout_width="90px"
         android:layout_height="90px"
@@ -14,7 +14,7 @@
         android:layout_marginTop="10px"
         />
 
-    <android.support.v7.widget.AppCompatTextView
+    <TextView
         android:layout_width="70px"
         android:layout_height="70px"
         android:id="@+id/notificationTextView"
