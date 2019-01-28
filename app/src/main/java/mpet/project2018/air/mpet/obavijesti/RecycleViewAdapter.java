@@ -65,7 +65,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
 
         String datumVrijemeSkeniranja = "";
 
-        Ljubimac ljubimac = new SQLite().select().from(Ljubimac.class).where(Ljubimac_Table.kartica_id_kartice.is(listSken.get(i).getKartica().getId_kartice())).querySingle();
+        Ljubimac ljubimac = new SQLite().select().from(Ljubimac.class).where(Ljubimac_Table.kartica_id_kartice.is(listSken.get(listSken.size()-(i+1)).getKartica().getId_kartice())).querySingle();
 
         try {
             imeLjubimca = ljubimac.getIme();
@@ -78,28 +78,28 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
         String parsedDate = "";
 
         try {
-            parsedDate = format.format(listSken.get(i).getDatum());
+            parsedDate = format.format(listSken.get(listSken.size()-(i+1)).getDatum());
         } catch (Exception e) {
 
         }
 
-        datumVrijemeSkeniranja = listSken.get(i).getVrijeme() + "   " + parsedDate;
+        datumVrijemeSkeniranja = listSken.get(listSken.size()-(i+1)).getVrijeme() + "   " + parsedDate;
 
         holder.detaljiObavijesti.setText(imeLjubimca + " je bio skeniran!");
 
         holder.datumSkeniranja.setText(datumVrijemeSkeniranja);
 
-        Integer redniBroj = i + 1;
+        Integer redniBroj = listSken.size()-i;
 
         holder.redniBroj.setText(redniBroj.toString());
 
-        idSkeniranja = listSken.get(i).getId_skeniranja();
+        idSkeniranja = listSken.get(listSken.size()-(i+1)).getId_skeniranja();
 
         holder.IDSkeniranja = idSkeniranja.toString();
 
         try {
 
-            if (Integer.parseInt(listSken.get(i).getProcitano()) < 1) {
+            if (Integer.parseInt(listSken.get(listSken.size()-(i+1)).getProcitano()) < 1) {
                 holder.itemView.setBackgroundColor(Color.GRAY);
             }
 
