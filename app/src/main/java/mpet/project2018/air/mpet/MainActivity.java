@@ -359,7 +359,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
     //Pokretanje servisa za obavijesti
     public void startService() {
-        String input = "";
+        String input = "inputService";
         Intent serviceIntent = new Intent(this, NotificationService.class);
         serviceIntent.putExtra("inputExtra", input);
         ContextCompat.startForegroundService(this, serviceIntent);

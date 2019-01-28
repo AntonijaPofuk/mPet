@@ -52,8 +52,12 @@ public class NotificationService extends Service implements SkeniranjeDataLoaded
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        String input = intent.getStringExtra("inputExtra");
-
+        try {
+            String input = intent.getStringExtra("inputExtra");
+        }
+        catch(Exception e){
+            //
+        }
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
                 0, notificationIntent, 0);

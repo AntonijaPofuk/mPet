@@ -1,5 +1,6 @@
 package mpet.project2018.air.mpet.fragments;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -51,6 +52,10 @@ public class PrikazSvihObavijesti extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         List<mpet.project2018.air.database.entities.Skeniranje> skeniranjeList = new SQLite().select().from(mpet.project2018.air.database.entities.Skeniranje.class).queryList();
+
+        if(skeniranjeList.isEmpty() || skeniranjeList.size()==0) {
+            Toast.makeText(getContext(), "Nema obavijesti.", Toast.LENGTH_SHORT).show();
+        }
 
         RecycleViewAdapter obavijestiAdapter = new RecycleViewAdapter(skeniranjeList);
 
