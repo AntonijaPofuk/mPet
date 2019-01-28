@@ -17,12 +17,12 @@
 
     <EditText
         android:id="@+id/unosKorIme"
-        android:layout_width="200dp"
+        android:layout_width="190dp"
         android:layout_height="40dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="31dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="29dp"
+        android:layout_marginEnd="17dp"
         android:ems="10"
         android:inputType="text"
         android:text="" />
@@ -34,17 +34,17 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="75dp"
-        android:layout_marginEnd="160dp"
+        android:layout_marginEnd="158dp"
         android:fontFamily="@font/robotoblack"
         android:text="@string/lozinkaReg" />
 
     <EditText
         android:id="@+id/unosLozinka"
-        android:layout_width="200dp"
+        android:layout_width="190dp"
         android:layout_height="40dp"
         android:layout_below="@+id/textView2"
         android:layout_alignStart="@+id/unosKorIme"
-        android:layout_marginStart="0dp"
+        android:layout_marginStart="-2dp"
         android:layout_marginTop="0dp"
         android:ems="10"
         android:inputType="textPassword" />
