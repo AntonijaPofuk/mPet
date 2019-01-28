@@ -88,10 +88,11 @@ public class KorisnikDataLoader {
     }
 
     /*********/
-    private Target loadtarget;
+    //private Target loadtarget;
 
     public void loadBitmap(String url, final mpet.project2018.air.database.entities.Korisnik kor) {
 
+        Target loadtarget;
         loadtarget = new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {

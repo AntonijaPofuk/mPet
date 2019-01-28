@@ -85,10 +85,11 @@ public class LjubimacDataLoader  {
 
     private void savePetInLocalDatabase(List<Ljubimac> listaLjubimaca)
     {
+        mpet.project2018.air.database.entities.Korisnik k=new SQLite().select().from(mpet.project2018.air.database.entities.Korisnik.class).where(Korisnik_Table.id_korisnika.is(Integer.parseInt(idKorisnika))).querySingle();
         if(petCount==0) checkDataArrival(lista);
         for (Ljubimac ljubimac : listaLjubimaca)
         {
-            mpet.project2018.air.database.entities.Korisnik k=new SQLite().select().from(mpet.project2018.air.database.entities.Korisnik.class).where(Korisnik_Table.id_korisnika.is(Integer.parseInt(idKorisnika))).querySingle();
+
             mpet.project2018.air.database.entities.Ljubimac newLjubimac=new mpet.project2018.air.database.entities.Ljubimac(Integer.parseInt(ljubimac.id),ljubimac.ime,Integer.parseInt(ljubimac.godina),Long.parseLong(ljubimac.masa),ljubimac.vrsta,ljubimac.spol,ljubimac.opis,ljubimac.url_slike,k);
             mpet.project2018.air.database.entities.Kartica card=new mpet.project2018.air.database.entities.Kartica();
             if(ljubimac.kartica!=null){
@@ -106,10 +107,11 @@ public class LjubimacDataLoader  {
     }
 
     /*********/
-    private Target loadtarget;
+    //private Target loadtarget;
 
     public void loadBitmap(String url, final mpet.project2018.air.database.entities.Ljubimac ljub) {
 
+        Target loadtarget;
         loadtarget = new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
