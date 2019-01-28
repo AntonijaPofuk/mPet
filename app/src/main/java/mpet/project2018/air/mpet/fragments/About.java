@@ -100,6 +100,5 @@ public class About extends Fragment{
         super.onDetach();
         mListener = null;
     }
-
 }
 

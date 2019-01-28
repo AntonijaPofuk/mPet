@@ -1,6 +1,7 @@
 package mpet.project2018.air.mpet;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -13,6 +14,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -60,8 +62,6 @@ import mpet.project2018.air.nfc.NFCManager;
 public class MainActivity extends AppCompatActivity implements OnFragmentInteractionListener{
 
     private DrawerLayout dl;
-
-
     TextView textView;
 
     @Override
@@ -82,7 +82,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        //navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_frag1); //Provjera i odabir prvog elementa u draweru
 
         Navigation();
@@ -256,24 +255,27 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                                 break;
                             case R.id.nav_frag5:
                                 //odjava
-                                SharedPreferences preferences = getSharedPreferences
+
+//TODO: provjeri je li odjava dobra
+                                /*SharedPreferences preferences = getSharedPreferences
                                         (Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = preferences.edit();
                                 editor.putBoolean(Config.LOGGEDIN_SHARED_PREF, false);
                                 editor.remove("ulogiraniKorisnikId");
                                 editor.commit();
-                                /**/
+
                                 clearBackStack();
                                 HomeLoggedOut pocetna = new HomeLoggedOut();
                                 swapLogout(pocetna);
-                                /*zamjena izbornika*/
+
                                 NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);//bez head
                                 navigationView.getMenu().clear();
                                 navigationView.inflateMenu(R.menu.activity_main_drawer_logged_out); //opcije
                                 navigationView.getHeaderView(0);
                                 navigationView.removeHeaderView(navigationView.getHeaderView(0));
                                 navigationView.inflateHeaderView(R.layout.nav_header_logged_out); //head
-                                deleteDatabase();
+                                deleteDatabase(); */
+                                logout();
                                 break;
                             /**/
                             case R.id.nav_frag6:
@@ -290,6 +292,53 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                         return true;
                     }
                 });
+    }
+
+
+    private void logout(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("Sigurno se želite odjaviti?");
+        alertDialogBuilder.setPositiveButton("Da",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+
+                        SharedPreferences preferences = getSharedPreferences
+                                (Config.SHARED_PREF_NAME,Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+
+                        editor.putBoolean(Config.LOGGEDIN_SHARED_PREF, false);
+                        editor.remove("ulogiraniKorisnikId");
+
+                        editor.commit();
+
+                        /*zamjena izbornika*/
+                        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                        navigationView.getMenu().clear();
+                        navigationView.inflateMenu(R.menu.activity_main_drawer_logged_out);
+                        navigationView.getHeaderView(0);
+                        navigationView.removeHeaderView(navigationView.getHeaderView(0));
+                        navigationView.inflateHeaderView(R.layout.nav_header_logged_out);
+
+                        deleteDatabase();
+
+                        HomeLoggedOut frag;
+                        frag = new HomeLoggedOut();
+                        swapFragment(false,(HomeLoggedOut) frag);
+                    }
+                });
+
+        alertDialogBuilder.setNegativeButton("Ne",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+
+                    }
+                });
+
+        //Showing the alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
     private void clearBackStack() {

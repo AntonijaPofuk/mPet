@@ -47,7 +47,5 @@ public class AboutUs extends Fragment{
         super.onDetach();
         mListener = null;
     }
-
-
 }
 

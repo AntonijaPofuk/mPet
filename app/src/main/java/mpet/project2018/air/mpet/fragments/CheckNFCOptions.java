@@ -92,8 +92,5 @@ public class CheckNFCOptions extends Fragment{
         super.onDetach();
         mListener = null;
     }
-
-
-
 }
 

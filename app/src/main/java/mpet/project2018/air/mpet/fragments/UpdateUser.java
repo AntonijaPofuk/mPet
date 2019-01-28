@@ -14,6 +14,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -25,7 +26,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-import android.support.v4.app.FragmentTransaction;
 
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.squareup.picasso.Target;
@@ -36,14 +36,13 @@ import java.util.regex.Pattern;
 
 import Retrofit.DataPost.RegistracijaMethod;
 import Retrofit.RemotePost.StatusListener;
+import mpet.project2018.air.core.OnFragmentInteractionListener;
 import mpet.project2018.air.database.entities.Korisnik;
 import mpet.project2018.air.database.entities.Korisnik_Table;
-import mpet.project2018.air.core.OnFragmentInteractionListener;
 import mpet.project2018.air.mpet.MainActivity;
 import mpet.project2018.air.mpet.R;
 
 import static android.app.Activity.RESULT_OK;
-import static android.view.View.VISIBLE;
 
 public class UpdateUser extends Fragment implements StatusListener {
     private OnFragmentInteractionListener mListener;
@@ -68,10 +67,7 @@ public class UpdateUser extends Fragment implements StatusListener {
     private String globalTelefon;
     private Target loadtarget;
     private Korisnik uredivaniKorisnik;
-    private ProgressDialog progress;
-
     private ProgressBar spinner;
-
 
     public static UpdateUser newInstance(String idKor) {
         Bundle bundle = new Bundle();
@@ -123,8 +119,6 @@ public class UpdateUser extends Fragment implements StatusListener {
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
             }
         });
-
-
         buttonSpremi.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
@@ -186,7 +180,6 @@ public class UpdateUser extends Fragment implements StatusListener {
                 swapFragment(false,(HomeLoggedIn) frag);
             }
         });
-
         /*popunjavanje početnih podataka*/
         uredivaniKorisnik=new SQLite().select().from(Korisnik.class).where(Korisnik_Table.id_korisnika.is(Integer.parseInt(ID_KORISNIKA))).querySingle();
         EditText imeEdit = (EditText)view.findViewById(R.id.unosIme);
@@ -232,7 +225,6 @@ public class UpdateUser extends Fragment implements StatusListener {
             }
         }
     }
-
     public String BitmapTOString(Bitmap bitmap) {
 
         Bitmap bm = bitmap;
@@ -242,8 +234,6 @@ public class UpdateUser extends Fragment implements StatusListener {
         String imgString = Base64.encodeToString(byteFormat, Base64.DEFAULT);
         return imgString;
     }
-
-
     private void swapFragment(boolean addToBackstack, Fragment fragToShow){
         if(getActivity() == null)
             return;
@@ -253,7 +243,6 @@ public class UpdateUser extends Fragment implements StatusListener {
             ft.addToBackStack(null);
         ft.commit();
     }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -263,13 +252,11 @@ public class UpdateUser extends Fragment implements StatusListener {
             throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
         }
     }
-
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
-
     private boolean provjeraNedozvoljeniZnakovi(String ime,String prezime,String korIme,String adresa,String mobitel,String telefon){
         String pattern = "[\\'|\\!|\\?|\\#|\\*|\\$|\\%|\\&|\\/]";
         Pattern p = Pattern.compile(pattern);
@@ -355,7 +342,6 @@ public class UpdateUser extends Fragment implements StatusListener {
             spinner.setVisibility(View.GONE);
 
         }
-
-
-    }}
+    }
+}
 

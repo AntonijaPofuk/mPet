@@ -37,7 +37,6 @@ public class AboutApp extends Fragment{
         textView.setText("Aplikacije je izrađena u svrhu predmeta Analiza i razvoj programa koji se izvodi na diplomskom studiju informatike te kao takva još nije predviđena za širu upotrebu. Ukratko aplikacija predstavlja način vođenja evidencije o kućnim ljubimcima. Osnovna funkcionalnost koju nudi je praćenje ljubimca putem NFC kartice. Korisniku je na raspolaganju također i skreniranje tuđih ljubimaca te slanje poruka vlasniku. Na ovaj način se može olakšati pronalazak ljubimca u slučaju da je nestao ili pobjegao."
         );
         return view;
-
     }
 
     @Override
@@ -55,7 +54,5 @@ public class AboutApp extends Fragment{
         super.onDetach();
         mListener = null;
     }
-
-
 }
 

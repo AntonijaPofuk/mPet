@@ -16,13 +16,13 @@ import android.widget.Toast;
 import com.raizlabs.android.dbflow.sql.language.Delete;
 
 import mpet.project2018.air.core.InternetConnectionHandler;
+import mpet.project2018.air.core.OnFragmentInteractionListener;
 import mpet.project2018.air.database.entities.Kartica;
 import mpet.project2018.air.database.entities.Korisnik;
 import mpet.project2018.air.database.entities.Ljubimac;
 import mpet.project2018.air.database.entities.Skeniranje;
 import mpet.project2018.air.manualinput.ManualInputFragment;
 import mpet.project2018.air.mpet.Config;
-import mpet.project2018.air.core.OnFragmentInteractionListener;
 import mpet.project2018.air.mpet.R;
 import mpet.project2018.air.nfc.ScanningNFCFragment;
 
@@ -39,8 +39,7 @@ public class HomeLoggedIn extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_logged_in, container, false);
-        // NOTE : We are calling the onFragmentInteraction() declared in the MainActivity
-        // we are sending "Fragment 1" as title parameter when fragment1 is activated
+
         if (mListener != null) {
             mListener.onFragmentInteraction("Početna");
         }
@@ -120,8 +119,6 @@ public class HomeLoggedIn extends Fragment {
         Delete.table(Kartica.class);
     }
 
-
-
     //TODO: izbrisati swap returnRightCodeInputMethod
     private void swapFragment2(){
 
@@ -129,9 +126,7 @@ public class HomeLoggedIn extends Fragment {
         ft.replace(R.id.mainFrame, returnRightCodeInputMethod());
         ft.addToBackStack(null);
         ft.commit();
-
     }
-
     private Fragment returnRightCodeInputMethod()
     {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(Config.SHARED_PREF_NAME, 0);
@@ -143,7 +138,6 @@ public class HomeLoggedIn extends Fragment {
 
         else return new ManualInputFragment();
     }
-
 
     @Override
     public void onAttach(Context context) {
@@ -159,6 +153,4 @@ public class HomeLoggedIn extends Fragment {
         super.onDetach();
         mListener = null;
     }
-
-
   }

@@ -40,23 +40,18 @@ import mpet.project2018.air.mpet.R;
 import static android.content.Context.MODE_PRIVATE;
 import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 
-
 public class Login extends Fragment implements onLoginValidation, KorisnikDataLoadedListener, KarticaDataLoadedListener, LjubimacDataLoadedListener, SkeniranjeDataLoadedListener {
-
     private OnFragmentInteractionListener mListener;
-
     public Login() {}
+
     EditText edtUsername;
     EditText edtPassword;
     Button btnLogin;
     Button btnPrijavaOdustani;
 
     private SharedPreferences sharedPreferences;
-
     private String globalId;
-
     private ProgressDialog progress;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,8 +65,6 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
         if (mListener != null) {
             mListener.onFragmentInteraction("Prijava");
         }
-
-
         edtUsername = (EditText) view.findViewById(R.id.edtUsername);
         edtPassword = (EditText) view.findViewById(R.id.edtPassword);
         btnLogin = (Button) view.findViewById(R.id.btnLogin);
@@ -82,9 +75,7 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
             HomeLoggedIn frag;
             frag = new HomeLoggedIn();
             mListener.swapFragment(false,(HomeLoggedIn) frag);
-
         }
-
         btnLogin.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
@@ -113,15 +104,12 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
                 HomeLoggedOut frag;
                 frag = new HomeLoggedOut();
                 mListener.swapFragment(true,(HomeLoggedOut) frag);
-
             }
             }
         );
         return view;
     }
-
-    //LoadingDialog
-      public void showLoadingDialog() {
+       public void showLoadingDialog() {
         if (progress == null) {
             progress = new ProgressDialog(getActivity());
             progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -151,7 +139,6 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
         }
         return true;
     }
-
     private void doLogin ( final String username, final String password){
         String username1 = edtUsername.getText().toString();
         String password1 = edtPassword.getText().toString();
@@ -160,13 +147,11 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
         String response = "";
         postMetodaZaPrijavu.Upload(username1, password1);
     }
-
     @Override
     public void onDataLoaded (String id){
         globalId=id;
         if (Integer.parseInt(id) != 0) {
             downloadDatabase(id);
-
             /*zamjena izbornika*/
             NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
             navigationView.getMenu().clear();
@@ -176,22 +161,16 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
             navigationView.inflateHeaderView(R.layout.nav_header);
             /**/
             progressDialogEdit(15,"Vaši korisnički podaci su u redu!");
-
-
         } else {
             Toast.makeText(getActivity(), "Korisnicko ime ili lozinka su netocni", Toast.LENGTH_SHORT).show();
             dismissLoadingDialog();
         }
     }
-
-
     private void downloadDatabase(String id){
         KorisnikDataLoader kor=new KorisnikDataLoader(this);
         kor.loadUsersByUserId(id);
         //nastavak skidanja baze u loaderima zbog zavisnosti
     }
-
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -201,35 +180,29 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
             throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
         }
     }
-
    @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
-
     @Override
     public void KarticaOnDataLoaded(List<Kartica> listaKartica) {
         LjubimacDataLoader ljub=new LjubimacDataLoader(this);
         ljub.loadDataByUserId(globalId);
         progressDialogEdit(65,"Svi vaši NFC tagovi upravo su skinuti!");
     }
-
     @Override
     public void KorisnikOnDataLoaded(List<Korisnik> listaKorisnika) {
         KarticaDataLoader kar=new KarticaDataLoader(this);
         kar.loadDataByuserId(globalId);
         progressDialogEdit(45,"Vaši podaci su na sigurnome!");
     }
-
     @Override
     public void LjubimacOnDataLoaded(List<Ljubimac> listaLjubimaca) {
         SkeniranjeDataLoader sken=new SkeniranjeDataLoader(this);
         sken.loadDataByUserId(globalId);
         progressDialogEdit(90,"Ljubimci su u kućicama!");
-
     }
-
     @Override
     public void SkeniranjeOnDataLoaded(List<Skeniranje> listaSkeniranja) {
         getActivity().getSharedPreferences(SHARED_PREF_NAME,MODE_PRIVATE)
@@ -244,8 +217,6 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
 
         mListener.swapFragment(false,(HomeLoggedIn) frag);
 
-
-
         progressDialogEdit(100,"Pozdrav!");
         dismissLoadingDialog();
     }
@@ -255,5 +226,4 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
         progress.setProgress(progressNum);
         progress.setMessage(message);
     }
-
 }

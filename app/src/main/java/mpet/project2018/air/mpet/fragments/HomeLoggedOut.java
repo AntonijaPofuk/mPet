@@ -38,10 +38,6 @@ public class HomeLoggedOut extends Fragment {
         if (mListener != null) {
             mListener.onFragmentInteraction("Početna");
         }
-
-
-
-
         Button btn1=(Button) view.findViewById(R.id.btnPrijava);
         btn1.setOnClickListener(new View.OnClickListener() {
                                     @Override
@@ -49,11 +45,9 @@ public class HomeLoggedOut extends Fragment {
                                         Login frag;
                                         frag = new Login();
                                         mListener.swapFragment(true,(Login) frag);
-
                                     }
                                 }
         );
-
 
         Button btn2=(Button) view.findViewById(R.id.btnReg);
         btn2.setOnClickListener(new View.OnClickListener() {
@@ -62,8 +56,6 @@ public class HomeLoggedOut extends Fragment {
                                         Registration frag;
                                         frag = new Registration();
                                         mListener.swapFragment(false,(Registration) frag);
-
-
                                     }
                                 }
         );
@@ -108,7 +100,4 @@ public class HomeLoggedOut extends Fragment {
         super.onDetach();
         mListener = null;
     }
-
-
-
 }
