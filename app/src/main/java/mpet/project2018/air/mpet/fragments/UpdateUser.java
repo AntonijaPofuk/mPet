@@ -23,6 +23,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.support.v4.app.FragmentTransaction;
 
@@ -42,6 +43,7 @@ import mpet.project2018.air.mpet.MainActivity;
 import mpet.project2018.air.mpet.R;
 
 import static android.app.Activity.RESULT_OK;
+import static android.view.View.VISIBLE;
 
 public class UpdateUser extends Fragment implements StatusListener {
     private OnFragmentInteractionListener mListener;
@@ -67,6 +69,8 @@ public class UpdateUser extends Fragment implements StatusListener {
     private Target loadtarget;
     private Korisnik uredivaniKorisnik;
     private ProgressDialog progress;
+
+    private ProgressBar spinner;
 
 
     public static UpdateUser newInstance(String idKor) {
@@ -96,7 +100,6 @@ public class UpdateUser extends Fragment implements StatusListener {
         readBundle(bundle);
 
         final View view = inflater.inflate(R.layout.update_user, container, false);
-
         if (mListener != null) {
             mListener.onFragmentInteraction("Podaci korisnika");
         }
@@ -104,6 +107,8 @@ public class UpdateUser extends Fragment implements StatusListener {
         Button buttonSpremi=(Button) view.findViewById(R.id.btnRegistracijaSpremi);
         Button buttonOdustani=(Button) view.findViewById(R.id.btnRegistracijaOdustani);
         imageButton= (ImageButton) view.findViewById(R.id.btnChooseImage);
+        spinner = (ProgressBar)view.findViewById(R.id.progressBar1);
+        spinner.setVisibility(View.GONE);
 
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,7 +169,8 @@ public class UpdateUser extends Fragment implements StatusListener {
                                                         globalTelefon=telefon;
                                                         globalMobitel=mobitel;
                                                         method.Update(ID_KORISNIKA,ime,prezime,korIme,adresa,mail,mobitel,telefon,slika);
-                                                        showLoadingDialog();
+                                                        //showLoadingDialog();
+                                                        spinner.setVisibility(View.VISIBLE);
 
                                                     }
                                                 }
@@ -314,18 +320,16 @@ public class UpdateUser extends Fragment implements StatusListener {
 
     @Override
     public void onStatusChanged(String s) {
-        status=s;
-        Activity a=getActivity();
+        status = s;
+        Activity a = getActivity();
 
-        if(s.equals("duplikat")) {
+        if ( s.equals("duplikat") ) {
             alertingMessage("Korisničko ime već postoji!", R.drawable.exclamation_message);
-        }
-        else if (s.equals("greska")) {
+        } else if ( s.equals("greska") ) {
             alertingMessage("Ups, greška...", R.drawable.fail_message);
         }
         /*promjena podataka*/
-        else if(!s.equals("uspjesno")&&!s.equals("duplikat")){
-            progressDialogEdit(15,"Ažuriramo podatke");
+        else if ( !s.equals("uspjesno") && !s.equals("duplikat") ) {
 
             Toast.makeText(getActivity(), "Ažurirali ste podatke :)",
                     Toast.LENGTH_LONG).show();
@@ -336,45 +340,22 @@ public class UpdateUser extends Fragment implements StatusListener {
             uredivaniKorisnik.setEmail(globalMail);
             uredivaniKorisnik.setBroj_telefona(globalTelefon);
             uredivaniKorisnik.setBroj_mobitela(globalMobitel);
-            if(bit!=null){
+            if ( bit != null ) {
                 uredivaniKorisnik.setSlika(bit);
-                uredivaniKorisnik.setUrl_profilna(uredivaniKorisnik.getId_korisnika()+"_profil.png");
+                uredivaniKorisnik.setUrl_profilna(uredivaniKorisnik.getId_korisnika() + "_profil.png");
             }
             uredivaniKorisnik.update();
-            ((MainActivity)getActivity()).changeHeaderData();
-            progressDialogEdit(100,"Postavljamo nove podatke");
+            ((MainActivity) getActivity()).changeHeaderData();
 
 
             /**/
             HomeLoggedIn frag;
             frag = new HomeLoggedIn();
-            swapFragment(false,(HomeLoggedIn) frag);
-            dismissLoadingDialog();
+            swapFragment(false, (HomeLoggedIn) frag);
+            spinner.setVisibility(View.GONE);
+
         }
 
-    }
-    public void showLoadingDialog() {
-        if (progress == null) {
-            progress = new ProgressDialog(getActivity());
-            progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            progress.setProgressNumberFormat(null);
-            progress.setProgressPercentFormat(null);
-            progress.setMessage("Molimo pričekajte...");
-            progress.setCancelable(false);
-            progress.setButton("Odustani",(DialogInterface.OnClickListener)null);
-        }
-        progress.show();
-    }
-    private void progressDialogEdit(int progressNum, String message)
-    {
-        progress.setProgress(progressNum);
-        progress.setMessage(message);
-    }
 
-    public void dismissLoadingDialog() {
-        if (progress != null && progress.isShowing()) {
-            progress.dismiss();
-        }
-    }
-}
+    }}
 

@@ -23,6 +23,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.support.v4.app.FragmentTransaction;
 
@@ -48,6 +49,7 @@ public class Registration extends Fragment implements StatusListener {
     public String status=null;
     private RegistracijaMethod method=new RegistracijaMethod(this);
     private ProgressDialog progress;
+    private ProgressBar spinner;
 
 
     public Registration() {}
@@ -68,6 +70,8 @@ public class Registration extends Fragment implements StatusListener {
         Button buttonSpremi=(Button) view.findViewById(R.id.btnRegistracijaSpremi);
         Button buttonOdustani=(Button) view.findViewById(R.id.btnRegistracijaOdustani);
         imageButton= (ImageButton) view.findViewById(R.id.btnChooseImage);
+        spinner = (ProgressBar)view.findViewById(R.id.progressBar1);
+        spinner.setVisibility(View.GONE);
 
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,7 +130,7 @@ public class Registration extends Fragment implements StatusListener {
                                                     }
                                                     else {
                                                         method.Upload(ime, prezime, korIme, adresa, mail, mobitel, telefon, lozinka, slika);
-                                                        showLoadingDialog();
+                                                        spinner.setVisibility(View.VISIBLE);
                                                     }
                                                 }
                                             }
@@ -259,10 +263,8 @@ public class Registration extends Fragment implements StatusListener {
             HomeLoggedOut frag;
             frag = new HomeLoggedOut();
 
-            progressDialogEdit(75,"Postavljamo novi profil.");
-
             swapFragment(false,(HomeLoggedOut) frag);
-            dismissLoadingDialog();
+            spinner.setVisibility(View.GONE);
 
             Toast.makeText(a, "Registrirali ste se :)",
                     Toast.LENGTH_LONG).show();
@@ -275,29 +277,5 @@ public class Registration extends Fragment implements StatusListener {
         }
 
     }
-    public void showLoadingDialog() {
-        if (progress == null) {
-            progress = new ProgressDialog(getActivity());
-            progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            progress.setProgressNumberFormat(null);
-            progress.setProgressPercentFormat(null);
-            progress.setMessage("Molimo pričekajte...");
-            progress.setCancelable(false);
-            progress.setButton("Odustani",(DialogInterface.OnClickListener)null);
-        }
-        progress.show();
-    }
-    private void progressDialogEdit(int progressNum, String message)
-    {
-        progress.setProgress(progressNum);
-        progress.setMessage(message);
-    }
-
-    public void dismissLoadingDialog() {
-        if (progress != null && progress.isShowing()) {
-            progress.dismiss();
-        }
-    }
-
 }
 

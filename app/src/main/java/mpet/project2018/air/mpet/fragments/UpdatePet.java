@@ -24,6 +24,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -73,7 +74,7 @@ public class UpdatePet extends Fragment implements StatusListener{
 
     private Ljubimac uredivaniLjubimac;
 
-    private ProgressDialog progress;
+    private ProgressBar spinner;
 
     public static UpdatePet newInstance(String idLjub) {
         Bundle bundle = new Bundle();
@@ -113,6 +114,9 @@ public class UpdatePet extends Fragment implements StatusListener{
         Button buttonOdustani=(Button) view.findViewById(R.id.btnNoviLjubimacOdustani);
         Button buttonObrisi=(Button) view.findViewById(R.id.btnLjubimacObrisi);
         imageButton= (ImageButton) view.findViewById(R.id.btnChooseImage);
+
+        spinner = (ProgressBar)view.findViewById(R.id.progressBar1);
+        spinner.setVisibility(View.GONE);
 
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,7 +187,7 @@ public class UpdatePet extends Fragment implements StatusListener{
                         globalOpis=opis;
 
                     method.Update(ID_LJUBIMCA, ime, godina, masa, vrsta, spol, opis, slika);
-                    showLoadingDialog();
+                    spinner.setVisibility(View.VISIBLE);
                 }
 
             }
@@ -205,7 +209,7 @@ public class UpdatePet extends Fragment implements StatusListener{
                     public void onClick(DialogInterface dialog, int which) {
                         //brisanje ljubimca
                         method.DeleteLjubimac(ID_LJUBIMCA,uredivaniLjubimac.getKarticaNumber(),uredivaniLjubimac.getUrl_slike());
-                        showLoadingDialog();
+                        spinner.setVisibility(View.VISIBLE);
                     }
                 });
 
@@ -356,7 +360,7 @@ public class UpdatePet extends Fragment implements StatusListener{
             uredivaniLjubimac.delete();
 
             /**/
-            dismissLoadingDialog();
+            spinner.setVisibility(View.GONE);
             swapFragment();
         }
         else if(!s.equals("greska")&&!s.equals("uspjesno")){
@@ -382,38 +386,16 @@ public class UpdatePet extends Fragment implements StatusListener{
             if(bit!=null){
                 uredivaniLjubimac.setSlika(bit);
             }
-            progressDialogEdit(50,"Postavljamo nove podatke.");
 
             uredivaniLjubimac.update();
+            spinner.setVisibility(View.VISIBLE);
             /**/
-            progressDialogEdit(100,"Ažurirali smo ljubimca uspješno!");
             swapFragment();
-            dismissLoadingDialog();
+            spinner.setVisibility(View.GONE
+            );
         }
 
     }
-    public void showLoadingDialog() {
-        if (progress == null) {
-            progress = new ProgressDialog(getActivity());
-            progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            progress.setProgressNumberFormat(null);
-            progress.setProgressPercentFormat(null);
-            progress.setMessage("Molimo pričekajte...");
-            progress.setCancelable(false);
-            progress.setButton("Odustani",(DialogInterface.OnClickListener)null);
-        }
-        progress.show();
-    }
-    private void progressDialogEdit(int progressNum, String message)
-    {
-        progress.setProgress(progressNum);
-        progress.setMessage(message);
-    }
 
-    public void dismissLoadingDialog() {
-        if (progress != null && progress.isShowing()) {
-            progress.dismiss();
-        }
-    }
 
 }

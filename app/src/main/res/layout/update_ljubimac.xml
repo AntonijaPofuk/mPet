@@ -170,5 +170,20 @@
         android:fontFamily="@font/robotoblack"
         android:text="[kg]" />
 
+    <ProgressBar
+        android:id="@+id/progressBar1"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="210dp"
+        android:layout_height="201dp"
+
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="106dp"
+        android:layout_marginTop="141dp"
+        android:layout_marginEnd="68dp"
+        android:layout_marginBottom="169dp" />
+
 
 </RelativeLayout>
