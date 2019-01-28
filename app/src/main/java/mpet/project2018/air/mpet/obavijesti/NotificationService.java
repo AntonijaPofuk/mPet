@@ -97,7 +97,7 @@ public class NotificationService extends Service implements SkeniranjeDataLoaded
                             lokalnaBazaSkeniranje.setKontakt(skeniranje.kontakt);
                             lokalnaBazaSkeniranje.setKoordinata_x(skeniranje.koordinata_x);
                             lokalnaBazaSkeniranje.setKoordinata_y(skeniranje.koordinata_y);
-                            korisnik.setId_korisnika(Integer.parseInt(skeniranje.korisnik));
+                            if(skeniranje.korisnik!=null && skeniranje.korisnik!="0" && skeniranje.korisnik!="")korisnik.setId_korisnika(Integer.parseInt(skeniranje.korisnik));
                             lokalnaBazaSkeniranje.setKorisnik(korisnik);
                             lokalnaBazaSkeniranje.setProcitano(skeniranje.procitano);
                             lokalnaBazaSkeniranje.setVrijeme(skeniranje.vrijeme);

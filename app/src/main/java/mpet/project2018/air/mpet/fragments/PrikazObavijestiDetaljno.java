@@ -142,7 +142,6 @@ public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCall
         try {
             kontaktKorisnik = skeniranje.getKontakt();
         } catch (Exception e) {
-
         }
 
         loadData();
@@ -225,78 +224,88 @@ public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCall
         }
 
 
-        TextView imeLjubimca1 = this.mainView.findViewById(R.id.txtImeLjubimca);
+            TextView imeLjubimca1 = this.mainView.findViewById(R.id.txtImeLjubimca);
 
-        imeLjubimca1.setText(imeLjubimca);
+            imeLjubimca1.setText(imeLjubimca);
 
-        try {
+        if(kordX!="" && kordY!="" && !kordX.isEmpty() && !kordY.isEmpty()) {
 
-            LatLng latLng = new LatLng(Double.parseDouble(kordX), Double.parseDouble(kordY));
+            try {
 
-            gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 7));
+                LatLng latLng = new LatLng(Double.parseDouble(kordX), Double.parseDouble(kordY));
 
-            gMap.addMarker(new MarkerOptions().title(imeLjubimca + " je skeniran ovdje!").position(latLng)).showInfoWindow();
+                gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 7));
+
+                gMap.addMarker(new MarkerOptions().title(imeLjubimca + " je skeniran ovdje!").position(latLng)).showInfoWindow();
 
 
-        }
-
-        catch(Exception e){
-            //
-        }
-
-        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
-
-        try {
-
-            List<Address> adresa = geocoder.getFromLocation(Double.parseDouble(kordX), Double.parseDouble(kordY), 1);
-
-            if (!adresa.isEmpty() && adresa != null) {
-
-                TextView mjestoSkena = mainView.findViewById(R.id.txtMjestoSkena);
-
-                String locality = "";
-                String subLocality = "";
-                String country = "";
-
-                subLocality = adresa.get(0).getSubLocality();
-                country = adresa.get(0).getCountryName();
-                locality = adresa.get(0).getLocality();
-
-                if (locality != null && !locality.isEmpty()) {
-                    locality = locality + ",";
-                } else {
-                    locality = "";
-                }
-                if (subLocality != null && !locality.isEmpty()) {
-                    subLocality = subLocality + ",";
-                } else {
-                    subLocality = "";
-                }
-                if (country != null && !country.isEmpty()) {
-                    //ništa
-                } else {
-                    country = "Nepoznata država";
-                }
-
-                mjestoSkena.setText(locality + subLocality + country);
-
-            } else {
-                TextView mjestoSkena = mainView.findViewById(R.id.txtMjestoSkena);
-
-                mjestoSkena.setText("Mjesto nije prepoznato");
+            } catch (Exception e) {
+                //
             }
 
-        } catch (IOException e) {
-            e.printStackTrace();
+            Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+
+            try {
+
+                List<Address> adresa = geocoder.getFromLocation(Double.parseDouble(kordX), Double.parseDouble(kordY), 1);
+
+                if (!adresa.isEmpty() && adresa != null) {
+
+                    TextView mjestoSkena = mainView.findViewById(R.id.txtMjestoSkena);
+
+                    String locality = "";
+                    String subLocality = "";
+                    String country = "";
+
+                    subLocality = adresa.get(0).getSubLocality();
+                    country = adresa.get(0).getCountryName();
+                    locality = adresa.get(0).getLocality();
+
+                    if (locality != null && !locality.isEmpty()) {
+                        locality = locality + ",";
+                    } else {
+                        locality = "";
+                    }
+                    if (subLocality != null && !locality.isEmpty()) {
+                        subLocality = subLocality + ",";
+                    } else {
+                        subLocality = "";
+                    }
+                    if (country != null && !country.isEmpty()) {
+                        //ništa
+                    } else {
+                        country = "Nepoznata država";
+                    }
+
+                    mjestoSkena.setText(locality + subLocality + country);
+
+                } else {
+                    TextView mjestoSkena = mainView.findViewById(R.id.txtMjestoSkena);
+
+                    mjestoSkena.setText("Mjesto nije prepoznato");
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        else {
+            TextView mjestoSkena = mainView.findViewById(R.id.txtMjestoSkena);
+
+            mjestoSkena.setText("Mjesto nije prepoznato");
         }
 
         TextView konaktTextView = mainView.findViewById(R.id.txtKontakt);
 
-        konaktTextView.setText(kontaktKorisnik);
+        if(kontaktKorisnik!="" && !kontaktKorisnik.isEmpty() && kontaktKorisnik!=null)konaktTextView.setText(kontaktKorisnik);
+        else konaktTextView.setText("Nema kontakt podataka");
 
         TextView korisnikTextView = mainView.findViewById(R.id.txtSkenirao);
 
-        korisnikTextView.setText(listaKorisnika.get(0).ime + " " + listaKorisnika.get(0).prezime + " (" + listaKorisnika.get(0).korisnicko_ime + ")");
+        if(idKorisnik!=null && idKorisnik.toString()!="" && idKorisnik!=0)korisnikTextView.setText(listaKorisnika.get(0).ime + " " + listaKorisnika.get(0).prezime + " (" + listaKorisnika.get(0).korisnicko_ime + ")");
+        else korisnikTextView.setText("Nepoznat korisnik");
 
         Skeniranje skeniranje = new Skeniranje();
         skeniranje = new SQLite().select().from(Skeniranje.class).where(Skeniranje_Table.id_skeniranja.is(Integer.parseInt(idSkeniranja))).querySingle();
