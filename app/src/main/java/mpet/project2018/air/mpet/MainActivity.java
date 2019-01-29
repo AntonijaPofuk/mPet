@@ -479,6 +479,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         MyPets fragment = new MyPets();
         fragment.setArguments(bundle);
         ft.replace(R.id.mainFrame, fragment);
+        ft.addToBackStack(null);
         ft.commit();
     }
 
