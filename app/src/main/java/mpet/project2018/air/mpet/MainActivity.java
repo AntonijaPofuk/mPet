@@ -370,22 +370,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         Intent serviceIntent = new Intent(this, NotificationService.class);
         stopService(serviceIntent);
     }
-    public void popuniLjubimca() {
-        Korisnik k = new Korisnik();
-        k.setId_korisnika(177);
-        Ljubimac ljubimac = new Ljubimac(1, "Rex", 21, 50, "pas", "m", "opis", "Url", k);
-        Kartica a = new Kartica("6542fer74f");
-        ljubimac.setKartica(a);
-        ljubimac.save();
-    }
-
-    public void popuniKarticu() {
-        Kartica k = new Kartica("6542fer74f");
-        Korisnik kor = new Korisnik();
-        kor.setId_korisnika(177);
-        k.setKorisnik(kor);
-        k.save();
-    }
+  
 
     public void bellClick(View v) {
         FragmentManager fragmentManager = getSupportFragmentManager();
