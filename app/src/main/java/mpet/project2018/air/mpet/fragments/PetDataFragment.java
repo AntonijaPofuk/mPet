@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -191,6 +192,7 @@ public class PetDataFragment extends Fragment implements KorisnikDataLoadedListe
     @Override
     public void KorisnikOnDataLoaded(List<Korisnik> listaKorisnika) {
         if(listaKorisnika.size()!=0) popuniUserPoljaSaPodacima(listaKorisnika.get(0));
+        else Toast.makeText(getActivity(), mpet.project2018.air.core.R.string.tryAgainOwner, Toast.LENGTH_SHORT).show();
     }
 
     /**

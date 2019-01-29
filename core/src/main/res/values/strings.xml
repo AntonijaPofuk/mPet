@@ -10,5 +10,6 @@
     <string name="noVrsta">Vrsta nije unesena</string>
     <string name="noGodine">Godine nisu unesene</string>
     <string name="noData">Podaci nisu uneseni</string>
+    <string name="tryAgainOwner">Podaci o vlasniku nedostupni su, pokušajte skenirati ponovno!</string>
 
 </resources>
