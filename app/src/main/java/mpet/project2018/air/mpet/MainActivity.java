@@ -80,14 +80,15 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setCheckedItem(R.id.nav_frag1); //Provjera i odabir prvog elementa u draweru
+        navigationView.setCheckedItem(R.id.nav_frag1);
 
         Navigation();
 
         MainDatabase.initializeDatabase(this);
-
+        /*
+         * Provjera ulogiranog korisnika
+         */
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, 0);
         String id1 = sharedPreferences.getString(ID_SHARED_PREF, "").toString();
         sharedPreferences = this.getSharedPreferences(SHARED_PREF_NAME, 0); //u fragmentu dodaj this.getActivity..... jer nema CONTEXA
@@ -108,30 +109,16 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
             navigationView.inflateMenu(R.menu.activity_main_drawer);
             navigationView.inflateHeaderView(R.layout.nav_header);
             changeHeaderData();
-
         }
-
-
         checkUnreadNotificationsNumber();//obavijesti
-
         setDefaultCodeInputMethod();
 
     }
 
-    public void openUserData(View v) {
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, 0);
-        String idPrijavljeni = sharedPreferences.getString(Config.ID_SHARED_PREF, "").toString();
-        UpdateUser updateKorisnik = UpdateUser.newInstance(idPrijavljeni);
-
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.mainFrame, new UpdateUser());
-        ft.addToBackStack(null);
-        ft.commit();
-
-    }
-
-
-    public void changeHeaderData(){ //promjena headera kod pokretanja app
+    /**
+     * Promjena headera u navigation draweru
+     */
+    public void changeHeaderData(){
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, 0);
         String id1 = sharedPreferences.getString(ID_SHARED_PREF, "").toString();
         final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -189,9 +176,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
         return super.onOptionsItemSelected(item);
     }
-
-
-
     /*upravljanje izbornikom*/
     public void swap(Fragment newFragment) {
         //android.app.FragmentTransaction t = getFragmentManager().beginTransaction();
@@ -200,13 +184,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         t.addToBackStack(null);
         t.commit();
     }
-
-    public void swapLogout(Fragment newFragment) {
-        FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
-        t.replace(R.id.mainFrame, newFragment);
-        t.commit();
-    }
-
     public void Navigation() {
         dl = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView;
@@ -216,9 +193,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        // set item as selected to persist highlight
                         menuItem.setChecked(true);
-                        // close drawer when item is tapped
                         dl.closeDrawers();
 
                         switch (menuItem.getItemId()) {
@@ -241,12 +216,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                                 break;
 
                             case R.id.nav_frag3:
-                                FragmentManager fragmentManager = getSupportFragmentManager();
-                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                                 PrikazSvihObavijesti prikazSvihObavijesti = new PrikazSvihObavijesti();
-                                fragmentTransaction.replace(R.id.mainFrame, prikazSvihObavijesti);
-                                fragmentTransaction.addToBackStack(null);
-                                fragmentTransaction.commit();
+                                swap(prikazSvihObavijesti);
                                 break;
 
                             case R.id.nav_frag4:
@@ -254,27 +225,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                                 swap(onama);
                                 break;
                             case R.id.nav_frag5:
-                                //odjava
-
-//TODO: provjeri je li odjava dobra
-                                /*SharedPreferences preferences = getSharedPreferences
-                                        (Config.SHARED_PREF_NAME, Context.MODE_PRIVATE);
-                                SharedPreferences.Editor editor = preferences.edit();
-                                editor.putBoolean(Config.LOGGEDIN_SHARED_PREF, false);
-                                editor.remove("ulogiraniKorisnikId");
-                                editor.commit();
-
-                                clearBackStack();
-                                HomeLoggedOut pocetna = new HomeLoggedOut();
-                                swapLogout(pocetna);
-
-                                NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);//bez head
-                                navigationView.getMenu().clear();
-                                navigationView.inflateMenu(R.menu.activity_main_drawer_logged_out); //opcije
-                                navigationView.getHeaderView(0);
-                                navigationView.removeHeaderView(navigationView.getHeaderView(0));
-                                navigationView.inflateHeaderView(R.layout.nav_header_logged_out); //head
-                                deleteDatabase(); */
                                 logout();
                                 break;
                             /**/
@@ -283,12 +233,19 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                                 swap(prijava);
                                 break;
                             /**/
-
                             case R.id.nav_fragOptions:
                                 CheckNFCOptions checkNFCOptions = new CheckNFCOptions();
                                 swap(checkNFCOptions);
+
                                 break;
-                        }
+                            case R.id.nav_user_data:
+                                SharedPreferences sharedPreferences1 = getSharedPreferences(SHARED_PREF_NAME, 0);
+                                String idPrijavljeni1 = sharedPreferences1.getString(Config.ID_SHARED_PREF, "").toString();
+                                UpdateUser updateKorisnik = UpdateUser.newInstance(idPrijavljeni1);
+                                swap(updateKorisnik);
+                                dl.closeDrawer(Gravity.LEFT, false);
+                                break;
+                            }
                         return true;
                     }
                 });
@@ -336,7 +293,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                     }
                 });
 
-        //Showing the alert dialog
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
@@ -474,12 +430,9 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                     textViewBell.setVisibility(View.VISIBLE);
                     textViewBell.setText(counter.toString());
                 } else {
-
-
                     TextView textViewBell = (TextView) findViewById(R.id.notificationTextView);
                     textViewBell.setVisibility(View.INVISIBLE);
                 }
-
 
                 if (idPrijavljeni == "" || idPrijavljeni.isEmpty() || idPrijavljeni == null) {
 
@@ -528,7 +481,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         ft.replace(R.id.mainFrame, fragment);
         ft.commit();
     }
-
 
     /**
      * Metoda koja automatski postavlja default način unosa koda

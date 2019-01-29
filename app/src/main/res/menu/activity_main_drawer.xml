@@ -8,6 +8,9 @@
 
             android:title="Početna" />
         <item
+            android:id="@+id/nav_user_data"
+            android:title="Moji podaci"/>
+        <item
             android:id="@+id/nav_frag2"
 
             android:title="Moji ljubimci" />
