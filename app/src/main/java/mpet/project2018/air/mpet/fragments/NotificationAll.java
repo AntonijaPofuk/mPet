@@ -45,19 +45,19 @@ public class NotificationAll extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.prikazObavijestiRecyclerView);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.notificationAllRecyclerView);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        List<mpet.project2018.air.database.entities.Skeniranje> skeniranjeList = new SQLite().select().from(mpet.project2018.air.database.entities.Skeniranje.class).queryList();
+        List<mpet.project2018.air.database.entities.Skeniranje> scanListLocal = new SQLite().select().from(mpet.project2018.air.database.entities.Skeniranje.class).queryList();
 
-        if(skeniranjeList.isEmpty() || skeniranjeList.size()==0) {
+        if(scanListLocal.isEmpty() || scanListLocal.size()==0) {
             Toast.makeText(getContext(), "Nema obavijesti.", Toast.LENGTH_SHORT).show();
         }
 
-        NotificationsRecycleViewAdapter obavijestiAdapter = new NotificationsRecycleViewAdapter(skeniranjeList);
+        NotificationsRecycleViewAdapter notificationsAdapter = new NotificationsRecycleViewAdapter(scanListLocal);
 
-        recyclerView.setAdapter(obavijestiAdapter);
+        recyclerView.setAdapter(notificationsAdapter);
 
 
     }

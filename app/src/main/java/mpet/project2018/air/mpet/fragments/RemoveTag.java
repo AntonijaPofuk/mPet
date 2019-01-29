@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,7 +87,7 @@ public class RemoveTag extends Fragment implements StatusListener{
 
         /*popunjavanje početnih podataka o ljubimcu*/
         uredivaniLjubimac=new SQLite().select().from(Ljubimac.class).where(Ljubimac_Table.id_ljubimca.is(Integer.parseInt(ID_LJUBIMCA))).querySingle();
-        TextView imeText = (TextView) view.findViewById(R.id.txtImeLjubimca);
+        TextView imeText = (TextView) view.findViewById(R.id.txtPetName);
         imeText.setText(uredivaniLjubimac.getIme());
         /**/
 

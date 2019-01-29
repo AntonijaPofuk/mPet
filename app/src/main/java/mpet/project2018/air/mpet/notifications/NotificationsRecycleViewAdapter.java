@@ -115,9 +115,9 @@ public class NotificationsRecycleViewAdapter extends RecyclerView.Adapter<Notifi
             super(itemView);
             itemView.setBackgroundColor(Color.parseColor("#ebebe4"));
             itemView.setOnClickListener(this);
-            detaljiObavijesti = itemView.findViewById(R.id.detaljiPojedineObavijesti);
-            datumSkeniranja = itemView.findViewById(R.id.datumVrijemeSkeniranja);
-            redniBroj = itemView.findViewById(R.id.redniBrojObavijesti);
+            detaljiObavijesti = itemView.findViewById(R.id.notificationDetailRecView);
+            datumSkeniranja = itemView.findViewById(R.id.scanDateTimeRecView);
+            redniBroj = itemView.findViewById(R.id.notificationNumRecView);
         }
 
         @Override

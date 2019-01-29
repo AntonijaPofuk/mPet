@@ -13,7 +13,7 @@
 
 
     <TextView
-        android:id="@+id/lblImeLjubimca"
+        android:id="@+id/lblPetName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ime ljubimca :"
@@ -25,11 +25,11 @@
         />
 
     <TextView
-        android:id="@+id/lblDatumVrijemeSkeniranja"
+        android:id="@+id/lblScanDateTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Datum i vrijeme :"
-        android:layout_below="@+id/lblImeLjubimca"
+        android:layout_below="@+id/lblPetName"
         android:layout_margin="10dp"
         android:gravity="center"
         android:textColor="@color/black"
@@ -37,11 +37,11 @@
         />
 
     <TextView
-        android:id="@+id/lblKorisnik"
+        android:id="@+id/lblUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Skenirao :"
-        android:layout_below="@+id/lblDatumVrijemeSkeniranja"
+        android:layout_below="@+id/lblScanDateTime"
         android:layout_margin="10dp"
         android:gravity="center"
         android:textColor="@color/black"
@@ -49,11 +49,11 @@
         />
 
     <TextView
-        android:id="@+id/lblMjestoSkeniranja"
+        android:id="@+id/lblScanPlace"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Mjesto :"
-        android:layout_below="@+id/lblKorisnik"
+        android:layout_below="@+id/lblUser"
         android:layout_margin="10dp"
         android:gravity="center"
         android:textColor="@color/black"
@@ -61,11 +61,11 @@
         />
 
     <TextView
-        android:id="@+id/lblKontakt"
+        android:id="@+id/lblUserContact"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Kontakt :"
-        android:layout_below="@+id/lblMjestoSkeniranja"
+        android:layout_below="@+id/lblScanPlace"
         android:layout_margin="10dp"
         android:gravity="center"
         android:textColor="@color/black"
@@ -73,10 +73,10 @@
         />
 
     <TextView
-        android:id="@+id/txtImeLjubimca"
+        android:id="@+id/txtPetName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/lblImeLjubimca"
+        android:layout_toRightOf="@+id/lblPetName"
         android:layout_below="@id/mapView"
         android:layout_margin="10dp"
         android:textColor="@color/black"
@@ -84,47 +84,47 @@
         />
 
     <TextView
-        android:id="@+id/txtDatumVrijemeSkena"
+        android:id="@+id/txtScanDateTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/lblDatumVrijemeSkeniranja"
-        android:layout_below="@id/txtImeLjubimca"
+        android:layout_toRightOf="@+id/lblScanDateTime"
+        android:layout_below="@id/txtPetName"
         android:layout_margin="10dp"
         android:textColor="@color/black"
         android:textSize="18dp"
         />
 
     <TextView
-        android:id="@+id/txtSkenirao"
+        android:id="@+id/txtUserWhoScan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/lblKorisnik"
-        android:layout_below="@id/txtDatumVrijemeSkena"
+        android:layout_toRightOf="@+id/lblUser"
+        android:layout_below="@id/txtScanDateTime"
         android:layout_margin="10dp"
         android:textColor="@color/black"
         android:textSize="18dp"
         />
 
     <TextView
-        android:id="@+id/txtMjestoSkena"
+        android:id="@+id/txtScanPlace"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/lblMjestoSkeniranja"
-        android:layout_below="@id/txtSkenirao"
+        android:layout_toRightOf="@+id/lblScanPlace"
+        android:layout_below="@id/txtUserWhoScan"
         android:layout_margin="10dp"
         android:textColor="@color/black"
         android:textSize="18dp"
         />
 
     <TextView
-        android:id="@+id/txtKontakt"
+        android:id="@+id/txtUserContact"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/txtMjestoSkena"
+        android:layout_below="@id/txtScanPlace"
         android:layout_margin="10dp"
         android:layout_marginStart="81dp"
-        android:layout_toEndOf="@+id/lblKontakt"
-        android:layout_toRightOf="@+id/lblMjestoSkeniranja"
+        android:layout_toEndOf="@+id/lblUserContact"
+        android:layout_toRightOf="@+id/lblScanPlace"
         android:textColor="@color/black"
         android:textSize="18dp"
         />

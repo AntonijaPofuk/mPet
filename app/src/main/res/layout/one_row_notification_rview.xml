@@ -7,7 +7,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/redniBrojObavijesti"
+        android:id="@+id/notificationNumRecView"
         android:layout_width="wrap_content"
         android:layout_height="100px"
         android:layout_alignParentStart="true"
@@ -20,7 +20,7 @@
         android:textSize="70px" />
 
     <TextView
-        android:id="@+id/detaljiPojedineObavijesti"
+        android:id="@+id/notificationDetailRecView"
         android:layout_margin="18px"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
@@ -28,28 +28,28 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="6dp"
         android:layout_marginTop="15dp"
-        android:layout_toRightOf="@id/redniBrojObavijesti"
+        android:layout_toRightOf="@id/notificationNumRecView"
         android:text="detalji"
         android:textSize="20dp" />
 
     <TextView
-        android:id="@+id/datumVrijemeSkeniranja"
+        android:id="@+id/scanDateTimeRecView"
         android:layout_margin="18px"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:layout_below="@id/detaljiPojedineObavijesti"
+        android:layout_below="@id/notificationDetailRecView"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="9dp"
         android:layout_marginTop="5dp"
-        android:layout_toRightOf="@id/redniBrojObavijesti"
+        android:layout_toRightOf="@id/notificationNumRecView"
         android:text="datum i vrijeme"
         android:textSize="15dp" />
 
     <View
-        android:id="@+id/divider"
+        android:id="@+id/dividerRecView"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/datumVrijemeSkeniranja"
+        android:layout_below="@+id/scanDateTimeRecView"
         android:layout_alignParentStart="true"
         android:background="?android:attr/listDivider" />
 

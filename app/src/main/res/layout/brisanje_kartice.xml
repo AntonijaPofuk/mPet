@@ -66,7 +66,7 @@
         android:text="Želite li ukloniti karticu s odabranog ljubimca?" />
 
     <TextView
-        android:id="@+id/txtImeLjubimca"
+        android:id="@+id/txtPetName"
         android:layout_width="168dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
