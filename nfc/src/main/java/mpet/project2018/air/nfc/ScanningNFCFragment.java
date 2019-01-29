@@ -7,11 +7,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+
 import android.nfc.NfcAdapter;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +27,10 @@ import Retrofit.DataGetListenersAndLoaders.DataLoaders.LjubimacDataLoader;
 import Retrofit.Model.Ljubimac;
 import mpet.project2018.air.core.CodeValidation;
 import mpet.project2018.air.core.InternetConnectionHandler;
+import mpet.project2018.air.core.LocationAvailabilityHandler;
 import mpet.project2018.air.core.OnFragmentInteractionListener;
+
+
 
 public class ScanningNFCFragment extends Fragment implements LjubimacDataLoadedListener {
 
@@ -56,6 +61,8 @@ public class ScanningNFCFragment extends Fragment implements LjubimacDataLoadedL
 
         IntentFilter filter = new IntentFilter(NfcAdapter.ACTION_ADAPTER_STATE_CHANGED);
         getActivity().registerReceiver(mReceiver, filter);
+
+        LocationAvailabilityHandler.locationCheck(getActivity());
 
         return  view;
     }
@@ -138,7 +145,7 @@ public class ScanningNFCFragment extends Fragment implements LjubimacDataLoadedL
 
     /**
      * Validacija formata koda
-     * @param code
+     * @param code kod koji se validira
      */
     private void validateCode(String code) {
 
@@ -248,7 +255,7 @@ public class ScanningNFCFragment extends Fragment implements LjubimacDataLoadedL
 
     /**
      * Dohvat instance aktivnosti
-     * @param context
+     * @param context kontekst aplikacije
      */
     @Override
     public void onAttach(Context context) {

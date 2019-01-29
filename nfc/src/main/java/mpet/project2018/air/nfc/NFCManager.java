@@ -115,14 +115,7 @@ public class NFCManager
                 if (isTextRecord)
                 {
                     String tagContent = getCodeFromNdefRecord(ndefRecord);
-                    if(tagContent.length()==10)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    return tagContent.length() == 10;
                 }
                 else
                 {
@@ -151,11 +144,7 @@ public class NFCManager
     public boolean isLocked(Tag tag)
     {
         Ndef ndef=Ndef.get(tag);
-        if(ndef.isWritable())
-        {
-            return true;
-        }
-        else return false;
+        return ndef.isWritable();
     }
 
     // Metoda za provjeru da li je kartica Ndef formatirana te njeno formatiranja ukoliko nije

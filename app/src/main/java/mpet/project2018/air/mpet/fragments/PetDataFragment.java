@@ -12,9 +12,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -23,17 +20,18 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
 import mpet.project2018.air.core.OnFragmentInteractionListener;
 import mpet.project2018.air.mpet.Config;
 import mpet.project2018.air.mpet.R;
-import mpet.project2018.air.nfc.NFCManager;
+
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -43,11 +41,8 @@ import Retrofit.DataPost.SkeniranjeMethod;
 import Retrofit.Model.Korisnik;
 import Retrofit.Model.Ljubimac;
 import Retrofit.RemotePost.SkeniranjeOnDataPostedListener;
-import mpet.project2018.air.mpet.R;
-import mpet.project2018.air.nfc.NFCManager;
 
 import static android.content.Context.LOCATION_SERVICE;
-import static android.support.v4.content.PermissionChecker.checkSelfPermission;
 import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 
 public class PetDataFragment extends Fragment implements KorisnikDataLoadedListener, SkeniranjeOnDataPostedListener {
@@ -100,13 +95,15 @@ public class PetDataFragment extends Fragment implements KorisnikDataLoadedListe
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             downloadedPet = (Ljubimac) bundle.getSerializable("downloadPet");
-            popuniPetPoljaSaPodacima(downloadedPet);
-            loadKorisnikData(downloadedPet.vlasnik);
-            Picasso.get().load("https://airprojekt.000webhostapp.com/slike_ljubimaca/" + downloadedPet.url_slike).into(petPic);
+            if(downloadedPet!=null) {
+                popuniPetPoljaSaPodacima(downloadedPet);
+                loadKorisnikData(downloadedPet.vlasnik);
+                Picasso.get().load("https://airprojekt.000webhostapp.com/slike_ljubimaca/" + downloadedPet.url_slike).into(petPic);
+            }
         }
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SHARED_PREF_NAME, 0);
-        prijavljeniKorisnik = sharedPreferences.getString(Config.ID_SHARED_PREF, "DEFAULT").toString();
+        prijavljeniKorisnik = sharedPreferences.getString(Config.ID_SHARED_PREF, "DEFAULT");
 
         locationCheck();
 
@@ -132,10 +129,10 @@ public class PetDataFragment extends Fragment implements KorisnikDataLoadedListe
             LocationManager mLocationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
             if (mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
                 mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, mLocationListener);
-                if (prijavljeniKorisnik == "DEFAULT") getUserContacts();
+                if (prijavljeniKorisnik.equals("DEFAULT")) getUserContacts();
             } else {
-                if (prijavljeniKorisnik != "DEFAULT") POSTdata();
-                if (prijavljeniKorisnik == "DEFAULT") getUserContacts();
+                if (!prijavljeniKorisnik.equals("DEFAULT")) POSTdata();
+                if (prijavljeniKorisnik.equals("DEFAULT")) getUserContacts();
             }
         }
     }
@@ -156,16 +153,17 @@ public class PetDataFragment extends Fragment implements KorisnikDataLoadedListe
     private void popuniPetPoljaSaPodacima(Ljubimac downLjubimac) {
 
         if(emptyFieldCheck(downLjubimac.opis)) petDescp.setText(downLjubimac.opis);
-        else petDescp.setText("Opis nije unesen");
+        else petDescp.setText(mpet.project2018.air.core.R.string.noOpis);
 
         if(emptyFieldCheck(downLjubimac.ime)) petName.setText(downLjubimac.ime);
-        else petName.setText("Ime nije uneseno");
+        else petName.setText(mpet.project2018.air.core.R.string.noIme);
 
         if(emptyFieldCheck(downLjubimac.vrsta)) petSpec.setText(downLjubimac.vrsta);
-        else petSpec.setText("Vrsta nije unesena");
+        else petSpec.setText(mpet.project2018.air.core.R.string.noVrsta);
 
-        if(emptyFieldCheck(downLjubimac.godina)) petYears.setText(downLjubimac.godina);
-        else petYears.setText("Godine nisu unesene");
+        if(emptyFieldCheck(downLjubimac.godina))
+            petYears.setText( String.valueOf(Calendar.getInstance().get(Calendar.YEAR)-Integer.parseInt(downLjubimac.godina)));
+        else petYears.setText(mpet.project2018.air.core.R.string.noGodine);
     }
 
     /**
@@ -175,15 +173,15 @@ public class PetDataFragment extends Fragment implements KorisnikDataLoadedListe
     private void popuniUserPoljaSaPodacima(Korisnik downKorisnik)
     {
         if(emptyFieldCheck(downKorisnik.ime)) owner.setText(downKorisnik.ime+" "+downKorisnik.prezime);
-        else petDescp.setText("Podaci nisu uneseni");
+        else petDescp.setText(mpet.project2018.air.core.R.string.noData);
         if(emptyFieldCheck(downKorisnik.adresa)) ownerAdress.setText(downKorisnik.adresa);
-        else ownerAdress.setText("Podaci nisu uneseni");
+        else ownerAdress.setText(mpet.project2018.air.core.R.string.noData);
         if(emptyFieldCheck(downKorisnik.email)) ownerEmail.setText(downKorisnik.email);
-        else ownerEmail.setText("Podaci nisu uneseni");
+        else ownerEmail.setText(mpet.project2018.air.core.R.string.noData);
         if(emptyFieldCheck(downKorisnik.broj_telefona)) ownerPhone.setText(downKorisnik.broj_telefona);
-        else ownerPhone.setText("Podaci nisu uneseni");
+        else ownerPhone.setText(mpet.project2018.air.core.R.string.noData);
         if(emptyFieldCheck(downKorisnik.broj_mobitela)) ownerCell.setText(downKorisnik.broj_mobitela);
-        else ownerCell.setText("Podaci nisu uneseni");
+        else ownerCell.setText(mpet.project2018.air.core.R.string.noData);
     }
 
     /**
@@ -202,8 +200,7 @@ public class PetDataFragment extends Fragment implements KorisnikDataLoadedListe
      */
     private boolean emptyFieldCheck(String field)
     {
-        if(field==null || field=="") return  false;
-        else return  true;
+        return field != null && !field.equals("");
     }
 
     /**
@@ -253,7 +250,7 @@ public class PetDataFragment extends Fragment implements KorisnikDataLoadedListe
         public void onLocationChanged(final Location location) {
             longitude= String.valueOf(location.getLongitude());
             latitude= String.valueOf(location.getLatitude());
-            if(prijavljeniKorisnik!="DEFAULT" && !alreadySentFlag)
+            if(!prijavljeniKorisnik.equals("DEFAULT") && !alreadySentFlag)
             {
                 POSTdata();
                 alreadySentFlag=true;
@@ -321,20 +318,19 @@ public class PetDataFragment extends Fragment implements KorisnikDataLoadedListe
                         if (mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
                         {
                             mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, mLocationListener);
-                            if(prijavljeniKorisnik=="DEFAULT") getUserContacts();
+                            if(prijavljeniKorisnik.equals("DEFAULT")) getUserContacts();
                         }
                         else
                             {
-                            if (prijavljeniKorisnik != "DEFAULT") POSTdata();
+                            if (!prijavljeniKorisnik.equals("DEFAULT")) POSTdata();
                             else getUserContacts();
                         }
                     }
                 }
                 else {
-                    if(prijavljeniKorisnik!="DEFAULT") POSTdata();
+                    if(!prijavljeniKorisnik.equals("DEFAULT")) POSTdata();
                     else getUserContacts();
                 }
-                return;
             }
         }
     }

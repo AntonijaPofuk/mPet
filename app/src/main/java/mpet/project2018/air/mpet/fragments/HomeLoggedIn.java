@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -93,6 +94,7 @@ public class HomeLoggedIn extends Fragment {
 
                         deleteDatabase();
 
+                        getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                         HomeLoggedOut frag;
                         frag = new HomeLoggedOut();
                         mListener.swapFragment(false,(HomeLoggedOut) frag);

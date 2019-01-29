@@ -3,4 +3,12 @@
     <string name="codeStatusOK">Kod je u redu!</string>
     <string name="codeStatusNotOK">Kod ne postoji!</string>
     <string name="internetNotAvailable">Molimo vas da se spojite na mrežu</string>
+    <string name="turnOnLocation">Poboljšajte uslugu uključivanjem lokacije uređaja!</string>
+
+    <string name="noOpis">Opis nije unesen</string>
+    <string name="noIme">Ime nije uneseno</string>
+    <string name="noVrsta">Vrsta nije unesena</string>
+    <string name="noGodine">Godine nisu unesene</string>
+    <string name="noData">Podaci nisu uneseni</string>
+
 </resources>

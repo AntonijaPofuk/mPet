@@ -182,8 +182,7 @@ public class WriteToNFCFragment extends  Fragment implements KarticaOnDataPosted
      */
     private boolean checkLockedStatus(Intent intent)
         {
-            if(!nfcInstance.isLocked(nfcInstance.getTag(intent))) return false;
-            else return true;
+            return nfcInstance.isLocked(nfcInstance.getTag(intent));
         }
 
     /**
@@ -221,9 +220,9 @@ public class WriteToNFCFragment extends  Fragment implements KarticaOnDataPosted
         nfcProgress.setVisibility(View.INVISIBLE);
 
             if (validationStatus)
-                alertingMessage(getResources().getString(R.string.write_ok), mpet.project2018.air.core.R.drawable.success_message, validationStatus);
+                alertingMessage(getResources().getString(R.string.write_ok), mpet.project2018.air.core.R.drawable.success_message, true);
             else
-                alertingMessage(getResources().getString(R.string.wrtite_not_ok), mpet.project2018.air.core.R.drawable.fail_message, validationStatus);
+                alertingMessage(getResources().getString(R.string.wrtite_not_ok), mpet.project2018.air.core.R.drawable.fail_message, false);
         }
 
 
@@ -347,7 +346,7 @@ public class WriteToNFCFragment extends  Fragment implements KarticaOnDataPosted
      */
     private void writePetToDataBase(String petID)
     {
-        if(petID!="0")
+        if(!petID.equals("0"))
         {
             if(switchFlag){
                 mpet.project2018.air.database.entities.Ljubimac switchLjubimac = SQLite.select().from(mpet.project2018.air.database.entities.Ljubimac.class
@@ -387,23 +386,21 @@ public class WriteToNFCFragment extends  Fragment implements KarticaOnDataPosted
         if(kartica==null) return  false;
         else
         {
-            if(kartica.getKorisnik().getId_korisnika()==Integer.parseInt(logedUserID)) return true;
-            else return false;
+            return kartica.getKorisnik().getId_korisnika() == Integer.parseInt(logedUserID);
         }
     }
 
     /**
      * Provjera nalazi li se ljubimac u lokalnoj bazi podataka i da li mu je pridružena kartica
      * @param tagCode id kartice pod kojom bi se ljubimac trebao nalaziti
-     * @return
+     * @return vraća status postojanja ljubimca u lokalnoj bazi podataka
      */
     private boolean checkPetInLocalDB(String tagCode)
     {
         mpet.project2018.air.database.entities.Ljubimac ljubimac=SQLite.select().from(mpet.project2018.air.database.entities.Ljubimac.class
         ).where(Ljubimac_Table.kartica_id_kartice.is(tagCode)).querySingle();
 
-        if(ljubimac==null) return false;
-        else return  true;
+        return ljubimac != null;
     }
 
     /**
