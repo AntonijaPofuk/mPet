@@ -55,7 +55,7 @@ public class HomeLoggedOut extends Fragment {
                                     public void onClick(View v) {
                                         Registration frag;
                                         frag = new Registration();
-                                        mListener.swapFragment(false,(Registration) frag);
+                                        mListener.swapFragment(true,(Registration) frag);
                                     }
                                 }
         );
