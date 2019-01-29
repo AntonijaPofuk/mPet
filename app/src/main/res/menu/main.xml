@@ -5,7 +5,7 @@
         android:id="@+id/obavijestiMenuBttn"
         android:title="obavijestiBttn"
         app:showAsAction="always"
-        app:actionLayout="@layout/obavijest_bttn_layout"
+        app:actionLayout="@layout/notification_bttn_layout"
         android:visible="true"
         >
     </item>

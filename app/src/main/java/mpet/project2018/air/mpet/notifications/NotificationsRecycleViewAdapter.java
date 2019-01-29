@@ -1,25 +1,16 @@
-package mpet.project2018.air.mpet.obavijesti;
+package mpet.project2018.air.mpet.notifications;
 
-import android.app.AlertDialog;
-import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
-import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
@@ -27,24 +18,20 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import Retrofit.DataPost.ObavijestiMethod;
 import mpet.project2018.air.database.entities.Ljubimac;
 import mpet.project2018.air.database.entities.Ljubimac_Table;
 import mpet.project2018.air.database.entities.Skeniranje;
 import mpet.project2018.air.database.entities.Skeniranje_Table;
-import mpet.project2018.air.mpet.MainActivity;
 import mpet.project2018.air.mpet.R;
-import mpet.project2018.air.mpet.fragments.PrikazObavijestiDetaljno;
+import mpet.project2018.air.mpet.fragments.NotificationDetails;
 
-import static android.text.TextUtils.isEmpty;
-
-public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.SkeniranjeHolder> {
+public class NotificationsRecycleViewAdapter extends RecyclerView.Adapter<NotificationsRecycleViewAdapter.SkeniranjeHolder> {
 
     List<Skeniranje> listSken = new ArrayList<>();
 
     Integer idSkeniranja = 0;
 
-    public RecycleViewAdapter(List<Skeniranje> listSken) {
+    public NotificationsRecycleViewAdapter(List<Skeniranje> listSken) {
         this.listSken = listSken;
     }
 
@@ -54,7 +41,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     @Override
     public SkeniranjeHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.jedna_obavijest_rview, parent, false);
+        View view = inflater.inflate(R.layout.one_row_notification_rview, parent, false);
         return new SkeniranjeHolder(view);
     }
 
@@ -139,7 +126,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
             bundle.putString("idSkena", IDSkeniranja);
             FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            PrikazObavijestiDetaljno fragmentObavijestiDetaljno = new PrikazObavijestiDetaljno();
+            NotificationDetails fragmentObavijestiDetaljno = new NotificationDetails();
             fragmentObavijestiDetaljno.setArguments(bundle);
             fragmentTransaction.replace(R.id.mainFrame, fragmentObavijestiDetaljno);
             fragmentTransaction.addToBackStack(null);

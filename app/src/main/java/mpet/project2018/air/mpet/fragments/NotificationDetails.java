@@ -1,7 +1,6 @@
 package mpet.project2018.air.mpet.fragments;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
@@ -38,12 +37,9 @@ import mpet.project2018.air.database.entities.Ljubimac;
 import mpet.project2018.air.database.entities.Ljubimac_Table;
 import mpet.project2018.air.database.entities.Skeniranje;
 import mpet.project2018.air.database.entities.Skeniranje_Table;
-import mpet.project2018.air.mpet.Config;
 import mpet.project2018.air.mpet.R;
 
-import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
-
-public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCallback, KorisnikDataLoadedListener {
+public class NotificationDetails extends Fragment implements OnMapReadyCallback, KorisnikDataLoadedListener {
 
     private OnFragmentInteractionListener mListener;
 
@@ -75,7 +71,7 @@ public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCall
         }
 
 
-        View view = inflater.inflate(R.layout.obavijest_detaljno, container, false);
+        View view = inflater.inflate(R.layout.notification_details, container, false);
 
         mainView = view;
 

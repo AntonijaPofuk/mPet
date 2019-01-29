@@ -51,13 +51,13 @@ import mpet.project2018.air.mpet.fragments.About;
 import mpet.project2018.air.database.entities.Kartica;
 import mpet.project2018.air.database.entities.Korisnik;
 import mpet.project2018.air.database.entities.Ljubimac;
-import mpet.project2018.air.mpet.fragments.PrikazObavijestiDetaljno;
-import mpet.project2018.air.mpet.fragments.PrikazSvihObavijesti;
+import mpet.project2018.air.mpet.fragments.NotificationDetails;
+import mpet.project2018.air.mpet.fragments.NotificationAll;
 
 import static mpet.project2018.air.mpet.Config.ID_SHARED_PREF;
 import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 
-import mpet.project2018.air.mpet.obavijesti.NotificationService;
+import mpet.project2018.air.mpet.notifications.NotificationService;
 import mpet.project2018.air.nfc.NFCManager;
 
 
@@ -219,8 +219,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                                 break;
 
                             case R.id.nav_frag3:
-                                PrikazSvihObavijesti prikazSvihObavijesti = new PrikazSvihObavijesti();
-                                swap(prikazSvihObavijesti);
+                                NotificationAll notificationAll = new NotificationAll();
+                                swap(notificationAll);
                                 break;
 
                             case R.id.nav_frag4:
@@ -335,8 +335,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
             if (idSken != "") {
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                PrikazSvihObavijesti prikazSvihObavijesti = new PrikazSvihObavijesti();
-                fragmentTransaction.replace(R.id.mainFrame, prikazSvihObavijesti);
+                NotificationAll notificationAll = new NotificationAll();
+                fragmentTransaction.replace(R.id.mainFrame, notificationAll);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
 
@@ -346,7 +346,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
                 FragmentManager fragmentManager1 = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction1 = fragmentManager1.beginTransaction();
-                PrikazObavijestiDetaljno fragmentObavijestiDetaljno = new PrikazObavijestiDetaljno();
+                NotificationDetails fragmentObavijestiDetaljno = new NotificationDetails();
                 fragmentObavijestiDetaljno.setArguments(bundle);
                 fragmentTransaction1.replace(R.id.mainFrame, fragmentObavijestiDetaljno);
                 fragmentTransaction1.addToBackStack(null);
@@ -370,13 +370,13 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         Intent serviceIntent = new Intent(this, NotificationService.class);
         stopService(serviceIntent);
     }
-  
+
 
     public void bellClick(View v) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        PrikazSvihObavijesti prikazSvihObavijesti = new PrikazSvihObavijesti();
-        fragmentTransaction.replace(R.id.mainFrame, prikazSvihObavijesti);
+        NotificationAll notificationAll = new NotificationAll();
+        fragmentTransaction.replace(R.id.mainFrame, notificationAll);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }

@@ -1,4 +1,4 @@
-package mpet.project2018.air.mpet.obavijesti;
+package mpet.project2018.air.mpet.notifications;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -36,7 +36,7 @@ import mpet.project2018.air.mpet.MainActivity;
 import mpet.project2018.air.mpet.R;
 
 import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
-import static mpet.project2018.air.mpet.obavijesti.CreateNotificationChannel.CHANNEL_ID;
+import static mpet.project2018.air.mpet.notifications.NotificationChannel.CHANNEL_ID;
 
 public class NotificationService extends Service implements SkeniranjeDataLoadedListener {
 

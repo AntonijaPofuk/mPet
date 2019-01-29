@@ -45,7 +45,7 @@
         </activity>
 
         <service
-            android:name=".obavijesti.NotificationService"
+            android:name=".notifications.NotificationService"
             android:enabled="true"
             android:exported="true"></service>
 

@@ -1,12 +1,11 @@
-package mpet.project2018.air.mpet.obavijesti;
+package mpet.project2018.air.mpet.notifications;
 
 import android.app.Application;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Build;
 
 
-public class CreateNotificationChannel extends Application {
+public class NotificationChannel extends Application {
     public static final String CHANNEL_ID = "exampleServiceChannel";
 
     @Override
@@ -18,7 +17,7 @@ public class CreateNotificationChannel extends Application {
 
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel serviceChannel = new NotificationChannel(
+            android.app.NotificationChannel serviceChannel = new android.app.NotificationChannel(
                     CHANNEL_ID,
                     "Example Service Channel",
                     NotificationManager.IMPORTANCE_DEFAULT
