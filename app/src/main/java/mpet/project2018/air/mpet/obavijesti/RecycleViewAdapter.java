@@ -85,7 +85,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
 
         datumVrijemeSkeniranja = listSken.get(listSken.size()-(i+1)).getVrijeme() + "   " + parsedDate;
 
-        holder.detaljiObavijesti.setText(imeLjubimca + " je bio skeniran!");
+        holder.detaljiObavijesti.setText(imeLjubimca + " je bio/la skeniran/a!");
 
         holder.datumSkeniranja.setText(datumVrijemeSkeniranja);
 

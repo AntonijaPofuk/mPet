@@ -33,6 +33,7 @@ import Retrofit.DataGetListenersAndLoaders.DataLoaders.KorisnikDataLoader;
 import Retrofit.DataPost.ObavijestiMethod;
 import Retrofit.Model.Korisnik;
 import mpet.project2018.air.core.OnFragmentInteractionListener;
+import mpet.project2018.air.database.entities.Korisnik_Table;
 import mpet.project2018.air.database.entities.Ljubimac;
 import mpet.project2018.air.database.entities.Ljubimac_Table;
 import mpet.project2018.air.database.entities.Skeniranje;
@@ -59,9 +60,11 @@ public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCall
     String kordX = "";
     String kordY = "";
     String imeLjubimca = "";
-    String imeKorisnika = "";
     String kontaktKorisnik = "";
-
+    String brojMobitela = "";
+    String brojTelefona = "";
+    String email = "";
+    mpet.project2018.air.database.entities.Korisnik userWhoScan=null;
 
     @Nullable
     @Override
@@ -144,6 +147,29 @@ public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCall
         } catch (Exception e) {
         }
 
+        try{
+            userWhoScan=new SQLite().select().from(mpet.project2018.air.database.entities.Korisnik.class).where(Korisnik_Table.id_korisnika.is(skeniranje.getKorisnik().getId_korisnika())).querySingle();
+        }
+        catch (Exception e){
+            //
+        }
+
+        try {
+            brojTelefona = userWhoScan.getBroj_telefona();
+        } catch (Exception e) {
+        }
+
+        try {
+            brojMobitela = userWhoScan.getBroj_mobitela();
+        } catch (Exception e) {
+        }
+
+
+        try {
+            email = userWhoScan.getEmail();
+        } catch (Exception e) {
+        }
+
         loadData();
 
 
@@ -217,7 +243,7 @@ public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCall
 
         try {
 
-            datumVrijemeSkena.setText(format.format(datumSkena) + " ; " + vrijemeSkena);
+            datumVrijemeSkena.setText(format.format(datumSkena) + ", " + vrijemeSkena);
 
         } catch (Exception e) {
 
@@ -236,7 +262,7 @@ public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCall
 
                 gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 7));
 
-                gMap.addMarker(new MarkerOptions().title(imeLjubimca + " je skeniran ovdje!").position(latLng)).showInfoWindow();
+                gMap.addMarker(new MarkerOptions().title(imeLjubimca + " je skeniran/a ovdje!").position(latLng)).showInfoWindow();
 
 
             } catch (Exception e) {
@@ -299,7 +325,24 @@ public class PrikazObavijestiDetaljno extends Fragment implements OnMapReadyCall
 
         TextView konaktTextView = mainView.findViewById(R.id.txtKontakt);
 
-        if(kontaktKorisnik!="" && !kontaktKorisnik.isEmpty() && kontaktKorisnik!=null)konaktTextView.setText(kontaktKorisnik);
+        if((kontaktKorisnik!="" || email!="" || brojTelefona!="" || brojMobitela!="") && (!brojMobitela.isEmpty() || !brojTelefona.isEmpty() || !email.isEmpty() || !kontaktKorisnik.isEmpty())){
+            String wholeContactData="";
+            if(brojMobitela!="" && !brojMobitela.isEmpty()){
+                wholeContactData+="Broj mobitela: "+brojMobitela+"\n" ;
+            }
+            if(brojTelefona!="" && !brojTelefona.isEmpty()){
+                wholeContactData+="Broj telefona: "+brojTelefona+"\n";
+            }
+            if(email!="" && !email.isEmpty()){
+                wholeContactData+="Email: "+email+"\n";
+            }
+            if(kontaktKorisnik!="" && !kontaktKorisnik.isEmpty()){
+                wholeContactData+="Ostavljena poruka: "+kontaktKorisnik;
+            }
+
+            konaktTextView.setText(wholeContactData);
+
+        }
         else konaktTextView.setText("Nema kontakt podataka");
 
         TextView korisnikTextView = mainView.findViewById(R.id.txtSkenirao);

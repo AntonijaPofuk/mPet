@@ -15,7 +15,7 @@
     <TextView
         android:id="@+id/lblImeLjubimca"
         android:layout_width="wrap_content"
-        android:layout_height="50px"
+        android:layout_height="wrap_content"
         android:text="Ime ljubimca :"
         android:layout_below="@+id/mapView"
         android:layout_margin="10dp"
@@ -27,7 +27,7 @@
     <TextView
         android:id="@+id/lblDatumVrijemeSkeniranja"
         android:layout_width="wrap_content"
-        android:layout_height="50px"
+        android:layout_height="wrap_content"
         android:text="Datum i vrijeme :"
         android:layout_below="@+id/lblImeLjubimca"
         android:layout_margin="10dp"
@@ -39,7 +39,7 @@
     <TextView
         android:id="@+id/lblKorisnik"
         android:layout_width="wrap_content"
-        android:layout_height="50px"
+        android:layout_height="wrap_content"
         android:text="Skenirao :"
         android:layout_below="@+id/lblDatumVrijemeSkeniranja"
         android:layout_margin="10dp"
@@ -51,7 +51,7 @@
     <TextView
         android:id="@+id/lblMjestoSkeniranja"
         android:layout_width="wrap_content"
-        android:layout_height="50px"
+        android:layout_height="wrap_content"
         android:text="Mjesto :"
         android:layout_below="@+id/lblKorisnik"
         android:layout_margin="10dp"
@@ -63,7 +63,7 @@
     <TextView
         android:id="@+id/lblKontakt"
         android:layout_width="wrap_content"
-        android:layout_height="50px"
+        android:layout_height="wrap_content"
         android:text="Kontakt :"
         android:layout_below="@+id/lblMjestoSkeniranja"
         android:layout_margin="10dp"
@@ -75,7 +75,7 @@
     <TextView
         android:id="@+id/txtImeLjubimca"
         android:layout_width="wrap_content"
-        android:layout_height="50px"
+        android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/lblImeLjubimca"
         android:layout_below="@id/mapView"
         android:layout_margin="10dp"
@@ -86,7 +86,7 @@
     <TextView
         android:id="@+id/txtDatumVrijemeSkena"
         android:layout_width="wrap_content"
-        android:layout_height="50px"
+        android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/lblDatumVrijemeSkeniranja"
         android:layout_below="@id/txtImeLjubimca"
         android:layout_margin="10dp"
@@ -97,7 +97,7 @@
     <TextView
         android:id="@+id/txtSkenirao"
         android:layout_width="wrap_content"
-        android:layout_height="50px"
+        android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/lblKorisnik"
         android:layout_below="@id/txtDatumVrijemeSkena"
         android:layout_margin="10dp"
@@ -108,7 +108,7 @@
     <TextView
         android:id="@+id/txtMjestoSkena"
         android:layout_width="wrap_content"
-        android:layout_height="50px"
+        android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/lblMjestoSkeniranja"
         android:layout_below="@id/txtSkenirao"
         android:layout_margin="10dp"
@@ -119,7 +119,7 @@
     <TextView
         android:id="@+id/txtKontakt"
         android:layout_width="wrap_content"
-        android:layout_height="50px"
+        android:layout_height="wrap_content"
         android:layout_below="@id/txtMjestoSkena"
         android:layout_margin="10dp"
         android:layout_marginStart="81dp"
