@@ -17,7 +17,7 @@
         android:layout_marginEnd="55dp"
         android:scrollbars="vertical"
         android:textAlignment="gravity"
-        android:textSize="18dp" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/textView"

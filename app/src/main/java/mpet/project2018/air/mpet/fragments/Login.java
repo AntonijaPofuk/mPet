@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,6 +17,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.Objects;
 
 import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.KarticaDataLoadedListener;
 import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.KorisnikDataLoadedListener;
@@ -49,7 +51,6 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
     Button btnLogin;
     Button btnPrijavaOdustani;
 
-    private SharedPreferences sharedPreferences;
     private String globalId;
     private ProgressDialog progress;
 
@@ -59,22 +60,22 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.activity_login, container, false);
         if (mListener != null) {
             mListener.onFragmentInteraction("Prijava");
         }
-        edtUsername = (EditText) view.findViewById(R.id.edtUsername);
-        edtPassword = (EditText) view.findViewById(R.id.edtPassword);
-        btnLogin = (Button) view.findViewById(R.id.btnLogin);
-        btnPrijavaOdustani = (Button) view.findViewById(R.id.btnPrijavaOdustani);
+        edtUsername = view.findViewById(R.id.edtUsername);
+        edtPassword = view.findViewById(R.id.edtPassword);
+        btnLogin = view.findViewById(R.id.btnLogin);
+        btnPrijavaOdustani = view.findViewById(R.id.btnPrijavaOdustani);
 
-        sharedPreferences = this.getActivity().getSharedPreferences("MyPref", 0); //u fragmentu dodaj this.getActivity..... jer nema CONTEXA
-        if (sharedPreferences.getString("ulogiraniKorisnikId", "").toString().equals("ulogiraniKorisnikId")) { //getString
+        SharedPreferences sharedPreferences = Objects.requireNonNull(this.getActivity()).getSharedPreferences("MyPref", 0);
+        if ( Objects.requireNonNull(sharedPreferences.getString("ulogiraniKorisnikId", "")).equals("ulogiraniKorisnikId")) { //getString
             HomeLoggedIn frag;
             frag = new HomeLoggedIn();
-            mListener.swapFragment(false,(HomeLoggedIn) frag);
+            mListener.swapFragment(false,frag);
         }
         btnLogin.setOnClickListener(new View.OnClickListener() {
                                         @Override
@@ -99,7 +100,7 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
             public void onClick(View v) {
                 HomeLoggedOut frag;
                 frag = new HomeLoggedOut();
-                mListener.swapFragment(true,(HomeLoggedOut) frag);
+                mListener.swapFragment(true,frag);
             }
             }
         );
@@ -149,7 +150,7 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
         if (Integer.parseInt(id) != 0) {
             downloadDatabase(id);
             /*zamjena izbornika*/
-            NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
+            NavigationView navigationView = Objects.requireNonNull(getActivity()).findViewById(R.id.nav_view);
             navigationView.getMenu().clear();
             navigationView.inflateMenu(R.menu.activity_main_drawer);
             navigationView.getHeaderView(0);
@@ -201,7 +202,7 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
     }
     @Override
     public void SkeniranjeOnDataLoaded(List<Skeniranje> listaSkeniranja) {
-        getActivity().getSharedPreferences(SHARED_PREF_NAME,MODE_PRIVATE)
+        Objects.requireNonNull(getActivity()).getSharedPreferences(SHARED_PREF_NAME,MODE_PRIVATE)
                 .edit()
                 .putString(Config.ID_SHARED_PREF,globalId)
                 .apply();
@@ -211,7 +212,7 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
 
         ((MainActivity)getActivity()).changeHeaderData();
 
-        mListener.swapFragment(false,(HomeLoggedIn) frag);
+        mListener.swapFragment(false,frag);
 
         progressDialogEdit(100,"Pozdrav!");
         dismissLoadingDialog();

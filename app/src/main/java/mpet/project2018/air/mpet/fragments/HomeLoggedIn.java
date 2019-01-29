@@ -3,10 +3,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.raizlabs.android.dbflow.sql.language.Delete;
+
+import java.util.Objects;
 
 import mpet.project2018.air.core.InternetConnectionHandler;
 import mpet.project2018.air.core.OnFragmentInteractionListener;
@@ -38,13 +40,13 @@ public class HomeLoggedIn extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_logged_in, container, false);
 
         if (mListener != null) {
             mListener.onFragmentInteraction("Početna");
         }
-        Button btn1=(Button) view.findViewById(R.id.btnOdjava);
+        Button btn1=view.findViewById(R.id.btnOdjava);
         btn1.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -53,12 +55,12 @@ public class HomeLoggedIn extends Fragment {
                                 }
         );
 
-        Button btn2=(Button) view.findViewById(R.id.btnScanUlogirani);
+        Button btn2=view.findViewById(R.id.btnScanUlogirani);
 
         btn2.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                       if(InternetConnectionHandler.isOnline(getActivity())) mListener.swapFragment(true,returnRightCodeInputMethod());
+                                       if(InternetConnectionHandler.isOnline(Objects.requireNonNull(getActivity()))) mListener.swapFragment(true,returnRightCodeInputMethod());
                                        else Toast.makeText(getActivity(), mpet.project2018.air.core.R.string.internetNotAvailable, Toast.LENGTH_SHORT).show();
                                     }
                                 }
@@ -68,24 +70,24 @@ public class HomeLoggedIn extends Fragment {
 
 
     private void logout(){
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(Objects.requireNonNull(getContext()));
         alertDialogBuilder.setMessage("Sigurno se želite odjaviti?");
         alertDialogBuilder.setPositiveButton("Da",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
 
-                        SharedPreferences preferences = getActivity().getSharedPreferences
+                        SharedPreferences preferences = Objects.requireNonNull(getActivity()).getSharedPreferences
                                 (Config.SHARED_PREF_NAME,Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = preferences.edit();
 
                         editor.putBoolean(Config.LOGGEDIN_SHARED_PREF, false);
                         editor.remove("ulogiraniKorisnikId");
 
-                        editor.commit();
+                        editor.apply();
 
                         /*zamjena izbornika*/
-                        NavigationView navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
+                        NavigationView navigationView = getActivity().findViewById(R.id.nav_view);
                         navigationView.getMenu().clear();
                         navigationView.inflateMenu(R.menu.activity_main_drawer_logged_out);
                         navigationView.getHeaderView(0);
@@ -94,10 +96,12 @@ public class HomeLoggedIn extends Fragment {
 
                         deleteDatabase();
 
-                        getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                        if ( getFragmentManager() != null ) {
+                            getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                        }
                         HomeLoggedOut frag;
                         frag = new HomeLoggedOut();
-                        mListener.swapFragment(false,(HomeLoggedOut) frag);
+                        mListener.swapFragment(false,frag);
                     }
                 });
 
@@ -109,7 +113,6 @@ public class HomeLoggedIn extends Fragment {
                     }
                 });
 
-        //Showing the alert dialog
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
@@ -121,17 +124,9 @@ public class HomeLoggedIn extends Fragment {
         Delete.table(Kartica.class);
     }
 
-    //TODO: izbrisati swap returnRightCodeInputMethod
-    private void swapFragment2(){
-
-        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.mainFrame, returnRightCodeInputMethod());
-        ft.addToBackStack(null);
-        ft.commit();
-    }
     private Fragment returnRightCodeInputMethod()
     {
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(Config.SHARED_PREF_NAME, 0);
+        SharedPreferences sharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(Config.SHARED_PREF_NAME, 0);
         String defaultMethod=sharedPreferences.getString(Config.DEFAULT_INPUT_METHOD, "");
         if(defaultMethod.equals("nfc"))
         {

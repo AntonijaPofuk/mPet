@@ -14,7 +14,7 @@
         android:layout_marginStart="57dp"
         android:layout_marginTop="51dp"
         android:text="@string/AKL"
-        android:textSize="18dp" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/textView12"
@@ -25,7 +25,7 @@
         android:layout_marginStart="56dp"
         android:layout_marginTop="99dp"
         android:text="@string/MH"
-        android:textSize="18dp" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/textView13"
@@ -36,7 +36,7 @@
         android:layout_marginStart="56dp"
         android:layout_marginTop="147dp"
         android:text="@string/MH"
-        android:textSize="18dp" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/textView14"
@@ -47,7 +47,7 @@
         android:layout_marginStart="57dp"
         android:layout_marginTop="197dp"
         android:text="@string/AP"
-        android:textSize="18dp" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/textView"

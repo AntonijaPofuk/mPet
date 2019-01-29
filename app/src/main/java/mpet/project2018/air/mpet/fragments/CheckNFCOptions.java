@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import java.util.Objects;
+
 import mpet.project2018.air.mpet.Config;
 import mpet.project2018.air.core.OnFragmentInteractionListener;
 import mpet.project2018.air.mpet.R;
@@ -37,14 +39,14 @@ public class CheckNFCOptions extends Fragment{
         if (mListener != null) {
             mListener.onFragmentInteraction("Opcije");
         }
-        TextView textView = (TextView) view.findViewById(R.id.textView15);
-        RadioButton radioButton = (RadioButton) view.findViewById(R.id.radioButton);
-        RadioButton radioButton2 = (RadioButton) view.findViewById(R.id.radioButton2);
+        TextView textView = view.findViewById(R.id.textView15);
+        RadioButton radioButton = view.findViewById(R.id.radioButton);
+        RadioButton radioButton2 = view.findViewById(R.id.radioButton2);
         textView.setText(R.string.odabir_unosa_koda_ogrlice);
 
-        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("MyPref", 0); //u fragmentu dodaj this.getActivity..... jer nema CONTEXA
+        SharedPreferences sharedPreferences = Objects.requireNonNull(this.getActivity()).getSharedPreferences("MyPref", 0); //u fragmentu dodaj this.getActivity..... jer nema CONTEXA
         String defaultMethod=sharedPreferences.getString(Config.DEFAULT_INPUT_METHOD, "");
-        if(defaultMethod.equals("nfc")) {
+        if( defaultMethod != null && defaultMethod.equals("nfc") ) {
             radioButton.setChecked(true);
         }
             else {

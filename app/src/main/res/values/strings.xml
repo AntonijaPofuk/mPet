@@ -51,7 +51,7 @@
     </string-array>
     <string name="imeLjub">Ime</string>
     <string name="vrsta">Vrsta</string>
-    <string name="vrsta_opis">pas, mačka, ...</string>
+    <string name="vrsta_opis">pas, mačka, …</string>
     <string name="masa">Masa</string>
     <string name="godRodjenja">Godina rođenja</string>
     <string name="opis">Opis</string>
@@ -77,7 +77,7 @@
     <string name="provjera_odjave">Sigurno se želite odjaviti?</string>
     <string name="da">da</string>
     <string name="ne">ne</string>
-    <string name="čekanje">Molimo pričekajte...</string>
+    <string name="čekanje">Molimo pričekajte…</string>
     <string name="potrebno_korime">Potrebno je unijeti korisničko ime</string>
     <string name="potrebna_lozinka">Potrebno je unijeti lozinku</string>
     <string name="kor_podaci_krivi">Korisnicko ime ili lozinka su netocni</string>
@@ -93,7 +93,7 @@
     <string name="MH">Matija Hasija</string>
     <string name="AP">Antonija Pofuk</string>
     <string name="rucni_unos">ručni unos</string>
-    <string name="nfc_citac">pomoću NFC čitaća</string>
+    <string name="nfc_citac">pomoću NFC čitača</string>
 
 
 

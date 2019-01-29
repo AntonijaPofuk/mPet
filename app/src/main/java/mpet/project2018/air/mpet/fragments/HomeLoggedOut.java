@@ -3,12 +3,15 @@ package mpet.project2018.air.mpet.fragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
+
+import java.util.Objects;
 
 import mpet.project2018.air.core.InternetConnectionHandler;
 import mpet.project2018.air.manualinput.ManualInputFragment;
@@ -31,40 +34,40 @@ public class HomeLoggedOut extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.home_logged_out, container, false);
 
         if (mListener != null) {
             mListener.onFragmentInteraction("Početna");
         }
-        Button btn1=(Button) view.findViewById(R.id.btnPrijava);
+        Button btn1=view.findViewById(R.id.btnPrijava);
         btn1.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
                                         Login frag;
                                         frag = new Login();
-                                        mListener.swapFragment(true,(Login) frag);
+                                        mListener.swapFragment(true,frag);
                                     }
                                 }
         );
 
-        Button btn2=(Button) view.findViewById(R.id.btnReg);
+        Button btn2=view.findViewById(R.id.btnReg);
         btn2.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
                                         Registration frag;
                                         frag = new Registration();
-                                        mListener.swapFragment(true,(Registration) frag);
+                                        mListener.swapFragment(true,frag);
                                     }
                                 }
         );
 
-        Button btn3=(Button) view.findViewById(R.id.btnScanNeUlogirani);
+        Button btn3=view.findViewById(R.id.btnScanNeUlogirani);
         btn3.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        if(InternetConnectionHandler.isOnline(getActivity())) mListener.swapFragment(true,returnRightCodeInputMethod());
+                                        if(InternetConnectionHandler.isOnline(Objects.requireNonNull(getActivity()))) mListener.swapFragment(true,returnRightCodeInputMethod());
 
                                         else Toast.makeText(getActivity(), mpet.project2018.air.core.R.string.internetNotAvailable, Toast.LENGTH_SHORT).show();
                                     }
@@ -75,9 +78,9 @@ public class HomeLoggedOut extends Fragment {
 
     private Fragment returnRightCodeInputMethod()
     {
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(Config.SHARED_PREF_NAME, 0);
+        SharedPreferences sharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(Config.SHARED_PREF_NAME, 0);
         String defaultMethod=sharedPreferences.getString(Config.DEFAULT_INPUT_METHOD, "");
-        if(defaultMethod.equals("nfc"))
+        if(Objects.requireNonNull(defaultMethod).equals("nfc"))
         {
             return new ScanningNFCFragment();
         }

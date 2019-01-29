@@ -2,7 +2,6 @@ package mpet.project2018.air.mpet.fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,10 +27,10 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.raizlabs.android.dbflow.sql.language.SQLite;
-import com.squareup.picasso.Target;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 import Retrofit.DataPost.RegistracijaMethod;
@@ -49,7 +48,7 @@ public class UpdateUser extends Fragment implements StatusListener {
     private String ID_KORISNIKA;
 
     /*upload slike*/
-    private static int RESULT_LOAD_IMAGE = 1;
+    //private static int RESULT_LOAD_IMAGE = 1;
     private final int PICK_IMAGE_REQUEST = 71;
     private ImageButton imageButton;
     private Bitmap bit=null;
@@ -65,7 +64,7 @@ public class UpdateUser extends Fragment implements StatusListener {
     private String globalMail;
     private String globalMobitel;
     private String globalTelefon;
-    private Target loadtarget;
+    //private Target loadtarget;
     private Korisnik uredivaniKorisnik;
     private ProgressBar spinner;
 
@@ -100,10 +99,10 @@ public class UpdateUser extends Fragment implements StatusListener {
             mListener.onFragmentInteraction("Podaci korisnika");
         }
 
-        Button buttonSpremi=(Button) view.findViewById(R.id.btnRegistracijaSpremi);
-        Button buttonOdustani=(Button) view.findViewById(R.id.btnRegistracijaOdustani);
-        imageButton= (ImageButton) view.findViewById(R.id.btnChooseImage);
-        spinner = (ProgressBar)view.findViewById(R.id.progressBar1);
+        Button buttonSpremi=view.findViewById(R.id.btnRegistracijaSpremi);
+        Button buttonOdustani=view.findViewById(R.id.btnRegistracijaOdustani);
+        imageButton=  view.findViewById(R.id.btnChooseImage);
+        spinner = view.findViewById(R.id.progressBar1);
         spinner.setVisibility(View.GONE);
 
         imageButton.setOnClickListener(new View.OnClickListener() {
@@ -122,19 +121,19 @@ public class UpdateUser extends Fragment implements StatusListener {
         buttonSpremi.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
-                                                EditText imeEdit = (EditText)view.findViewById(R.id.unosIme);
+                                                EditText imeEdit = view.findViewById(R.id.unosIme);
                                                 String ime= imeEdit.getText().toString();
-                                                EditText prezimeEdit = (EditText)view.findViewById(R.id.unosPrezime);
+                                                EditText prezimeEdit = view.findViewById(R.id.unosPrezime);
                                                 String prezime=prezimeEdit.getText().toString();
-                                                EditText korisnickoEdit = (EditText)view.findViewById(R.id.unosKorIme);
+                                                EditText korisnickoEdit = view.findViewById(R.id.unosKorIme);
                                                 String korIme=korisnickoEdit.getText().toString();
-                                                EditText adresaEdit = (EditText)view.findViewById(R.id.unosAdresa);
+                                                EditText adresaEdit = view.findViewById(R.id.unosAdresa);
                                                 String adresa=adresaEdit.getText().toString();
-                                                EditText mailEdit = (EditText)view.findViewById(R.id.unosMail);
+                                                EditText mailEdit = view.findViewById(R.id.unosMail);
                                                 String mail=mailEdit.getText().toString();
-                                                EditText telefonEdit = (EditText)view.findViewById(R.id.unosTelefon);
+                                                EditText telefonEdit = view.findViewById(R.id.unosTelefon);
                                                 String telefon=telefonEdit.getText().toString();
-                                                EditText mobitelEdit = (EditText)view.findViewById(R.id.unosMobitel);
+                                                EditText mobitelEdit = view.findViewById(R.id.unosMobitel);
                                                 String mobitel=mobitelEdit.getText().toString();
 
                                                 String provjera=null;
@@ -177,18 +176,18 @@ public class UpdateUser extends Fragment implements StatusListener {
             public void onClick(View v) {
                 HomeLoggedIn frag;
                 frag = new HomeLoggedIn();
-                swapFragment(false,(HomeLoggedIn) frag);
+                mListener.swapFragment(false,frag);
             }
         });
         /*popunjavanje početnih podataka*/
         uredivaniKorisnik=new SQLite().select().from(Korisnik.class).where(Korisnik_Table.id_korisnika.is(Integer.parseInt(ID_KORISNIKA))).querySingle();
-        EditText imeEdit = (EditText)view.findViewById(R.id.unosIme);
-        EditText prezimeEdit = (EditText)view.findViewById(R.id.unosPrezime);
-        EditText adresaEdit = (EditText)view.findViewById(R.id.unosAdresa);
-        EditText mailEdit = (EditText)view.findViewById(R.id.unosMail);
-        EditText telefonEdit = (EditText)view.findViewById(R.id.unosTelefon);
-        EditText mobitelEdit = (EditText)view.findViewById(R.id.unosMobitel);
-        EditText korImeEdit = (EditText)view.findViewById(R.id.unosKorIme);
+        EditText imeEdit = view.findViewById(R.id.unosIme);
+        EditText prezimeEdit = view.findViewById(R.id.unosPrezime);
+        EditText adresaEdit = view.findViewById(R.id.unosAdresa);
+        EditText mailEdit = view.findViewById(R.id.unosMail);
+        EditText telefonEdit =view.findViewById(R.id.unosTelefon);
+        EditText mobitelEdit = view.findViewById(R.id.unosMobitel);
+        EditText korImeEdit = view.findViewById(R.id.unosKorIme);
 
         imeEdit.setText(uredivaniKorisnik.getIme());
         prezimeEdit.setText(uredivaniKorisnik.getPrezime());
@@ -234,15 +233,7 @@ public class UpdateUser extends Fragment implements StatusListener {
         String imgString = Base64.encodeToString(byteFormat, Base64.DEFAULT);
         return imgString;
     }
-    private void swapFragment(boolean addToBackstack, Fragment fragToShow){
-        if(getActivity() == null)
-            return;
-        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.mainFrame, (Fragment) fragToShow);
-        if(addToBackstack)
-            ft.addToBackStack(null);
-        ft.commit();
-    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -332,11 +323,11 @@ public class UpdateUser extends Fragment implements StatusListener {
                 uredivaniKorisnik.setUrl_profilna(uredivaniKorisnik.getId_korisnika() + "_profil.png");
             }
             uredivaniKorisnik.update();
-            ((MainActivity) getActivity()).changeHeaderData();
+            ((MainActivity) Objects.requireNonNull(getActivity())).changeHeaderData();
             /**/
             HomeLoggedIn frag;
             frag = new HomeLoggedIn();
-            swapFragment(false, (HomeLoggedIn) frag);
+            mListener.swapFragment(false, frag);
             spinner.setVisibility(View.GONE);
 
         }

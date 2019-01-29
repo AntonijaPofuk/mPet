@@ -32,7 +32,7 @@ public class AboutApp extends Fragment{
         if (mListener != null) {
             mListener.onFragmentInteraction("O nama");
         }
-        TextView textView = (TextView) view.findViewById(R.id.textView10);
+        TextView textView = view.findViewById(R.id.textView10);
         textView.setMovementMethod(new ScrollingMovementMethod());
         textView.setText(R.string.opis_app);
         return view;

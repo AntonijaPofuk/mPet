@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -36,6 +37,7 @@ import mpet.project2018.air.database.entities.Skeniranje;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.util.List;
+import java.util.Objects;
 
 import mpet.project2018.air.database.entities.Skeniranje_Table;
 import mpet.project2018.air.mpet.fragments.CheckNFCOptions;
@@ -71,16 +73,16 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         startService();//Pokretanje servisa za obavijesti
         getObavijestiIntent();//dohvaćanje intenta za detaljne obavijesti
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setCheckedItem(R.id.nav_frag1);
 
         Navigation();
@@ -89,10 +91,8 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         /*
          * Provjera ulogiranog korisnika
          */
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, 0);
-        String id1 = sharedPreferences.getString(ID_SHARED_PREF, "").toString();
-        sharedPreferences = this.getSharedPreferences(SHARED_PREF_NAME, 0); //u fragmentu dodaj this.getActivity..... jer nema CONTEXA
-        if (sharedPreferences.getString(ID_SHARED_PREF, "ulogiraniKorisnikId").toString().equals("ulogiraniKorisnikId")) { //getString
+        SharedPreferences sharedPreferences = this.getSharedPreferences(SHARED_PREF_NAME, 0); //u fragmentu dodaj this.getActivity..... jer nema CONTEXA
+        if (Objects.requireNonNull(sharedPreferences.getString(ID_SHARED_PREF, "ulogiraniKorisnikId")).equals("ulogiraniKorisnikId")) { //getString
             FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
             ft1.replace(R.id.mainFrame, new HomeLoggedOut());
             ft1.commit();
@@ -120,14 +120,17 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
      */
     public void changeHeaderData(){
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, 0);
-        String id1 = sharedPreferences.getString(ID_SHARED_PREF, "").toString();
-        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        String id1 = sharedPreferences.getString(ID_SHARED_PREF, "");
+        final NavigationView navigationView = findViewById(R.id.nav_view);
 
         navigationView.getHeaderView(0);
         View header =navigationView.getHeaderView(0);
 
-        mpet.project2018.air.database.entities.Korisnik k=new SQLite().select().from(mpet.project2018.air.database.entities.Korisnik.class)
-                .where(Korisnik_Table.id_korisnika.is(Integer.parseInt(id1))).querySingle();
+        Korisnik k= null;
+        if ( id1 != null ) {
+            k = new SQLite().select().from(Korisnik.class)
+                    .where(Korisnik_Table.id_korisnika.is(Integer.parseInt(id1))).querySingle();
+        }
         if(k!=null) {
             String korime = k.getKorisnicko_ime();
             Bitmap slika = k.getSlika();
@@ -142,17 +145,17 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                                             @Override
                                             public void onClick(View v) {
                                                 SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, 0);
-                                                String idPrijavljeni = sharedPreferences.getString(Config.ID_SHARED_PREF, "").toString();
+                                                String idPrijavljeni = sharedPreferences.getString(Config.ID_SHARED_PREF, "");
                                                 UpdateUser updateKorisnik = UpdateUser.newInstance(idPrijavljeni);
                                                 swap(updateKorisnik);
-                                                dl.closeDrawer(Gravity.LEFT, false);
+                                                dl.closeDrawer(Gravity.START, false);
 
                                             }
                                         }
             );
         }
 
-    };
+    }
     @Override
     public void onBackPressed() {
 
@@ -185,14 +188,14 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         t.commit();
     }
     public void Navigation() {
-        dl = (DrawerLayout) findViewById(R.id.drawer_layout);
+        dl = findViewById(R.id.drawer_layout);
         NavigationView navigationView;
         navigationView = findViewById(R.id.nav_view);
         //navigationView.setCheckedItem(R.id.);
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                         menuItem.setChecked(true);
                         dl.closeDrawers();
 
@@ -210,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                             case R.id.nav_frag2:
                                 //getSupportActionBar().setTitle(R.string.nav_home);
                                 SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, 0);
-                                String idPrijavljeni = sharedPreferences.getString(Config.ID_SHARED_PREF, "").toString();
+                                String idPrijavljeni = sharedPreferences.getString(Config.ID_SHARED_PREF, "");
                                 MyPets mojiLjubimci = MyPets.newInstance(idPrijavljeni);
                                 swap(mojiLjubimci);
                                 break;
@@ -240,10 +243,10 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                                 break;
                             case R.id.nav_user_data:
                                 SharedPreferences sharedPreferences1 = getSharedPreferences(SHARED_PREF_NAME, 0);
-                                String idPrijavljeni1 = sharedPreferences1.getString(Config.ID_SHARED_PREF, "").toString();
+                                String idPrijavljeni1 = sharedPreferences1.getString(Config.ID_SHARED_PREF, "");
                                 UpdateUser updateKorisnik = UpdateUser.newInstance(idPrijavljeni1);
                                 swap(updateKorisnik);
-                                dl.closeDrawer(Gravity.LEFT, false);
+                                dl.closeDrawer(Gravity.START, false);
                                 break;
                             }
                         return true;
@@ -267,10 +270,10 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                         editor.putBoolean(Config.LOGGEDIN_SHARED_PREF, false);
                         editor.remove("ulogiraniKorisnikId");
 
-                        editor.commit();
+                        editor.apply();
 
                         /*zamjena izbornika*/
-                        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                        NavigationView navigationView = findViewById(R.id.nav_view);
                         navigationView.getMenu().clear();
                         navigationView.inflateMenu(R.menu.activity_main_drawer_logged_out);
                         navigationView.getHeaderView(0);
@@ -281,7 +284,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
                         HomeLoggedOut frag;
                         frag = new HomeLoggedOut();
-                        swapFragment(false,(HomeLoggedOut) frag);
+                        swapFragment(false, frag);
                     }
                 });
 
@@ -297,14 +300,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         alertDialog.show();
     }
 
-    private void clearBackStack() {
-        FragmentManager manager = getSupportFragmentManager();
-        if (manager.getBackStackEntryCount() > 0) {
-            FragmentManager.BackStackEntry first = manager.getBackStackEntryAt(0);
-            manager.popBackStack(first.getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
-        }
-    }
-
     private void deleteDatabase() {
         Delete.table(Korisnik.class);
         Delete.table(Skeniranje.class);
@@ -314,7 +309,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
     @Override
     public void onFragmentInteraction(String title) {  // Preimenovanje stranice
-        getSupportActionBar().setTitle(title);
+        Objects.requireNonNull(getSupportActionBar()).setTitle(title);
     }
 
     // Dohvaćanje pristiglih Intenta
@@ -375,12 +370,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         Intent serviceIntent = new Intent(this, NotificationService.class);
         stopService(serviceIntent);
     }
-
-    public void popuniKorisnika() {
-        Korisnik korisnik = new Korisnik(712, "Jabuka", "Juric", "jabucica", "admin123", "mail", "adresa", "0100330", "32131", "url");
-        korisnik.save();
-    }
-
     public void popuniLjubimca() {
         Korisnik k = new Korisnik();
         k.setId_korisnika(177);

@@ -33,10 +33,10 @@ public class About extends Fragment{
             mListener.onFragmentInteraction("O nama");
         }
 
-        TextView textView = (TextView) view.findViewById(R.id.textView11);
-        TextView textView2 = (TextView) view.findViewById(R.id.textView12);
-        ImageView imageView = (ImageView) view.findViewById(R.id.imageView4);
-        ImageView imageView2 = (ImageView) view.findViewById(R.id.imageView5);
+        TextView textView = view.findViewById(R.id.textView11);
+        TextView textView2 = view.findViewById(R.id.textView12);
+        ImageView imageView = view.findViewById(R.id.imageView4);
+        ImageView imageView2 = view.findViewById(R.id.imageView5);
 
 
             textView.setOnClickListener(new View.OnClickListener() {
@@ -44,7 +44,7 @@ public class About extends Fragment{
                                             public void onClick(View v) {
                                                 AboutApp frag;
                                                 frag = new AboutApp();
-                                                mListener.swapFragment(true,(AboutApp) frag);
+                                                mListener.swapFragment(true,frag);
 
 
                                             }
@@ -56,7 +56,7 @@ public class About extends Fragment{
                                         public void onClick(View v) {
                                             AboutApp frag;
                                             frag = new AboutApp();
-                                            mListener.swapFragment(true,(AboutApp) frag);
+                                            mListener.swapFragment(true,frag);
 
                                         }
                                     }
@@ -67,7 +67,7 @@ public class About extends Fragment{
                                         public void onClick(View v) {
                                             AboutUs frag;
                                             frag = new AboutUs();
-                                            mListener.swapFragment(true,(AboutUs) frag);
+                                            mListener.swapFragment(true,frag);
                                         }
                                     }
         );
@@ -77,7 +77,7 @@ public class About extends Fragment{
                                          public void onClick(View v) {
                                              AboutUs frag;
                                              frag = new AboutUs();
-                                             mListener.swapFragment(true,(AboutUs) frag);
+                                             mListener.swapFragment(true,frag);
                                          }
                                      }
         );
