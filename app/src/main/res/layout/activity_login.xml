@@ -11,7 +11,7 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".MainActivity">
 
-    <!-- Login -->
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -26,7 +26,7 @@
             android:layout_marginTop="76dp"
             android:layout_marginEnd="45dp"
             android:fontFamily="@font/robotoblack"
-            android:text="Korisničko ime"
+            android:text="@string/korisnicko_ime"
             android:textSize="20dp" />
 
         <TextView
@@ -38,7 +38,7 @@
             android:layout_marginStart="45dp"
             android:layout_marginTop="177dp"
             android:fontFamily="@font/robotoblack"
-            android:text="Lozinka"
+            android:text="@string/lozinka"
             android:textSize="20dp" />
 
         <EditText
@@ -89,7 +89,7 @@
             android:layout_marginEnd="44dp"
             android:background="#8492A6"
             android:fontFamily="@font/chewyregular"
-            android:text="Odustani"
+            android:text="@string/odustani"
             android:textColor="#FFCB57"
             android:textSize="24sp" />
 

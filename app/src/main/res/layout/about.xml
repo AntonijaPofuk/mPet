@@ -14,7 +14,7 @@
         android:layout_marginTop="168dp"
         android:layout_marginEnd="20dp"
         android:clickable="true"
-
+        android:focusable="true"
         app:layout_constraintEnd_toStartOf="@+id/imageView5"
         app:layout_constraintHorizontal_bias="0.952"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,6 +31,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/team"
         android:clickable="true"
+        android:focusable="true"
         />
 
     <ImageView
@@ -77,8 +78,9 @@
         android:layout_marginTop="56dp"
         android:layout_marginEnd="36dp"
         android:clickable="true"
+        android:focusable="true"
         android:onClick=""
-        android:text="O aplikaciji"
+        android:text="@string/o_app"
         android:textSize="22dp"
         app:layout_constraintEnd_toStartOf="@+id/textView12"
         app:layout_constraintHorizontal_bias="1.0"
@@ -93,8 +95,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="20dp"
         android:clickable="true"
-
-        android:text="O razvojnom timu"
+        android:focusable="true"
+        android:text="@string/o_raz_timu"
         android:textSize="22dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"

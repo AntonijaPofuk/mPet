@@ -83,13 +83,9 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
 
                                                 String username = edtUsername.getText().toString();
                                                 String password = edtPassword.getText().toString();
-                                                //validate form
                                                 if ( validateLogin(username, password) ) {
-                                                    //do login
                                                     doLogin(username, password);
                                                     showLoadingDialog();
-
-
                                                 }
                                             }
                                             else
@@ -130,11 +126,11 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
     /**/
     private boolean validateLogin (String username, String password){
         if (username == null || username.trim().length() == 0) {
-            Toast.makeText(getActivity(), "Potrebno je unijeti korisničko ime...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.potrebno_korime, Toast.LENGTH_SHORT).show();
             return false;
         }
         if (password == null || password.trim().length() == 0) {
-            Toast.makeText(getActivity(), "Potrebno je unijeti lozinku...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.potrebna_lozinka, Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
@@ -162,7 +158,7 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
             /**/
             progressDialogEdit(15,"Vaši korisnički podaci su u redu!");
         } else {
-            Toast.makeText(getActivity(), "Korisnicko ime ili lozinka su netocni", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), R.string.kor_podaci_krivi, Toast.LENGTH_SHORT).show();
             dismissLoadingDialog();
         }
     }

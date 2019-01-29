@@ -17,7 +17,7 @@
     <string name="slika_korisnika">Slika korisnika</string>
     <string name="korisnicko_ime">Korisničko ime</string>
     <string name="Opis_prijave">Prijavite se u nastavku s postojećim korisničkim imenom i lozinkom.</string>
-    <string name="lozinka">lozinka</string>
+    <string name="lozinka">Lozinka</string>
 
     <string name="skeniranje_tekst">Približite uređaj NFC kartici</string>
 <string name="deskriptor_nfc_ikone">Ikona NFC uređaja</string>
@@ -69,6 +69,31 @@
 
     <string name="hint_kontakt">Unesite kontakt podatak</string>
     <string name="odustani">Odustani</string>
+
+    <string name="opis_app">Aplikacije je izrađena u svrhu predmeta Analiza i razvoj programa koji se izvodi na diplomskom studiju informatike te kao takva još nije predviđena za širu upotrebu. Ukratko aplikacija predstavlja način vođenja evidencije o kućnim ljubimcima. Osnovna funkcionalnost koju nudi je praćenje ljubimca putem NFC kartice. Korisniku je na raspolaganju također i skreniranje tuđih ljubimaca te slanje poruka vlasniku. Na ovaj način se može olakšati pronalazak ljubimca u slučaju da je nestao ili pobjegao.</string>
+    <string name="odabir_unosa_koda_ogrlice">Odaberite željeni način unosa koda ogrlice u nastavku </string>
+    <string name="provjera_odjave">Sigurno se želite odjaviti?</string>
+    <string name="da">da</string>
+    <string name="ne">ne</string>
+    <string name="čekanje">Molimo pričekajte...</string>
+    <string name="potrebno_korime">Potrebno je unijeti korisničko ime</string>
+    <string name="potrebna_lozinka">Potrebno je unijeti lozinku</string>
+    <string name="kor_podaci_krivi">Korisnicko ime ili lozinka su netocni</string>
+    <string name="Pozdrav">Pozdrav!</string>
+
+    <string name="u_redu">U redu</string>
+    <string name="upozorenje">Upozorenje!</string>
+    <string name="o_raz_timu">O razvojnom timu</string>
+    <string name="o_app">O aplikaciji</string>
+    <string name="AKL">Alen Kokotec-Lovrek</string>
+    <string name="LK">Luka Košćak</string>
+    <string name="MH">Matija Hasija</string>
+    <string name="AP">Antonija Pofuk</string>
+
+    <string name="rucni_unos">ručni unos</string>
+    <string name="nfc_citac">pomoću NFC čitaća</string>
+
+
 
 </resources>
 

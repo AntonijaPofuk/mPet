@@ -294,9 +294,9 @@ public class UpdateUser extends Fragment implements StatusListener {
         } else {
             builder = new AlertDialog.Builder(getActivity());
         }
-        builder.setTitle("Upozorenje")
+        builder.setTitle(R.string.upozorenje)
                 .setMessage(message)
-                .setPositiveButton("U redu", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.u_redu, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
@@ -333,8 +333,6 @@ public class UpdateUser extends Fragment implements StatusListener {
             }
             uredivaniKorisnik.update();
             ((MainActivity) getActivity()).changeHeaderData();
-
-
             /**/
             HomeLoggedIn frag;
             frag = new HomeLoggedIn();

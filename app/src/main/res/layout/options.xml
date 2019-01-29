@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:text="Pomoću NFC čitača"
+            android:text="@string/nfc_citac"
 
             />
 
@@ -27,8 +27,7 @@
             android:id="@+id/radioButton2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:text="Ručni unos" />
+            android:text="@string/rucni_unos" />
     </RadioGroup>
 
     <TextView
@@ -38,7 +37,6 @@
         android:layout_marginStart="44dp"
         android:layout_marginTop="52dp"
         android:layout_marginEnd="8dp"
-        android:text="TextView"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.004"

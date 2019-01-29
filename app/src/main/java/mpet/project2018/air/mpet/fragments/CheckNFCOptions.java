@@ -40,7 +40,7 @@ public class CheckNFCOptions extends Fragment{
         TextView textView = (TextView) view.findViewById(R.id.textView15);
         RadioButton radioButton = (RadioButton) view.findViewById(R.id.radioButton);
         RadioButton radioButton2 = (RadioButton) view.findViewById(R.id.radioButton2);
-        textView.setText("Odaberite željeni način unosa koda ogrlice u nastavku: ");
+        textView.setText(R.string.odabir_unosa_koda_ogrlice);
 
         SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("MyPref", 0); //u fragmentu dodaj this.getActivity..... jer nema CONTEXA
         String defaultMethod=sharedPreferences.getString(Config.DEFAULT_INPUT_METHOD, "");
