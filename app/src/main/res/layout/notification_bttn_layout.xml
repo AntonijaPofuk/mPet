@@ -12,6 +12,7 @@
         android:foregroundGravity="right"
         android:onClick="bellClick"
         android:layout_marginTop="10px"
+        android:visibility="invisible"
         />
 
     <TextView
