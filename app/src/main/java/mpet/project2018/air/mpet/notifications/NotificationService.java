@@ -41,7 +41,7 @@ import static mpet.project2018.air.mpet.notifications.NotificationChannel.CHANNE
 public class NotificationService extends Service implements SkeniranjeDataLoadedListener {
 
     private static List<Skeniranje> listaSkeniranja = new ArrayList<>();
-    private static int delay = 10000;//svakih tolko milisekundi provjerava ako postoji nova obavijesti
+    private static int delay = 60000;//svakih tolko milisekundi provjerava ako postoji nova obavijesti
     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
     private Korisnik korisnik = new Korisnik();
 
