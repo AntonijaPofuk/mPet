@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -349,9 +350,15 @@ public class NewPet extends Fragment implements StatusListener{
             }
             noviLjubimac.save();
 
-            /**/
-            spinner.setVisibility(View.GONE);
-            swapFragment();
+            /*kašnjenje radi učitavanja iz baze*/
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                public void run() {
+                    swapFragment();
+                    spinner.setVisibility(View.GONE);
+                }
+            }, 2000);
+
         }
     }
 
