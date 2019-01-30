@@ -108,10 +108,6 @@ public class UpdateUser extends Fragment implements StatusListener {
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
-                Intent i=new   Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(i, RESULT_LOAD_IMAGE);
-                */
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -136,14 +132,10 @@ public class UpdateUser extends Fragment implements StatusListener {
                                                 EditText mobitelEdit = view.findViewById(R.id.unosMobitel);
                                                 String mobitel=mobitelEdit.getText().toString();
 
-                                                String provjera=null;
-
-                                                /**/
                                                 if(bit!=null){
                                                     slika = BitmapTOString(bit);
                                                 }
 
-                                                /**/
                                                 if(TextUtils.isEmpty(ime)||TextUtils.isEmpty(prezime)||TextUtils.isEmpty(mail)||korIme.length()<3){
                                                     alertingMessage("Niste unijeli sva potrebna polja.", R.drawable.exclamation_message);
                                                 }
@@ -164,7 +156,6 @@ public class UpdateUser extends Fragment implements StatusListener {
                                                         method.Update(ID_KORISNIKA,ime,prezime,korIme,adresa,mail,mobitel,telefon,slika);
                                                         //showLoadingDialog();
                                                         spinner.setVisibility(View.VISIBLE);
-
                                                     }
                                                 }
                                             }
@@ -248,6 +239,17 @@ public class UpdateUser extends Fragment implements StatusListener {
         super.onDetach();
         mListener = null;
     }
+
+    /**
+     * provjera unosa nedozvoljenih znakova
+     * @param ime
+     * @param prezime
+     * @param korIme
+     * @param adresa
+     * @param mobitel
+     * @param telefon
+     * @return rezultat provjere(true, false)
+     */
     private boolean provjeraNedozvoljeniZnakovi(String ime,String prezime,String korIme,String adresa,String mobitel,String telefon){
         String pattern = "[\\'|\\!|\\?|\\#|\\*|\\$|\\%|\\&|\\/]";
         Pattern p = Pattern.compile(pattern);
@@ -269,6 +271,11 @@ public class UpdateUser extends Fragment implements StatusListener {
         return found;
     }
 
+    /**
+     * provjera oblika mail adrese
+     * @param mail
+     * @return rezultat provjere (true, false)
+     */
     private boolean provjeraMail(String mail){
         String pattern = "^[A-z0-9][A-z0-9]*\\.?[A-z0-9]*@[A-z0-9]+\\.[A-z0-9]{2,}$";
         Pattern p = Pattern.compile(pattern);

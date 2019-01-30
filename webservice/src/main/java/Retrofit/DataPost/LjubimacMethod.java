@@ -22,6 +22,13 @@ public class LjubimacMethod {
         this.ljubimacListener = ljubimacDataLoadedListener;
     }
 
+    /**
+     * pridruživanje ljubimca kartici
+     * @param lj1
+     * @param lj2
+     * @param kartica
+     * @param mod
+     */
     public void Upload(String lj1, String lj2, String kartica, String mod) {
 
         final String[] Body = new String[1];
@@ -36,9 +43,6 @@ public class LjubimacMethod {
                 .baseUrl("https://airprojekt.000webhostapp.com/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
-
-
-
 
         LjubimacService api = retrofit.create(LjubimacService.class);
 

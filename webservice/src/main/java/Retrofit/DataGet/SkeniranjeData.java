@@ -34,6 +34,10 @@ public class SkeniranjeData {
                 .build();
     }
 
+    /**
+     * dohvaćanja svih skeniranja relevantnih za korisnika čiji se id prosljeđuje
+     * @param korisnikId
+     */
     public void DownloadByUserId(String korisnikId){
 
         SkeniranjaService api = retrofit.create(SkeniranjaService.class);
@@ -78,8 +82,10 @@ public class SkeniranjeData {
 
     }
 
-    /********/
-
+    /**
+     * dohvaćanje skeniranja za funkcionalnost obavještavanja
+     * @param korisnikId
+     */
     public void DownloadDataForNotification(String korisnikId){
 
         SkeniranjaService api = retrofit.create(SkeniranjaService.class);
@@ -120,7 +126,6 @@ public class SkeniranjeData {
 
             }
         });
-
 
     }
 

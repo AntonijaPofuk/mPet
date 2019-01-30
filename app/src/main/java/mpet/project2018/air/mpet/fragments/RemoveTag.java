@@ -89,7 +89,6 @@ public class RemoveTag extends Fragment implements StatusListener{
         uredivaniLjubimac=new SQLite().select().from(Ljubimac.class).where(Ljubimac_Table.id_ljubimca.is(Integer.parseInt(ID_LJUBIMCA))).querySingle();
         TextView imeText = (TextView) view.findViewById(R.id.txtPetName);
         imeText.setText(uredivaniLjubimac.getIme());
-        /**/
 
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 

@@ -22,6 +22,19 @@ public class LjubimacPodaciMethod {
         this.listener=statusListener;
     }
 
+    /**
+     * metoda za spremanje ljubimca na pslužitelj
+     * @param ime
+     * @param godina
+     * @param masa
+     * @param vrsta
+     * @param spol
+     * @param opis
+     * @param url_slike
+     * @param vlasnik
+     * @param kartica
+     * @param slika
+     */
     public static void Upload(String ime, String godina, String masa, String vrsta, String spol, String opis, String url_slike, String vlasnik, String kartica, String slika) {
 
         final LjubimacPodaciResponse body = new LjubimacPodaciResponse();
@@ -36,9 +49,6 @@ public class LjubimacPodaciMethod {
                 .baseUrl("https://airprojekt.000webhostapp.com/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
-
-
-
 
         LjubimacPodaciService api = retrofit.create(LjubimacPodaciService.class);
 
@@ -84,8 +94,17 @@ public class LjubimacPodaciMethod {
 
     }
 
-    /****************************/
-
+    /**
+     * metoda za promejnu podataka ljubimca na poslužitelju
+     * @param id
+     * @param ime
+     * @param godina
+     * @param masa
+     * @param vrsta
+     * @param spol
+     * @param opis
+     * @param slika
+     */
     public static void Update(String id, String ime, String godina, String masa, String vrsta, String spol, String opis, String slika) {
 
         final LjubimacPodaciResponse body = new LjubimacPodaciResponse();
@@ -100,9 +119,6 @@ public class LjubimacPodaciMethod {
                 .baseUrl("https://airprojekt.000webhostapp.com/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
-
-
-
 
         LjubimacPodaciService api = retrofit.create(LjubimacPodaciService.class);
 
@@ -146,8 +162,11 @@ public class LjubimacPodaciMethod {
 
     }
 
-    /****************************/
-
+    /**
+     * metoda za razdvajanje kartice i ljubimca na poslužitelju
+     * @param id
+     * @param kartica
+     */
     public static void RemoveKartica(String id, String kartica) {
 
         final LjubimacPodaciResponse body = new LjubimacPodaciResponse();
@@ -162,9 +181,6 @@ public class LjubimacPodaciMethod {
                 .baseUrl("https://airprojekt.000webhostapp.com/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
-
-
-
 
         LjubimacPodaciService api = retrofit.create(LjubimacPodaciService.class);
 
@@ -193,8 +209,12 @@ public class LjubimacPodaciMethod {
 
     }
 
-    /****************************/
-
+    /**
+     * metoda za brisanje ljubimca na poslužitelju
+     * @param id
+     * @param kartica
+     * @param urlSlike
+     */
     public static void DeleteLjubimac(String id, String kartica, String urlSlike) {
 
         final LjubimacPodaciResponse body = new LjubimacPodaciResponse();
@@ -209,9 +229,6 @@ public class LjubimacPodaciMethod {
                 .baseUrl("https://airprojekt.000webhostapp.com/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
-
-
-
 
         LjubimacPodaciService api = retrofit.create(LjubimacPodaciService.class);
 

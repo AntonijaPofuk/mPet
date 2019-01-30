@@ -22,6 +22,18 @@ public class RegistracijaMethod {
         this.listener=statusListener;
     }
 
+    /**
+     * kreiranje novog korisnika na poslužitelju
+     * @param ime
+     * @param prezime
+     * @param korIme
+     * @param adresa
+     * @param email
+     * @param mobitel
+     * @param telefon
+     * @param lozinka
+     * @param slika
+     */
     public static void Upload(String ime, String prezime, String korIme, String adresa, String email, String mobitel, String telefon, String lozinka, String slika) {
 
         final RegistracijaResponse body = new RegistracijaResponse();
@@ -36,9 +48,6 @@ public class RegistracijaMethod {
                 .baseUrl("https://airprojekt.000webhostapp.com/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
-
-
-
 
         KorisnikService api = retrofit.create(KorisnikService.class);
 
@@ -84,8 +93,18 @@ public class RegistracijaMethod {
 
     }
 
-    /**************/
-
+    /**
+     * ažuriranje korisničkog računa
+     * @param id
+     * @param ime
+     * @param prezime
+     * @param korIme
+     * @param adresa
+     * @param email
+     * @param mobitel
+     * @param telefon
+     * @param slika
+     */
     public static void Update(String id, String ime, String prezime, String korIme, String adresa, String email, String mobitel, String telefon, String slika) {
 
         final RegistracijaResponse body = new RegistracijaResponse();
@@ -100,9 +119,6 @@ public class RegistracijaMethod {
                 .baseUrl("https://airprojekt.000webhostapp.com/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
-
-
-
 
         KorisnikService api = retrofit.create(KorisnikService.class);
 

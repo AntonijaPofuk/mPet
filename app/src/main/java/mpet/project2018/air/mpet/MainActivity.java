@@ -191,7 +191,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         dl = findViewById(R.id.drawer_layout);
         NavigationView navigationView;
         navigationView = findViewById(R.id.nav_view);
-        //navigationView.setCheckedItem(R.id.);
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -300,6 +299,9 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         alertDialog.show();
     }
 
+    /**
+     * brisanje lokalnih korisničkih podataka
+     */
     private void deleteDatabase() {
         Delete.table(Korisnik.class);
         Delete.table(Skeniranje.class);

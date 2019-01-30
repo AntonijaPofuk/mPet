@@ -52,6 +52,7 @@ public class NewPet extends Fragment implements StatusListener{
 
     private String ID_KORISNIKA;
     private OnFragmentInteractionListener mListener;
+
     /*upload slike*/
     private static int RESULT_LOAD_IMAGE = 1;
     private final int PICK_IMAGE_REQUEST = 71;
@@ -73,8 +74,6 @@ public class NewPet extends Fragment implements StatusListener{
     private Target loadtarget;
 
     private ProgressBar spinner;
-
-    //public NewPet(){};
 
     public static NewPet newInstance(String id) {
         Bundle bundle = new Bundle();
@@ -168,11 +167,8 @@ public class NewPet extends Fragment implements StatusListener{
                 String opis= opisEdit.getText().toString();
 
                 String kartica="DEFAULT";
-                //String vlasnik="DEFAULT";
                 String vlasnik=ID_KORISNIKA;
 
-                String provjera=null;
-                /**/
                 if(bit!=null){
                     slika = BitmapTOString(bit);
                 }
@@ -227,8 +223,12 @@ public class NewPet extends Fragment implements StatusListener{
         }
     }
 
+    /**
+     * konverzija slike za prijenos na poslužitelj
+     * @param bitmap
+     * @return
+     */
     public String BitmapTOString(Bitmap bitmap) {
-
         Bitmap bm = bitmap;
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.JPEG, 100, stream);
@@ -243,6 +243,13 @@ public class NewPet extends Fragment implements StatusListener{
         fm.popBackStack();
     }
 
+    /**
+     * provjera unosa nedozvoljenih znakova
+     * @param ime
+     * @param vrsta
+     * @param opis
+     * @return rezultat provjere (true, false)
+     */
     private boolean provjeraNedozvoljeniZnakovi(String ime, String vrsta, String opis){
         String pattern = "[\\'|\\!|\\?|\\#|\\*|\\$|\\%|\\&|\\/]";
         Pattern p = Pattern.compile(pattern);
@@ -345,9 +352,7 @@ public class NewPet extends Fragment implements StatusListener{
             /**/
             spinner.setVisibility(View.GONE);
             swapFragment();
-
         }
-
     }
 
 }

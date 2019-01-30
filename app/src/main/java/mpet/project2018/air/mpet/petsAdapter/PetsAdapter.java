@@ -36,7 +36,7 @@ public class PetsAdapter extends
 
         View petView = inflater.inflate(R.layout.pet_item, parent, false);
 
-        // Return a new holder instance
+        // nova instanca holdera
         ViewHolder viewHolder = new ViewHolder(petView);
 
         return viewHolder;
@@ -44,10 +44,9 @@ public class PetsAdapter extends
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int position) {
-        // Get the data model based on position
+        // data model s obzirom na poziciju
         final PetModel pet = mPets.get(position);
 
-        // Set item views based on your views and data model
         TextView textView = viewHolder.ime;
         textView.setText(pet.getName());
         ImageView img = viewHolder.slika;
@@ -105,7 +104,6 @@ public class PetsAdapter extends
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //FragmentTransaction ft= ...
                 transaction.replace(R.id.mainFrame, UpdatePet.newInstance(String.valueOf(pet.getId())));
                 transaction.addToBackStack(null);
                 transaction.commit();

@@ -41,6 +41,10 @@ public class LjubimacData extends AppCompatActivity  {
 
     final static List<Ljubimac> LjubimacList=new ArrayList<Ljubimac>();
 
+    /**
+     * dohvaćanje ljubimca prema tagu
+     * @param tagId
+     */
     public void DownloadByTag(String tagId){
 
         LjubimciService api = retrofit.create(LjubimciService.class);
@@ -89,6 +93,10 @@ public class LjubimacData extends AppCompatActivity  {
 
     }
 
+    /**
+     * dohvaćanje ljubimaca prema identifikaciji korisnika
+     * @param userId
+     */
     public void DownloadByUserId(String userId){
 
         LjubimciService api = retrofit.create(LjubimciService.class);

@@ -168,8 +168,6 @@ public class UpdatePet extends Fragment implements StatusListener{
                 EditText opisEdit = (EditText)view.findViewById(R.id.txtOpis);
                 String opis= opisEdit.getText().toString();
 
-                String provjera=null;
-                /**/
                 if(bit!=null){
                     slika = BitmapTOString(bit);
                 }
@@ -249,8 +247,6 @@ public class UpdatePet extends Fragment implements StatusListener{
             bit=uredivaniLjubimac.getSlika();
         }
 
-        /**/
-
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         return view;
@@ -274,8 +270,12 @@ public class UpdatePet extends Fragment implements StatusListener{
         }
     }
 
+    /**
+     * konverzija slike za prijenos na poslužitelj
+     * @param bitmap
+     * @return string
+     */
     public String BitmapTOString(Bitmap bitmap) {
-
         Bitmap bm = bitmap;
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.JPEG, 100, stream);
@@ -290,6 +290,13 @@ public class UpdatePet extends Fragment implements StatusListener{
         fm.popBackStack();
     }
 
+    /**
+     * provjera unosa nedozvoljenih znakova
+     * @param ime
+     * @param vrsta
+     * @param opis
+     * @return razultat provjere (true, false)
+     */
     private boolean provjeraNedozvoljeniZnakovi(String ime, String vrsta, String opis){
         String pattern = "[\\'|\\!|\\?|\\#|\\*|\\$|\\%|\\&|\\/]";
         Pattern p = Pattern.compile(pattern);
@@ -374,7 +381,6 @@ public class UpdatePet extends Fragment implements StatusListener{
                 globalUrlSlike=s + "_ljubimac.png";
             }
 
-            //uredivaniLjubimac.setId_ljubimca(Integer.parseInt(s));
             uredivaniLjubimac.setIme(globalIme);
             uredivaniLjubimac.setGodine(Integer.parseInt(globalGodina));
             uredivaniLjubimac.setMasa(Float.parseFloat(globalMasa));
@@ -396,6 +402,5 @@ public class UpdatePet extends Fragment implements StatusListener{
         }
 
     }
-
 
 }

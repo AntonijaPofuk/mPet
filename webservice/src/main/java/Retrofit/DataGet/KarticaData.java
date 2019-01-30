@@ -35,9 +35,11 @@ public class KarticaData {
                 .build();
     }
 
+    /**
+     * dohvaćanje kartica po identifikaciji korisnika
+     * @param korisnikId
+     */
     public void DownloadByUserId(String korisnikId){
-
-
 
         KarticaService api = retrofit.create(KarticaService.class);
 
@@ -70,7 +72,6 @@ public class KarticaData {
 
             }
         });
-
 
     }
 

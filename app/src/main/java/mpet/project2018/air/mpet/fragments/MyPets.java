@@ -77,8 +77,7 @@ public class MyPets extends Fragment {
 
         RecyclerView rvLjubimci = (RecyclerView) view.findViewById(R.id.main_recycler);
 
-        // Initialize pets
-        //List<PetModel> listaLjubimaca=new List<PetModel>();
+        // učitavanje ljubimaca
         ArrayList<PetModel> listaLjubimaca=PetModel.createPetsList(Integer.parseInt(ID_KORISNIKA));
 
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();

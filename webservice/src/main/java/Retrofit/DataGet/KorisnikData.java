@@ -35,6 +35,10 @@ public class KorisnikData {
 
     }
 
+    /**
+     * dohvaćanje samog korisnika po identifikaciji korisnika
+     * @param korisnikId
+     */
     public void DownloadByUserId(String korisnikId){
 
         KorisniciService api = retrofit.create(KorisniciService.class);
@@ -73,14 +77,15 @@ public class KorisnikData {
 
             @Override
             public void onFailure(Call<List<Korisnik>> call, Throwable t) {
-
             }
         });
 
-
-
     }
 
+    /**
+     * dohvaćanje svih korisnika povezanih s korisnikom čija se identifikacija prosljeđuje
+     * @param korisnikId
+     */
     public void DownloadUsersByUserId(String korisnikId){
 
         KorisniciService api = retrofit.create(KorisniciService.class);
@@ -122,8 +127,6 @@ public class KorisnikData {
 
             }
         });
-
-
 
     }
 

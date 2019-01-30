@@ -40,6 +40,8 @@ import static android.app.Activity.RESULT_OK;
 
 public class Registration extends Fragment implements StatusListener {
     private OnFragmentInteractionListener mListener;
+
+    /*slika*/
     private static int RESULT_LOAD_IMAGE = 1;
     private final int PICK_IMAGE_REQUEST = 71;
     private ImageButton imageButton;
@@ -100,18 +102,10 @@ public class Registration extends Fragment implements StatusListener {
                                                 String mail=mailEdit.getText().toString();
                                                 EditText telefonEdit = (EditText)view.findViewById(R.id.unosTelefon);
                                                 String telefon=telefonEdit.getText().toString();
-                                                /*
-                                                if(TextUtils.isEmpty(telefon)){
-                                                    telefon="DEFAULT";
-                                                }
-                                                */
+
                                                 EditText mobitelEdit = (EditText)view.findViewById(R.id.unosMobitel);
                                                 String mobitel=mobitelEdit.getText().toString();
-                                                /*
-                                                if(TextUtils.isEmpty(mobitel)){
-                                                    mobitel="DEFAULT";
-                                                }
-                                                */
+
                                                 EditText lozinkaEdit = (EditText)view.findViewById(R.id.unosLozinka);
                                                 String lozinka=lozinkaEdit.getText().toString();
                                                 String provjera=null;
@@ -169,8 +163,12 @@ public class Registration extends Fragment implements StatusListener {
         }
     }
 
+    /**
+     * konverzija slike za prijenos na poslužitelj
+     * @param bitmap
+     * @return string
+     */
     public String BitmapTOString(Bitmap bitmap) {
-
         Bitmap bm = bitmap;
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.JPEG, 100, stream);
@@ -178,7 +176,6 @@ public class Registration extends Fragment implements StatusListener {
         String imgString = Base64.encodeToString(byteFormat, Base64.DEFAULT);
         return imgString;
     }
-
 
     @Override
     public void onAttach(Context context) {
@@ -196,6 +193,16 @@ public class Registration extends Fragment implements StatusListener {
         mListener = null;
     }
 
+    /**
+     * provjera unosa nedozvoljenih znakova
+     * @param ime
+     * @param prezime
+     * @param korIme
+     * @param adresa
+     * @param mobitel
+     * @param telefon
+     * @return rezultat provjere (true, false)
+     */
     private boolean provjeraNedozvoljeniZnakovi(String ime,String prezime,String korIme,String adresa,String mobitel,String telefon){
         String pattern = "[\\'|\\!|\\?|\\#|\\*|\\$|\\%|\\&|\\/]";
         Pattern p = Pattern.compile(pattern);
@@ -217,6 +224,11 @@ public class Registration extends Fragment implements StatusListener {
         return found;
     }
 
+    /**
+     * provjera oblika unešenog maila
+     * @param mail
+     * @return rezultat provjere (true, false)
+     */
     private boolean provjeraMail(String mail){
         String pattern = "^[A-z0-9][A-z0-9]*\\.?[A-z0-9]*@[A-z0-9]+\\.[A-z0-9]{2,}$";
         Pattern p = Pattern.compile(pattern);
@@ -275,7 +287,7 @@ public class Registration extends Fragment implements StatusListener {
         else if (s.equals("greska")) {
             alertingMessage("Ups, greška...", R.drawable.fail_message);
         }
-
     }
+
 }
 

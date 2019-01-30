@@ -21,6 +21,11 @@ public class KarticaMethod {
         this.karticaListener = karticaListener;
     }
 
+    /**
+     * spremanje nove kartice na poslužitelj
+     * @param kartica
+     * @param korisnikID
+     */
     public void Upload(String kartica, String korisnikID) {
 
         final String[] Body = new String[1];
@@ -35,9 +40,6 @@ public class KarticaMethod {
                 .baseUrl("https://airprojekt.000webhostapp.com/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
-
-
-
 
         KarticaService api = retrofit.create(KarticaService.class);
 

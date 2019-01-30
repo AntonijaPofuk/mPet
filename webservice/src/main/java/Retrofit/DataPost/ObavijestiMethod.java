@@ -12,6 +12,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ObavijestiMethod {
 
+    /**
+     * promjena vrijednosti kod skeniranja
+     * @param ID
+     * @param vrijednost
+     * @return
+     */
     public static String Upload(String ID,String vrijednost) {
 
         final String[] Body = new String[1];
@@ -26,9 +32,6 @@ public class ObavijestiMethod {
                 .baseUrl("https://airprojekt.000webhostapp.com/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
-
-
-
 
         ObavijestService api = retrofit.create(ObavijestService.class);
 

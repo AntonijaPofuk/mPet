@@ -20,6 +20,17 @@ public class SkeniranjeMethod {
         this.skeniranjeListener = skeniranjeListener;
     }
 
+    /**
+     * zapisivanje skeniranja na poslužitelj
+     * @param datum
+     * @param vrijeme
+     * @param kontakt
+     * @param procitano
+     * @param koordinata_x
+     * @param koordinata_y
+     * @param korisnik
+     * @param kartica
+     */
     public void Upload(String datum, String vrijeme, String kontakt, String procitano, String koordinata_x, String koordinata_y, String korisnik, String kartica) {
 
         final String[] Body = new String[1];
@@ -34,9 +45,6 @@ public class SkeniranjeMethod {
                 .baseUrl("https://airprojekt.000webhostapp.com/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
-
-
-
 
         SkeniranjeService api = retrofit.create(SkeniranjeService.class);
 
