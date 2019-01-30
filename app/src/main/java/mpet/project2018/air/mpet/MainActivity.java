@@ -70,7 +70,6 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        startService();//Pokretanje servisa za obavijesti
         getObavijestiIntent();//dohvaćanje intenta za detaljne obavijesti
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -88,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         Navigation();
 
         MainDatabase.initializeDatabase(this);
+
         /*
          * Provjera ulogiranog korisnika
          */
@@ -109,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
             navigationView.inflateMenu(R.menu.activity_main_drawer);
             navigationView.inflateHeaderView(R.layout.nav_header);
             changeHeaderData();
+            startService();
         }
         checkUnreadNotificationsNumber();//obavijesti
         setDefaultCodeInputMethod();
@@ -281,6 +282,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                         navigationView.inflateHeaderView(R.layout.nav_header_logged_out);
 
                         deleteDatabase();
+                        stopService();
 
                         HomeLoggedOut frag;
                         frag = new HomeLoggedOut();
