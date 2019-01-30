@@ -156,6 +156,7 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
             navigationView.getHeaderView(0);
             navigationView.removeHeaderView(navigationView.getHeaderView(0));
             navigationView.inflateHeaderView(R.layout.nav_header);
+
             /**/
             progressDialogEdit(15,"Vaši korisnički podaci su u redu!");
         } else {
@@ -211,6 +212,7 @@ public class Login extends Fragment implements onLoginValidation, KorisnikDataLo
         frag = new HomeLoggedIn();
 
         ((MainActivity)getActivity()).changeHeaderData();
+        ((MainActivity)getActivity()).startService();
 
         mListener.swapFragment(false,frag);
 
