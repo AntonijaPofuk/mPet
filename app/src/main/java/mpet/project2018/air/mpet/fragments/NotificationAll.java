@@ -34,7 +34,7 @@ public class NotificationAll extends Fragment {
         View view = inflater.inflate(R.layout.notification_all, container, false);
 
         if (mListener != null) {
-            mListener.onFragmentInteraction("Prikaz svih obavijesti");
+            mListener.onFragmentInteraction(getString(R.string.prikaz_svih_obavijesti_naslov));
         }
 
         return view;
@@ -52,7 +52,7 @@ public class NotificationAll extends Fragment {
         List<mpet.project2018.air.database.entities.Skeniranje> scanListLocal = new SQLite().select().from(mpet.project2018.air.database.entities.Skeniranje.class).queryList();
 
         if(scanListLocal.isEmpty() || scanListLocal.size()==0) {
-            Toast.makeText(getContext(), "Nema obavijesti.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getString(R.string.nema_obavijesti), Toast.LENGTH_SHORT).show();
         }
 
         NotificationsRecycleViewAdapter notificationsAdapter = new NotificationsRecycleViewAdapter(scanListLocal);

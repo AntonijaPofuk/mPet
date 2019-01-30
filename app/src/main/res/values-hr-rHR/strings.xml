@@ -94,6 +94,24 @@
     <string name="nfc_citac">pomoću NFC čitača</string>
 
 
+    <!--Stringovi za prikaz svih obavijesti-->
+    <string name="prikaz_svih_obavijesti_naslov">Prikaz svih obavijesti</string>
+    <string name="prikaz_elementa_u_rview_sve_obavijesti">je bio/la skeniran/a!</string>
+    <string name="nema_obavijesti">Nemate obavijesti!</string>
+
+    <!--Stringovi za prikaz detaljne obavijesti-->
+    <string name="prikaz_detalja_obavijesti">Detalji o obavijesti</string>
+    <string name="google_mapa_tekst">je skeniran/a ovdje!</string>
+    <string name="ime_ljubimca">Ime ljubimca: </string>
+    <string name="datum_vrijeme_skeniranja">Datum i vrijeme: </string>
+    <string name="korisnik_skenirao">Skenirao: </string>
+    <string name="mjesto_skeniranja">Mjesto: </string>
+    <string name="kontakt_podaci_skeniranje">Kontakt: </string>
+
+    <!--Stringovi u pozadinskoj obavijesti-->
+    <string name="pozadinska_obavijest_naslov">Netko je skenirao vašeg ljubimca!</string>
+
+
 
 </resources>
 

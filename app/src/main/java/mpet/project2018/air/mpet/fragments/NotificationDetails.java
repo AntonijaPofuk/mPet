@@ -68,7 +68,7 @@ public class NotificationDetails extends Fragment implements OnMapReadyCallback,
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         if (mListener != null) {
-            mListener.onFragmentInteraction("Detalji o obavijesti");
+            mListener.onFragmentInteraction(getString(R.string.prikaz_detalja_obavijesti));
         }
 
 

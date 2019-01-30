@@ -72,7 +72,7 @@ public class NotificationsRecycleViewAdapter extends RecyclerView.Adapter<Notifi
 
         datumVrijemeSkeniranja = listSken.get(listSken.size()-(i+1)).getVrijeme() + "   " + parsedDate;
 
-        holder.detaljiObavijesti.setText(imeLjubimca + " je bio/la skeniran/a!");
+        holder.detaljiObavijesti.setText(imeLjubimca + " "+holder.itemView.getContext().getResources().getString(R.string.prikaz_elementa_u_rview_sve_obavijesti));
 
         holder.datumSkeniranja.setText(datumVrijemeSkeniranja);
 

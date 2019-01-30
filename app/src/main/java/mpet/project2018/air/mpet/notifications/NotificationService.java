@@ -87,7 +87,7 @@ public class NotificationService extends Service implements SkeniranjeDataLoaded
 
                         if (skeniranje.procitano.contains("0") && scanLocal==null) {
 
-                            sendNotification("Vaš ljubimac je skeniran! Pritisnite za detalje ...", "", skeniranje.id_skeniranja);
+                            sendNotification(getString(R.string.pozadinska_obavijest_naslov), "", skeniranje.id_skeniranja);
                             mpet.project2018.air.database.entities.Skeniranje lokalnaBazaSkeniranje = new mpet.project2018.air.database.entities.Skeniranje();
                             Date datum = null;
                             try {
