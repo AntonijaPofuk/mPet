@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -231,6 +232,10 @@ public class NotificationDetails extends Fragment implements OnMapReadyCallback,
     @Override
     public void KorisnikOnDataLoaded(List<Korisnik> listaKorisnika) {
 
+
+        ProgressBar progressBar=this.mainView.findViewById(R.id.progressBarNotificationDetail);
+
+        progressBar.setVisibility(View.GONE);
 
         TextView scanDateTimeTextView = this.mainView.findViewById(R.id.txtScanDateTime);
 
