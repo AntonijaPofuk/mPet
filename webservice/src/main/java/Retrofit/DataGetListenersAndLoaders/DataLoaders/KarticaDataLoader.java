@@ -1,30 +1,35 @@
 package Retrofit.DataGetListenersAndLoaders.DataLoaders;
 
 import com.raizlabs.android.dbflow.sql.language.SQLite;
-
 import java.util.List;
-
 import Retrofit.DataGet.KarticaData;
-import Retrofit.DataGet.KorisnikData;
 import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.KarticaDataLoadedListener;
 import Retrofit.DataGetListenersAndLoaders.WebServiceHandler;
 import Retrofit.Model.Kartica;
-import Retrofit.Model.Korisnik;
 import mpet.project2018.air.database.entities.Korisnik_Table;
 
+/**
+ * Klasa koja upravlja komunikacijom između fragmenata koji upućuje GET zahtjev i klase koja zapravo šalje zahtjev web servisu
+ */
 public class KarticaDataLoader {
 
     protected KarticaDataLoadedListener mKarticaDataLoadedListener;
-
     private boolean cardsArrived= false;
-
     private String idKorisnika;
 
+    /**
+     * Konstruktor klase
+     * @param karticaDataLoadedListener objekt koji traži podatke za daljnju obradu, najčešće fragment
+     */
     public KarticaDataLoader(KarticaDataLoadedListener karticaDataLoadedListener)
     {
         this.mKarticaDataLoadedListener = karticaDataLoadedListener;
     }
 
+    /**
+     * Metoda koja poziva metodu klase KarticaData u svrhu preuzimanja zapisa o karticama danog korisnika
+     * @param userId korisnik čije se kartice dohvaćaju, njego ID u udaljenoj bazi podataka
+     */
     public void loadDataByuserId(String userId) {
         idKorisnika=userId;
         KarticaData cardWS = new KarticaData(cardHandler);
@@ -33,8 +38,9 @@ public class KarticaDataLoader {
 
     }
 
-    //TODO: As an exercise, change the architecture so that you have only one AirWebServiceHandler
-
+    /**
+     * Realizirano sučelje WebServiceHandler koje služi kao listener za pristigle podatke, prosljeđuje se loadDataByUserId metodom
+     */
     WebServiceHandler cardHandler = new WebServiceHandler() {
         @Override
         public void onDataArrived(Object result, boolean ok, boolean prijava) {
@@ -50,6 +56,10 @@ public class KarticaDataLoader {
         }
     };
 
+    /**
+     * Metoda za spremanje primljene liste kartica u lokalnu bazu podataka
+     * @param listaKartica lista kartica kreirana iz tijela odgovora web servisa na zahtjev
+     */
     private void saveCardsInLocalDatabase(List<Kartica> listaKartica)
     {
         for (Kartica kartica : listaKartica)
@@ -62,6 +72,10 @@ public class KarticaDataLoader {
         }
     }
 
+    /**
+     * Metoda koja provjerava dostupnost podataka i o tome obaještava objekt, fragment, koji je prvotno poslao zahtjev za podacima
+     * @param karticaList lista objekata koji bili traženi
+     */
     private void checkDataArrival(List<Kartica> karticaList){
         if(cardsArrived){
             mKarticaDataLoadedListener.KarticaOnDataLoaded(karticaList);

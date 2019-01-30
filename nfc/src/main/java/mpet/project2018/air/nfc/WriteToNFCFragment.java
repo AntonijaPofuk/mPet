@@ -39,6 +39,9 @@ import mpet.project2018.air.database.entities.Korisnik;
 import mpet.project2018.air.database.entities.Korisnik_Table;
 import mpet.project2018.air.database.entities.Ljubimac_Table;
 
+/**
+ * Klasa za provedbu stavljanja ljubimca na NFC tag
+ */
 public class WriteToNFCFragment extends  Fragment implements KarticaOnDataPostedListener, LjubimacOnDataPostedListener {
 
         // ljubimac koji se remova s taga

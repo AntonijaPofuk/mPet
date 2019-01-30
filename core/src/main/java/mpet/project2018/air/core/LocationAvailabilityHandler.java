@@ -8,6 +8,9 @@ import android.widget.Toast;
 
 import static android.content.Context.LOCATION_SERVICE;
 
+/**
+ * Klasa za provjeru dostupnosti lokacije uređaja i popratne akcije
+ */
 public class LocationAvailabilityHandler {
 
     /**

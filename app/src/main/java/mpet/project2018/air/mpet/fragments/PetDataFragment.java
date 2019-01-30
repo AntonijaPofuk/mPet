@@ -46,6 +46,9 @@ import Retrofit.RemotePost.SkeniranjeOnDataPostedListener;
 import static android.content.Context.LOCATION_SERVICE;
 import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 
+/**
+ * Klasa za prikaz podataka o dohvaćenom ljubimcu bilo skeniranjem ili ručnim unosom koda
+ */
 public class PetDataFragment extends Fragment implements KorisnikDataLoadedListener, SkeniranjeOnDataPostedListener {
 
     //View elementi u koje se upisuju kontakt informacije i informacije o ljubimcu

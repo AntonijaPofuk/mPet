@@ -17,6 +17,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.Locale;
 
+/**
+ * Klasa koja sadrži sve potrebne metode za rukovanje nfc adapterom uređaja te NFC tagovima
+ */
 public class NFCManager
 {
 
@@ -34,7 +37,7 @@ public class NFCManager
         return nfcAdapterInstance;
     }
 
-    // Metoda za provjeru dostupnosti nfcc značajke smartphone uređaja
+    // Metoda za provjeru dostupnosti nfc značajke smartphone uređaja
     public boolean checkNFCAvailability()
     {
         if (nfcAdapterInstance != null && nfcAdapterInstance.isEnabled()) return true;

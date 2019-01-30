@@ -29,7 +29,9 @@ import mpet.project2018.air.core.LocationAvailabilityHandler;
 import mpet.project2018.air.core.OnFragmentInteractionListener;
 
 
-
+/**
+ * Klasa za provedbu ručnog unosa koda NFC taga
+ */
 @SuppressLint("ValidFragment")
 public class ManualInputFragment extends Fragment implements LjubimacDataLoadedListener, View.OnClickListener {
 

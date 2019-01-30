@@ -4,6 +4,9 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+/**
+ * Klasa za provjeru dostupnosti internetske veze
+ */
 public class InternetConnectionHandler {
 
     /**

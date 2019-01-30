@@ -1,5 +1,8 @@
 package mpet.project2018.air.core;
 
+/**
+ * Klasa za validaciju formata dohvaćena koda
+ */
 public class CodeValidation {
 
     /**

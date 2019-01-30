@@ -2,56 +2,66 @@ package Retrofit.DataGetListenersAndLoaders.DataLoaders;
 
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
-import java.sql.Date;
-import java.text.DateFormat;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-import Retrofit.DataGet.KorisnikData;
+
 import Retrofit.DataGet.SkeniranjeData;
-import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.KorisnikDataLoadedListener;
+
 import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.SkeniranjeDataLoadedListener;
 import Retrofit.DataGetListenersAndLoaders.WebServiceHandler;
-import Retrofit.Model.Kartica;
-import Retrofit.Model.Korisnik;
+
 import Retrofit.Model.Skeniranje;
 import mpet.project2018.air.database.entities.Kartica_Table;
 import mpet.project2018.air.database.entities.Korisnik_Table;
 
+/**
+ * Klasa za ostvarenje komunikacije između klase koja postavlja zahtjev prema web servisu i klase koja ga zaista i izvršava
+ */
 public class SkeniranjeDataLoader {
 
     protected SkeniranjeDataLoadedListener mSkeniranjeDataLoadedListener;
-
     private boolean scansArrived= false;
-
     private String idKorisnika;
-
     private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
+    /**
+     * Konstruktor klase koji postavlja listener na klasu koja je postavila zahtjev na web servisi
+     * @param skeniranjeDataLoadedListener
+     */
     public SkeniranjeDataLoader(SkeniranjeDataLoadedListener skeniranjeDataLoadedListener)
     {
         this.mSkeniranjeDataLoadedListener = skeniranjeDataLoadedListener;
     }
 
+    /**
+     * Metoda za dohvat skeniranja ljubimaca korisnika koji im je vlasnik
+     * @param userId korisnik odnosno vlasnik
+     */
     public void loadDataByUserId(String userId) {
 
         idKorisnika=userId;
         SkeniranjeData scanWS = new SkeniranjeData(scanHandler);
-
         scanWS.DownloadByUserId(userId);
     }
 
+    /**
+     * Metoda za dohvat skeniranja u svrhunotifikacijskog servisa
+     * @param userId korisnik, vlasnik
+     */
     public void loadDataForUser(String userId) {
 
         idKorisnika=userId;
         SkeniranjeData scanWS = new SkeniranjeData(scanHandler);
-
         scanWS.DownloadDataForNotification(userId);
     }
 
-    //TODO: As an exercise, change the architecture so that you have only one AirWebServiceHandler
 
+    /**
+     * Instanca sučelja kao listener na pridošli odgovor web servisa
+     */
     WebServiceHandler scanHandler = new WebServiceHandler() {
         @Override
         public void onDataArrived(Object result, boolean ok, boolean prijava) {
@@ -69,12 +79,20 @@ public class SkeniranjeDataLoader {
     };
 
 
+    /**
+     * metoda koja objektu koji jje postavio zahtjev web servisu vraća odgovor istog kao listu objekata
+     * @param skeniranjeList lista objekata kao odgovor na zahtjev
+     */
     private void checkDataArrival(List<Skeniranje> skeniranjeList){
         if(scansArrived){
             mSkeniranjeDataLoadedListener.SkeniranjeOnDataLoaded(skeniranjeList);
         }
     }
 
+    /**
+     * Metoda za spremanje skeniranja u lokalnu bazu podataka
+     * @param listaSkeniranja lista skeniranja kao odgovor web servisa
+     */
     private void saveScansInLocalDatabase(List<Skeniranje> listaSkeniranja)
     {
 

@@ -13,52 +13,55 @@ import Retrofit.DataGet.LjubimacData;
 import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.LjubimacDataLoadedListener;
 import Retrofit.DataGetListenersAndLoaders.WebServiceHandler;
 
-import Retrofit.Model.Kartica;
-import Retrofit.Model.Korisnik;
+
 import Retrofit.Model.Ljubimac;
 import mpet.project2018.air.database.entities.Kartica_Table;
 import mpet.project2018.air.database.entities.Korisnik_Table;
-import mpet.project2018.air.database.entities.Ljubimac_Table;
-import Retrofit.Model.Ljubimac;
 
-
+/**
+ * Klasa za ostvarenje komunikacije između klase koja postavlja zahtjev prema web servisu i klase koja ga zaista i izvršava
+ */
 public class LjubimacDataLoader  {
 
 
     protected LjubimacDataLoadedListener mLjubimacDataLoadedListener;
-
     private boolean petsArrived= false;
-
     private Integer petCount=0;
-
     private String idKorisnika;
-
     private List<Ljubimac> lista;
 
+    /**
+     * Klasa za ostvarenje komunikacije između klase koja postavlja zahtjev prema web servisu i klase koja ga zaista i izvršava
+     */
     public LjubimacDataLoader(LjubimacDataLoadedListener ljubimacDataLoadedListener)
     {
         this.mLjubimacDataLoadedListener = ljubimacDataLoadedListener;
     }
 
+    /**
+     * Metoda za dohvat ljubimca prema kodu NFC taga
+     * @param code kod na NFC tagu
+     */
     public void loadDataByTag(String code) {
 
         LjubimacData petsWS = new LjubimacData(petHandler);
-
         petsWS.DownloadByTag(code);
-
     }
 
+    /**
+     * Metoda za dohvat korisnikovih ljubimaca
+     * @param userId korisnik
+     */
     public void loadDataByUserId(String userId) {
 
         idKorisnika=userId;
         LjubimacData petsWS = new LjubimacData(petHandler);
-
         petsWS.DownloadByUserId(userId);
-
     }
 
-    //TODO: As an exercise, change the architecture so that you have only one AirWebServiceHandler
-
+    /**
+     * Instancirano sučelje koje služi kao listener na pridošli odgovor web servisa na prosljeđeni zahtjev
+     */
     WebServiceHandler petHandler = new WebServiceHandler() {
         @Override
         public void onDataArrived(Object result, boolean ok, boolean prijava) {
@@ -77,12 +80,20 @@ public class LjubimacDataLoader  {
     };
 
 
+    /**
+     * Provjera pristiglosti podataka i njihovo prosljeđivanje objektu koji je postavio zahtjev
+     * @param ljubimciList lista dohvaćenih ljubimaca
+     */
     private void checkDataArrival(List<Ljubimac> ljubimciList){
         if(petsArrived){
             mLjubimacDataLoadedListener.LjubimacOnDataLoaded(ljubimciList);
         }
     }
 
+    /**
+     * Spremanje pristiglih podataka u lokalnu bazu podataka
+     * @param listaLjubimaca pristigli podaci
+     */
     private void savePetInLocalDatabase(List<Ljubimac> listaLjubimaca)
     {
         mpet.project2018.air.database.entities.Korisnik k=new SQLite().select().from(mpet.project2018.air.database.entities.Korisnik.class).where(Korisnik_Table.id_korisnika.is(Integer.parseInt(idKorisnika))).querySingle();
@@ -97,25 +108,22 @@ public class LjubimacDataLoader  {
                 card=kart;
             }
             newLjubimac.setKartica(card);
-            /*Slika*/
             loadBitmap("https://airprojekt.000webhostapp.com/slike_ljubimaca/"+newLjubimac.getUrl_slike(),newLjubimac);
-            /**/
-            //newLjubimac.save();
-            //sprema se skupa sa slikom ispod
         }
-
     }
 
-    /*********/
-    //private Target loadtarget;
 
+    /**
+     * Spremanje slike ljubimca u lokalnu bazu podataka
+     * @param url url slike
+     * @param ljub ljubimac čija se slika dohvaća
+     */
     public void loadBitmap(String url, final mpet.project2018.air.database.entities.Ljubimac ljub) {
 
         Target loadtarget;
         loadtarget = new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                //handleLoadedBitmap(bitmap);
                 ljub.setSlika(bitmap);
                 ljub.save();
 
@@ -132,9 +140,5 @@ public class LjubimacDataLoader  {
         Picasso.get().load(url).into(loadtarget);
     }
 
-    public void handleLoadedBitmap(Bitmap b) {
-
-    }
-    /*********/
 
 }

@@ -10,6 +10,9 @@ import java.util.Date;
 
 import mpet.project2018.air.database.MainDatabase;
 
+/**
+ * Entitetna klasa za spremanje entiteta Skeniranje u lokalnu bazu podataka
+ */
 @Table(database = MainDatabase.class)
 public class Skeniranje extends BaseModel {
 

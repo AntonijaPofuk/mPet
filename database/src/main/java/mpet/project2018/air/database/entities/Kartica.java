@@ -8,6 +8,9 @@ import com.raizlabs.android.dbflow.structure.BaseModel;
 
 import mpet.project2018.air.database.MainDatabase;
 
+/**
+ * Entitetna klasa za spremanje Kartice u lokalnu bazu podataka
+ */
 @Table(database = MainDatabase.class)
 public class Kartica extends BaseModel {
 

@@ -13,6 +13,9 @@ import java.io.ByteArrayOutputStream;
 
 import mpet.project2018.air.database.MainDatabase;
 
+/**
+ * Entitetna klasa za spremanje entiteta Korisnik u lokalnu bazu podataka
+ */
 @Table(database = MainDatabase.class)
 public class Korisnik extends BaseModel {
 

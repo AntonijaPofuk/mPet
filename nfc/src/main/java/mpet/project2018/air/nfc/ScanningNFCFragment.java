@@ -31,7 +31,9 @@ import mpet.project2018.air.core.LocationAvailabilityHandler;
 import mpet.project2018.air.core.OnFragmentInteractionListener;
 
 
-
+/**
+ * Klasa za provedbu skeniranja NFC taga
+ */
 public class ScanningNFCFragment extends Fragment implements LjubimacDataLoadedListener {
 
     // running aktivnost
