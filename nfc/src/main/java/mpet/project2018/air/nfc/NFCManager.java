@@ -177,7 +177,7 @@ public class NFCManager
                     ndef.connect();
                     if (ndef.isWritable()) {
                         ndef.writeNdefMessage(ndefMessage);
-                        //makeReadOnly(ndef);
+                        makeReadOnly(ndef);
                         ndef.close();
                         return true;
                     }
