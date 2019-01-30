@@ -329,7 +329,11 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         getObavijestiIntent();//dohvaćanje intenta za detaljne obavijesti
     }
 
-    //dohvaćanje intenta od obavijesti
+    /**
+     * Dohvaćanje intenta koji dolazi na glavnu aktivnost
+     * nakon klika na obavijest na početnom zaslonu mobilnog
+     * uređaja
+     */
     private void getObavijestiIntent() {
         String idSken = "";
         Intent mIntent = getIntent();
@@ -361,7 +365,9 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
     }
 
-    //Pokretanje servisa za obavijesti
+    /**
+     * Pokretanje pozadinskog servisa za obavijesti
+     */
     public void startService() {
         String input = "inputService";
         Intent serviceIntent = new Intent(this, NotificationService.class);
@@ -369,13 +375,18 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         ContextCompat.startForegroundService(this, serviceIntent);
     }
 
-    //zaustavljanje servisa za obavijesti
+    /**
+     * Zaustavljanje pozadinskog servisa za obavijesti
+     */
     public void stopService() {
         Intent serviceIntent = new Intent(this, NotificationService.class);
         stopService(serviceIntent);
     }
 
-
+    /**
+     * Hvatanje klika na ikonu za obavijesti u glavoj aktivnosti
+     * @param v
+     */
     public void bellClick(View v) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -384,6 +395,12 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
+
+    /**
+     * Osvježavanje broja novih obavijesti pokraj ikone za obavijesti
+     * ako nema novih obavijesti, broj je nevidljiv
+     * služi i za sakrivanje ikone za obavijesti nakon odjave korisnika
+     */
     public void checkUnreadNotificationsNumber() {
         // List <mpet.project2018.air.database.entities.Skeniranje> skeniranjeList1=new SQLite().select().from(mpet.project2018.air.database.entities.Skeniranje.class).where(Skeniranje_Table.id_skeniranja.is(Integer.parseInt(skeniranje.id_skeniranja))).queryList();
         final Handler handler = new Handler();

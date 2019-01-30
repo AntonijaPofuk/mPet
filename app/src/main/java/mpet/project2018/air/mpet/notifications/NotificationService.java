@@ -69,12 +69,11 @@ public class NotificationService extends Service implements SkeniranjeDataLoaded
 
         startForeground(1, notification);
 
-        //loadData();//pozivam da se ucita prije handlera
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                //Posao koji se radi svakih 15 minuta
+                //Posao koji se radi svakih nekoliko minuta
                 //Provjera ako postoji novo skeniranje
                 loadData();
                 if (listaSkeniranja.size() != 0) {
@@ -140,7 +139,12 @@ public class NotificationService extends Service implements SkeniranjeDataLoaded
         return null;
     }
 
-    //funkcija za slanje obavijesti na desktop
+    /**
+     * funkcija za slanje obavijesti na početni zaslon mobilnog uređaja
+     * @param title
+     * @param message
+     * @param idSkeniranja
+     */
     private void sendNotification(String title, String message, String idSkeniranja) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("idSkeniranja", idSkeniranja);
