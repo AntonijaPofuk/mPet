@@ -6,17 +6,26 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
+import mpet.project2018.air.core.ModuleInterface;
+import mpet.project2018.air.manualinput.ManualInputFragment;
 import mpet.project2018.air.mpet.Config;
 import mpet.project2018.air.core.OnFragmentInteractionListener;
+import mpet.project2018.air.mpet.MainActivity;
 import mpet.project2018.air.mpet.R;
+import mpet.project2018.air.nfc.ScanningNFCFragment;
 
 import static android.content.Context.MODE_PRIVATE;
 import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
@@ -26,6 +35,80 @@ public class CheckNFCOptions extends Fragment{
 
     public CheckNFCOptions() {}
 
+    public List<ModuleInterface> listaModula;
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.navigation_modul, container, false);
+
+        if (mListener != null) {
+            mListener.onFragmentInteraction("Odabir modula");
+        }
+
+        moduleSetup();
+
+        moduleNavigationSetup(view);
+
+        return view;
+    }
+
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+    }
+
+    private void moduleSetup()
+    {
+
+        listaModula=new ArrayList<ModuleInterface>();
+        ModuleInterface nfcModule=new ScanningNFCFragment();
+        listaModula.add(nfcModule);
+        ModuleInterface manualModule=new ManualInputFragment();
+        listaModula.add(manualModule);
+
+    }
+
+    private void moduleNavigationSetup(View view)
+    {
+        ViewGroup insertPoint = (ViewGroup) view.findViewById(R.id.modulViewGroup);
+
+        for(int i=0;i<listaModula.size();i++)
+        {
+
+            LayoutInflater vi = (LayoutInflater) getActivity().getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View v = vi.inflate(R.layout.navigation_modul_item,null);
+
+            TextView textView = (TextView) v.findViewById(R.id.nazivModula);
+            textView.setText(listaModula.get(i).getModuleName());
+
+            Button openFragment=(Button) v.findViewById(R.id.otvoriModul) ;
+            openFragment.setId(i);
+            openFragment.setText("Pokreni");
+            openFragment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    v.getContext().getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE)
+                            .edit()
+                            .putString(Config.DEFAULT_INPUT_METHOD, String.valueOf(v.getId()))
+                            .apply();
+                    showModuleFragmnet(listaModula.get(v.getId()));
+                }
+            });
+
+            insertPoint.addView(v);
+        }
+    }
+
+    private void showModuleFragmnet(ModuleInterface module)
+    {
+        mListener.swapFragment(true, (Fragment) module);
+    }
+
+/*
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +161,7 @@ public class CheckNFCOptions extends Fragment{
         );
         return view;
     }
-
+*/
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

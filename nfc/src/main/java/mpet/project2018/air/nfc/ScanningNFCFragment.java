@@ -1,15 +1,12 @@
 package mpet.project2018.air.nfc;
 
-import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 
 import android.nfc.NfcAdapter;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,28 +17,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-import java.util.List;
-import Retrofit.DataGetListenersAndLoaders.DataLoadedListeners.LjubimacDataLoadedListener;
-import Retrofit.DataGetListenersAndLoaders.DataLoaders.LjubimacDataLoader;
-import Retrofit.Model.Ljubimac;
-import mpet.project2018.air.core.CodeValidation;
-import mpet.project2018.air.core.InternetConnectionHandler;
+
+import mpet.project2018.air.core.ValidationOutput;
 import mpet.project2018.air.core.LocationAvailabilityHandler;
+import mpet.project2018.air.core.ModuleInterface;
 import mpet.project2018.air.core.OnFragmentInteractionListener;
 
 
 /**
  * Klasa za provedbu skeniranja NFC taga
  */
-public class ScanningNFCFragment extends Fragment implements LjubimacDataLoadedListener {
+public class ScanningNFCFragment extends Fragment implements ModuleInterface{
 
     // running aktivnost
     private OnFragmentInteractionListener listenerActivity ;
     // instanca NFCManagera koja služi za nfc operacije
     private NFCManager nfcInstance;
-    // Dohvaćeni ljubimac
-    private Ljubimac loadedPet;
     // view elementi
     private TextView nfcOutput;
     private ProgressBar nfcProgress;
@@ -138,89 +129,11 @@ public class ScanningNFCFragment extends Fragment implements LjubimacDataLoadedL
                 if (nfcInstance.validateTag(intent))
                 {
                     String tagCode = nfcInstance.getCodeFromNdefRecord(nfcInstance.getFirstNdefRecord(nfcInstance.getNdefMessageFromIntent(intent)));
-                    validateCode(tagCode);
+                    listenerActivity.onCodeArrived(tagCode);
                 }
-                else outputValidationStatus(false);
+                else ValidationOutput.alertingMessage(getActivity());
             }
         }
-    }
-
-    /**
-     * Validacija formata koda
-     * @param code kod koji se validira
-     */
-    private void validateCode(String code) {
-
-        if(CodeValidation.validateCodeFormat(code))
-        {
-            if(InternetConnectionHandler.isOnline(getActivity())) {
-                LjubimacDataLoader petLoader = new LjubimacDataLoader(this);
-                petLoader.loadDataByTag(code);
-            }
-            else {
-                Toast.makeText(getContext(), mpet.project2018.air.core.R.string.internetNotAvailable, Toast.LENGTH_SHORT).show();
-                scannedFlag = false;
-            }
-        }
-        else
-        {
-            outputValidationStatus(false);
-        }
-    }
-
-    /**
-     * Ispis statusa validacije
-     * @param validationStatus status validacije
-     */
-    private void outputValidationStatus(boolean validationStatus)
-    {
-            nfcProgress.setVisibility(View.INVISIBLE);
-            if (validationStatus)
-            {listenerActivity.petCodeLoaded(loadedPet);
-                scannedFlag=false;
-            }
-            else alertingMessage(getResources().getString(mpet.project2018.air.core.R.string.codeStatusNotOK), mpet.project2018.air.core.R.drawable.fail_message);
-    }
-
-    /**
-     * Okida se nakon dohvata ljubimca pomoću web servisa
-     * @param listaLjubimaca lista dohvaćenih ljubimaca, prazna ili s jednim elementom
-     */
-    @Override
-    public void LjubimacOnDataLoaded(List<Ljubimac> listaLjubimaca) {
-        if(listaLjubimaca.isEmpty()) outputValidationStatus(false);
-        else
-        {
-            loadedPet=listaLjubimaca.get(0);
-            outputValidationStatus(true);
-        }
-    }
-
-    /**
-     * Ispis prikladne poruke kod skeniranja
-     * @param message poruka za ispis
-     * @param imageIcon odgovarajuća popratna ikona
-     */
-    private void alertingMessage(String message, int imageIcon)
-    {
-        AlertDialog.Builder builder;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder = new AlertDialog.Builder(getActivity(), android.R.style.Theme_Material_Dialog_Alert);
-        } else {
-            builder = new AlertDialog.Builder(getActivity());
-        }
-        builder.setTitle("Rezultat Provjere koda")
-                .setMessage(message)
-                .setPositiveButton("U redu", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        scannedFlag=false;
-                        dialog.dismiss();
-                        nfcProgress.setVisibility(View.VISIBLE);
-
-                    }
-                })
-                .setIcon(imageIcon)
-                .show();
     }
 
     /**
@@ -267,6 +180,16 @@ public class ScanningNFCFragment extends Fragment implements LjubimacDataLoadedL
         } else {
             throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
         }
+    }
+
+    @Override
+    public int getModuleName() {
+        return R.string.module_name;
+    }
+
+    @Override
+    public String returnCode() {
+        return null;
     }
 
 }

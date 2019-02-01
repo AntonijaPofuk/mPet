@@ -33,4 +33,8 @@ public interface OnFragmentInteractionListener {
      * @param userId id korisnika čiji je ljubimac stavljen na NFC tag
      */
     void petPutOnTag(String userId);
+
+    void openModuleFragment(String module);
+
+    void onCodeArrived(String code);
 }

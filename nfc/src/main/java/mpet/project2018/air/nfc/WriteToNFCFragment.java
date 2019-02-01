@@ -30,7 +30,7 @@ import Retrofit.DataPost.KarticaMethod;
 import Retrofit.DataPost.LjubimacMethod;
 import Retrofit.RemotePost.KarticaOnDataPostedListener;
 import Retrofit.RemotePost.LjubimacOnDataPostedListener;
-import mpet.project2018.air.core.CodeValidation;
+import mpet.project2018.air.core.ValidationOutput;
 import mpet.project2018.air.core.InternetConnectionHandler;
 import mpet.project2018.air.core.OnFragmentInteractionListener;
 import mpet.project2018.air.database.entities.Kartica;
@@ -159,7 +159,7 @@ public class WriteToNFCFragment extends  Fragment implements KarticaOnDataPosted
                         String tagCode = nfcInstance.getCodeFromNdefRecord(nfcInstance.getFirstNdefRecord(nfcInstance.getNdefMessageFromIntent(intent)));
                         upisanaKartica=tagCode;
 
-                        if (CodeValidation.validateCodeFormat(tagCode)) {
+                        if(tagCode.length()==10 && tagCode.matches(("[A-Za-z0-9]+"))){
                             if(checkLockedStatus(intent)) writeToNFC(intent);
                             else actionsIfFormatOKAndLocked(tagCode);
                         }

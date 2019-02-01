@@ -61,7 +61,7 @@ public class HomeLoggedIn extends Fragment {
         btn2.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                       if(InternetConnectionHandler.isOnline(Objects.requireNonNull(getActivity()))) mListener.swapFragment(true,returnRightCodeInputMethod());
+                                       if(InternetConnectionHandler.isOnline(Objects.requireNonNull(getActivity()))) mListener.openModuleFragment(returnRightCodeInputMethod());
                                        else Toast.makeText(getActivity(), mpet.project2018.air.core.R.string.internetNotAvailable, Toast.LENGTH_SHORT).show();
                                     }
                                 }
@@ -127,16 +127,11 @@ public class HomeLoggedIn extends Fragment {
         Delete.table(Kartica.class);
     }
 
-    private Fragment returnRightCodeInputMethod()
+    private String returnRightCodeInputMethod()
     {
         SharedPreferences sharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(Config.SHARED_PREF_NAME, 0);
-        String defaultMethod=sharedPreferences.getString(Config.DEFAULT_INPUT_METHOD, "");
-        if(defaultMethod.equals("nfc"))
-        {
-            return new ScanningNFCFragment();
-        }
+        return sharedPreferences.getString(Config.DEFAULT_INPUT_METHOD, "");
 
-        else return new ManualInputFragment();
     }
 
     @Override

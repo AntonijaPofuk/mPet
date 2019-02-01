@@ -29,6 +29,7 @@ import android.widget.TextView;
 
 import com.raizlabs.android.dbflow.sql.language.Delete;
 
+import mpet.project2018.air.core.ModuleInterface;
 import mpet.project2018.air.core.OnFragmentInteractionListener;
 import mpet.project2018.air.database.MainDatabase;
 import mpet.project2018.air.database.entities.Korisnik_Table;
@@ -36,10 +37,12 @@ import mpet.project2018.air.database.entities.Skeniranje;
 
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import mpet.project2018.air.database.entities.Skeniranje_Table;
+import mpet.project2018.air.manualinput.ManualInputFragment;
 import mpet.project2018.air.mpet.fragments.CheckNFCOptions;
 import mpet.project2018.air.mpet.fragments.HomeLoggedIn;
 import mpet.project2018.air.mpet.fragments.HomeLoggedOut;
@@ -59,12 +62,14 @@ import static mpet.project2018.air.mpet.Config.SHARED_PREF_NAME;
 
 import mpet.project2018.air.mpet.notifications.NotificationService;
 import mpet.project2018.air.nfc.NFCManager;
+import mpet.project2018.air.nfc.ScanningNFCFragment;
 
 
 public class MainActivity extends AppCompatActivity implements OnFragmentInteractionListener{
 
     private DrawerLayout dl;
     TextView textView;
+    public List<ModuleInterface> listaModula;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,8 +116,20 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
             changeHeaderData();
             startService();
         }
+        moduleSetup();
         checkUnreadNotificationsNumber();//obavijesti
         setDefaultCodeInputMethod();
+
+    }
+
+    private void moduleSetup()
+    {
+
+        listaModula=new ArrayList<ModuleInterface>();
+        ModuleInterface nfcModule=new ScanningNFCFragment();
+        listaModula.add(nfcModule);
+        ModuleInterface manualModule=new ManualInputFragment();
+        listaModula.add(manualModule);
 
     }
 
@@ -478,6 +495,17 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
         ft.commit();
     }
 
+    @Override
+    public void openModuleFragment(String module) {
+        swapFragment(true,(Fragment) listaModula.get(Integer.parseInt(module)));
+    }
+
+    @Override
+    public void onCodeArrived(String code) {
+        CodeValidation codeValidation=new CodeValidation(this,this);
+        codeValidation.validateCodeFormat(code);
+    }
+
     /**
      * Metoda koja automatski postavlja default način unosa koda
      */
@@ -493,12 +521,12 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                 if (managerInstance.checkNFCExistence()) {
                     this.getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE)
                             .edit()
-                            .putString(Config.DEFAULT_INPUT_METHOD, "nfc")
+                            .putString(Config.DEFAULT_INPUT_METHOD, "0")
                             .apply();
                 } else {
                     this.getSharedPreferences(Config.SHARED_PREF_NAME, MODE_PRIVATE)
                             .edit()
-                            .putString(Config.DEFAULT_INPUT_METHOD, "manual")
+                            .putString(Config.DEFAULT_INPUT_METHOD, "1")
                             .apply();
                 }
             }
